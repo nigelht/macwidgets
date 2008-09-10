@@ -1,6 +1,6 @@
 #labels Featured
 ===Bottom Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createBottomBar() Javadoc])===
-_Picture coming soon_
+[http://exploding-pixels.com/google_code/resources/BottomBar.png]
 
 ===Source Lists ([http://exploding-pixels.com/google_code/doc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
 Source Lists (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE here] in the Apple Human Interface Guidelines) are a way to navigate or select objects in an application. There are two types of Source Lists: focusable and non-focusable. Focusable Source Lists can receive keyboard focus, and thus be navigated with the arrow keys, whereas non-focusable Source Lists cannot be navigated with the keyboard. Here is a focusable and non-focusable Source List:
@@ -8,4 +8,4 @@ Source Lists (described [http://developer.apple.com/documentation/UserExperience
 [http://exploding-pixels.com/google_code/resources/iTunesSourceList.png] [http://exploding-pixels.com/google_code/resources/MailSourceListWithControlBar-selection.png]
 
 ===Unified Tool Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createUnifiedToolBar() Javadoc])===
-_Picture coming soon_
+[http://exploding-pixels.com/google_code/resources/UnifiedToolBar.png]
