@@ -1,5 +1,6 @@
 #labels Featured
 ===Bottom Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createBottomBar() Javadoc])===
+Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-SW6 here] in the Apple Human Interface Guidelines) provide a mechanism to add controls to an application that affect the contents or organization of the window contents.
 [http://exploding-pixels.com/google_code/resources/BottomBar.png]
 
 ===Source Lists ([http://exploding-pixels.com/google_code/doc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
