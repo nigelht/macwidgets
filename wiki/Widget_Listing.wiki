@@ -9,12 +9,19 @@ Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/
 TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARGE);
 bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("My Label"));
 }}}
-
 ===Source Lists ([http://exploding-pixels.com/google_code/doc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
 Source Lists (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE here] in the Apple Human Interface Guidelines) are a way to navigate or select objects in an application. There are two types of Source Lists: focusable and non-focusable. Focusable Source Lists can receive keyboard focus, and thus be navigated with the arrow keys, whereas non-focusable Source Lists cannot be navigated with the keyboard. Here is a focusable and non-focusable Source List:
 
 [http://exploding-pixels.com/google_code/resources/iTunesSourceList.png] [http://exploding-pixels.com/google_code/resources/MailSourceListWithControlBar-selection.png]
 
+*Simple example:*
+{{{
+SourceListModel model = new SourceListModel();
+SourceListCategory category = new SourceListCategory("Category");
+model.addCategory(category);
+model.addItemToCategory(new SourceListItem("Item"), category);
+SourceList sourceList = new SourceList(model);
+}}}
 ===Unified Tool Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createUnifiedToolBar() Javadoc])===
 Unified Tool Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ here] in the Apple Human Interface Guidelines) provide a container for the most frequently used tools in your application.
 
