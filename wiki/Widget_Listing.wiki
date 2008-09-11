@@ -4,7 +4,7 @@ Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/
 
 [http://exploding-pixels.com/google_code/resources/BottomBar.png]
 
-*Simple example:*
+*Simple Bottom Bar example:*
 {{{
 TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARGE);
 bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("My Label"));
@@ -15,7 +15,7 @@ Source Lists (described [http://developer.apple.com/documentation/UserExperience
 
 [http://exploding-pixels.com/google_code/resources/iTunesSourceList.png] [http://exploding-pixels.com/google_code/resources/MailSourceListWithControlBar-selection.png]
 
-*Simple example:*
+*Simple Source List example:*
 {{{
 SourceListModel model = new SourceListModel();
 SourceListCategory category = new SourceListCategory("Category");
@@ -28,3 +28,11 @@ SourceList sourceList = new SourceList(model);
 Unified Tool Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ here] in the Apple Human Interface Guidelines) provide a container for the most frequently used tools in your application.
 
 [http://exploding-pixels.com/google_code/resources/UnifiedToolBar.png]
+
+*Simple Unified Tool Bar example:*
+{{{
+TriAreaComponent toolBar =  MacWidgetFactory.createUnifiedToolBar();
+JButton button = new JButton("My Button");
+button.putClientProperty("JButton.buttonType", "textured");
+toolBar.addComponentToLeft(button);
+}}}
