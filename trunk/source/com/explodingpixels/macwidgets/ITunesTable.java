@@ -14,19 +14,19 @@ import java.awt.event.FocusListener;
 
 class ITunesTable extends JTable {
 
-    protected static final Color ITUNES_SCROLLPANE_BORDER_COLOR = new Color(0x555555);
-    protected static final Color ITUNES_TABLE_SELECTION_ACTIVE_FOREGROUND_COLOR = Color.WHITE;
-    protected static final Color ITUNES_TABLE_SELECTION_INACTIVE_FOREGROUND_COLOR = Color.BLACK;
-    protected static final Color ITUNES_TABLE_SELECTION_ACTIVE_BACKGROUND_COLOR = new Color(0x3d80df);
-    protected static final Color ITUNES_TABLE_SELECTION__INACTIVE_BACKGROUND_COLOR = new Color(192, 192, 192);
-    protected static final Color ITUNES_TABLE_GRID_COLOR = new Color(0xd9d9d9);
-    protected static final Color ITUNES_TABLE_SELECTED_FOCUSED_GRID_COLOR = new Color(0x346dbe);
-    protected static final Color ITUNES_TABLE_SELECTED_UNFOCUSED_GRID_COLOR = new Color(0xacacac);
-    protected static final Color ITUNES_TABLE_SELECTION_ACTIVE_BORDER_COLOR = new Color(125, 170, 234);
-    protected static final Color ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR = new Color(224, 224, 224);
-    protected static final Color ITUNES_ROW_COLOR = new Color(241, 245, 250);
-    protected static final Color ITUNES_RATING_DOT_SELECTED_INACTIVE_COLOR = new Color(0x999999);
-    protected static final Color ITUNES_RATING_DOT_SELECTED_ACTIVE_COLOR = new Color(255, 255, 255, 150);
+    private static final Color ITUNES_SCROLLPANE_BORDER_COLOR = new Color(0x555555);
+    private static final Color ITUNES_TABLE_SELECTION_ACTIVE_FOREGROUND_COLOR = Color.WHITE;
+    private static final Color ITUNES_TABLE_SELECTION_INACTIVE_FOREGROUND_COLOR = Color.BLACK;
+    private static final Color ITUNES_TABLE_SELECTION_ACTIVE_BACKGROUND_COLOR = new Color(0x3d80df);
+    private static final Color ITUNES_TABLE_SELECTION__INACTIVE_BACKGROUND_COLOR = new Color(192, 192, 192);
+    private static final Color ITUNES_TABLE_GRID_COLOR = new Color(0xd9d9d9);
+    private static final Color ITUNES_TABLE_SELECTED_FOCUSED_GRID_COLOR = new Color(0x346dbe);
+    private static final Color ITUNES_TABLE_SELECTED_UNFOCUSED_GRID_COLOR = new Color(0xacacac);
+    private static final Color ITUNES_TABLE_SELECTION_ACTIVE_BORDER_COLOR = new Color(125, 170, 234);
+    private static final Color ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR = new Color(224, 224, 224);
+    private static final Color ITUNES_ROW_COLOR = new Color(241, 245, 250);
+    private static final Color ITUNES_RATING_DOT_SELECTED_INACTIVE_COLOR = new Color(0x999999);
+    private static final Color ITUNES_RATING_DOT_SELECTED_ACTIVE_COLOR = new Color(255, 255, 255, 150);
 
     ITunesTable(TableModel dm) {
         super(dm);
