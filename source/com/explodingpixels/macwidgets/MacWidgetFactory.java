@@ -2,17 +2,19 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import com.explodingpixels.painter.TriStateFocusPainter;
 import com.explodingpixels.painter.GradientPainter;
+import com.explodingpixels.painter.TriStateFocusPainter;
 import com.jgoodies.forms.factories.Borders;
+import org.jdesktop.swingx.painter.Painter;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.table.TableModel;
-import java.awt.*;
-
-import org.jdesktop.swingx.painter.Painter;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 public class MacWidgetFactory {
 
@@ -35,6 +37,7 @@ public class MacWidgetFactory {
      * Creates a Mac style Unified Tool Bar. For a full description of what a Unified Tool Bar is,
      * see the <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ">Toolbars</a>
      * section of Apple's Human Interface Guidelines.
+     *
      * @return a {@link TriAreaComponent} configured as a Unified Tool Bar.
      */
     public static TriAreaComponent createUnifiedToolBar() {
@@ -52,7 +55,7 @@ public class MacWidgetFactory {
 
     private static void installUnifiedToolBarBorder(final JComponent component) {
 
-        FocusStateMatteBorder border = new FocusStateMatteBorder(0,0,1,0,
+        FocusStateMatteBorder border = new FocusStateMatteBorder(0, 0, 1, 0,
                 MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
                 MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
                 component);
@@ -69,6 +72,7 @@ public class MacWidgetFactory {
      * Creates a Mac style Bottom Bar. For a full descrption of what a Bottom Bar is, see the
      * <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-SW6">Bottom Bars</a>
      * section of Apple's Human Interface Guidelines.
+     *
      * @param size the size of the Bottom Bar.
      * @return a {@link TriAreaComponent} configured as a Bottom Bar.
      */
@@ -89,13 +93,16 @@ public class MacWidgetFactory {
         final TriAreaComponent bottomBar = new TriAreaComponent(5);
         bottomBar.forceAreasToHaveTheSameWidth();
         bottomBar.setBackgroundPainter(painter);
-        bottomBar.getComponent().setPreferredSize(new Dimension(-1, size.getHeight()));
+        // calculate the height of the bottom bar. this includes adding two pixels to incorporate
+        // the height of the line border.
+        int height = size.getHeight() + 2;
+        bottomBar.getComponent().setPreferredSize(new Dimension(-1, height));
 
-        FocusStateMatteBorder outterBorder = new FocusStateMatteBorder(1,0,0,0,
+        FocusStateMatteBorder outterBorder = new FocusStateMatteBorder(1, 0, 0, 0,
                 MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
                 MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
                 bottomBar.getComponent());
-        Border innerBorder = BorderFactory.createMatteBorder(1,0,0,0,
+        Border innerBorder = BorderFactory.createMatteBorder(1, 0, 0, 0,
                 MacColorUtils.OS_X_BOTTOM_BAR_BORDER_HIGHLIGHT_COLOR);
         Border lineBorders = BorderFactory.createCompoundBorder(outterBorder, innerBorder);
 
@@ -103,7 +110,7 @@ public class MacWidgetFactory {
         padding = 5;
         bottomBar.getComponent().setBorder(
                 BorderFactory.createCompoundBorder(lineBorders,
-                        BorderFactory.createEmptyBorder(0,padding,0,padding)));
+                        BorderFactory.createEmptyBorder(0, padding, 0, padding)));
 
         return bottomBar;
     }
@@ -114,8 +121,8 @@ public class MacWidgetFactory {
     }
 
     public static LabeledComponentGroup createLabledComponentGroup(
-            String labelString, JComponent ... components) {
-        JPanel panel = new JPanel(new FlowLayout(0,0,FlowLayout.CENTER));
+            String labelString, JComponent... components) {
+        JPanel panel = new JPanel(new FlowLayout(0, 0, FlowLayout.CENTER));
         for (JComponent component : components) {
             panel.add(component);
         }
@@ -148,15 +155,15 @@ public class MacWidgetFactory {
                 JSplitPane.HORIZONTAL_SPLIT, sourceList.getComponent(), component);
         splitPane.setContinuousLayout(true);
         splitPane.setDividerSize(1);
-        ((BasicSplitPaneUI)splitPane.getUI()).getDivider().setBorder(
-                BorderFactory.createMatteBorder(0,1,0,0, new Color(0xa5a5a5)));
+        ((BasicSplitPaneUI) splitPane.getUI()).getDivider().setBorder(
+                BorderFactory.createMatteBorder(0, 1, 0, 0, new Color(0xa5a5a5)));
         splitPane.setBorder(BorderFactory.createEmptyBorder());
         return splitPane;
     }
 
     // TODO do something with this method.
-    private JComponent createContainerForComponents(JComponent ... components) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+    private JComponent createContainerForComponents(JComponent... components) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel.setOpaque(false);
         for (JComponent component : components) {
             panel.add(component);
