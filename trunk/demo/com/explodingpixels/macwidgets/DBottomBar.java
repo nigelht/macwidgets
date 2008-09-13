@@ -31,11 +31,11 @@ public class DBottomBar {
 
         JTextArea textArea = new JTextArea();
 
-        TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARGE);
-        bottomBar.addComponentToLeft(leftButton, 0);
-        bottomBar.addComponentToLeft(rightButton);
+        TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.EXTRA_SMALL);
+//        bottomBar.addComponentToLeft(leftButton, 0);
+//        bottomBar.addComponentToLeft(rightButton);
         bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("362 Items"));
-        bottomBar.addComponentToRight(lockButton);
+//        bottomBar.addComponentToRight(lockButton);
 
         JFrame frame = new JFrame();
         bottomBar.installWindowDraggerOnWindow(frame);
