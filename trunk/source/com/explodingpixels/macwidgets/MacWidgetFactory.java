@@ -106,8 +106,10 @@ public class MacWidgetFactory {
                 MacColorUtils.OS_X_BOTTOM_BAR_BORDER_HIGHLIGHT_COLOR);
         Border lineBorders = BorderFactory.createCompoundBorder(outterBorder, innerBorder);
 
-        int padding = size == BottomBarSize.SMALL ? 5 : 10;
-        padding = 5;
+        // left and right edge padding.
+        // TODO determine if there is a good standard for this. there doesn't seem to be any
+        // TODO consistent value used by Apple.
+        int padding = 5;
         bottomBar.getComponent().setBorder(
                 BorderFactory.createCompoundBorder(lineBorders,
                         BorderFactory.createEmptyBorder(0, padding, 0, padding)));
@@ -162,13 +164,13 @@ public class MacWidgetFactory {
     }
 
     // TODO do something with this method.
-    private JComponent createContainerForComponents(JComponent... components) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        panel.setOpaque(false);
-        for (JComponent component : components) {
-            panel.add(component);
-        }
-        return panel;
-    }
+//    private JComponent createContainerForComponents(JComponent... components) {
+//        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+//        panel.setOpaque(false);
+//        for (JComponent component : components) {
+//            panel.add(component);
+//        }
+//        return panel;
+//    }
 
 }
