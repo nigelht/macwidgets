@@ -2,7 +2,7 @@ package com.explodingpixels.macwidgets;
 
 public enum BottomBarSize {
 
-    SMALL(24), LARGE(34);
+    EXTRA_SMALL(18), SMALL(24), LARGE(34);
 
     private int fHeight;
 

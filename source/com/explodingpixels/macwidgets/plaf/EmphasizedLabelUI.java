@@ -1,13 +1,14 @@
 package com.explodingpixels.macwidgets.plaf;
 
+import com.explodingpixels.macwidgets.MacColorUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.plaf.basic.BasicLabelUI;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
-import javax.swing.JLabel;
 import javax.swing.JComponent;
-import java.awt.Graphics;
+import javax.swing.JLabel;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
+import javax.swing.plaf.basic.BasicLabelUI;
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class EmphasizedLabelUI extends BasicLabelUI {
 
@@ -15,7 +16,8 @@ public class EmphasizedLabelUI extends BasicLabelUI {
     private Color fFocusedTextColor;
     private Color fUnfocusedTextColor;
 
-    public static final Color DEFAULT_EMPHASIS_COLOR = new Color(255,255,255,110);
+    public static final Color DEFAULT_EMPHASIS_COLOR =
+            MacColorUtils.MAC_SOURCE_LIST_CATEGORY_FONT_SHADOW_COLOR;
     public static final Color DEFAULT_FOCUSED_FONT_COLOR = new Color(0x000000);
     public static final Color DEFAULT_UNFOCUSED_FONT_COLOR = new Color(0x3f3f3f);
     public static final Color DEFAULT_DISABLED_FONT_COLOR = new Color(0x3f3f3f);
@@ -26,7 +28,7 @@ public class EmphasizedLabelUI extends BasicLabelUI {
     }
 
     public EmphasizedLabelUI(Color focusedTextColor,
-                    Color unfocusedTextColor, Color emphasisColor) {
+                             Color unfocusedTextColor, Color emphasisColor) {
         fFocusedTextColor = focusedTextColor;
         fUnfocusedTextColor = unfocusedTextColor;
         fShadowColor = emphasisColor;
@@ -50,7 +52,7 @@ public class EmphasizedLabelUI extends BasicLabelUI {
                                     int textX, int textY) {
         g.setColor(fShadowColor);
         g.setFont(label.getFont());
-        BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY+1);
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY + 1);
         g.setColor(WindowUtils.isParentWindowFocused(label)
                 ? fFocusedTextColor : fUnfocusedTextColor);
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY);
@@ -61,7 +63,7 @@ public class EmphasizedLabelUI extends BasicLabelUI {
         // TODO do use a diabled color here.
         g.setColor(fShadowColor);
         g.setFont(label.getFont());
-        BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY+1);
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY + 1);
         g.setColor(DEFAULT_DISABLED_FONT_COLOR);
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY);
     }
