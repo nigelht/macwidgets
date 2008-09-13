@@ -2,20 +2,20 @@ package com.explodingpixels.macwidgets.plaf;
 
 import com.explodingpixels.macwidgets.MacColorUtils;
 
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
-import javax.swing.JComponent;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
+import javax.swing.JComponent;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class UnifiedToolbarButtonUI extends BasicButtonUI {
-    
-    private static final Color PRESSED_BUTTON_MASK_COLOR = new Color(0,0,0,116);
 
-    private static final Color DISABLED_BUTTON_MASK_COLOR = new Color(0,0,0,39);
+    private static final Color PRESSED_BUTTON_MASK_COLOR = new Color(0, 0, 0, 116);
+
+    private static final Color DISABLED_BUTTON_MASK_COLOR = new Color(255, 255, 255, 128);
 
     @Override
     protected void installDefaults(AbstractButton b) {
@@ -26,7 +26,7 @@ public class UnifiedToolbarButtonUI extends BasicButtonUI {
         b.setHorizontalTextPosition(AbstractButton.CENTER);
         b.setVerticalTextPosition(AbstractButton.BOTTOM);
         b.setIconTextGap(0);
-        b.setMargin(new Insets(0,0,0,0));
+        b.setMargin(new Insets(0, 0, 0, 0));
         // TODO make the font derivation more robust.
         b.setFont(UIManager.getFont("Button.font").deriveFont(11.0f));
     }
@@ -62,7 +62,7 @@ public class UnifiedToolbarButtonUI extends BasicButtonUI {
         } else if (model.isArmed()) {
             graphics.setColor(PRESSED_BUTTON_MASK_COLOR);
         } else {
-            graphics.setColor(new Color(0,0,0,0));
+            graphics.setColor(new Color(0, 0, 0, 0));
         }
 
         // fill a rectangle with the mask color.
