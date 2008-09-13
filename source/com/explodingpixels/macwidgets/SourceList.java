@@ -21,17 +21,17 @@ import java.util.List;
  * An implementation of an OS X Source List. For a full descrption of what a Source List is, see the
  * <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE">Source Lists</a>
  * section of Apple's Human Interface Guidelines.
- *
+ * <p/>
  * This component provides the two basic sytles of Source List: focusble and non-focusable.
  * As the name implies, focusable Source Lists and recieve keyboard focus, and thus can be navigated
  * using the arrow keys. When focused, the Source List looks like this:
- *<br>
- * <img src="../../../resources/iTunesSourceList.png">
+ * <br>
+ * <img src="../../../../graphics/iTunesSourceList.png">
  * <br>
  * The second type of Source List, non-focusable, cannot receive keyboard focus, and thus cannot be
  * navigated via the arrow keys. A non-focusable Source List looks like this:
  * <br>
- * <img src="../../../resources/MailSourceList.png">
+ * <img src="../../../../graphics/MailSourceList.png">
  * <br>
  * Here's how to create a simple {@code SourceList} with one item:
  * <pre>
@@ -92,6 +92,7 @@ public class SourceList {
 
     /**
      * Creates a {@code SourceList} with the given {@link SourceListModel}.
+     *
      * @param model the {@code SourceListModel} to use.
      */
     public SourceList(SourceListModel model) {
@@ -142,7 +143,7 @@ public class SourceList {
         // set the disclosure icons and the corresponding indents.
         TreeUtils.setCollapsedIcon(fTree, COLLAPSED_ICON);
         TreeUtils.setExpandedIcon(fTree, EXPANDED_ICON);
-        int indent = COLLAPSED_ICON.getIconWidth()/2 + 4;
+        int indent = COLLAPSED_ICON.getIconWidth() / 2 + 4;
         TreeUtils.setLeftChildIndent(fTree, indent);
         TreeUtils.setRightChildIndent(fTree, indent);
 
@@ -151,9 +152,10 @@ public class SourceList {
 
     /**
      * Installs the given {@link SourceListControlBar} at the base of this {@code SourceList}.
+     *
      * @param sourceListControlBar the {@link SourceListControlBar} to add.
      * @throws IllegalStateException if a {@code SourceListControlBar} has already been installed
-     *         on this {@code SourceList}.
+     *                               on this {@code SourceList}.
      */
     public void installSourceListControlBar(SourceListControlBar sourceListControlBar) {
         if (fSourceListControlBar != null) {
@@ -174,6 +176,7 @@ public class SourceList {
 
     /**
      * Gets the selected {@link SourceListItem}.
+     *
      * @return the selected {@code SourceListItem}.
      */
     public SourceListItem getSelectedItem() {
@@ -183,7 +186,7 @@ public class SourceList {
             DefaultMutableTreeNode selectedNode =
                     (DefaultMutableTreeNode) fTree.getSelectionPath().getLastPathComponent();
             assert selectedNode.getUserObject() instanceof SourceListItem
-                            : "Only SourceListItems can be selected.";
+                    : "Only SourceListItems can be selected.";
             selectedItem = (SourceListItem) selectedNode.getUserObject();
         }
         return selectedItem;
@@ -192,6 +195,7 @@ public class SourceList {
     /**
      * Sets whether this {@code SourceList} can have focus. When focusable and this
      * {@code SourceList} has focus, the keyboard can be used for navigation.
+     *
      * @param focusable true if this {@code SourceList} should be focusable.
      */
     public void setFocusable(boolean focusable) {
@@ -207,7 +211,7 @@ public class SourceList {
         if (parentNode.getUserObject().equals(userObject)) {
             return parentNode;
         } else if (parentNode.children().hasMoreElements()) {
-            for (int i=0; i<parentNode.getChildCount(); i++) {
+            for (int i = 0; i < parentNode.getChildCount(); i++) {
                 DefaultMutableTreeNode childNode =
                         (DefaultMutableTreeNode) parentNode.getChildAt(i);
                 DefaultMutableTreeNode retVal =
@@ -226,6 +230,7 @@ public class SourceList {
     /**
      * Gets the user interface component representing this {@code SourceList}. The returned
      * {@link JComponent} should be added to a container that will be displayed.
+     *
      * @return the user interface component representing this {@code SourceList}.
      */
     public JComponent getComponent() {
@@ -234,6 +239,7 @@ public class SourceList {
 
     /**
      * Gets the {@link SourceListModel} backing this {@code SourceList}.
+     *
      * @return the {@code SourceListModel} backing this {@code SourceList}.
      */
     public SourceListModel getModel() {
@@ -306,21 +312,26 @@ public class SourceList {
             public void categoryAdded(SourceListCategory category) {
                 doAddCategory(category);
             }
+
             public void categoryRemoved(SourceListCategory category) {
                 doRemoveCategory(category);
             }
+
             public void itemAddedToCategory(SourceListItem item, SourceListCategory category
             ) {
                 doAddItemToCategory(item, category);
             }
+
             public void itemRemovedFromCategory(SourceListItem item, SourceListCategory category
             ) {
                 doRemoveItemFromCategory(item, category);
             }
+
             public void itemAddedToItem(SourceListItem item, SourceListItem parentItem
             ) {
                 doAddItemToItem(item, parentItem);
             }
+
             public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem
             ) {
                 doRemoveItemFromItem(item, parentItem);
@@ -338,6 +349,7 @@ public class SourceList {
 
     /**
      * Adds a {@link SourceListSelectionListener} to the list of listeners.
+     *
      * @param listener the {@code SourceListSelectionListener} to add.
      */
     public void addSourceListSelectionListener(SourceListSelectionListener listener) {
@@ -346,6 +358,7 @@ public class SourceList {
 
     /**
      * Removes the {@link SourceListSelectionListener} from the list of listeners.
+     *
      * @param listener the {@code SourceListSelectionListener} to remove.
      */
     public void removeSourceListSelectionListener(SourceListSelectionListener listener) {
@@ -371,7 +384,7 @@ public class SourceList {
         assert path.getLastPathComponent() instanceof DefaultMutableTreeNode
                 : "";
 
-        return ((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject()
+        return ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject()
                 instanceof SourceListItem;
     }
 
@@ -383,7 +396,7 @@ public class SourceList {
 
         public CustomJTree(TreeModel newModel) {
             super(newModel);
-            setBackground(new Color(0,0,0,0));
+            setBackground(new Color(0, 0, 0, 0));
             addFocusListener(createFocusListener());
         }
 
@@ -394,6 +407,7 @@ public class SourceList {
         /**
          * Creates a {@link java.awt.event.FocusListener} that repaints the selection on focus
          * gained and focus lost events.
+         *
          * @return a {@code FocusListener} that repaints the selecion on focus state
          *         changes.
          */
@@ -402,6 +416,7 @@ public class SourceList {
                 public void focusGained(FocusEvent e) {
                     TreeUtils.repaintSelection(CustomJTree.this);
                 }
+
                 public void focusLost(FocusEvent e) {
                     TreeUtils.repaintSelection(CustomJTree.this);
                 }
@@ -411,7 +426,7 @@ public class SourceList {
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D graphics2D = (Graphics2D) g.create();
-            fBackgroundPainter.paint(graphics2D,this,getWidth(),getHeight());
+            fBackgroundPainter.paint(graphics2D, this, getWidth(), getHeight());
             graphics2D.dispose();
 
             // paint the background for the selected entry, if there is one.
@@ -445,7 +460,7 @@ public class SourceList {
                 JTree tree, Object value, boolean selected, boolean expanded,
                 boolean leaf, int row, boolean hasFocus) {
 
-            Object node = ((DefaultMutableTreeNode)value).getUserObject();
+            Object node = ((DefaultMutableTreeNode) value).getUserObject();
             Component c = new JLabel();
 
             if (node instanceof SourceListCategory) {
@@ -472,7 +487,7 @@ public class SourceList {
             Object node = path == null ? null : path.getLastPathComponent();
             return node != null
                     && node instanceof DefaultMutableTreeNode
-                    && ((DefaultMutableTreeNode)node).getUserObject() instanceof SourceListItem;
+                    && ((DefaultMutableTreeNode) node).getUserObject() instanceof SourceListItem;
         }
 
         @Override
@@ -540,7 +555,7 @@ public class SourceList {
                 public void actionPerformed(ActionEvent e) {
                     int selectedRow = tree.getLeadSelectionRow();
                     int rowToSelect = selectedRow + 1;
-                    while(rowToSelect >= 0 && rowToSelect < fTree.getRowCount()) {
+                    while (rowToSelect >= 0 && rowToSelect < fTree.getRowCount()) {
                         if (isSourceListItem(rowToSelect)) {
                             tree.setSelectionRow(rowToSelect);
                             break;
@@ -557,7 +572,7 @@ public class SourceList {
                 public void actionPerformed(ActionEvent e) {
                     int selectedRow = tree.getLeadSelectionRow();
                     int rowToSelect = selectedRow - 1;
-                    while(rowToSelect >= 0 && rowToSelect < fTree.getRowCount()) {
+                    while (rowToSelect >= 0 && rowToSelect < fTree.getRowCount()) {
                         if (isSourceListItem(rowToSelect)) {
                             tree.setSelectionRow(rowToSelect);
                             break;

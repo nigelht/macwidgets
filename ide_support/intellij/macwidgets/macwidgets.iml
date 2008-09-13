@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../../demo">
       <sourceFolder url="file://$MODULE_DIR$/../../../demo" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../graphics" />
     <content url="file://$MODULE_DIR$/../../../source">
       <sourceFolder url="file://$MODULE_DIR$/../../../source" isTestSource="false" />
     </content>
