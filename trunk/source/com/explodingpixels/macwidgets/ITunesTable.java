@@ -14,6 +14,20 @@ import java.awt.event.FocusListener;
 
 class ITunesTable extends JTable {
 
+    protected static final Color ITUNES_SCROLLPANE_BORDER_COLOR = new Color(0x555555);
+    protected static final Color ITUNES_TABLE_SELECTION_ACTIVE_FOREGROUND_COLOR = Color.WHITE;
+    protected static final Color ITUNES_TABLE_SELECTION_INACTIVE_FOREGROUND_COLOR = Color.BLACK;
+    protected static final Color ITUNES_TABLE_SELECTION_ACTIVE_BACKGROUND_COLOR = new Color(0x3d80df);
+    protected static final Color ITUNES_TABLE_SELECTION__INACTIVE_BACKGROUND_COLOR = new Color(192, 192, 192);
+    protected static final Color ITUNES_TABLE_GRID_COLOR = new Color(0xd9d9d9);
+    protected static final Color ITUNES_TABLE_SELECTED_FOCUSED_GRID_COLOR = new Color(0x346dbe);
+    protected static final Color ITUNES_TABLE_SELECTED_UNFOCUSED_GRID_COLOR = new Color(0xacacac);
+    protected static final Color ITUNES_TABLE_SELECTION_ACTIVE_BORDER_COLOR = new Color(125, 170, 234);
+    protected static final Color ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR = new Color(224, 224, 224);
+    protected static final Color ITUNES_ROW_COLOR = new Color(241, 245, 250);
+    protected static final Color ITUNES_RATING_DOT_SELECTED_INACTIVE_COLOR = new Color(0x999999);
+    protected static final Color ITUNES_RATING_DOT_SELECTED_ACTIVE_COLOR = new Color(255, 255, 255, 150);
+
     ITunesTable(TableModel dm) {
         super(dm);
         init();
@@ -23,20 +37,21 @@ class ITunesTable extends JTable {
         setFont(MacFontUtils.ITUNES_FONT);
         setShowVerticalLines(true);
         setShowHorizontalLines(false);
-        setGridColor(IAppColorUtils.ITUNES_TABLE_GRID_COLOR);
+        setGridColor(ITUNES_TABLE_GRID_COLOR);
         setRowHeight(17);
-        setIntercellSpacing(new Dimension(0,0));
+        setIntercellSpacing(new Dimension(0, 0));
         adjustColumnWidths();
         installCellRenderers();
         getTableHeader().setDefaultRenderer(new ITunesTableHeaderRenderer(this));
 
         addFocusListener(createFocusListener());
-        
+
     }
 
     /**
      * Creates a {@link FocusListener} that repaints the selection on focus
      * gained and focus lost events.
+     *
      * @return a {@code FocusListener} that repaints the selecion on focus state
      *         changes.
      */
@@ -45,6 +60,7 @@ class ITunesTable extends JTable {
             public void focusGained(FocusEvent e) {
                 TableUtils.repaintSelection(ITunesTable.this);
             }
+
             public void focusLost(FocusEvent e) {
                 TableUtils.repaintSelection(ITunesTable.this);
             }
@@ -63,7 +79,7 @@ class ITunesTable extends JTable {
 
     private Color getRowColor(int row) {
         return row % 2 == 0
-                ? IAppColorUtils.ITUNES_ROW_COLOR : getBackground();
+                ? ITUNES_ROW_COLOR : getBackground();
     }
 
     @Override
@@ -74,10 +90,10 @@ class ITunesTable extends JTable {
         if (p instanceof JViewport) {
             Container gp = p.getParent();
             if (gp instanceof JScrollPane) {
-                JScrollPane scrollPane = (JScrollPane)gp;
+                JScrollPane scrollPane = (JScrollPane) gp;
                 ITunesTableHeaderRenderer renderer = new ITunesTableHeaderRenderer();
-                renderer.setBorder(BorderFactory.createMatteBorder(0,0,1,0,
-                        IAppColorUtils.IAPP_BORDER_COLOR));
+                renderer.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
+                        ITUNES_SCROLLPANE_BORDER_COLOR));
                 scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, renderer);
             }
         }
@@ -100,7 +116,7 @@ class ITunesTable extends JTable {
             JComponent jComponent = (JComponent) component;
 
             // create a border to pad the left and right sides of a cell.
-            Border spacer = BorderFactory.createEmptyBorder(0,5,0,5);
+            Border spacer = BorderFactory.createEmptyBorder(0, 5, 0, 5);
 
             // if the row is selected and this table has foucs, use the light
             //   blue to draw a single line border below the component.
@@ -109,24 +125,24 @@ class ITunesTable extends JTable {
             //   component.
             // else use the spacer border.
             if (rowSelected && hasFocus()) {
-                Border rightBorder = BorderFactory.createMatteBorder(0,0,0,1,
-                                IAppColorUtils.ITUNES_TABLE_SELECTED_FOCUSED_GRID_COLOR);
+                Border rightBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
+                        ITUNES_TABLE_SELECTED_FOCUSED_GRID_COLOR);
                 Border compoundBorder = BorderFactory.createCompoundBorder(rightBorder, spacer);
                 jComponent.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createMatteBorder(0,0,1,0,
-                                IAppColorUtils.ITUNES_TABLE_SELECTION_ACTIVE_BORDER_COLOR),
+                        BorderFactory.createMatteBorder(0, 0, 1, 0,
+                                ITUNES_TABLE_SELECTION_ACTIVE_BORDER_COLOR),
                         compoundBorder));
             } else if (rowSelected) {
-                Border rightBorder = BorderFactory.createMatteBorder(0,0,0,1,
-                        IAppColorUtils.ITUNES_TABLE_SELECTED_UNFOCUSED_GRID_COLOR);
+                Border rightBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
+                        ITUNES_TABLE_SELECTED_UNFOCUSED_GRID_COLOR);
                 Border compoundBorder = BorderFactory.createCompoundBorder(rightBorder, spacer);
                 jComponent.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createMatteBorder(0,0,1,0,
-                                IAppColorUtils.ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR),
+                        BorderFactory.createMatteBorder(0, 0, 1, 0,
+                                ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR),
                         compoundBorder));
             } else {
-                Border rightBorder = BorderFactory.createMatteBorder(0,0,0,1,
-                                IAppColorUtils.ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR);
+                Border rightBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
+                        ITUNES_TABLE_SELECTION_INACTIVE_BORDER_COLOR);
                 Border compoundBorder = BorderFactory.createCompoundBorder(rightBorder, spacer);
                 jComponent.setBorder(compoundBorder);
             }
@@ -139,15 +155,15 @@ class ITunesTable extends JTable {
     @Override
     public Color getSelectionForeground() {
         return hasFocus()
-                ? IAppColorUtils.ITUNES_TABLE_SELECTION_ACTIVE_FOREGROUND_COLOR
-                : IAppColorUtils.ITUNES_TABLE_SELECTION_INACTIVE_FOREGROUND_COLOR;
+                ? ITUNES_TABLE_SELECTION_ACTIVE_FOREGROUND_COLOR
+                : ITUNES_TABLE_SELECTION_INACTIVE_FOREGROUND_COLOR;
     }
 
     @Override
     public Color getSelectionBackground() {
         return hasFocus()
-                ? IAppColorUtils.ITUNES_TABLE_SELECTION_ACTIVE_BACKGROUND_COLOR
-                : IAppColorUtils.ITUNES_TABLE_SELECTION__INACTIVE_BACKGROUND_COLOR;
+                ? ITUNES_TABLE_SELECTION_ACTIVE_BACKGROUND_COLOR
+                : ITUNES_TABLE_SELECTION__INACTIVE_BACKGROUND_COLOR;
     }
 
     @Override
@@ -174,7 +190,7 @@ class ITunesTable extends JTable {
 
         // iterate over each non-existent row, if any exist, painting the
         // appropriate background color for each.
-        for (int y=firstNonExistentRowY; y<getSize().height; y+=getRowHeight()) {
+        for (int y = firstNonExistentRowY; y < getSize().height; y += getRowHeight()) {
             int row = y / getRowHeight();
             newGraphics.setColor(getRowColor(row));
             newGraphics.fillRect(clip.x, y, clip.width, getRowHeight());
@@ -182,14 +198,14 @@ class ITunesTable extends JTable {
 
         // paint the column grid dividers for the non-existent rows.
         int x = 0;
-        for (int i=0; i<getColumnCount(); i++) {
+        for (int i = 0; i < getColumnCount(); i++) {
             TableColumn column = getColumnModel().getColumn(i);
             // increase the x position by the width of the current column.
             x += column.getWidth();
-            newGraphics.setColor(IAppColorUtils.ITUNES_TABLE_GRID_COLOR);
+            newGraphics.setColor(ITUNES_TABLE_GRID_COLOR);
             // draw the grid line (not sure what the -1 is for, but BasicTableUI
             // also does it.
-            newGraphics.drawLine(x-1, firstNonExistentRowY, x-1, getHeight());
+            newGraphics.drawLine(x - 1, firstNonExistentRowY, x - 1, getHeight());
         }
 
         newGraphics.dispose();

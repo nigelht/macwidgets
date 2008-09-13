@@ -25,22 +25,18 @@ public class DUnifiedToolbar {
         rightButton.putClientProperty("JButton.segmentPosition", "last");
         rightButton.setFocusable(false);
 
-
         ButtonGroup group = new ButtonGroup();
         group.add(leftButton);
         group.add(rightButton);
 
-        LabeledComponentGroup viewButtons = MacWidgetFactory.createLabledComponentGroup("View", leftButton, rightButton);
+        LabeledComponentGroup viewButtons = new LabeledComponentGroup("View", leftButton, rightButton);
 
-        Icon blueGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSDotMac").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon greyGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSNetwork").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon gear =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSAdvanced").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+        Icon blueGlobeIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
+                "NSImage://NSDotMac").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+        Icon greyGlobeIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
+                "NSImage://NSNetwork").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+        Icon gear = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
+                "NSImage://NSAdvanced").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 
         AbstractButton greyGlobeButton =
                 MacButtonFactory.makeUnifiedToolBarButton(
@@ -60,7 +56,7 @@ public class DUnifiedToolbar {
 
         JTextField textField = new JTextField(10);
         textField.putClientProperty("JTextField.variant", "search");
-        toolBar.addComponentToRight(MacWidgetFactory.createLabledComponentGroup("Search", textField).getComponent());
+        toolBar.addComponentToRight(new LabeledComponentGroup("Search", textField).getComponent());
 
         JTextArea textArea = new JTextArea();
 

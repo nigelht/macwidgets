@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 
 public class UnifiedToolbarButtonUI extends BasicButtonUI {
 
-    private static final Color PRESSED_BUTTON_MASK_COLOR = new Color(0, 0, 0, 116);
+    private static final Color PRESSED_BUTTON_MASK_COLOR = new Color(0, 0, 0, 128);
 
     private static final Color DISABLED_BUTTON_MASK_COLOR = new Color(255, 255, 255, 128);
 

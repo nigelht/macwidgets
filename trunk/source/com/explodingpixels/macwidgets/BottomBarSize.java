@@ -17,6 +17,11 @@ public enum BottomBarSize {
         fHeight = height;
     }
 
+    /**
+     * Gets the height in pixels that this size represents.
+     *
+     * @return the height in pixels that this size represents.
+     */
     public int getHeight() {
         return fHeight;
     }

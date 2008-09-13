@@ -14,8 +14,12 @@ import javax.swing.table.TableModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
+/**
+ * A factory for creating various types of Mac style widgets. See each method's javadoc for detailed
+ * descriptions of the components, as well as screen shots and links to specific sections in Apples
+ * Human Interface Guidelines.
+ */
 public class MacWidgetFactory {
 
     public static JTable createITunesTable(TableModel tableModel) {
@@ -36,7 +40,18 @@ public class MacWidgetFactory {
     /**
      * Creates a Mac style Unified Tool Bar. For a full description of what a Unified Tool Bar is,
      * see the <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ">Toolbars</a>
-     * section of Apple's Human Interface Guidelines.
+     * section of Apple's Human Interface Guidelines. Here's an example of the what this method
+     * creates:
+     * <br>
+     * <img src="../../../../graphics/UnifiedToolBar.png">
+     * <br>
+     * Here's a simple example that creates a Unified Tool Bar:
+     * <pre>
+     * TriAreaComponent toolBar =  MacWidgetFactory.createUnifiedToolBar();
+     * JButton button = new JButton("My Button");
+     * button.putClientProperty("JButton.buttonType", "textured");
+     * toolBar.addComponentToLeft(button);
+     * </pre>
      *
      * @return a {@link TriAreaComponent} configured as a Unified Tool Bar.
      */
@@ -53,17 +68,6 @@ public class MacWidgetFactory {
         return tabBar;
     }
 
-    private static void installUnifiedToolBarBorder(final JComponent component) {
-
-        FocusStateMatteBorder border = new FocusStateMatteBorder(0, 0, 1, 0,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
-                component);
-
-        component.setBorder(BorderFactory.createCompoundBorder(
-                border, component.getBorder()));
-    }
-
     public static ComponentBottomBar createComponentStatusBar() {
         return new ComponentBottomBar();
     }
@@ -71,7 +75,15 @@ public class MacWidgetFactory {
     /**
      * Creates a Mac style Bottom Bar. For a full descrption of what a Bottom Bar is, see the
      * <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-SW6">Bottom Bars</a>
-     * section of Apple's Human Interface Guidelines.
+     * section of Apple's Human Interface Guidelines. Here's an example of what this method cretes:
+     * <br>
+     * <img src="../../../../graphics/BottomBar.png">
+     * <br>
+     * Here's a simple example that creates a Bottom Bar:
+     * <pre>
+     * TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARGE);
+     * bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("My Label"));
+     * </pre>
      *
      * @param size the size of the Bottom Bar.
      * @return a {@link TriAreaComponent} configured as a Bottom Bar.
@@ -117,20 +129,6 @@ public class MacWidgetFactory {
         return bottomBar;
     }
 
-    public static LabeledComponentGroup createLabledComponentGroup(
-            String labelString, JComponent compoentGroup) {
-        return new LabeledComponentGroup(labelString, compoentGroup);
-    }
-
-    public static LabeledComponentGroup createLabledComponentGroup(
-            String labelString, JComponent... components) {
-        JPanel panel = new JPanel(new FlowLayout(0, 0, FlowLayout.CENTER));
-        for (JComponent component : components) {
-            panel.add(component);
-        }
-        return createLabledComponentGroup(labelString, panel);
-    }
-
     public static JComponent createSpacer(int width, int height) {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(width, height));
@@ -163,14 +161,17 @@ public class MacWidgetFactory {
         return splitPane;
     }
 
-    // TODO do something with this method.
-//    private JComponent createContainerForComponents(JComponent... components) {
-//        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-//        panel.setOpaque(false);
-//        for (JComponent component : components) {
-//            panel.add(component);
-//        }
-//        return panel;
-//    }
+    // Private utility methods. ///////////////////////////////////////////////////////////////////
+
+    private static void installUnifiedToolBarBorder(final JComponent component) {
+
+        FocusStateMatteBorder border = new FocusStateMatteBorder(0, 0, 1, 0,
+                MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
+                MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
+                component);
+
+        component.setBorder(BorderFactory.createCompoundBorder(
+                border, component.getBorder()));
+    }
 
 }
