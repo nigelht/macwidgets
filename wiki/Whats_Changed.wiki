@@ -1,0 +1,9 @@
+#labels Featured
+==version 0.9.1==
+  # Unified Tool Bar
+  # Bottom Bar
+  # Java 6 compatibility on the Mac
+  # Fixed UnifiedToolBarButtonUI disabled button masking
+  # Added EXTRA_SMALL BottomBarSize (as seen in Safari's status bar)
+==version 0.9.0 (initial release)==
+  # Source List
