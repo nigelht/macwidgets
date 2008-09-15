@@ -1,9 +1,9 @@
 package com.explodingpixels.macwidgets;
 
 import javax.swing.Icon;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * An item in a {@link SourceList} which is contained within a {@link SourceListCategory}.
@@ -20,6 +20,7 @@ public class SourceListItem {
 
     /**
      * Creates a {@code SourceListItem} with the given text.
+     *
      * @param text the item text. Cannot be null.
      * @throws IllegalArgumentException if the text is null.
      */
@@ -29,6 +30,7 @@ public class SourceListItem {
 
     /**
      * Creates a {@code SourceListItem} with the given text and icon.
+     *
      * @param text the item text. Cannot be null.
      * @param icon the item icon. Can be null.
      * @throws IllegalArgumentException if the text is null.
@@ -41,6 +43,7 @@ public class SourceListItem {
 
     /**
      * Gets the text to use for this item.
+     *
      * @return the text to use for this item.
      */
     public String getText() {
@@ -49,6 +52,7 @@ public class SourceListItem {
 
     /**
      * Sets the text to use for this item.
+     *
      * @param text the text to use for this item. Cannot be null.
      * @throws IllegalArgumentException if the text is null.
      */
@@ -59,6 +63,7 @@ public class SourceListItem {
 
     /**
      * Gets the icon to use for this item.
+     *
      * @return the icon to use for this item.
      */
     public Icon getIcon() {
@@ -67,6 +72,7 @@ public class SourceListItem {
 
     /**
      * Sets the icon to use for this item.
+     *
      * @param icon the icon to use for this item. Can be null.
      */
     public void setIcon(Icon icon) {
@@ -80,6 +86,7 @@ public class SourceListItem {
     /**
      * Gets the counter value to use for this item. The counter value will be displayed to the right
      * of the item.
+     *
      * @return the counter value to use for this item.
      */
     public int getCounterValue() {
@@ -89,6 +96,7 @@ public class SourceListItem {
     /**
      * Sets the counter value to use for this item. The counter value will be displayed to the right
      * of the item.
+     *
      * @param counterValue the counter value to use for this item. Must be >= 0.
      * @throws IllegalArgumentException if the counter value is not >= 0.
      */
@@ -100,8 +108,9 @@ public class SourceListItem {
     /**
      * Returns {@code true} if the given {@link SourceListItem} is contained by this item, to
      * include being a sub-element of another child {@code SourceListItem}.
+     *
      * @param item the {@code SourceListItem} to determine whether or not is contained by this
-     *        item.
+     *             item.
      * @return {@code true} if the given {@code SourceListItem} is contained within this item
      *         or within on of this items child {@code SourceListItem}s.
      */
@@ -116,6 +125,16 @@ public class SourceListItem {
             }
         }
         return contains;
+    }
+
+    /**
+     * Returns a {@link String} representation of this {@code SourceListItem}.
+     *
+     * @return a {@link String} representation of this {@code SourceListItem}.
+     */
+    @Override
+    public String toString() {
+        return getText();
     }
 
     List<SourceListItem> getChildItems() {

@@ -1,8 +1,8 @@
 package com.explodingpixels.macwidgets;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * A category in a {@link SourceList}. {@code SourceListCategory}s are top level containers for
@@ -18,6 +18,7 @@ public class SourceListCategory {
     /**
      * Creates a {@code SourceListCategory} with the given text. The capitalization of the text will
      * be ignored, as categories are rendered in full caps.
+     *
      * @param text the category text. Cannot be null.
      */
     public SourceListCategory(String text) {
@@ -34,6 +35,7 @@ public class SourceListCategory {
     /**
      * Gets the category text. The returned will be the text that was set on the category - that is,
      * this method does not return an all caps version of the text.
+     *
      * @return the category text.
      */
     public String getText() {
@@ -43,6 +45,7 @@ public class SourceListCategory {
     /**
      * Sets the text to use for this {@code SourceListCategory}. The capitalization of the text will
      * be ignored, as categories are rendered in full caps.
+     *
      * @param text the category text.
      */
     public void setText(String text) {
@@ -52,6 +55,7 @@ public class SourceListCategory {
 
     /**
      * Gets the number of child {@link SourceListItem}s that are part of this category.
+     *
      * @return the number of {@code SourceListItem}s that are part of this category.
      */
     public int getItemCount() {
@@ -61,8 +65,9 @@ public class SourceListCategory {
     /**
      * Returns {@code true} if the given {@link SourceListItem} is contained by this category, to
      * include being a sub-element of another {@code SourceListItem} contained by this category.
+     *
      * @param item the {@code SourceListItem} to determine whether or not is contained by this
-     *        category.
+     *             category.
      * @return {@code true} if the given {@code SourceListItem} is contained within this category
      *         or within on of this categories {@code SourceListItem}s.
      */
@@ -75,6 +80,16 @@ public class SourceListCategory {
             }
         }
         return contains;
+    }
+
+    /**
+     * Returns a {@link String} representation of this {@code SourceListCategory}.
+     *
+     * @return a {@link String} representation of this {@code SourceListCategory}.
+     */
+    @Override
+    public String toString() {
+        return getText();
     }
 
     SourceListItem getItem(int index) {
