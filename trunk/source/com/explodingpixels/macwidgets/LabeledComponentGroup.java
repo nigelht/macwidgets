@@ -50,7 +50,7 @@ public class LabeledComponentGroup {
         }
 
         // definte the FormLayout columns and rows.
-        FormLayout layout = new FormLayout("p", "fill:p:grow p");
+        FormLayout layout = new FormLayout("p", "fill:p:grow, p");
         // create the cell constraints to use in the layout.
         CellConstraints cc = new CellConstraints();
         // create the builder with our panel as the component to be filled.

@@ -105,7 +105,7 @@ public class DSourceList {
 
                 // definte the FormLayout columns and rows.
                 FormLayout layout = new FormLayout(
-                        "fill:p:grow 0dlu p", "p");
+                        "fill:p:grow, 0dlu, p", "p");
                 // create the cell constraints to use in the layout.
                 CellConstraints cc = new CellConstraints();
                 // create the builder with our panel as the component to be filled.
