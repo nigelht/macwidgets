@@ -15,8 +15,8 @@ public class DGradientButtonUI {
     private static JPanel createButtonPanel(
             String description, GradientButtonUI.ButtonType buttonType) {
         // definte the FormLayout columns and rows.
-        FormLayout layout = new FormLayout("right:p:grow 3dlu left:p:grow",
-                "3dlu p 0dlu p 3dlu");
+        FormLayout layout = new FormLayout("right:p:grow, 3dlu, left:p:grow",
+                "3dlu, p, 0dlu, p, 3dlu");
         layout.setColumnGroups(new int[][]{{1, 3}});
         // create the cell constraints to use in the layout.
         CellConstraints cc = new CellConstraints();
@@ -43,7 +43,7 @@ public class DGradientButtonUI {
 //                panel.add(createButtonPanel("Dark gradient", GradientButtonUI.ButtonType.DARK));
 
                 // definte the FormLayout columns and rows.
-                FormLayout layout = new FormLayout("fill:p:grow", "p 0dlu p");
+                FormLayout layout = new FormLayout("fill:p:grow", "p, 0dlu, p");
                 // create the cell constraints to use in the layout.
                 CellConstraints cc = new CellConstraints();
                 // create the builder with.

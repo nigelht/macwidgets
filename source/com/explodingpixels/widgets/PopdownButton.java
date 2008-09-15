@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import java.awt.event.*;
-import java.util.List;
 
 public class PopdownButton {
 
@@ -78,14 +77,15 @@ public class PopdownButton {
                     hidePopupMenu();
                 }
             }
+
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("pressed isSelected "+ fButton.isSelected());
                 // allways show the menu on a mouse pressed. the mouse clicked
                 // event will take care of dismissing the popup menu if the
                 // button has gone into an unselected state.
                 showPopupMenu();
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 MenuSelectionManager manager = MenuSelectionManager.defaultManager();

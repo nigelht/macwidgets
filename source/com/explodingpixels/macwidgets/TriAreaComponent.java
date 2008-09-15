@@ -9,9 +9,7 @@ import org.jdesktop.swingx.painter.Painter;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.BorderFactory;
 import java.awt.Window;
-import java.awt.Color;
 
 /**
  * A component that has three areas in which it widgets can be added. This is the component behind
@@ -22,7 +20,7 @@ import java.awt.Color;
  * <br>
  * You cannot directly create a {@code TriAreaComponent} and should instead use the factory
  * methods provided in {@link MacWidgetFactory}.
- * 
+ *
  * @see MacWidgetFactory#createBottomBar(BottomBarSize)
  * @see MacWidgetFactory#createUnifiedToolBar()
  */
@@ -56,7 +54,7 @@ public class TriAreaComponent {
 
         // definte the FormLayout columns and rows.
         FormLayout layout = new FormLayout(
-                "left:p:grow center:p:grow right:p:grow",
+                "left:p:grow, center:p:grow, right:p:grow",
                 "fill:p:grow");
         // TODO decide whether to offer the option to force left, center and
         // TODO right groups to be the same size
@@ -66,9 +64,9 @@ public class TriAreaComponent {
         // create the builder with our panel as the component to be filled.
         PanelBuilder builder = new PanelBuilder(layout, fPanel);
 
-        builder.add(fLeftPanelBuilder.getPanel(), cc.xy(1,1));
-        builder.add(fCenterPanelBuilder.getPanel(), cc.xy(2,1));
-        builder.add(fRightPanelBuilder.getPanel(), cc.xy(3,1));
+        builder.add(fLeftPanelBuilder.getPanel(), cc.xy(1, 1));
+        builder.add(fCenterPanelBuilder.getPanel(), cc.xy(2, 1));
+        builder.add(fRightPanelBuilder.getPanel(), cc.xy(3, 1));
 
         fLeftPanelBuilder.getPanel().setOpaque(false);
         fCenterPanelBuilder.getPanel().setOpaque(false);
@@ -80,13 +78,13 @@ public class TriAreaComponent {
     }
 
     void forceAreasToHaveTheSameWidth() {
-        ((FormLayout)fPanel.getLayout()).setColumnGroups(new int[][]{{1,2,3}});        
+        ((FormLayout) fPanel.getLayout()).setColumnGroups(new int[][]{{1, 2, 3}});
     }
 
     public JComponent getComponent() {
         return fPanel;
     }
-    
+
     public void installWindowDraggerOnWindow(Window window) {
         new WindowDragger(window, getComponent());
     }
@@ -100,7 +98,7 @@ public class TriAreaComponent {
         fLeftPanelBuilder.add(toolToAdd);
         fLeftPanelBuilder.nextColumn();
         fLeftPanelBuilder.appendColumn("p");
-        fLeftPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels,0));
+        fLeftPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels, 0));
         fLeftPanelBuilder.nextColumn();
     }
 
@@ -115,7 +113,7 @@ public class TriAreaComponent {
     public void addComponentToCenter(JComponent toolToAdd, int spacer_pixels) {
         if (getCenterComponentCount() > 0) {
             fCenterPanelBuilder.appendColumn("p");
-            fCenterPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels,0));
+            fCenterPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels, 0));
             fCenterPanelBuilder.nextColumn();
         }
 
@@ -136,14 +134,14 @@ public class TriAreaComponent {
 
         if (getCenterComponentCount() > 0) {
             fRightPanelBuilder.appendColumn("p");
-            fRightPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels,0));
+            fRightPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels, 0));
             fRightPanelBuilder.nextColumn();
         }
     }
 
     void setBackgroundPainter(Painter backgroundPainter) {
         fPanel.setBackgroundPainter(backgroundPainter);
-    }      
+    }
 
     protected final int getLeftComponentCount() {
         return fLeftPanelBuilder.getPanel().getComponentCount();

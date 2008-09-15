@@ -1,17 +1,15 @@
 package com.explodingpixels.macwidgets;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;
-import com.explodingpixels.macwidgets.MacPainterFactory;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import org.jdesktop.swingx.JXLabel;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
-
-import org.jdesktop.swingx.JXLabel;
 
 public class TMacPainterFactory {
 
@@ -39,23 +37,23 @@ public class TMacPainterFactory {
         iAppPressedHeader.setBackgroundPainter(
                 MacPainterFactory.createIAppPressedUnselectedHeaderPainter());
 
-         // define the FormLayout columns and rows.
+        // define the FormLayout columns and rows.
         FormLayout layout = new FormLayout(
-                "3dlu 3dlu 100dlu:grow 3dlu ",
-                "3dlu p 3dlu fill:12dlu 3dlu fill:12dlu 3dlu fill:12dlu 3dlu " +
-                        "p 3dlu fill:12dlu 3dlu fill:12dlu 3dlu");
+                "3dlu, 3dlu, 100dlu:grow, 3dlu ",
+                "3dlu, p, 3dlu, fill:12dlu, 3dlu, fill:12dlu, 3dlu, fill:12dlu, 3dlu, " +
+                        "p, 3dlu, fill:12dlu, 3dlu, fill:12dlu, 3dlu");
         // create the cell constraints to use in the layout.
         CellConstraints cc = new CellConstraints();
         // create the builder with our panel as the component to be filled.
         PanelBuilder builder = new PanelBuilder(layout);
 
-        builder.addLabel("Selection Renderers", cc.xywh(2,2,2,1));
-        builder.add(leopardFocusedSelectedPainter, cc.xy(3,4));
-        builder.add(iAppUnfocusedSelectedPainter, cc.xy(3,6));
-        builder.add(leopardUnfocusedSelectedPainter, cc.xy(3,8));
-        builder.addLabel("Header Renderers", cc.xywh(2,10,2,1));
-        builder.add(iAppHeaderPainter, cc.xy(3,12));
-        builder.add(iAppPressedHeader, cc.xy(3,14));
+        builder.addLabel("Selection Renderers", cc.xywh(2, 2, 2, 1));
+        builder.add(leopardFocusedSelectedPainter, cc.xy(3, 4));
+        builder.add(iAppUnfocusedSelectedPainter, cc.xy(3, 6));
+        builder.add(leopardUnfocusedSelectedPainter, cc.xy(3, 8));
+        builder.addLabel("Header Renderers", cc.xywh(2, 10, 2, 1));
+        builder.add(iAppHeaderPainter, cc.xy(3, 12));
+        builder.add(iAppPressedHeader, cc.xy(3, 14));
 
         fScrollPane = new JScrollPane(builder.getPanel());
         fScrollPane.setBorder(BorderFactory.createEmptyBorder());
