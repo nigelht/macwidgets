@@ -36,7 +36,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Forms" level="project" />
-    <orderEntry type="library" name="SwingX" level="project" />
     <orderEntryProperties />
   </component>
 </module>

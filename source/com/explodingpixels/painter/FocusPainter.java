@@ -1,13 +1,11 @@
 package com.explodingpixels.painter;
 
-import org.jdesktop.swingx.painter.Painter;
+import com.explodingpixels.widgets.WindowUtils;
 
 import java.awt.Component;
 import java.awt.Graphics2D;
 
-import com.explodingpixels.widgets.WindowUtils;
-
-public class TriStateFocusPainter implements Painter<Component> {
+public class FocusPainter implements Painter<Component> {
 
     private Painter<Component> fComponentFocusedPainter;
 
@@ -15,9 +13,9 @@ public class TriStateFocusPainter implements Painter<Component> {
 
     private Painter<Component> fWindowUnfocusedPainter;
 
-    public TriStateFocusPainter(Painter<Component> componentFocusedPainter,
-                                Painter<Component> windowFocusedPainter,
-                                Painter<Component> windowUnfocusedPainter) {
+    public FocusPainter(Painter<Component> componentFocusedPainter,
+                        Painter<Component> windowFocusedPainter,
+                        Painter<Component> windowUnfocusedPainter) {
 
         if (componentFocusedPainter == null) {
             throw new IllegalArgumentException("Component focused Painter cannot be null.");

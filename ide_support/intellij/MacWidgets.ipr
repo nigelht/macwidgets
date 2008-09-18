@@ -326,13 +326,6 @@
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="libraryTable">
-    <library name="SwingX">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../../libraries/swingx-0.9.2.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
     <library name="Forms">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../../libraries/forms-1.2.1.jar!/" />
