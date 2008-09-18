@@ -1,21 +1,21 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.WindowUtils;
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.JXPanel;
+import com.explodingpixels.painter.Painter;
+import com.explodingpixels.swingx.EPPanel;
+import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.BorderFactory;
-import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ITunesTableHeaderRenderer extends JXPanel
-        implements TableCellRenderer{
+public class ITunesTableHeaderRenderer extends EPPanel
+        implements TableCellRenderer {
 
     private JTable fTable;
 
@@ -27,9 +27,9 @@ public class ITunesTableHeaderRenderer extends JXPanel
 
     private int fPressedColumn = -1;
 
-    private static Color LEFT_BORDER_COLOR = new Color(255,255,255,77);
+    private static Color LEFT_BORDER_COLOR = new Color(255, 255, 255, 77);
 
-    private static Color RIGHT_BORDER_COLOR = new Color(0,0,0,51);
+    private static Color RIGHT_BORDER_COLOR = new Color(0, 0, 0, 51);
 
     private static Color UNFOCUSED_FONT_COLOR = new Color(0x8f8f8f);
 
@@ -56,11 +56,11 @@ public class ITunesTableHeaderRenderer extends JXPanel
         fLabel.setText(value.toString());
 
         setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0,0,1,0,
+                BorderFactory.createMatteBorder(0, 0, 1, 0,
                         MacColorUtils.LEOPARD_BORDER_COLOR),
-                BorderFactory.createEmptyBorder(1,5,0,5)));
+                BorderFactory.createEmptyBorder(1, 5, 0, 5)));
 
-        Painter painter =
+        Painter<Component> painter =
                 MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
 
         if (windowHasFocus && isColumnPressed(modelColumn)
@@ -84,10 +84,10 @@ public class ITunesTableHeaderRenderer extends JXPanel
         Graphics2D graphics2d = (Graphics2D) g.create();
 
         graphics2d.setColor(LEFT_BORDER_COLOR);
-        graphics2d.drawLine(0,0,0,getHeight()-getInsets().bottom);
+        graphics2d.drawLine(0, 0, 0, getHeight() - getInsets().bottom);
         graphics2d.setColor(RIGHT_BORDER_COLOR);
-        graphics2d.drawLine(getWidth()-1,0,getWidth()-1,
-                getHeight()-getInsets().bottom);
+        graphics2d.drawLine(getWidth() - 1, 0, getWidth() - 1,
+                getHeight() - getInsets().bottom);
 
         graphics2d.dispose();
 
@@ -104,7 +104,7 @@ public class ITunesTableHeaderRenderer extends JXPanel
     private class HeaderClickHandler extends MouseAdapter {
 
         private boolean mouseEventIsPerformingPopupTrigger = false;
-        
+
         public void mouseClicked(MouseEvent mouseEvent) {
             // if the MouseEvent is popping up a context menu, do not sort
             if (mouseEventIsPerformingPopupTrigger) return;

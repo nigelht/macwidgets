@@ -1,14 +1,15 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.painter.Painter;
+import com.explodingpixels.swingx.EPPanel;
 import com.explodingpixels.widgets.WindowDragger;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.painter.Painter;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.awt.Component;
 import java.awt.Window;
 
 /**
@@ -35,7 +36,7 @@ public class TriAreaComponent {
     private PanelBuilder fRightPanelBuilder = new PanelBuilder(
             new FormLayout("", "fill:p:grow"), new JPanel());
 
-    private final JXPanel fPanel;
+    private final EPPanel fPanel = new EPPanel();
 
     private int fSpacer_pixels;
 
@@ -44,13 +45,7 @@ public class TriAreaComponent {
     }
 
     TriAreaComponent(int spacer_pixels) {
-        this(new JXPanel());
         fSpacer_pixels = spacer_pixels;
-    }
-
-    TriAreaComponent(JXPanel panel) {
-
-        fPanel = panel;
 
         // definte the FormLayout columns and rows.
         FormLayout layout = new FormLayout(
@@ -139,7 +134,7 @@ public class TriAreaComponent {
         }
     }
 
-    void setBackgroundPainter(Painter backgroundPainter) {
+    void setBackgroundPainter(Painter<Component> backgroundPainter) {
         fPanel.setBackgroundPainter(backgroundPainter);
     }
 

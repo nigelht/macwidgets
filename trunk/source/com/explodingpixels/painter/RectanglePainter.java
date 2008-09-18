@@ -1,7 +1,5 @@
 package com.explodingpixels.painter;
 
-import org.jdesktop.swingx.painter.Painter;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;

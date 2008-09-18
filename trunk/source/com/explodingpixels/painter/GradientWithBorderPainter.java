@@ -1,11 +1,9 @@
 package com.explodingpixels.painter;
 
-import org.jdesktop.swingx.painter.Painter;
-
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GradientPaint;
 import java.awt.Component;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 
 public class GradientWithBorderPainter implements Painter<Component> {
 
@@ -31,17 +29,17 @@ public class GradientWithBorderPainter implements Painter<Component> {
         // bottom.
         GradientPaint paint = new GradientPaint(
                 0, 1, fTopGradientColor,
-                0, height-2, fBottomGradientColor);
+                0, height - 2, fBottomGradientColor);
         // install the paint and fill a rectangle with it.
         g.setPaint(paint);
         g.fillRect(0, 0, width, height);
         // set the graphics color and draw a line across the top of the
         // component.
         g.setColor(fTopLineColor);
-        g.drawLine(0,0,width,0);
+        g.drawLine(0, 0, width, 0);
         // set the graphics color and draw a line across the bottom of the
         // component.
         g.setColor(fBottomLineColor);
-        g.drawLine(0,height-1,width,height-1);
+        g.drawLine(0, height - 1, width, height - 1);
     }
 }

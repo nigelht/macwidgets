@@ -1,11 +1,9 @@
 package com.explodingpixels.painter;
 
-import org.jdesktop.swingx.painter.Painter;
-
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.GradientPaint;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 
 public class GradientPainter implements Painter<Component> {
 
