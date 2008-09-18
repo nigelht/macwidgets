@@ -1,24 +1,21 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
+import com.explodingpixels.macwidgets.plaf.UnifiedToolbarButtonUI;
+import com.explodingpixels.painter.*;
 import com.explodingpixels.swingx.EPButton;
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
-import com.explodingpixels.painter.RectanglePainter;
-import com.explodingpixels.painter.ButtonStatePainter;
-import com.explodingpixels.painter.ImagePainter;
-import com.explodingpixels.macwidgets.plaf.UnifiedToolbarButtonUI;
-import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
 
-import javax.swing.*;
-import java.util.List;
-import java.awt.Dimension;
-import java.awt.Component;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.net.URL;
-
-import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.painter.CompoundPainter;
 
 public class MacButtonFactory {
 
@@ -32,9 +29,9 @@ public class MacButtonFactory {
     }
 
     public static AbstractButton makePreferencesTabBarButton(AbstractButton button) {
-            button.setUI(new PreferencesTabBarButtonUI());
-            return button;
-        }
+        button.setUI(new PreferencesTabBarButtonUI());
+        return button;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Gradient button methods.
@@ -47,11 +44,11 @@ public class MacButtonFactory {
                     "/com/explodingpixels/macwidgets/images/component_status_bar_shiny_background_no_border.png");
 
     static final ImagePainter GRADIENT_BUTTON_IMAGE_PAINTER =
-            new ImagePainter(GRADIENT_BACKGROUND_URL, true, true);
+            new ImagePainter(GRADIENT_BACKGROUND_URL);
 
     private static final Painter<Component> PRESSED_AND_SELECTED_GRADIENT_PAINTER =
             new CompoundPainter<Component>(GRADIENT_BUTTON_IMAGE_PAINTER,
-                    new RectanglePainter(new Color(0,0,0,89)));
+                    new RectanglePainter(new Color(0, 0, 0, 89)));
 
     private static final ButtonStatePainter<AbstractButton> GRADIENT_BUTTON_PAINTER =
             new ButtonStatePainter<AbstractButton>(

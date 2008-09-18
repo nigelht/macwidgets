@@ -1,11 +1,13 @@
 package com.explodingpixels.swingx;
 
-import org.jdesktop.swingx.painter.Painter;
+import com.explodingpixels.painter.Painter;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.JToggleButton;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Component;
 
 public class EPToggleButton extends JToggleButton {
 

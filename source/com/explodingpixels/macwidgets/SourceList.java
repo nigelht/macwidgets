@@ -1,9 +1,9 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.TriStateFocusPainter;
+import com.explodingpixels.painter.FocusPainter;
+import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.TreeUtils;
-import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.painter.RectanglePainter;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -119,13 +119,11 @@ public class SourceList {
         fScrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         // setup the default background painter.
-        RectanglePainter<Component> focusedPainter = new RectanglePainter<Component>(
-                MacColorUtils.SOURCE_LIST_FOCUSED_BACKGROUND_COLOR,
+        RectanglePainter focusedPainter = new RectanglePainter(
                 MacColorUtils.SOURCE_LIST_FOCUSED_BACKGROUND_COLOR);
-        RectanglePainter<Component> unfocusedPainter = new RectanglePainter<Component>(
-                MacColorUtils.SOURCE_LIST_UNFOCUSED_BACKGROUND_COLOR,
+        RectanglePainter unfocusedPainter = new RectanglePainter(
                 MacColorUtils.SOURCE_LIST_UNFOCUSED_BACKGROUND_COLOR);
-        setBackgroundPainter(new TriStateFocusPainter(
+        setBackgroundPainter(new FocusPainter(
                 focusedPainter, focusedPainter, unfocusedPainter));
 
 //        fTree.setOpaque(false);
@@ -435,7 +433,7 @@ public class SourceList {
 
                 Rectangle bounds = getRowBounds(selectedRow);
 
-                TriStateFocusPainter painter = new TriStateFocusPainter(
+                FocusPainter painter = new FocusPainter(
                         MacPainterFactory.createSourceListSelectionPainter_componentFocused(),
                         MacPainterFactory.createSourceListSelectionPainter_windowFocused(),
                         MacPainterFactory.createSourceListSelectionPainter_windowUnfocused());

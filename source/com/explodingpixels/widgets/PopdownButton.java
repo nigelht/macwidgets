@@ -1,7 +1,7 @@
 package com.explodingpixels.widgets;
 
+import com.explodingpixels.painter.Painter;
 import com.explodingpixels.swingx.EPToggleButton;
-import org.jdesktop.swingx.painter.Painter;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;

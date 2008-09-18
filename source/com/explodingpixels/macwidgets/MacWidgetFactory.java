@@ -2,10 +2,10 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
+import com.explodingpixels.painter.FocusPainter;
 import com.explodingpixels.painter.GradientPainter;
-import com.explodingpixels.painter.TriStateFocusPainter;
+import com.explodingpixels.painter.Painter;
 import com.jgoodies.forms.factories.Borders;
-import org.jdesktop.swingx.painter.Painter;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -99,7 +99,7 @@ public class MacWidgetFactory {
                         MacColorUtils.OS_X_BOTTOM_BAR_INACTIVE_TOP_COLOR,
                         MacColorUtils.OS_X_BOTTOM_BAR_INACTIVE_BOTTOM_COLOR);
 
-        Painter<Component> painter = new TriStateFocusPainter(focusedPainter, focusedPainter,
+        Painter<Component> painter = new FocusPainter(focusedPainter, focusedPainter,
                 unfocusedPainter);
 
         final TriAreaComponent bottomBar = new TriAreaComponent(5);

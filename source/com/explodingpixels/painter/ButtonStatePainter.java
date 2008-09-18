@@ -1,10 +1,8 @@
 package com.explodingpixels.painter;
 
-import org.jdesktop.swingx.painter.Painter;
-
 import javax.swing.AbstractButton;
-import java.awt.Graphics2D;
 import java.awt.Component;
+import java.awt.Graphics2D;
 
 public class ButtonStatePainter<B extends AbstractButton>
         implements Painter<B> {
@@ -31,13 +29,13 @@ public class ButtonStatePainter<B extends AbstractButton>
     public void paint(Graphics2D g, B button, int width, int height) {
 
         if (button.getModel().isRollover()) {
-            fRolloverPainter.paint(g,button,width,height);
+            fRolloverPainter.paint(g, button, width, height);
         } else if (button.getModel().isPressed()) {
-            fPressedPainter.paint(g,button,width,height);
+            fPressedPainter.paint(g, button, width, height);
         } else if (button.getModel().isSelected()) {
-            fSelectedPainter.paint(g,button,width,height);
+            fSelectedPainter.paint(g, button, width, height);
         } else {
-            fDefaultPainter.paint(g,button,width,height);
+            fDefaultPainter.paint(g, button, width, height);
         }
 
     }

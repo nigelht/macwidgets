@@ -1,8 +1,11 @@
 package com.explodingpixels.macwidgets;
 
-import org.jdesktop.swingx.painter.Painter;
+import com.explodingpixels.painter.Painter;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 
 public class MacPainterFactory {
 
@@ -107,7 +110,7 @@ public class MacPainterFactory {
                               int width, int height) {
                 paintLeopardGradientSelection(
                         TOP_LINE_COLOR, BOTTOM_GRADIENT_COLOR,
-                        TOP_GRADIENT_COLOR,BOTTOM_GRADIENT_COLOR,
+                        TOP_GRADIENT_COLOR, BOTTOM_GRADIENT_COLOR,
                         graphics2D, width, height);
             }
         };
@@ -133,16 +136,17 @@ public class MacPainterFactory {
     /**
      * Paints a graident with a single pixel border at the top of the component
      * and a single pixel border at the bottom.
-     * @param topLineColor the color of the top line border.
-     * @param bottomLineColor the color of the bottom line border.
-     * @param topGradientColor the top color to use in creating the gradient
-     *        paint.
+     *
+     * @param topLineColor        the color of the top line border.
+     * @param bottomLineColor     the color of the bottom line border.
+     * @param topGradientColor    the top color to use in creating the gradient
+     *                            paint.
      * @param bottomGradientColor the bottom color to use in creating the
-     *        gradient paint.
-     * @param graphics2D the {@link Graphics2D} to render into. This graphics
-     *        context need not be restore state upon completion.
-     * @param width the width of the component to render into.
-     * @param height the height of the component to render into.
+     *                            gradient paint.
+     * @param graphics2D          the {@link Graphics2D} to render into. This graphics
+     *                            context need not be restore state upon completion.
+     * @param width               the width of the component to render into.
+     * @param height              the height of the component to render into.
      */
     private static void paintLeopardGradientSelection(
             Color topLineColor,
@@ -150,24 +154,24 @@ public class MacPainterFactory {
             Color topGradientColor,
             Color bottomGradientColor,
             Graphics2D graphics2D,
-            int width, int height)  {
+            int width, int height) {
         // create the paint - start the gradient one pixel from the top
         // of the component and finish the gradient one pixel from the
         // bottom.
         GradientPaint paint = new GradientPaint(
                 0, 1, topGradientColor,
-                0, height-2, bottomGradientColor);
+                0, height - 2, bottomGradientColor);
         // install the paint and fill a rectangle with it.
         graphics2D.setPaint(paint);
         graphics2D.fillRect(0, 0, width, height);
         // set the graphics color and draw a line across the top of the
         // component.
         graphics2D.setColor(topLineColor);
-        graphics2D.drawLine(0,0,width,0);
+        graphics2D.drawLine(0, 0, width, 0);
         // set the graphics color and draw a line across the bottom of the
         // component.
         graphics2D.setColor(bottomLineColor);
-        graphics2D.drawLine(0,height-1,width,height-1);
+        graphics2D.drawLine(0, height - 1, width, height - 1);
     }
 
 }

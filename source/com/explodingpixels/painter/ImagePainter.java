@@ -2,24 +2,26 @@ package com.explodingpixels.painter;
 
 import javax.imageio.ImageIO;
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 
-public class ImagePainter extends org.jdesktop.swingx.painter.ImagePainter<Component> {
+public class ImagePainter implements Painter<Component> {
 
-    public ImagePainter(URL url, boolean fillHorizontal, boolean fillVertical) {
+    private final Image fImage;
+
+    public ImagePainter(URL url) {
 
         try {
-            setImage(ImageIO.read(url));
+            fImage = ImageIO.read(url);
         } catch (IOException e) {
             throw new IllegalArgumentException("Problem reading image file.");
         }
 
-        setFillHorizontal(fillHorizontal);
-        setFillVertical(fillVertical);
-
     }
 
-
-
+    public void paint(Graphics2D graphics, Component objectToPaint, int width, int height) {
+        graphics.drawImage(fImage, 0, 0, width, height, null);
+    }
 }
