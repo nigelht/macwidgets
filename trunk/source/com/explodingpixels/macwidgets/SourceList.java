@@ -1,6 +1,6 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.FocusPainter;
+import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.TreeUtils;
@@ -64,14 +64,14 @@ public class SourceList {
 
     private final JPanel fComponent = new JPanel(new BorderLayout());
 
-    private TreeSelectionListener fTreeSelectionListener =
-            createTreeSelectionListener();
+    private TreeSelectionListener fTreeSelectionListener = createTreeSelectionListener();
 
     private CustomTreeUI fTreeUI = new CustomTreeUI();
 
-    private SourceListCategoryTreeCellRenderer fCategoryRenderer;
+    private SourceListCategoryTreeCellRenderer fCategoryRenderer =
+            new SourceListCategoryTreeCellRenderer();
 
-    private SourceListItemCellRenderer fItemRenderer;
+    private SourceListItemCellRenderer fItemRenderer = new SourceListItemCellRenderer();
 
     private SourceListControlBar fSourceListControlBar;
 
@@ -103,9 +103,6 @@ public class SourceList {
         fModel = model;
         fModel.addSourceListModelListener(fModelListener);
 
-        fCategoryRenderer = new SourceListCategoryTreeCellRenderer();
-        fItemRenderer = new SourceListItemCellRenderer();
-
         initUi();
 
         // add each category and its sub-items to backing JTree.
@@ -123,7 +120,7 @@ public class SourceList {
                 MacColorUtils.SOURCE_LIST_FOCUSED_BACKGROUND_COLOR);
         RectanglePainter unfocusedPainter = new RectanglePainter(
                 MacColorUtils.SOURCE_LIST_UNFOCUSED_BACKGROUND_COLOR);
-        setBackgroundPainter(new FocusPainter(
+        setBackgroundPainter(new FocusStatePainter(
                 focusedPainter, focusedPainter, unfocusedPainter));
 
 //        fTree.setOpaque(false);
@@ -145,7 +142,7 @@ public class SourceList {
         TreeUtils.setLeftChildIndent(fTree, indent);
         TreeUtils.setRightChildIndent(fTree, indent);
 
-        fTree.setCellRenderer(new GroupListRenderer());
+        fTree.setCellRenderer(new SourceListTreeCellRenderer());
     }
 
     /**
@@ -188,6 +185,18 @@ public class SourceList {
             selectedItem = (SourceListItem) selectedNode.getUserObject();
         }
         return selectedItem;
+    }
+
+    /**
+     * Selects the given {@link SourceListItem} in the list.
+     *
+     * @param item the item to select.
+     * @throws IllegalArgumentException if the given item is not in the list.
+     */
+    public void setSelectedItem(SourceListItem item) {
+        getModel().checkItemIsInModel(item);
+        DefaultMutableTreeNode treeNode = getNodeForObject(fRoot, item);
+        fTree.setSelectionPath(new TreePath(treeNode.getPath()));
     }
 
     /**
@@ -433,7 +442,7 @@ public class SourceList {
 
                 Rectangle bounds = getRowBounds(selectedRow);
 
-                FocusPainter painter = new FocusPainter(
+                FocusStatePainter painter = new FocusStatePainter(
                         MacPainterFactory.createSourceListSelectionPainter_componentFocused(),
                         MacPainterFactory.createSourceListSelectionPainter_windowFocused(),
                         MacPainterFactory.createSourceListSelectionPainter_windowUnfocused());
@@ -452,7 +461,7 @@ public class SourceList {
 
     // Custom TreeCellRenderer. ///////////////////////////////////////////////////////////////////
 
-    private class GroupListRenderer implements TreeCellRenderer {
+    private class SourceListTreeCellRenderer implements TreeCellRenderer {
 
         public Component getTreeCellRendererComponent(
                 JTree tree, Object value, boolean selected, boolean expanded,
