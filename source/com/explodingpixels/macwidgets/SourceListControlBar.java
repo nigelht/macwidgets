@@ -25,7 +25,7 @@ import java.awt.event.MouseMotionListener;
  * </pre>
  * The above code creates a control bar that looks like this:
  * <br><br>
- * <img src="../../../resources/SourceListControlBar-empty.png">
+ * <img src="../../../../graphics/SourceListControlBar-empty.png">
  * </p>
  * <p>
  * The following code adds two push buttons and a drop-down button to the control bar:
@@ -42,7 +42,7 @@ import java.awt.event.MouseMotionListener;
  * </pre>
  * The above code creates a control bar that looks like this:
  * <br><br>
- * <img src="../../../resources/SourceListControlBar-buttons.png">
+ * <img src="../../../../graphics/SourceListControlBar-buttons.png">
  * </p>
  */
 public class SourceListControlBar {
@@ -76,10 +76,11 @@ public class SourceListControlBar {
      * Connects the draggable widget in this {@code SourceListControlBar} to the divider of the
      * given {@link JSplitPane}. Thus when the user drags the {@code SourceListControlBar} draggable
      * widget, the given {@code JSplitPane}s divider location will be adjusted.
+     *
      * @param splitPane the {@code JSplitPane} to connect the draggable widget to.
      */
     public void installDraggableWidgetOnSplitPane(JSplitPane splitPane) {
-         if (splitPane == null) {
+        if (splitPane == null) {
             throw new IllegalArgumentException("JSplitPane cannot be null.");
         }
 
@@ -88,7 +89,13 @@ public class SourceListControlBar {
         fSplitterHandle.addMouseMotionListener(fMouseListener);
     }
 
-    JComponent getComponent() {
+    /**
+     * Gets the user interface component representing this {@code SourceListControlBar}. The
+     * returned {@link JComponent} should be added to a container that will be displayed.
+     *
+     * @return the user interface component representing this {@code SourceListControlBar}.
+     */
+    public JComponent getComponent() {
         return fComponentBottomBar.getComponent();
     }
 
@@ -99,9 +106,10 @@ public class SourceListControlBar {
     /**
      * Add a new pop-down style button. The given {@link PopupMenuCustomizer} will be called just
      * prior to each showing of the menu.
-     * @param icon the icon to use in the pop-down menu.
+     *
+     * @param icon                the icon to use in the pop-down menu.
      * @param popupMenuCustomizer the {@code PopupMenuCustomizer} to be called just prior to showing
-     *        the menu.
+     *                            the menu.
      */
     public void createAndAddPopdownButton(Icon icon, PopupMenuCustomizer popupMenuCustomizer) {
         PopdownButton button = MacButtonFactory.createGradientPopdownButton(
@@ -113,7 +121,8 @@ public class SourceListControlBar {
     /**
      * Adds a new button with the given icon. The given {@link ActionListener} will be called when
      * the button is pressed.
-     * @param icon the icon to use for the button.
+     *
+     * @param icon           the icon to use for the button.
      * @param actionListener the {@code ActionListener} to call when the button is pressed.
      */
     public void createAndAddButton(Icon icon, ActionListener actionListener) {
