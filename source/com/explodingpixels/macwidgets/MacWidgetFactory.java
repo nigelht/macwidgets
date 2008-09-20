@@ -2,7 +2,8 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import com.explodingpixels.painter.FocusPainter;
+import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
+import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.GradientPainter;
 import com.explodingpixels.painter.Painter;
 import com.jgoodies.forms.factories.Borders;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.table.TableModel;
+import javax.swing.tree.TreeModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -99,7 +101,7 @@ public class MacWidgetFactory {
                         MacColorUtils.OS_X_BOTTOM_BAR_INACTIVE_TOP_COLOR,
                         MacColorUtils.OS_X_BOTTOM_BAR_INACTIVE_BOTTOM_COLOR);
 
-        Painter<Component> painter = new FocusPainter(focusedPainter, focusedPainter,
+        Painter<Component> painter = new FocusStatePainter(focusedPainter, focusedPainter,
                 unfocusedPainter);
 
         final TriAreaComponent bottomBar = new TriAreaComponent(5);
@@ -159,6 +161,26 @@ public class MacWidgetFactory {
                 BorderFactory.createMatteBorder(0, 1, 0, 0, new Color(0xa5a5a5)));
         splitPane.setBorder(BorderFactory.createEmptyBorder());
         return splitPane;
+    }
+
+    public static JTree createSourceList(TreeModel model) {
+        return makeSourceList(new JTree(model));
+    }
+
+    public static JTree makeSourceList(JTree tree) {
+        tree.setUI(new SourceListTreeUI());
+        return tree;
+    }
+
+    public static JScrollPane createSourceListScrollPane(JComponent content) {
+        return makeSourceListScrollPane(new JScrollPane(content));
+    }
+
+    public static JScrollPane makeSourceListScrollPane(JScrollPane scrollPane) {
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        return scrollPane;
     }
 
     // Private utility methods. ///////////////////////////////////////////////////////////////////

@@ -1,5 +1,7 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.widgets.TextProvider;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  * {@link SourceListItem}s. {@code SourceListCategory}s are text only, and rendered in full caps
  * (regardless of supplied text capitalization).
  */
-public class SourceListCategory {
+public class SourceListCategory implements TextProvider {
 
     private List<SourceListItem> fItems = new ArrayList<SourceListItem>();
 

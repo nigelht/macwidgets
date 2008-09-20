@@ -1,19 +1,18 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.FocusStatePainter;
-import com.explodingpixels.painter.Painter;
-import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.TreeUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +23,15 @@ import java.util.List;
  * <p/>
  * This component provides the two basic sytles of Source List: focusble and non-focusable.
  * As the name implies, focusable Source Lists and recieve keyboard focus, and thus can be navigated
- * using the arrow keys. When focused, the Source List looks like this:
+ * using the arrow keys. Non-focusable, cannot receive keyboard focus, and thus cannot be
+ * navigated via the arrow keys. The two styles of {@code SourceList} are pictured below:
  * <br>
- * <img src="../../../../graphics/iTunesSourceList.png">
- * <br>
- * The second type of Source List, non-focusable, cannot receive keyboard focus, and thus cannot be
- * navigated via the arrow keys. A non-focusable Source List looks like this:
- * <br>
- * <img src="../../../../graphics/MailSourceList.png">
+ * <table>
+ * <tr><td align="center"><img src="../../../../graphics/iTunesSourceList.png"></td>
+ * <td align="center"><img src="../../../../graphics/MailSourceList.png"></td></tr>
+ * <tr><td align="center"><font size="2" face="arial"><b>Focusable SourceList<b></font></td>
+ * <td align="center"><font size="2" face="arial"><b>Non-focusable SourceList<b></font></td></tr>
+ * </table>
  * <br>
  * Here's how to create a simple {@code SourceList} with one item:
  * <pre>
@@ -56,32 +56,15 @@ public class SourceList {
 
     private DefaultTreeModel fTreeModel = new DefaultTreeModel(fRoot);
 
-    private CustomJTree fTree = new CustomJTree(fTreeModel);
+    private JTree fTree = MacWidgetFactory.createSourceList(fTreeModel);
 
-    private JScrollPane fScrollPane = new JScrollPane(fTree,
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    private JScrollPane fScrollPane = MacWidgetFactory.createSourceListScrollPane(fTree);
 
     private final JPanel fComponent = new JPanel(new BorderLayout());
 
     private TreeSelectionListener fTreeSelectionListener = createTreeSelectionListener();
 
-    private CustomTreeUI fTreeUI = new CustomTreeUI();
-
-    private SourceListCategoryTreeCellRenderer fCategoryRenderer =
-            new SourceListCategoryTreeCellRenderer();
-
-    private SourceListItemCellRenderer fItemRenderer = new SourceListItemCellRenderer();
-
     private SourceListControlBar fSourceListControlBar;
-
-    private static Icon COLLAPSED_ICON = new ImageIcon(
-            SourceList.class.getResource(
-                    "/com/explodingpixels/macwidgets/images/group_list_right_arrow.png"));
-
-    private static Icon EXPANDED_ICON = new ImageIcon(
-            SourceList.class.getResource(
-                    "/com/explodingpixels/macwidgets/images/group_list_down_arrow.png"));
 
     /**
      * Creates a {@code SourceList} with an empty {@link SourceListModel}.
@@ -113,36 +96,7 @@ public class SourceList {
 
     private void initUi() {
         fComponent.add(fScrollPane, BorderLayout.CENTER);
-        fScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        // setup the default background painter.
-        RectanglePainter focusedPainter = new RectanglePainter(
-                MacColorUtils.SOURCE_LIST_FOCUSED_BACKGROUND_COLOR);
-        RectanglePainter unfocusedPainter = new RectanglePainter(
-                MacColorUtils.SOURCE_LIST_UNFOCUSED_BACKGROUND_COLOR);
-        setBackgroundPainter(new FocusStatePainter(
-                focusedPainter, focusedPainter, unfocusedPainter));
-
-//        fTree.setOpaque(false);
-        fTree.setSelectionModel(new CustomTreeSelectionModel());
-        fTree.setLargeModel(true);
-        fTree.setUI(fTreeUI);
-
-        fTree.setRowHeight(20);
-        fTree.setRootVisible(false);
-        fTree.setShowsRootHandles(true);
-//        fTree.expandPath(new TreePath(fRoot.getPath()));
-
         fTree.addTreeSelectionListener(fTreeSelectionListener);
-
-        // set the disclosure icons and the corresponding indents.
-        TreeUtils.setCollapsedIcon(fTree, COLLAPSED_ICON);
-        TreeUtils.setExpandedIcon(fTree, EXPANDED_ICON);
-        int indent = COLLAPSED_ICON.getIconWidth() / 2 + 4;
-        TreeUtils.setLeftChildIndent(fTree, indent);
-        TreeUtils.setRightChildIndent(fTree, indent);
-
-        fTree.setCellRenderer(new SourceListTreeCellRenderer());
     }
 
     /**
@@ -207,10 +161,6 @@ public class SourceList {
      */
     public void setFocusable(boolean focusable) {
         fTree.setFocusable(focusable);
-    }
-
-    private void setBackgroundPainter(Painter<Component> painter) {
-        fTree.setBackgroundPainter(painter);
     }
 
     private static DefaultMutableTreeNode getNodeForObject(DefaultMutableTreeNode parentNode,
@@ -378,217 +328,6 @@ public class SourceList {
         if (node == null) {
             throw new IllegalArgumentException("The given SourceListCategory " +
                     "does not exist in this SourceList.");
-        }
-    }
-
-    private boolean isSourceListItem(int index) {
-        if (index < 0 || fTree.getRowCount() <= index) {
-            throw new IllegalArgumentException("Row index " + index + " is out of bounds.");
-        }
-
-        TreePath path = fTree.getPathForRow(index);
-        assert path != null : "TreePath should not be null.";
-        assert path.getLastPathComponent() instanceof DefaultMutableTreeNode
-                : "";
-
-        return ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject()
-                instanceof SourceListItem;
-    }
-
-    // Custom JTree. //////////////////////////////////////////////////////////////////////////////
-
-    private static class CustomJTree extends JTree {
-
-        private Painter<Component> fBackgroundPainter;
-
-        public CustomJTree(TreeModel newModel) {
-            super(newModel);
-            setBackground(new Color(0, 0, 0, 0));
-            addFocusListener(createFocusListener());
-        }
-
-        private void setBackgroundPainter(Painter<Component> painter) {
-            fBackgroundPainter = painter;
-        }
-
-        /**
-         * Creates a {@link java.awt.event.FocusListener} that repaints the selection on focus
-         * gained and focus lost events.
-         *
-         * @return a {@code FocusListener} that repaints the selecion on focus state
-         *         changes.
-         */
-        private FocusListener createFocusListener() {
-            return new FocusListener() {
-                public void focusGained(FocusEvent e) {
-                    TreeUtils.repaintSelection(CustomJTree.this);
-                }
-
-                public void focusLost(FocusEvent e) {
-                    TreeUtils.repaintSelection(CustomJTree.this);
-                }
-            };
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D graphics2D = (Graphics2D) g.create();
-            fBackgroundPainter.paint(graphics2D, this, getWidth(), getHeight());
-            graphics2D.dispose();
-
-            // paint the background for the selected entry, if there is one.
-            int selectedRow = getSelectionModel().getLeadSelectionRow();
-            if (selectedRow > 0 && isVisible(getPathForRow(selectedRow))) {
-
-                Rectangle bounds = getRowBounds(selectedRow);
-
-                FocusStatePainter painter = new FocusStatePainter(
-                        MacPainterFactory.createSourceListSelectionPainter_componentFocused(),
-                        MacPainterFactory.createSourceListSelectionPainter_windowFocused(),
-                        MacPainterFactory.createSourceListSelectionPainter_windowUnfocused());
-
-
-                graphics2D = (Graphics2D) g.create();
-                graphics2D.translate(0, bounds.y);
-                painter.paint(graphics2D, this, getWidth(), bounds.height);
-                graphics2D.dispose();
-            }
-
-            super.paintComponent(g);
-        }
-
-    }
-
-    // Custom TreeCellRenderer. ///////////////////////////////////////////////////////////////////
-
-    private class SourceListTreeCellRenderer implements TreeCellRenderer {
-
-        public Component getTreeCellRendererComponent(
-                JTree tree, Object value, boolean selected, boolean expanded,
-                boolean leaf, int row, boolean hasFocus) {
-
-            Object node = ((DefaultMutableTreeNode) value).getUserObject();
-            Component c = new JLabel();
-
-            if (node instanceof SourceListCategory) {
-                c = fCategoryRenderer.getCellRendererComponent(
-                        (SourceListCategory) node);
-            } else if (node instanceof SourceListItem) {
-                c = fItemRenderer.getCellRendererComponent(
-                        (SourceListItem) node, selected);
-            }
-
-            return c;
-        }
-
-    }
-
-    // Custom TreeSelectionModel. /////////////////////////////////////////////////////////////////
-
-    private class CustomTreeSelectionModel extends DefaultTreeSelectionModel {
-        public CustomTreeSelectionModel() {
-            setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        }
-
-        private boolean canSelect(TreePath path) {
-            Object node = path == null ? null : path.getLastPathComponent();
-            return node != null
-                    && node instanceof DefaultMutableTreeNode
-                    && ((DefaultMutableTreeNode) node).getUserObject() instanceof SourceListItem;
-        }
-
-        @Override
-        public void setSelectionPath(TreePath path) {
-            if (canSelect(path)) {
-                super.setSelectionPath(path);
-            }
-        }
-
-        @Override
-        public void setSelectionPaths(TreePath[] paths) {
-            if (canSelect(paths[0])) {
-                super.setSelectionPaths(paths);
-            }
-        }
-    }
-
-    // Custom BaicTreeUI. /////////////////////////////////////////////////////////////////////////
-
-    private class CustomTreeUI extends BasicTreeUI {
-
-        private final String SELECT_NEXT = "selectNext";
-        private final String SELECT_PREVIOUS = "selectPrevious";
-
-        @Override
-        protected void installKeyboardActions() {
-            super.installKeyboardActions();
-            tree.getInputMap().put(KeyStroke.getKeyStroke("pressed DOWN"), SELECT_NEXT);
-            tree.getInputMap().put(KeyStroke.getKeyStroke("pressed UP"), SELECT_PREVIOUS);
-            tree.getActionMap().put(SELECT_NEXT, createNextAction());
-            tree.getActionMap().put(SELECT_PREVIOUS, createPreviousAction());
-        }
-
-        @Override
-        protected AbstractLayoutCache.NodeDimensions createNodeDimensions() {
-            return new NodeDimensionsHandler() {
-                @Override
-                public Rectangle getNodeDimensions(
-                        Object value, int row, int depth, boolean expanded,
-                        Rectangle size) {
-
-                    Rectangle dimensions = super.getNodeDimensions(value, row,
-                            depth, expanded, size);
-                    dimensions.width =
-                            fScrollPane.getViewport().getWidth() - getRowX(row, depth);
-
-                    return dimensions;
-                }
-            };
-        }
-
-        @Override
-        protected void paintHorizontalLine(Graphics g, JComponent c, int y, int left, int right) {
-            // do nothing - don't paint horizontal lines.
-        }
-
-        @Override
-        protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds, Insets insets,
-                                              TreePath path) {
-            // do nothing - don't paint vertical lines.
-        }
-
-        private Action createNextAction() {
-            return new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    int selectedRow = tree.getLeadSelectionRow();
-                    int rowToSelect = selectedRow + 1;
-                    while (rowToSelect >= 0 && rowToSelect < fTree.getRowCount()) {
-                        if (isSourceListItem(rowToSelect)) {
-                            tree.setSelectionRow(rowToSelect);
-                            break;
-                        } else {
-                            rowToSelect++;
-                        }
-                    }
-                }
-            };
-        }
-
-        private Action createPreviousAction() {
-            return new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    int selectedRow = tree.getLeadSelectionRow();
-                    int rowToSelect = selectedRow - 1;
-                    while (rowToSelect >= 0 && rowToSelect < fTree.getRowCount()) {
-                        if (isSourceListItem(rowToSelect)) {
-                            tree.setSelectionRow(rowToSelect);
-                            break;
-                        } else {
-                            rowToSelect--;
-                        }
-                    }
-                }
-            };
         }
     }
 

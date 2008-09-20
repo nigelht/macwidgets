@@ -1,5 +1,8 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.widgets.IconProvider;
+import com.explodingpixels.widgets.TextProvider;
+
 import javax.swing.Icon;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +11,7 @@ import java.util.List;
 /**
  * An item in a {@link SourceList} which is contained within a {@link SourceListCategory}.
  */
-public class SourceListItem {
+public class SourceListItem implements TextProvider, IconProvider, SourceListBadgeContentProvider {
 
     private List<SourceListItem> fChildItems = new ArrayList<SourceListItem>();
 
