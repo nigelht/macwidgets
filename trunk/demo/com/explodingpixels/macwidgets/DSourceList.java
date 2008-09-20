@@ -29,7 +29,7 @@ public class DSourceList {
         SourceListCategory categoryThree = new SourceListCategory("Category 3");
 
         SourceListItem itemA = new SourceListItem("SourceListItem A", blueGlobeIcon);
-        SourceListItem itemB = new SourceListItem("SourceListItem B", greyGlobeIcon);
+        final SourceListItem itemB = new SourceListItem("SourceListItem B", greyGlobeIcon);
 
         SourceListItem itemC = new SourceListItem("SourceListItem C", greyGlobeIcon);
         SourceListItem itemD = new SourceListItem("SourceListItem D", greyGlobeIcon);
@@ -72,6 +72,8 @@ public class DSourceList {
 
                 SourceList sourceList = new SourceList(model);
 //        sourceList.setFocusable(false);
+
+                sourceList.setSelectedItem(itemB);
 
                 final JTextField textField = new JTextField("");
                 JButton button = new JButton("Add");

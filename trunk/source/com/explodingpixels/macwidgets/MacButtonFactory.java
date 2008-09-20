@@ -19,9 +19,7 @@ import java.net.URL;
 
 public class MacButtonFactory {
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Unified toolbar button methods.
-    ///////////////////////////////////////////////////////////////////////////
+    // Unified toolbar button methods. ////////////////////////////////////////////////////////////
 
     public static AbstractButton makeUnifiedToolBarButton(AbstractButton button) {
         button.setUI(new UnifiedToolbarButtonUI());
@@ -33,9 +31,7 @@ public class MacButtonFactory {
         return button;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Gradient button methods.
-    ///////////////////////////////////////////////////////////////////////////
+    // Gradient button methods. ///////////////////////////////////////////////////////////////////
 
     static final Color GRADIENT_BUTTON_BORDER_COLOR = new Color(190, 190, 190);
 
@@ -57,14 +53,14 @@ public class MacButtonFactory {
                     PRESSED_AND_SELECTED_GRADIENT_PAINTER,
                     PRESSED_AND_SELECTED_GRADIENT_PAINTER);
 
-    public static JComponent createGradientButton(Icon icon,
-                                                  ActionListener actionListener) {
+    public static JComponent createGradientButton(Icon icon, ActionListener actionListener) {
         EPButton button = new EPButton(icon);
         button.addActionListener(actionListener);
 
         button.setBackgroundPainter(GRADIENT_BUTTON_PAINTER);
         initGradientButton(button);
         button.setPressedIcon(icon);
+
         return button;
     }
 
@@ -81,8 +77,7 @@ public class MacButtonFactory {
     }
 
     private static void initGradientButton(JComponent button) {
-        button.setBorder(BorderFactory.createLineBorder(
-                GRADIENT_BUTTON_BORDER_COLOR));
+        button.setBorder(BorderFactory.createLineBorder(GRADIENT_BUTTON_BORDER_COLOR));
         button.setPreferredSize(new Dimension(30, 22));
     }
 
