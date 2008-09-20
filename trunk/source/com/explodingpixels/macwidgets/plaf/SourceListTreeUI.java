@@ -16,16 +16,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
+ * <p>
  * A UI delegate that paints a {@link JTree} as an <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE">Apple defined</a>
  * Source List. While this UI delegate can be directly installed on existing {@code JTree}s, it is
  * recommended that you use the {@link MacWidgetFactory#makeSourceList(javax.swing.JTree)} method
  * in conjuction with {@link MacWidgetFactory#createSourceListScrollPane(javax.swing.JComponent)}.
+ * </p>
+ * <p>
  * For the best development experience, it is recommended that you migrate your code to use the
  * {@link SourceList} with the {@link SourceListModel}.
- * <br>
+ * </p>
+ * <p>
  * Pictured below are the two different rendering styles of a Source List: focused and unfocused.
  * The corresponding {@code JTree}'s focusable property drives this rendering style.
- * <br>
+ * </p>
  * <br>
  * <table>
  * <tr><td align="center"><img src="../../../../../graphics/iTunesSourceList.png"></td>
