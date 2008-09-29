@@ -1,4 +1,18 @@
 #labels Featured
+===Heads Up Display (HUD) ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/HudWindow.html Javadoc])===
+HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_6.html#//apple_ref/doc/uid/20000961-SW24 here] in the Apple Human Interface Guidelines) provide a way to unobtrusively display transient information.
+
+[http://exploding-pixels.com/google_code/graphics/HeadsUpDisplay.png]
+
+*Simple HUD example:*
+{{{
+HudWindow hud = new HudWindow("Window");
+hud.getJFrame().setSize(300, 350);
+hud.getJFrame().setLocationRelativeTo(null);
+hud.getJFrame()setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+hud.getJFrame().setVisible(true);
+}}}
+
 ===Bottom Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createBottomBar() Javadoc])===
 Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-SW6 here] in the Apple Human Interface Guidelines) provide a mechanism to add controls to an application that affect the contents or organization of the window contents.
 
