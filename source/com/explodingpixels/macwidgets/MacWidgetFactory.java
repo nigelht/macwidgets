@@ -131,12 +131,26 @@ public class MacWidgetFactory {
         return bottomBar;
     }
 
+    /**
+     * Creates a transparent spacer of the given width and height. If you don't care about a
+     * particular dimension, that is, you only want a horiztonal spacer, than simply provide zero
+     * for the value your not interested in.
+     *
+     * @param width  the width of the spacer - zero if the width doesn't matter.
+     * @param height the height of the spacer - zero if the height doesn't matter.
+     * @return a transparent spacer of the given size.
+     */
     public static JComponent createSpacer(int width, int height) {
         JLabel label = new JLabel();
+        label.setOpaque(false);
         label.setPreferredSize(new Dimension(width, height));
         return label;
     }
 
+    /**
+     * @param text
+     * @return
+     */
     public static JLabel createEmphasizedLabel(String text) {
         return makeEmphasizedLabel(new JLabel(text));
     }

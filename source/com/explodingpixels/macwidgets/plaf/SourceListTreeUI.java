@@ -24,7 +24,8 @@ import java.awt.event.ActionEvent;
  * </p>
  * <p>
  * For the best development experience, it is recommended that you migrate your code to use the
- * {@link SourceList} with the {@link SourceListModel}.
+ * {@link SourceList} with the {@link SourceListModel}, as this component abstracts away many of the
+ * complexities of {@code JTree}.
  * </p>
  * <p>
  * Pictured below are the two different rendering styles of a Source List: focused and unfocused.
@@ -38,6 +39,25 @@ import java.awt.event.ActionEvent;
  * <td align="center"><font size="2" face="arial"><b>Non-focusable SourceList<b></font></td></tr>
  * </table>
  * <br>
+ * <h3>Providing Category and Item text and icons</h3>
+ * <p/>
+ * During the rendering process, each Category and Item node will be consulted for the text to be
+ * displayed. The renderer determines the text based on these prioritized checks:
+ * <ol>
+ * <li>If the node is an instance of {@link DefaultMutableTreeNode}, and the
+ * {@link DefaultMutableTreeNode#getUserObject()} is an instance of {@link TextProvider}, then
+ * the {@code TextProvider} will be queried for the node text.</li>
+ * <li>If no implementation of {@code TextProvider} is found, the standard
+ * {@link JTree#convertValueToText(Object, boolean, boolean, boolean, int, boolean)} method will
+ * be consulted.</li>
+ * </ol>
+ * Also, during rendering, each Item node will be consulted for an icon. Similarly to the above
+ * mechanism for determining text, the render determines a nodes icon by the following check:
+ * <ol>
+ * <li>If the node is an instance of {@link DefaultMutableTreeNode}, and the
+ * {@link DefaultMutableTreeNode#getUserObject()} is an instance of {@link IconProvider}, then
+ * the {@code IconProvider} will be queried for the node icon.</li>
+ * </ol>
  */
 public class SourceListTreeUI extends BasicTreeUI {
 
