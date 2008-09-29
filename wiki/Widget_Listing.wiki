@@ -1,5 +1,5 @@
 #labels Featured
-===Heads Up Display (HUD) ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/HudWindow.html Javadoc])===
+===Heads Up Display (HUD) ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/HudWindow.html Javadoc])===
 HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_6.html#//apple_ref/doc/uid/20000961-SW24 here] in the Apple Human Interface Guidelines) provide a way to unobtrusively display transient information.
 
 [http://exploding-pixels.com/google_code/graphics/HeadsUpDisplay.png]
@@ -13,7 +13,7 @@ hud.getJFrame()setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 hud.getJFrame().setVisible(true);
 }}}
 
-===Bottom Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createBottomBar() Javadoc])===
+===Bottom Bar ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createBottomBar() Javadoc])===
 Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-SW6 here] in the Apple Human Interface Guidelines) provide a mechanism to add controls to an application that affect the contents or organization of the window contents.
 
 [http://exploding-pixels.com/google_code/graphics/BottomBar.png]
@@ -24,7 +24,7 @@ TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARG
 bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("My Label"));
 }}}
 
-===Source Lists ([http://exploding-pixels.com/google_code/doc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
+===Source Lists ([http://exploding-pixels.com/google_code/javadoc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
 Source Lists (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE here] in the Apple Human Interface Guidelines) are a way to navigate or select objects in an application. There are two types of Source Lists: focusable and non-focusable. Focusable Source Lists can receive keyboard focus, and thus be navigated with the arrow keys, whereas non-focusable Source Lists cannot be navigated with the keyboard. Here is a focusable and non-focusable Source List:
 
 [http://exploding-pixels.com/google_code/graphics/iTunesSourceList.png] [http://exploding-pixels.com/google_code/graphics/MailSourceListWithControlBar-selection.png]
@@ -38,7 +38,7 @@ model.addItemToCategory(new SourceListItem("Item"), category);
 SourceList sourceList = new SourceList(model);
 }}}
 
-===Unified Tool Bar ([http://exploding-pixels.com/google_code/doc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createUnifiedToolBar() Javadoc])===
+===Unified Tool Bar ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createUnifiedToolBar() Javadoc])===
 Unified Tool Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ here] in the Apple Human Interface Guidelines) provide a container for the most frequently used tools in your application.
 
 [http://exploding-pixels.com/google_code/graphics/UnifiedToolBar.png]
