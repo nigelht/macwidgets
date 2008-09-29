@@ -16,8 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MacWidgets.iws" afterPath="$PROJECT_DIR$/MacWidgets.iws" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../libraries/swingx-0.9.2.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../libraries/timing_framework-1.0.jar" afterPath="" />
     </list>
     <ignored path="MacWidgets.iws" />
     <ignored path=".idea/workspace.xml" />
