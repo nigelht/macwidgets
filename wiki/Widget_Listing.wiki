@@ -9,7 +9,7 @@ HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/doc
 HudWindow hud = new HudWindow("Window");
 hud.getJFrame().setSize(300, 350);
 hud.getJFrame().setLocationRelativeTo(null);
-hud.getJFrame()setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+hud.getJFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 hud.getJFrame().setVisible(true);
 }}}
 
