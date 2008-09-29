@@ -1,4 +1,10 @@
 #labels Featured
+==version 0.9.2==
+ # Heads Up Display (HUD)
+ # Works with JGoodies Forms 1.2.1
+ # Dependency on SwingX removed, thus reducing the size from 1.4 MB to 250 KB
+ # SourceListTreeUI has been factored out of SourceList so that you can apply this UI delegate to any JTree
+ # EmphasizedLabelUI now has Javadoc.
 ==version 0.9.1==
   # Unified Tool Bar
   # Bottom Bar
