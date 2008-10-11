@@ -5,10 +5,7 @@ import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -59,7 +56,7 @@ public class HudWindow {
      */
     public HudWindow(String title) {
         fFrame.setTitle(title);
-        fTitlePanel = new TitlePanel(title);
+        fTitlePanel = new TitlePanel(title, createCloseButtonActionListener());
         init();
     }
 
@@ -72,7 +69,6 @@ public class HudWindow {
 
         fFrame.setUndecorated(true);
         fFrame.setAlwaysOnTop(true);
-        fFrame.setVisible(true);
         fFrame.setBackground(new Color(0, 0, 0, 0));
 
         fHudPanel.add(fTitlePanel, BorderLayout.NORTH);
@@ -142,6 +138,15 @@ public class HudWindow {
         };
     }
 
+    private ActionListener createCloseButtonActionListener() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // simulate clicking the "real" close button on a window.
+                fFrame.dispatchEvent(new WindowEvent(fFrame, WindowEvent.WINDOW_CLOSING));
+            }
+        };
+    }
+
     private static class TitlePanel extends JPanel {
 
         private static final Color FONT_COLOR = new Color(255, 255, 255, 255);
@@ -174,7 +179,7 @@ public class HudWindow {
 
         private final JLabel fLabel;
 
-        private TitlePanel(String title) {
+        private TitlePanel(String title, ActionListener closeButtonActionListener) {
             fLabel = new JLabel(title, SwingConstants.CENTER);
             fLabel.setFont(fLabel.getFont().deriveFont(Font.BOLD, 11.0f));
 
@@ -186,6 +191,7 @@ public class HudWindow {
             fCloseButton.setContentAreaFilled(false);
             fCloseButton.setRolloverIcon(CLOSE_HOVER_ICON);
             fCloseButton.setPressedIcon(CLOSE_PRESSED_ICON);
+            fCloseButton.addActionListener(closeButtonActionListener);
 
             setOpaque(false);
             setPreferredSize(new Dimension(-1, 20));
