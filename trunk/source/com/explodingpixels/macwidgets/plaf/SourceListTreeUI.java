@@ -133,6 +133,19 @@ public class SourceListTreeUI extends BasicTreeUI {
     }
 
     @Override
+    public Rectangle getPathBounds(JTree tree, TreePath path) {
+        Rectangle bounds = super.getPathBounds(tree, path);
+        // if there are valid bounds for the given path, then stretch them to fill the entire width
+        // of the tree. this allows repaints on focus events to follow the standard code path, and
+        // still repaint the entire selected area.
+        if (bounds != null) {
+            bounds.x = 0;
+            bounds.width = tree.getWidth();
+        }
+        return bounds;
+    }
+
+    @Override
     public void paint(Graphics g, JComponent c) {
         // TODO use c.getVisibleRect to trim painting to minimum rectangle.
         // paint the background for the tree.
