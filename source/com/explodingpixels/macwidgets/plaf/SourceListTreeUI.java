@@ -10,6 +10,8 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.*;
 import java.awt.*;
@@ -215,6 +217,11 @@ public class SourceListTreeUI extends BasicTreeUI {
         };
     }
 
+    @Override
+    protected TreeModelListener createTreeModelListener() {
+        return new RootExpandingTreeModelHandler();
+    }
+
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
     private boolean isCategoryRow(int row) {
@@ -252,6 +259,29 @@ public class SourceListTreeUI extends BasicTreeUI {
             retVal = ((IconProvider) userObject).getIcon();
         }
         return retVal;
+    }
+
+    // Custom TreeModelHandler. ///////////////////////////////////////////////////////////////////
+
+    /**
+     * Listens for insert events and expands an invisble, collapsed root node if necessary.
+     */
+    protected class RootExpandingTreeModelHandler extends TreeModelHandler {
+        @Override
+        public void treeNodesInserted(TreeModelEvent e) {
+            final TreePath path = e.getTreePath();
+            // if the given path represents the root node, and the root isn't visible, and the
+            // root is currently collapsed, then expand the root.
+            if (path.getParentPath() == null && !isRootVisible() && tree.isCollapsed(path)) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        tree.expandPath(path);
+                    }
+                });
+            }
+
+            super.treeNodesInserted(e);
+        }
     }
 
     // Custom TreeCellRenderer. ///////////////////////////////////////////////////////////////////
