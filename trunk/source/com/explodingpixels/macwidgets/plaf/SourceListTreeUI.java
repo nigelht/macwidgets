@@ -269,18 +269,14 @@ public class SourceListTreeUI extends BasicTreeUI {
     protected class RootExpandingTreeModelHandler extends TreeModelHandler {
         @Override
         public void treeNodesInserted(TreeModelEvent e) {
+            super.treeNodesInserted(e);
+
             final TreePath path = e.getTreePath();
             // if the given path represents the root node, and the root isn't visible, and the
             // root is currently collapsed, then expand the root.
             if (path.getParentPath() == null && !isRootVisible() && tree.isCollapsed(path)) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        tree.expandPath(path);
-                    }
-                });
+                tree.expandPath(path);
             }
-
-            super.treeNodesInserted(e);
         }
     }
 
