@@ -222,12 +222,6 @@ public class SourceListTreeUI extends BasicTreeUI {
         };
     }
 
-//    @Override
-//    protected TreeModelListener createTreeModelListener() {
-//        return new RootExpandingTreeModelHandler();
-//        return super.createTreeModelListener();
-//    }
-
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
     private boolean isCategoryRow(int row) {
