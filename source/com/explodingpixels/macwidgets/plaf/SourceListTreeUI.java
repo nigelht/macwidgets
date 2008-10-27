@@ -5,6 +5,7 @@ import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.IconProvider;
 import com.explodingpixels.widgets.TextProvider;
+import com.explodingpixels.widgets.TreeUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -105,6 +106,10 @@ public class SourceListTreeUI extends BasicTreeUI {
         int indent = COLLAPSED_ICON.getIconWidth() / 2 + 4;
         setLeftChildIndent(indent);
         setRightChildIndent(indent);
+
+        // install a custom TreeModelListener to handle root node expansion.
+        tree.getModel().addTreeModelListener(new CustomTreeModelListener());
+
     }
 
     @Override
@@ -217,10 +222,11 @@ public class SourceListTreeUI extends BasicTreeUI {
         };
     }
 
-    @Override
-    protected TreeModelListener createTreeModelListener() {
-        return new RootExpandingTreeModelHandler();
-    }
+//    @Override
+//    protected TreeModelListener createTreeModelListener() {
+//        return new RootExpandingTreeModelHandler();
+//        return super.createTreeModelListener();
+//    }
 
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
@@ -233,7 +239,7 @@ public class SourceListTreeUI extends BasicTreeUI {
     }
 
     private boolean isItemPath(TreePath path) {
-        return path.getPathCount() > 2;
+        return path != null && path.getPathCount() > 2;
     }
 
     private String getTextForNode(TreeNode node, boolean selected, boolean expanded, boolean leaf,
@@ -261,22 +267,28 @@ public class SourceListTreeUI extends BasicTreeUI {
         return retVal;
     }
 
-    // Custom TreeModelHandler. ///////////////////////////////////////////////////////////////////
+    // Custom TreeModelListener. //////////////////////////////////////////////////////////////////
 
-    /**
-     * Listens for insert events and expands an invisble, collapsed root node if necessary.
-     */
-    protected class RootExpandingTreeModelHandler extends TreeModelHandler {
-        @Override
+    private class CustomTreeModelListener implements TreeModelListener {
+
+        public void treeNodesChanged(TreeModelEvent e) {
+        }
+
         public void treeNodesInserted(TreeModelEvent e) {
-            super.treeNodesInserted(e);
-
-            final TreePath path = e.getTreePath();
-            // if the given path represents the root node, and the root isn't visible, and the
-            // root is currently collapsed, then expand the root.
-            if (path.getParentPath() == null && !isRootVisible() && tree.isCollapsed(path)) {
-                tree.expandPath(path);
+            TreePath path = e.getTreePath();
+            Object root = tree.getModel().getRoot();
+            TreePath pathToRoot = new TreePath(root);
+            if (path != null && path.getParentPath() != null
+                    && path.getParentPath().getLastPathComponent().equals(root)
+                    && !tree.isExpanded(pathToRoot)) {
+                TreeUtils.expandPathOnEdt(tree, new TreePath(root));
             }
+        }
+
+        public void treeNodesRemoved(TreeModelEvent e) {
+        }
+
+        public void treeStructureChanged(TreeModelEvent e) {
         }
     }
 
