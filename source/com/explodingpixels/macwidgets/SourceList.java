@@ -2,10 +2,7 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.TreeUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -13,6 +10,9 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +41,14 @@ import java.util.List;
  * model.addItemToCategory(new SourceListItem("Item"), category);
  * SourceList sourceList = new SourceList(model);
  * </pre>
+ * <p>
+ * To install a selection listener on the {@code SourceList}, add a
+ * {@link SourceListSelectionListener}.
+ * </p>
+ * <p/>
+ * To install a context-menu provider, call
+ * {@link #setSourceListContextMenuProvider(SourceListContextMenuProvider)} with an implementation
+ * of {@link SourceListContextMenuProvider}.
  */
 public class SourceList {
 
@@ -64,7 +72,12 @@ public class SourceList {
 
     private TreeSelectionListener fTreeSelectionListener = createTreeSelectionListener();
 
+    private MouseListener fMouseListener = createMouseListener();
+
     private SourceListControlBar fSourceListControlBar;
+
+    private SourceListContextMenuProvider fContextMenuProvider =
+            new EmptySourceListContextMenuProvider();
 
     /**
      * Creates a {@code SourceList} with an empty {@link SourceListModel}.
@@ -97,22 +110,43 @@ public class SourceList {
     private void initUi() {
         fComponent.add(fScrollPane, BorderLayout.CENTER);
         fTree.addTreeSelectionListener(fTreeSelectionListener);
+        fTree.addMouseListener(fMouseListener);
     }
 
     /**
-     * Installs the given {@link SourceListControlBar} at the base of this {@code SourceList}.
+     * Installs the given {@link SourceListControlBar} at the base of this {@code SourceList}. This
+     * method can be called only once, and should generally be called during creation of the
+     * {@code SourceList}.
      *
      * @param sourceListControlBar the {@link SourceListControlBar} to add.
-     * @throws IllegalStateException if a {@code SourceListControlBar} has already been installed
-     *                               on this {@code SourceList}.
+     * @throws IllegalStateException    if a {@code SourceListControlBar} has already been installed
+     *                                  on this {@code SourceList}.
+     * @throws IllegalArgumentException if the {@code SourceListControlBar} is null.
      */
     public void installSourceListControlBar(SourceListControlBar sourceListControlBar) {
         if (fSourceListControlBar != null) {
             throw new IllegalStateException("A SourceListControlBar has already been installed on" +
                     " this SourceList.");
         }
+        if (sourceListControlBar == null) {
+            throw new IllegalArgumentException("SourceListControlBar cannot be null.");
+        }
         fSourceListControlBar = sourceListControlBar;
         fComponent.add(fSourceListControlBar.getComponent(), BorderLayout.SOUTH);
+    }
+
+    /**
+     * Sets the {@link SourceListContextMenuProvider} to use for this {@code SourceList}.
+     *
+     * @param contextMenuProvider the {@link SourceListContextMenuProvider} to use for this
+     *                            {@code SourceList}.
+     * @throws IllegalArgumentException if the {@code SourceListContextMenuProvider} is null.
+     */
+    public void setSourceListContextMenuProvider(SourceListContextMenuProvider contextMenuProvider) {
+        if (contextMenuProvider == null) {
+            throw new IllegalArgumentException("SourceListContextMenuProvider cannot be null.");
+        }
+        fContextMenuProvider = contextMenuProvider;
     }
 
     /**
@@ -256,6 +290,35 @@ public class SourceList {
         }
     }
 
+    private void doShowContextMenu(MouseEvent event) {
+        // grab the path under the given point.
+        TreePath path = fTree.getPathForLocation(event.getX(), event.getY());
+        // if there is a tree item under that point, cast it to a DefaultMutableTreeNode and grab
+        // the user object which will either be a SourceListItem or SourceListCategory.
+        Object itemOrCategory = path == null
+                ? null : ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+        // create a new popup menu for the SourceListContextMenuProvider to contribute to.
+        JPopupMenu popup = new JPopupMenu();
+
+        // if there was no item under the click, then call the generic contribution method.
+        // else if there was a SourceListItem under the click, call the corresponding contribution
+        //         method.
+        // else if there was a SourceListCategory under the click, call the corresponding contribution
+        //         method.
+        if (itemOrCategory == null) {
+            fContextMenuProvider.customizeContextMenu(popup);
+        } else if (itemOrCategory instanceof SourceListItem) {
+            fContextMenuProvider.customizeContextMenu(popup, (SourceListItem) itemOrCategory);
+        } else if (itemOrCategory instanceof SourceListCategory) {
+            fContextMenuProvider.customizeContextMenu(popup, (SourceListCategory) itemOrCategory);
+        }
+
+        // only show the context-menu if menu items have been added to it.
+        if (popup.getComponentCount() > 0) {
+            popup.show(fTree, event.getX(), event.getY());
+        }
+    }
+
     private TreeSelectionListener createTreeSelectionListener() {
         return new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent e) {
@@ -274,24 +337,33 @@ public class SourceList {
                 doRemoveCategory(category);
             }
 
-            public void itemAddedToCategory(SourceListItem item, SourceListCategory category
-            ) {
+            public void itemAddedToCategory(SourceListItem item, SourceListCategory category) {
                 doAddItemToCategory(item, category);
             }
 
-            public void itemRemovedFromCategory(SourceListItem item, SourceListCategory category
-            ) {
+            public void itemRemovedFromCategory(SourceListItem item, SourceListCategory category) {
                 doRemoveItemFromCategory(item, category);
             }
 
-            public void itemAddedToItem(SourceListItem item, SourceListItem parentItem
-            ) {
+            public void itemAddedToItem(SourceListItem item, SourceListItem parentItem) {
                 doAddItemToItem(item, parentItem);
             }
 
-            public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem
-            ) {
+            public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem) {
                 doRemoveItemFromItem(item, parentItem);
+            }
+        };
+    }
+
+    private MouseListener createMouseListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // if the click was a popup trigger (e.g. a right-click), then show the context
+                // menu.
+                if (e.isPopupTrigger()) {
+                    doShowContextMenu(e);
+                }
             }
         };
     }
@@ -331,4 +403,19 @@ public class SourceList {
         }
     }
 
+    // EmptySourceListContextMenuProvider implementation. ///////////////////////////////////////
+
+    private static class EmptySourceListContextMenuProvider implements SourceListContextMenuProvider {
+        public void customizeContextMenu(JPopupMenu popupMenu) {
+            // no implementation.
+        }
+
+        public void customizeContextMenu(JPopupMenu popupMenu, SourceListItem item) {
+            // no implementation.
+        }
+
+        public void customizeContextMenu(JPopupMenu popupMenu, SourceListCategory category) {
+            // no implementation.
+        }
+    }
 }
