@@ -297,24 +297,23 @@ public class SourceList {
         // the user object which will either be a SourceListItem or SourceListCategory.
         Object itemOrCategory = path == null
                 ? null : ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-        // create a new popup menu for the SourceListContextMenuProvider to contribute to.
-        JPopupMenu popup = new JPopupMenu();
 
         // if there was no item under the click, then call the generic contribution method.
         // else if there was a SourceListItem under the click, call the corresponding contribution
         //         method.
         // else if there was a SourceListCategory under the click, call the corresponding contribution
         //         method.
+        JPopupMenu popup = null;
         if (itemOrCategory == null) {
-            fContextMenuProvider.customizeContextMenu(popup);
+            popup = fContextMenuProvider.customizeContextMenu();
         } else if (itemOrCategory instanceof SourceListItem) {
-            fContextMenuProvider.customizeContextMenu(popup, (SourceListItem) itemOrCategory);
+            popup = fContextMenuProvider.customizeContextMenu((SourceListItem) itemOrCategory);
         } else if (itemOrCategory instanceof SourceListCategory) {
-            fContextMenuProvider.customizeContextMenu(popup, (SourceListCategory) itemOrCategory);
+            popup = fContextMenuProvider.customizeContextMenu((SourceListCategory) itemOrCategory);
         }
 
         // only show the context-menu if menu items have been added to it.
-        if (popup.getComponentCount() > 0) {
+        if (popup != null && popup.getComponentCount() > 0) {
             popup.show(fTree, event.getX(), event.getY());
         }
     }
@@ -406,16 +405,16 @@ public class SourceList {
     // EmptySourceListContextMenuProvider implementation. ///////////////////////////////////////
 
     private static class EmptySourceListContextMenuProvider implements SourceListContextMenuProvider {
-        public void customizeContextMenu(JPopupMenu popupMenu) {
-            // no implementation.
+        public JPopupMenu customizeContextMenu() {
+            return null;
         }
 
-        public void customizeContextMenu(JPopupMenu popupMenu, SourceListItem item) {
-            // no implementation.
+        public JPopupMenu customizeContextMenu(SourceListItem item) {
+            return null;
         }
 
-        public void customizeContextMenu(JPopupMenu popupMenu, SourceListCategory category) {
-            // no implementation.
+        public JPopupMenu customizeContextMenu(SourceListCategory category) {
+            return null;
         }
     }
 }
