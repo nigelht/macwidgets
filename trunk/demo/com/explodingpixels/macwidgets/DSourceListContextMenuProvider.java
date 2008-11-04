@@ -14,16 +14,22 @@ public class DSourceListContextMenuProvider {
 
         final SourceListContextMenuProvider menuProvider = new SourceListContextMenuProvider() {
 
-            public void customizeContextMenu(JPopupMenu popupMenu) {
+            public JPopupMenu customizeContextMenu() {
+                JPopupMenu popupMenu = new JPopupMenu();
                 popupMenu.add(new JMenuItem("Generic Menu for SourceList"));
+                return popupMenu;
             }
 
-            public void customizeContextMenu(JPopupMenu popupMenu, SourceListItem item) {
+            public JPopupMenu customizeContextMenu(SourceListItem item) {
+                JPopupMenu popupMenu = new JPopupMenu();
                 popupMenu.add(new JMenuItem("Menu for " + item.getText()));
+                return popupMenu;
             }
 
-            public void customizeContextMenu(JPopupMenu popupMenu, SourceListCategory category) {
+            public JPopupMenu customizeContextMenu(SourceListCategory category) {
+                JPopupMenu popupMenu = new JPopupMenu();
                 popupMenu.add(new JMenuItem("Menu for " + category.getText()));
+                return popupMenu;
             }
         };
 
