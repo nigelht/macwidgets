@@ -9,7 +9,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -78,6 +78,9 @@ public class SourceList {
 
     private SourceListContextMenuProvider fContextMenuProvider =
             new EmptySourceListContextMenuProvider();
+
+    private List<SourceListClickListener> fSourceListClickListeners =
+            new ArrayList<SourceListClickListener>();
 
     /**
      * Creates a {@code SourceList} with an empty {@link SourceListModel}.
@@ -291,12 +294,9 @@ public class SourceList {
     }
 
     private void doShowContextMenu(MouseEvent event) {
-        // grab the path under the given point.
-        TreePath path = fTree.getPathForLocation(event.getX(), event.getY());
-        // if there is a tree item under that point, cast it to a DefaultMutableTreeNode and grab
-        // the user object which will either be a SourceListItem or SourceListCategory.
-        Object itemOrCategory = path == null
-                ? null : ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+        // grab the item or category under the mouse events point if there is
+        // there is an item or category under this point.
+        Object itemOrCategory = getItemOrCategoryUnderPoint(event.getPoint());
 
         // if there was no item under the click, then call the generic contribution method.
         // else if there was a SourceListItem under the click, call the corresponding contribution
@@ -316,6 +316,33 @@ public class SourceList {
         if (popup != null && popup.getComponentCount() > 0) {
             popup.show(fTree, event.getX(), event.getY());
         }
+    }
+
+    private void doSourceListClicked(MouseEvent event) {
+        // grab the item or category under the mouse events point if there is
+        // there is an item or category under this point.
+        Object itemOrCategory = getItemOrCategoryUnderPoint(event.getPoint());
+
+        SourceListClickListener.Button button =
+                SourceListClickListener.Button.getButton(event.getButton());
+        int clickCount = event.getClickCount();
+
+        if (itemOrCategory == null) {
+            // do nothing.
+        } else if (itemOrCategory instanceof SourceListItem) {
+            fireSourceListItemClicked((SourceListItem) itemOrCategory, button, clickCount);
+        } else if (itemOrCategory instanceof SourceListCategory) {
+            fireSourceListCategoryClicked((SourceListCategory) itemOrCategory, button, clickCount);
+        }
+    }
+
+    private Object getItemOrCategoryUnderPoint(Point point) {
+        // grab the path under the given point.
+        TreePath path = fTree.getPathForLocation(point.x, point.y);
+        // if there is a tree item under that point, cast it to a DefaultMutableTreeNode and grab
+        // the user object which will either be a SourceListItem or SourceListCategory.
+        return path == null
+                ? null : ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
     }
 
     private TreeSelectionListener createTreeSelectionListener() {
@@ -364,10 +391,51 @@ public class SourceList {
                     doShowContextMenu(e);
                 }
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                doSourceListClicked(e);
+            }
         };
     }
 
-    // SourceListSelectionListener support. ///////////////////////////////////////////////////////
+    // SourceListClickListener support. ///////////////////////////////////////    
+
+    private void fireSourceListItemClicked(
+            SourceListItem item, SourceListClickListener.Button button,
+            int clickCount) {
+        for (SourceListClickListener listener : fSourceListClickListeners) {
+            listener.sourceListItemClicked(item, button, clickCount);
+        }
+    }
+
+    private void fireSourceListCategoryClicked(
+            SourceListCategory category, SourceListClickListener.Button button,
+            int clickCount) {
+        for (SourceListClickListener listener : fSourceListClickListeners) {
+            listener.sourceListCategoryClicked(category, button, clickCount);
+        }
+    }
+
+    /**
+     * Adds the {@link SourceListClickListener} to the list of listeners.
+     *
+     * @param listener the {@code SourceListClickListener} to add.
+     */
+    public void addSourceListClickListener(SourceListClickListener listener) {
+        fSourceListClickListeners.add(listener);
+    }
+
+    /**
+     * Removes the {@link SourceListClickListener} to the list of listeners.
+     *
+     * @param listener the {@code SourceListClickListener} to remove.
+     */
+    public void removeSourceListClickListener(SourceListClickListener listener) {
+        fSourceListClickListeners.remove(listener);
+    }
+
+    // SourceListSelectionListener support. ///////////////////////////////////
 
     private void fireSourceListItemSelected(SourceListItem item) {
         for (SourceListSelectionListener listener : fSourceListSelectionListeners) {
@@ -376,7 +444,7 @@ public class SourceList {
     }
 
     /**
-     * Adds a {@link SourceListSelectionListener} to the list of listeners.
+     * Adds the {@link SourceListSelectionListener} to the list of listeners.
      *
      * @param listener the {@code SourceListSelectionListener} to add.
      */
