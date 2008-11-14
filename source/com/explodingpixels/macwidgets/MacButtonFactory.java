@@ -7,16 +7,14 @@ import com.explodingpixels.swingx.EPButton;
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
+/**
+ * A factory for creating Mac-style buttons.
+ */
 public class MacButtonFactory {
 
     // Unified toolbar button methods. ////////////////////////////////////////////////////////////
@@ -53,7 +51,31 @@ public class MacButtonFactory {
                     PRESSED_AND_SELECTED_GRADIENT_PAINTER,
                     PRESSED_AND_SELECTED_GRADIENT_PAINTER);
 
-    public static JComponent createGradientButton(Icon icon, ActionListener actionListener) {
+    /**
+     * Returns a {@link Painter} that paints a gradient matching Apple's
+     * depiction of a "Gradient style" button, depicted
+     * <a href="http://developer.apple.com/technotes/tn2007/tn2196.html#BUTTONS">here</a>.
+     *
+     * @return a {@code Painter} that paints an Apple style gradient-button
+     *         background.
+     */
+    public static Painter<Component> getGradientButtonPainter() {
+        return GRADIENT_BUTTON_IMAGE_PAINTER;
+    }
+
+    /**
+     * Creates an Apple style gradient button using the given {@link Icon}. The
+     * given {@link ActionListener} will be notified when the button's action
+     * fires.
+     *
+     * @param icon the {@code Icon} to use in the button.
+     * @param actionListener the {@code ActionListener} to notify when the
+     *        created button is pressed.
+     * @return a gradient-style button.
+     */
+    public static JComponent createGradientButton(
+            Icon icon, ActionListener actionListener) {
+
         EPButton button = new EPButton(icon);
         button.addActionListener(actionListener);
 
@@ -64,6 +86,17 @@ public class MacButtonFactory {
         return button;
     }
 
+    /**
+     * Creates an Apple style gradient pop-down button using the given
+     * {@link Icon}. The given {@link PopupMenuCustomizer} will be notified
+     * just prior to the pop-down menu being shown, and can thus add appropriate
+     * menu items.
+     *
+     * @param icon the {@code Icon} to use in the button.
+     * @param popupMenuCustomizer the {@code PopupMenuCustomizer} to be notified
+     *        just prior to the popup menu being shown.
+     * @return a gradient-style pop-down menu.
+     */
     public static PopdownButton createGradientPopdownButton(
             Icon icon, PopupMenuCustomizer popupMenuCustomizer) {
 
