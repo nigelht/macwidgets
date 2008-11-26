@@ -9,7 +9,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -305,11 +306,11 @@ public class SourceList {
         //         method.
         JPopupMenu popup = null;
         if (itemOrCategory == null) {
-            popup = fContextMenuProvider.customizeContextMenu();
+            popup = fContextMenuProvider.createContextMenu();
         } else if (itemOrCategory instanceof SourceListItem) {
-            popup = fContextMenuProvider.customizeContextMenu((SourceListItem) itemOrCategory);
+            popup = fContextMenuProvider.createContextMenu((SourceListItem) itemOrCategory);
         } else if (itemOrCategory instanceof SourceListCategory) {
-            popup = fContextMenuProvider.customizeContextMenu((SourceListCategory) itemOrCategory);
+            popup = fContextMenuProvider.createContextMenu((SourceListCategory) itemOrCategory);
         }
 
         // only show the context-menu if menu items have been added to it.
@@ -473,15 +474,15 @@ public class SourceList {
     // EmptySourceListContextMenuProvider implementation. ///////////////////////////////////////
 
     private static class EmptySourceListContextMenuProvider implements SourceListContextMenuProvider {
-        public JPopupMenu customizeContextMenu() {
+        public JPopupMenu createContextMenu() {
             return null;
         }
 
-        public JPopupMenu customizeContextMenu(SourceListItem item) {
+        public JPopupMenu createContextMenu(SourceListItem item) {
             return null;
         }
 
-        public JPopupMenu customizeContextMenu(SourceListCategory category) {
+        public JPopupMenu createContextMenu(SourceListCategory category) {
             return null;
         }
     }

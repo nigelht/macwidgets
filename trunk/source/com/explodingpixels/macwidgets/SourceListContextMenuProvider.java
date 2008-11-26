@@ -45,7 +45,7 @@ public interface SourceListContextMenuProvider {
      * @return the context menu for the associated {@code SourceList}. Can be null or have no menu
      *         items to indicate no menu should be shown.
      */
-    JPopupMenu customizeContextMenu();
+    JPopupMenu createContextMenu();
 
     /**
      * Called when the user requests that a context-menu be shown on a {@link SourceListItem}.
@@ -56,7 +56,7 @@ public interface SourceListContextMenuProvider {
      * @return the context menu for the associated {@code SourceListItem}. Can be null or have no
      *         menu items to indicate no menu should be shown.
      */
-    JPopupMenu customizeContextMenu(SourceListItem item);
+    JPopupMenu createContextMenu(SourceListItem item);
 
     /**
      * Called when the user requests that a context-menu be shown on a {@link SourceListCategory}.
@@ -67,6 +67,6 @@ public interface SourceListContextMenuProvider {
      * @return the context menu for the associated {@code SourceListCategory}.  Can be null or have
      *         no menu items to indicate no menu should be shown.
      */
-    JPopupMenu customizeContextMenu(SourceListCategory category);
+    JPopupMenu createContextMenu(SourceListCategory category);
 
 }
