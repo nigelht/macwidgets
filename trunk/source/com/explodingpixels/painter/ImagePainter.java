@@ -11,8 +11,11 @@ public class ImagePainter implements Painter<Component> {
 
     private final Image fImage;
 
-    public ImagePainter(URL url) {
+    public ImagePainter(Image image) {
+        fImage = image;
+    }
 
+    public ImagePainter(URL url) {
         try {
             fImage = ImageIO.read(url);
         } catch (IOException e) {
@@ -23,5 +26,9 @@ public class ImagePainter implements Painter<Component> {
 
     public void paint(Graphics2D graphics, Component objectToPaint, int width, int height) {
         graphics.drawImage(fImage, 0, 0, width, height, null);
+    }
+
+    public Image getImage() {
+        return fImage;
     }
 }
