@@ -200,6 +200,15 @@ public class SourceList {
         fTree.setFocusable(focusable);
     }
 
+    /**
+     * Installs iApp style scroll bars on this {@code SourceList}.
+     *
+     * @see IAppWidgetFactory#makeIAppScrollPane
+     */
+    public void useIAppStyleScrollBars() {
+        IAppWidgetFactory.makeIAppScrollPane(fScrollPane);
+    }
+
     private static DefaultMutableTreeNode getNodeForObject(DefaultMutableTreeNode parentNode,
                                                            Object userObject) {
         if (parentNode.getUserObject().equals(userObject)) {
