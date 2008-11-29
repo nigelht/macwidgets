@@ -1,4 +1,18 @@
 #labels Featured
+===iApp Scroll Bars ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/IAppWidgetFactory.html Javadoc])===
+iApp style scroll bars can be seen in various Apple applications, most notably [www.apple.com/itunes iTunes].
+[http://exploding-pixels.com/google_code/graphics/iAppScrollBars.png]
+
+*Using iApp scroll bars with a JScrollPane*
+{{{
+JScrollPane scrollPane = new JScrollPane(someComponent);
+IAppWidgetFactory.makeIAppScrollPane(scrollPane);
+}}}
+*Using iApp scroll bars with a SourceList*
+{{{
+sourceList.useIAppStyleScrollBars();
+}}}
+
 ===Heads Up Display (HUD) ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/HudWindow.html Javadoc])===
 HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_6.html#//apple_ref/doc/uid/20000961-SW24 here] in the Apple Human Interface Guidelines) provide a way to unobtrusively display transient information.
 
