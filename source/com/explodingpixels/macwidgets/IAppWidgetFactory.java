@@ -11,6 +11,9 @@ import javax.swing.*;
 import javax.swing.plaf.ScrollBarUI;
 import java.awt.*;
 
+/**
+ * A factory for iApp style widgets.
+ */
 public class IAppWidgetFactory {
 
     private static JComponent SCROLL_PANE_CORNER =
@@ -22,7 +25,7 @@ public class IAppWidgetFactory {
     }
 
     /**
-     * Creates an iApp style {@link JScrollPane}, with vertical and horizontal scrollbars showing as
+     * Creates an iApp style {@link JScrollPane}, with vertical and horizontal scrollbars shown as
      * needed. The scroll pane looks like this when both scroll bars are showing:
      * <br>
      * <img src="../../../../graphics/iAppScrollbars.png">
