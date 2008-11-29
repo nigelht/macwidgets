@@ -1,6 +1,7 @@
 #labels Featured
 ===iApp Scroll Bars ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/IAppWidgetFactory.html Javadoc])===
 iApp style scroll bars can be seen in various Apple applications, most notably [http://www.apple.com/itunes iTunes].
+
 [http://exploding-pixels.com/google_code/graphics/iAppScrollBars.png]
 
 *Using iApp scroll bars with a JScrollPane*
