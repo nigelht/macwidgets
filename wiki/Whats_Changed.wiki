@@ -1,13 +1,13 @@
 #labels Featured
 ==version 0.9.3==
-# iApp style scroll bars
-# ImageButton added which allows for buttons with non-rectangular hot-spots to be created from images
-# SourceList selected item not repainting properly on focus change fixed
-# SourceList doesn't automatically expand root node if items are added to the model after it has been made visible
-# SourceListContextMenuProvider introduced which allows developers to easily add custom context menus
-# SourceListClickListener introduced which allows developers to listen for multiple clicks on a SourceList item
-# SourceList was ignoring the requested insertion index into the SourceList after the SourceListModel had been installed
-# Removed setVisible(true) call from HUDWindow constructor
+ # iApp style scroll bars
+ # ImageButton added which allows for buttons with non-rectangular hot-spots to be created from images
+ # SourceList selected item not repainting properly on focus change fixed
+ # SourceList doesn't automatically expand root node if items are added to the model after it has been made visible
+ # SourceListContextMenuProvider introduced which allows developers to easily add custom context menus
+ # SourceListClickListener introduced which allows developers to listen for multiple clicks on a SourceList item
+ # SourceList was ignoring the requested insertion index into the SourceList after the SourceListModel had been installed
+ # Removed setVisible(true) call from HUDWindow constructor
 ==version 0.9.2==
  # Heads Up Display (HUD)
  # Works with JGoodies Forms 1.2.1
