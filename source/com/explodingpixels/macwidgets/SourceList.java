@@ -55,8 +55,7 @@ public class SourceList {
 
     private final SourceListModel fModel;
 
-    private final SourceListModelListener fModelListener =
-            createSourceListModelListener();
+    private final SourceListModelListener fModelListener = createSourceListModelListener();
 
     private final List<SourceListSelectionListener> fSourceListSelectionListeners =
             new ArrayList<SourceListSelectionListener>();
@@ -106,8 +105,8 @@ public class SourceList {
         initUi();
 
         // add each category and its sub-items to backing JTree.
-        for (SourceListCategory group : model.getCategories()) {
-            doAddCategory(group);
+        for (int i = 0; i < model.getCategories().size(); i++) {
+            doAddCategory(model.getCategories().get(i), i);
         }
     }
 
@@ -241,11 +240,12 @@ public class SourceList {
         return fModel;
     }
 
-    private void doAddCategory(SourceListCategory category) {
+    private void doAddCategory(SourceListCategory category, int index) {
         DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(category);
-        fTreeModel.insertNodeInto(categoryNode, fRoot, fRoot.getChildCount());
-        for (SourceListItem item : category.getItems()) {
-            doAddItemToCategory(item, category);
+        fTreeModel.insertNodeInto(categoryNode, fRoot, index);
+        // add each of the categories child items to the tree.
+        for (int i = 0; i < category.getItems().size(); i++) {
+            doAddItemToCategory(category.getItems().get(i), category, i);
         }
 
         TreeUtils.expandPathOnEdt(fTree, new TreePath(categoryNode.getPath()));
@@ -257,10 +257,10 @@ public class SourceList {
         fTreeModel.removeNodeFromParent(categoryNode);
     }
 
-    private void doAddItemToCategory(SourceListItem itemToAdd, SourceListCategory category) {
+    private void doAddItemToCategory(SourceListItem itemToAdd, SourceListCategory category, int index) {
         DefaultMutableTreeNode categoryNode = getNodeForObject(fRoot, category);
         checkNodeNotNull(categoryNode);
-        doAddItemToNode(itemToAdd, categoryNode);
+        doAddItemToNode(itemToAdd, categoryNode, index);
     }
 
     private void doRemoveItemFromCategory(SourceListItem itemToRemove, SourceListCategory category) {
@@ -271,10 +271,10 @@ public class SourceList {
         fTreeModel.removeNodeFromParent(itemNode);
     }
 
-    private void doAddItemToItem(SourceListItem itemToAdd, SourceListItem parentItem) {
+    private void doAddItemToItem(SourceListItem itemToAdd, SourceListItem parentItem, int index) {
         DefaultMutableTreeNode parentItemNode = getNodeForObject(fRoot, parentItem);
         checkNodeNotNull(parentItemNode);
-        doAddItemToNode(itemToAdd, parentItemNode);
+        doAddItemToNode(itemToAdd, parentItemNode, index);
     }
 
     private void doRemoveItemFromItem(SourceListItem itemToRemove, SourceListItem parentItem) {
@@ -285,12 +285,12 @@ public class SourceList {
         fTreeModel.removeNodeFromParent(itemNode);
     }
 
-    private void doAddItemToNode(SourceListItem itemToAdd, DefaultMutableTreeNode parentNode) {
+    private void doAddItemToNode(SourceListItem itemToAdd, DefaultMutableTreeNode parentNode, int index) {
         DefaultMutableTreeNode itemNode = new DefaultMutableTreeNode(itemToAdd);
-        fTreeModel.insertNodeInto(itemNode, parentNode, parentNode.getChildCount());
-
-        for (SourceListItem childItem : itemToAdd.getChildItems()) {
-            doAddItemToItem(childItem, itemToAdd);
+        fTreeModel.insertNodeInto(itemNode, parentNode, index);
+        // add each of the newly added item's children nodes.
+        for (int i = 0; i < itemToAdd.getChildItems().size(); i++) {
+            doAddItemToItem(itemToAdd.getChildItems().get(i), itemToAdd, i);
         }
     }
 
@@ -356,24 +356,24 @@ public class SourceList {
 
     private SourceListModelListener createSourceListModelListener() {
         return new SourceListModelListener() {
-            public void categoryAdded(SourceListCategory category) {
-                doAddCategory(category);
+            public void categoryAdded(SourceListCategory category, int index) {
+                doAddCategory(category, index);
             }
 
             public void categoryRemoved(SourceListCategory category) {
                 doRemoveCategory(category);
             }
 
-            public void itemAddedToCategory(SourceListItem item, SourceListCategory category) {
-                doAddItemToCategory(item, category);
+            public void itemAddedToCategory(SourceListItem item, SourceListCategory category, int index) {
+                doAddItemToCategory(item, category, index);
             }
 
             public void itemRemovedFromCategory(SourceListItem item, SourceListCategory category) {
                 doRemoveItemFromCategory(item, category);
             }
 
-            public void itemAddedToItem(SourceListItem item, SourceListItem parentItem) {
-                doAddItemToItem(item, parentItem);
+            public void itemAddedToItem(SourceListItem item, SourceListItem parentItem, int index) {
+                doAddItemToItem(item, parentItem, index);
             }
 
             public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem) {

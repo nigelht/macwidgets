@@ -1,9 +1,5 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.SourceListModelListener;
-import com.explodingpixels.macwidgets.SourceListCategory;
-import com.explodingpixels.macwidgets.SourceListItem;
-
 public class TrackingSourceListModelListener implements SourceListModelListener {
 
     private boolean fWasCategoryAddedCalled;
@@ -18,7 +14,7 @@ public class TrackingSourceListModelListener implements SourceListModelListener 
     private SourceListItem fItemAddedOrRemoved;
     private SourceListItem fItemAddedToOrRemovedFrom;
 
-    public void categoryAdded(SourceListCategory category) {
+    public void categoryAdded(SourceListCategory category, int index) {
         fWasCategoryAddedCalled = true;
         fCategoryAddedOrRemoved = category;
     }
@@ -28,7 +24,7 @@ public class TrackingSourceListModelListener implements SourceListModelListener 
         fCategoryAddedOrRemoved = category;
     }
 
-    public void itemAddedToCategory(SourceListItem item, SourceListCategory category) {
+    public void itemAddedToCategory(SourceListItem item, SourceListCategory category, int index) {
         fWasItemAddedToCategoryCalled = true;
         fItemAddedOrRemoved = item;
         fCategoryAddedToOrRemovedFrom = category;
@@ -40,7 +36,7 @@ public class TrackingSourceListModelListener implements SourceListModelListener 
         fCategoryAddedToOrRemovedFrom = category;
     }
 
-    public void itemAddedToItem(SourceListItem item, SourceListItem parentItem) {
+    public void itemAddedToItem(SourceListItem item, SourceListItem parentItem, int index) {
         fWasItemAddedToItemCalled = true;
         fItemAddedOrRemoved = item;
         fItemAddedToOrRemovedFrom = parentItem;
