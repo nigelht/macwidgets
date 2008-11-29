@@ -31,20 +31,19 @@ public final class SourceListModel {
      * @param category the {@link SourceListCategory} to add.
      */
     public void addCategory(SourceListCategory category) {
-        fCategories.add(category);
-        fireCategoryAdded(category);
+        addCategory(category, fCategories.size());
     }
 
     /**
      * Adds the given category to the model at the given index and fires an event such that
      * {@link SourceListModelListener}s will be notified.
      *
+     * @param category the {@link com.explodingpixels.macwidgets.SourceListCategory} to add.
      * @param index    the index to add the category at.
-     * @param category the {@link SourceListCategory} to add.
      */
-    public void addCategory(int index, SourceListCategory category) {
+    public void addCategory(SourceListCategory category, int index) {
         fCategories.add(index, category);
-        fireCategoryAdded(category);
+        fireCategoryAdded(category, index);
     }
 
     /**
@@ -102,7 +101,7 @@ public final class SourceListModel {
     public void addItemToCategory(SourceListItem item, SourceListCategory category, int index) {
         checkCategoryIsInModel(category);
         category.addItem(index, item);
-        fireItemAddedToCategory(item, category);
+        fireItemAddedToCategory(item, category, index);
     }
 
     /**
@@ -127,7 +126,7 @@ public final class SourceListModel {
     public void addItemToItem(SourceListItem childItem, SourceListItem parentItem, int index) {
         checkItemIsInModel(parentItem);
         parentItem.addItem(index, childItem);
-        fireItemAddedToItem(childItem, parentItem);
+        fireItemAddedToItem(childItem, parentItem, index);
     }
 
     /**
@@ -147,11 +146,11 @@ public final class SourceListModel {
     /**
      * Removes the item at the given index from the given category.
      *
-     * @param index    the index of the item to remove.
      * @param category the category from which to remove the item.
+     * @param index    the index of the item to remove.
      * @throws IllegalStateException if the given category is not in the model.
      */
-    public void removeItemFromCategoryAtIndex(int index, SourceListCategory category) {
+    public void removeItemFromCategoryAtIndex(SourceListCategory category, int index) {
         removeItemFromCategory(category.getItem(index), category);
     }
 
@@ -172,11 +171,11 @@ public final class SourceListModel {
     /**
      * Removes the given child item at from the given parent item.
      *
-     * @param index      the index of the item to remove.
      * @param parentItem the item from which to remove the given child item.
+     * @param index      the index of the item to remove.
      * @throws IllegalStateException if the given child or parent item is not in the model.
      */
-    public void removeItemFromItem(int index, SourceListItem parentItem) {
+    public void removeItemFromItem(SourceListItem parentItem, int index) {
         checkItemIsInModel(parentItem);
         SourceListItem itemRemoved = parentItem.removeItem(index);
         fireItemRemovedFromItem(itemRemoved, parentItem);
@@ -211,9 +210,9 @@ public final class SourceListModel {
 
     // SourceListModelListener support. ///////////////////////////////////////////////////////////
 
-    private void fireCategoryAdded(SourceListCategory category) {
+    private void fireCategoryAdded(SourceListCategory category, int index) {
         for (SourceListModelListener listener : fListeners) {
-            listener.categoryAdded(category);
+            listener.categoryAdded(category, index);
         }
     }
 
@@ -223,10 +222,9 @@ public final class SourceListModel {
         }
     }
 
-    private void fireItemAddedToCategory(SourceListItem item,
-                                         SourceListCategory category) {
+    private void fireItemAddedToCategory(SourceListItem item, SourceListCategory category, int index) {
         for (SourceListModelListener listener : fListeners) {
-            listener.itemAddedToCategory(item, category);
+            listener.itemAddedToCategory(item, category, index);
         }
     }
 
@@ -237,10 +235,9 @@ public final class SourceListModel {
         }
     }
 
-    private void fireItemAddedToItem(SourceListItem childItem,
-                                     SourceListItem parentItem) {
+    private void fireItemAddedToItem(SourceListItem childItem, SourceListItem parentItem, int index) {
         for (SourceListModelListener listener : fListeners) {
-            listener.itemAddedToItem(childItem, parentItem);
+            listener.itemAddedToItem(childItem, parentItem, index);
         }
     }
 

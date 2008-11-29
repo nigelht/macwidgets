@@ -21,12 +21,12 @@ public class DSourceList {
 
         Icon blueGlobeIcon =
                 new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSDotMac").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-        Icon greyGlobeIcon =
+        final Icon greyGlobeIcon =
                 new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSNetwork").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
         SourceListCategory categoryOne = new SourceListCategory("Category 1");
         SourceListCategory categoryTwo = new SourceListCategory("Category 2");
-        SourceListCategory categoryThree = new SourceListCategory("Category 3");
+        final SourceListCategory categoryThree = new SourceListCategory("Category 3");
 
         SourceListItem itemA = new SourceListItem("SourceListItem A", blueGlobeIcon);
         final SourceListItem itemB = new SourceListItem("SourceListItem B", greyGlobeIcon);
@@ -54,9 +54,7 @@ public class DSourceList {
 
         model.addCategory(categoryTwo);
         model.addItemToCategory(itemC, categoryTwo);
-//        model.addItemToCategory(itemD, categoryTwo);
         model.addItemToItem(itemD, itemC);
-//        model.addItemToCategory(itemE, categoryTwo);
         model.addItemToItem(itemE, itemD);
 
         model.addCategory(categoryThree);
@@ -65,7 +63,7 @@ public class DSourceList {
         model.addItemToCategory(itemI, categoryThree);
         model.addItemToCategory(itemJ, categoryThree);
         model.addItemToCategory(itemK, categoryThree);
-        model.addItemToCategory(itemL, categoryThree);
+        model.addItemToCategory(itemL, categoryThree, 0);
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -125,7 +123,8 @@ public class DSourceList {
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setVisible(true);
 
-
+                SourceListItem itemM = new SourceListItem("SourceListItem M", greyGlobeIcon);
+                model.addItemToCategory(itemM, categoryThree, 0);
             }
         });
     }
