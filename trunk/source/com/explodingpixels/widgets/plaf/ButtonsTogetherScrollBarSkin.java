@@ -3,13 +3,8 @@ package com.explodingpixels.widgets.plaf;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.swingx.EPPanel;
 
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseListener;
 
 /**
@@ -118,7 +113,6 @@ public class ButtonsTogetherScrollBarSkin implements ScrollBarSkin {
 
         Rectangle r = scrollBar.getBounds();
         fTrack.setBounds(0, 0, r.width, r.height);
-//        System.out.println("x,y,width,height " + r.x + ", " + r.y + ", " + r.width + ", " + r.height);
     }
 
     public void fullLayout(JScrollBar scrollBar, ScrollBarOrientation orientation) {
