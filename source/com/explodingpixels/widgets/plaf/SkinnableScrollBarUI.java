@@ -2,10 +2,7 @@ package com.explodingpixels.widgets.plaf;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BoundedRangeModel;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -212,7 +209,7 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
     private static boolean isAllContentVisible(JScrollBar scrollBar) {
         float extent = scrollBar.getVisibleAmount();
         float range = scrollBar.getMaximum() - scrollBar.getMinimum();
-        return extent / range == 1.0;
+        return extent == 0.0 || extent / range == 1.0;
     }
 
     // SkinnablePropertyChangeHandler implementation. /////////////////////////////////////////////
