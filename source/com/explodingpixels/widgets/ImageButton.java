@@ -1,13 +1,8 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -59,8 +54,8 @@ public class ImageButton extends JButton {
         // remove the margins from this button, request that the content area not be filled, and
         // indicate that the border not be painted.
         setMargin(new Insets(0, 0, 0, 0));
+        setBorder(BorderFactory.createEmptyBorder());
         setContentAreaFilled(false);
-        setBorderPainted(false);
 
         // create the mask from the supplied icon.
         fMask = createMask(mask);
