@@ -72,11 +72,11 @@ public class IAppWidgetFactory {
     // ScrollBarUI creation methods ///////////////////////////////////////////////////////////////
 
     private static void installButtonsTogetherUIDelegates(JScrollPane scrollPane) {
-        scrollPane.getVerticalScrollBar().setUI(createVerticalScrollBarTogetherUI());
-        scrollPane.getHorizontalScrollBar().setUI(createHorizontalScrollBarTogetherUI());
+        scrollPane.getVerticalScrollBar().setUI(createVerticalScrollBarButtonsTogetherUI());
+        scrollPane.getHorizontalScrollBar().setUI(createHorizontalScrollBarButtonsTogetherUI());
     }
 
-    private static ScrollBarUI createVerticalScrollBarTogetherUI() {
+    public static ScrollBarUI createVerticalScrollBarButtonsTogetherUI() {
         JComponent topCap = new ImageBasedJComponent(IAppScrollBarArtworkUtils.getScrollBarTopCap().getImage());
 
         Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getVerticalScrollBarMinimumSize();
@@ -95,7 +95,7 @@ public class IAppWidgetFactory {
         return SkinnableScrollBarUI.createVerticalScrollBarUI(skin);
     }
 
-    private static ScrollBarUI createHorizontalScrollBarTogetherUI() {
+    public static ScrollBarUI createHorizontalScrollBarButtonsTogetherUI() {
         JComponent topCap = new ImageBasedJComponent(IAppScrollBarArtworkUtils.getScrollBarLeftCap().getImage());
 
         Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getHorizontalScrollBarMinimumSize();
