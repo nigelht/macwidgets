@@ -6,6 +6,8 @@ import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.GradientPainter;
 import com.explodingpixels.painter.Painter;
+import com.explodingpixels.util.PlatformUtils;
+import com.explodingpixels.widgets.WindowUtils;
 import com.jgoodies.forms.factories.Borders;
 
 import javax.swing.*;
@@ -13,9 +15,7 @@ import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.table.TableModel;
 import javax.swing.tree.TreeModel;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 
 /**
  * A factory for creating various types of Mac style widgets. See each method's javadoc for detailed
@@ -59,6 +59,9 @@ public class MacWidgetFactory {
      */
     public static TriAreaComponent createUnifiedToolBar() {
         final TriAreaComponent unifiedToolBar = new TriAreaComponent(10);
+        // TODO remove below call when Apple fixes bug in Java that doesn't correctly paint the
+        // TODO textured window.
+        fixUnifiedToolBarOnMacIfNeccessary(unifiedToolBar);
         unifiedToolBar.getComponent().setBorder(Borders.createEmptyBorder("3dlu, 4dlu, 3dlu, 4dlu"));
         installUnifiedToolBarBorder(unifiedToolBar.getComponent());
         return unifiedToolBar;
@@ -147,10 +150,6 @@ public class MacWidgetFactory {
         return label;
     }
 
-    /**
-     * @param text
-     * @return
-     */
     public static JLabel createEmphasizedLabel(String text) {
         return makeEmphasizedLabel(new JLabel(text));
     }
@@ -208,6 +207,40 @@ public class MacWidgetFactory {
 
         component.setBorder(BorderFactory.createCompoundBorder(
                 border, component.getBorder()));
+    }
+
+    // Custom painter to work around textured window painting on Java for Mac OS X - 1.5.0_16 /////
+
+    private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
+        // only install the custom painter if on Mac running Java 1.5.0_16 (the version of Java
+        // with the bug).
+        if (PlatformUtils.isMacJavaUpdate2()) {
+            unifiedToolBar.setBackgroundPainter(createTexturedWindowWorkaroundPainter());
+            unifiedToolBar.getComponent().setOpaque(true);
+        }
+    }
+
+    public static Painter<Component> createTexturedWindowWorkaroundPainter() {
+        return new Painter<Component>() {
+
+            private Color ACTIVE_TOP_GRADIENT_COLOR = new Color(0xbcbcbc);
+            private Color ACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0x9a9a9a);
+            private Color INACTIVE_TOP_GRADIENT_COLOR = new Color(0xe4e4e4);
+            private Color INACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0xd1d1d1);
+
+            public void paint(Graphics2D graphics2D, Component component, int width, int height) {
+                boolean containedInActiveWindow = WindowUtils.isParentWindowFocused(component);
+
+                Color topColor = containedInActiveWindow
+                        ? ACTIVE_TOP_GRADIENT_COLOR : INACTIVE_TOP_GRADIENT_COLOR;
+                Color bottomColor = containedInActiveWindow
+                        ? ACTIVE_BOTTOM_GRADIENT_COLOR : INACTIVE_BOTTOM_GRADIENT_COLOR;
+
+                GradientPaint paint = new GradientPaint(0, 1, topColor, 0, height, bottomColor);
+                graphics2D.setPaint(paint);
+                graphics2D.fillRect(0, 0, width, height);
+            }
+        };
     }
 
 }
