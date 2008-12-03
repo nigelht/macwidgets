@@ -4,10 +4,8 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Creates a group of components and provides a label underneath those components. The added
@@ -60,6 +58,7 @@ public class LabeledComponentGroup {
         builder.add(createLabel(labelString), cc.xy(1, 2, "center, top"));
 
         fComponent = builder.getPanel();
+        fComponent.setOpaque(false);
     }
 
     public JComponent getComponent() {
