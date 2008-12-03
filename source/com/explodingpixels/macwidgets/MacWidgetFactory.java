@@ -214,9 +214,8 @@ public class MacWidgetFactory {
     private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
         // only install the custom painter if on Mac running Java 1.5.0_16 (the version of Java
         // with the bug).
-        if (PlatformUtils.isMacJavaUpdate2()) {
+        if (PlatformUtils.isJava6OnMac()) {
             unifiedToolBar.setBackgroundPainter(createTexturedWindowWorkaroundPainter());
-            unifiedToolBar.getComponent().setOpaque(true);
         }
     }
 
