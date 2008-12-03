@@ -2,10 +2,8 @@ package com.explodingpixels.swingx;
 
 import com.explodingpixels.painter.Painter;
 
-import javax.swing.JPanel;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 
 public class EPPanel extends JPanel {
 
@@ -32,6 +30,7 @@ public class EPPanel extends JPanel {
             graphics2D.dispose();
         }
 
+        // TODO see if we can get rid of this call to super.paintComponent.
         super.paintComponent(g);
     }
 
