@@ -2,10 +2,7 @@ package com.explodingpixels.macwidgets.plaf;
 
 import com.explodingpixels.macwidgets.MacColorUtils;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.*;
@@ -27,6 +24,7 @@ public class UnifiedToolbarButtonUI extends BasicButtonUI {
         b.setVerticalTextPosition(AbstractButton.BOTTOM);
         b.setIconTextGap(0);
         b.setMargin(new Insets(0, 0, 0, 0));
+        b.setOpaque(false);
         // TODO make the font derivation more robust.
         b.setFont(UIManager.getFont("Button.font").deriveFont(11.0f));
     }
