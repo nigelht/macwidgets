@@ -9,8 +9,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -393,15 +392,25 @@ public class SourceList {
 
     private MouseListener createMouseListener() {
         return new MouseAdapter() {
+            // TODO there is an interesting point of contention here: should
+            // TODO the context menu always be shown as if it were on a Mac (on
+            // TODO mouse press) or based on the platform on which it is running.
+            // TODO always doing the same thing would actually be harder,
+            // TODO because we wouldn't be able to rely on the isPopupTrigger
+            // TODO method and there is no way to determine when the 
+            // TODO popup-menu-trigger button is.
             @Override
             public void mousePressed(MouseEvent e) {
-                // if the click was a popup trigger (e.g. a right-click), then show the context
-                // menu.
                 if (e.isPopupTrigger()) {
                     doShowContextMenu(e);
                 }
             }
-
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    doShowContextMenu(e);
+                }
+            }
             @Override
             public void mouseClicked(MouseEvent e) {
                 doSourceListClicked(e);
