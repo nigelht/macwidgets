@@ -30,7 +30,6 @@ public class PlatformUtils {
      * @return true if this JVM is running Java 6 on a Mac.
      */
     public static boolean isJava6OnMac() {
-        System.out.println(getJavaVersion());
         return isMac() && getJavaVersion().startsWith("1.6");
     }
 
