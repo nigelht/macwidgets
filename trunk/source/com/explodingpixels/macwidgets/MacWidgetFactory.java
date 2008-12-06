@@ -212,9 +212,9 @@ public class MacWidgetFactory {
     // Custom painter to work around textured window painting on Java for Mac OS X - 1.5.0_16 /////
 
     private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
-        // only install the custom painter if on Mac running Java 1.5.0_16 (the version of Java
-        // with the bug).
-        if (PlatformUtils.isJava6OnMac()) {
+        // install the custom painter if on non-Mac platforms or on a Mac running Java 1.5.0_16
+        // (the version of Java with the textured window bug).
+        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac()) {
             unifiedToolBar.setBackgroundPainter(createTexturedWindowWorkaroundPainter());
         }
     }
