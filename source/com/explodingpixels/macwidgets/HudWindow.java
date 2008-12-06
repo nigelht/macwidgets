@@ -77,7 +77,9 @@ public class HudWindow {
         // set the backing frame's content pane.
         fFrame.setContentPane(fHudPanel);
         // set the HUD panel's content pane to a blank JPanel by default.
-        setContentPane(new JPanel());
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        setContentPane(panel);
 
         // listen to the frame's title property so that we can update the label rendering the title.
         fFrame.addPropertyChangeListener("title", createTitlePropertyChangeListener());
@@ -271,6 +273,7 @@ public class HudWindow {
 
         private HudPanel() {
             setLayout(new BorderLayout());
+            setOpaque(false);
         }
 
         @Override
