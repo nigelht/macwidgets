@@ -6,6 +6,7 @@ import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.IconProvider;
 import com.explodingpixels.widgets.TextProvider;
 import com.explodingpixels.widgets.TreeUtils;
+import com.explodingpixels.widgets.WindowUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -17,6 +18,8 @@ import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * <p>
@@ -110,6 +113,15 @@ public class SourceListTreeUI extends BasicTreeUI {
         // install a custom TreeModelListener to handle root node expansion.
         tree.getModel().addTreeModelListener(new CustomTreeModelListener());
 
+    }
+
+    @Override
+    protected void installListeners() {
+        super.installListeners();
+        // install a property change listener that repaints the JTree when the parent window's
+        // focus state changes.
+        tree.addPropertyChangeListener(WindowUtils.FRAME_ACTIVE_PROPERTY,
+                createFrameActivePropertyChangeListener());
     }
 
     @Override
@@ -218,6 +230,14 @@ public class SourceListTreeUI extends BasicTreeUI {
                         rowToSelect--;
                     }
                 }
+            }
+        };
+    }
+
+    private PropertyChangeListener createFrameActivePropertyChangeListener() {
+        return new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent event) {
+                tree.repaint();
             }
         };
     }
