@@ -6,8 +6,6 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * An implementation of {@link javax.swing.plaf.ScrollBarUI} that supports dynamic skinning.
@@ -54,6 +52,7 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         super.installListeners();
         fSkin.installMouseListenersOnButtons(new CustomArrowButtonListener(-1),
                 new CustomArrowButtonListener(1));
+        WindowUtils.installJComponentReapinterOnWindowFocusChanged(scrollbar);
     }
 
     @Override
@@ -201,28 +200,10 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         return new SkinnableTrackListener();
     }
 
-    @Override
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return new SkinnablePropertyChangeHandler();
-    }
-
     private static boolean isAllContentVisible(JScrollBar scrollBar) {
         float extent = scrollBar.getVisibleAmount();
         float range = scrollBar.getMaximum() - scrollBar.getMinimum();
         return extent == 0.0 || extent / range == 1.0;
-    }
-
-    // SkinnablePropertyChangeHandler implementation. /////////////////////////////////////////////
-
-    private class SkinnablePropertyChangeHandler extends PropertyChangeHandler {
-        @Override
-        public void propertyChange(PropertyChangeEvent e) {
-            super.propertyChange(e);
-            // repaint the scroll bar if the parent windows focus state has changed.
-            if (e.getPropertyName().equals(WindowUtils.FRAME_ACTIVE_PROPERTY)) {
-                scrollbar.repaint();
-            }
-        }
     }
 
     // SkinnableTrackListener implementation. ////////////////////////////////////////////////////
