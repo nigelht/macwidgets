@@ -18,8 +18,6 @@ import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * <p>
@@ -120,8 +118,7 @@ public class SourceListTreeUI extends BasicTreeUI {
         super.installListeners();
         // install a property change listener that repaints the JTree when the parent window's
         // focus state changes.
-        tree.addPropertyChangeListener(WindowUtils.FRAME_ACTIVE_PROPERTY,
-                createFrameActivePropertyChangeListener());
+        WindowUtils.installJComponentReapinterOnWindowFocusChanged(tree);
     }
 
     @Override
@@ -230,14 +227,6 @@ public class SourceListTreeUI extends BasicTreeUI {
                         rowToSelect--;
                     }
                 }
-            }
-        };
-    }
-
-    private PropertyChangeListener createFrameActivePropertyChangeListener() {
-        return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                tree.repaint();
             }
         };
     }
