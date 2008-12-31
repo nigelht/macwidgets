@@ -1,15 +1,14 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.IAppScrollBarArtworkUtils;
-import com.explodingpixels.painter.ImagePainter;
-import com.explodingpixels.painter.Painter;
-import com.explodingpixels.widgets.plaf.ButtonsTogetherScrollBarSkin;
-import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
-import com.explodingpixels.widgets.plaf.SkinnableScrollBarUI;
+import com.explodingpixels.macwidgets.plaf.IAppHorizontalScrollBarUI;
+import com.explodingpixels.macwidgets.plaf.IAppVerticalScrollBarUI;
+import com.explodingpixels.widgets.ImageBasedJComponent;
 
-import javax.swing.*;
-import javax.swing.plaf.ScrollBarUI;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import java.awt.Component;
 
 /**
  * A factory for iApp style widgets.
@@ -72,71 +71,8 @@ public class IAppWidgetFactory {
     // ScrollBarUI creation methods ///////////////////////////////////////////////////////////////
 
     private static void installButtonsTogetherUIDelegates(JScrollPane scrollPane) {
-        scrollPane.getVerticalScrollBar().setUI(createVerticalScrollBarButtonsTogetherUI());
-        scrollPane.getHorizontalScrollBar().setUI(createHorizontalScrollBarButtonsTogetherUI());
+        scrollPane.getVerticalScrollBar().setUI(new IAppVerticalScrollBarUI());
+        scrollPane.getHorizontalScrollBar().setUI(new IAppHorizontalScrollBarUI());
     }
 
-    public static ScrollBarUI createVerticalScrollBarButtonsTogetherUI() {
-        JComponent topCap = new ImageBasedJComponent(IAppScrollBarArtworkUtils.getScrollBarTopCap().getImage());
-
-        Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getVerticalScrollBarMinimumSize();
-        AbstractButton decrementButton = IAppScrollBarArtworkUtils.createVerticalTogetherDecrementButton();
-        AbstractButton incrementButton = IAppScrollBarArtworkUtils.createVerticalTogetherIncrementButton();
-        Painter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getVerticalTrack().getImage());
-        ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createVerticalScrollerThumb();
-        int topCapRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
-        int decrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
-        Dimension preferredSize = new Dimension(decrementButton.getPreferredSize().width, 100);
-
-        ButtonsTogetherScrollBarSkin skin = new ButtonsTogetherScrollBarSkin(
-                topCap, decrementButton, incrementButton, trackPainter, scrollerThumb,
-                topCapRecess, decrementButtonRecess, minimumThumbSize, preferredSize);
-
-        return SkinnableScrollBarUI.createVerticalScrollBarUI(skin);
-    }
-
-    public static ScrollBarUI createHorizontalScrollBarButtonsTogetherUI() {
-        JComponent topCap = new ImageBasedJComponent(IAppScrollBarArtworkUtils.getScrollBarLeftCap().getImage());
-
-        Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getHorizontalScrollBarMinimumSize();
-        AbstractButton decrementButton = IAppScrollBarArtworkUtils.createHorizontalTogetherDecrementButton();
-        AbstractButton incrementButton = IAppScrollBarArtworkUtils.createHorizontalTogetherIncrementButton();
-        Painter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getHorizontalTrack().getImage());
-        ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createHorizontalScrollerThumb();
-        int topCapRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
-        int decrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
-        Dimension preferredSize = new Dimension(100, decrementButton.getPreferredSize().height);
-
-        ButtonsTogetherScrollBarSkin skin = new ButtonsTogetherScrollBarSkin(
-                topCap, decrementButton, incrementButton, trackPainter, scrollerThumb,
-                topCapRecess, decrementButtonRecess, minimumThumbSize, preferredSize);
-
-        return SkinnableScrollBarUI.createHorizontalScrollBarUI(skin);
-    }
-
-    // Custom JComponent that uses a painter. /////////////////////////////////////////////////////
-
-    // TODO replace with EPPanel.
-
-    private static class ImageBasedJComponent extends JComponent {
-
-        private final ImagePainter fPainter;
-
-        private ImageBasedJComponent(Image image) {
-            fPainter = new ImagePainter(image);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D graphics = (Graphics2D) g.create();
-            fPainter.paint(graphics, this, getWidth(), getHeight());
-            graphics.dispose();
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(fPainter.getImage().getWidth(null),
-                    fPainter.getImage().getHeight(null));
-        }
-    }
 }
