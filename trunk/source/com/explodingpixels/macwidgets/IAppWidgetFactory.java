@@ -1,7 +1,6 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.IAppHorizontalScrollBarUI;
-import com.explodingpixels.macwidgets.plaf.IAppVerticalScrollBarUI;
+import com.explodingpixels.macwidgets.plaf.IAppScrollBarUI;
 import com.explodingpixels.widgets.ImageBasedJComponent;
 
 import javax.swing.BorderFactory;
@@ -62,7 +61,7 @@ public class IAppWidgetFactory {
      */
     public static JScrollPane makeIAppScrollPane(JScrollPane scrollPane) {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        installButtonsTogetherUIDelegates(scrollPane);
+        installUIDelegates(scrollPane);
         scrollPane.setCorner(JScrollPane.LOWER_RIGHT_CORNER, SCROLL_PANE_CORNER);
         // TODO listen for scrollBar.setUI calls in order to reinstall UI delegates.
         return scrollPane;
@@ -70,9 +69,9 @@ public class IAppWidgetFactory {
 
     // ScrollBarUI creation methods ///////////////////////////////////////////////////////////////
 
-    private static void installButtonsTogetherUIDelegates(JScrollPane scrollPane) {
-        scrollPane.getVerticalScrollBar().setUI(new IAppVerticalScrollBarUI());
-        scrollPane.getHorizontalScrollBar().setUI(new IAppHorizontalScrollBarUI());
+    private static void installUIDelegates(JScrollPane scrollPane) {
+        scrollPane.getVerticalScrollBar().setUI(new IAppScrollBarUI());
+        scrollPane.getHorizontalScrollBar().setUI(new IAppScrollBarUI());
     }
 
 }
