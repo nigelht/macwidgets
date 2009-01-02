@@ -12,8 +12,8 @@ public interface ScrollBarSkin {
 
     /**
      * Called once at the begining of the skin's life cycle. Implementors should add components
-     * that will later be controlled in {@link #trackLayoutOnly(JScrollBar, ScrollBarOrientation)}
-     * and {@link #fullLayout(JScrollBar, ScrollBarOrientation)}.
+     * that will later be controlled in {@link #layoutTrackOnly(JScrollBar, ScrollBarOrientation)}
+     * and {@link #layoutEverything(JScrollBar, ScrollBarOrientation)}.
      *
      * @param scrollBar the {@link JScrollBar} that the skin will be painting.
      */
@@ -42,7 +42,7 @@ public interface ScrollBarSkin {
      * @param scrollBar   the {@link JScrollBar} that the skin is painting.
      * @param orientation the orientation of the scroll bar.
      */
-    void trackLayoutOnly(JScrollBar scrollBar, ScrollBarOrientation orientation);
+    void layoutTrackOnly(JScrollBar scrollBar, ScrollBarOrientation orientation);
 
     /**
      * Called when scroll bar should be laid out by the skin.
@@ -50,7 +50,7 @@ public interface ScrollBarSkin {
      * @param scrollBar   the {@link JScrollBar} that the skin is painting.
      * @param orientation the orientation of the scroll bar.
      */
-    void fullLayout(JScrollBar scrollBar, ScrollBarOrientation orientation);
+    void layoutEverything(JScrollBar scrollBar, ScrollBarOrientation orientation);
 
     /**
      * The smallest size that the scroll thumb can be.

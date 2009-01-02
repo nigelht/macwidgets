@@ -1,5 +1,6 @@
 package com.explodingpixels.widgets.plaf;
 
+import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -70,6 +71,23 @@ public enum ScrollBarOrientation {
             return new Rectangle(x, position, thickness, length);
         }
     };
+
+    /**
+     * Converts a Swing scroll bar orientation (either {@link SwingConstants#HORIZONTAL} or
+     * {@link SwingConstants#VERTICAL} to a {@code ScrollBarOrientation}.
+     *
+     * @param swingScrollBarOrientation the Swing scroll bar orientation, either
+     *                                  {@link SwingConstants#HORIZONTAL} or {@link SwingConstants#VERTICAL}
+     * @return the {@code ScrollBarOrientation} to the corresponding Swing scroll bar orientation.
+     * @throws IllegalArgumentException if the given Swing scroll bar orientation is not valid.
+     */
+    public static ScrollBarOrientation getOrientation(int swingScrollBarOrientation) {
+        if (swingScrollBarOrientation != SwingConstants.HORIZONTAL
+                && swingScrollBarOrientation != SwingConstants.VERTICAL) {
+            throw new IllegalArgumentException("The given value is not a valid scroll bar orientation.");
+        }
+        return swingScrollBarOrientation == SwingConstants.HORIZONTAL ? HORIZONTAL : VERTICAL;
+    }
 
     /**
      * Get's the thickness of the given size. Thickness corresponds to the dimension that does not

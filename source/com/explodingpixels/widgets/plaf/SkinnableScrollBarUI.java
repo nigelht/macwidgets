@@ -2,9 +2,16 @@ package com.explodingpixels.widgets.plaf;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.BoundedRangeModel;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 /**
@@ -13,33 +20,32 @@ import java.awt.event.MouseEvent;
  */
 public class SkinnableScrollBarUI extends BasicScrollBarUI {
 
-    private final ScrollBarSkin fSkin;
+    private ScrollBarSkin fSkin;
 
-    private final ScrollBarOrientation fOrientation;
+    private ScrollBarOrientation fOrientation;
 
-    private SkinnableScrollBarUI(ScrollBarSkin skin, ScrollBarOrientation orientation) {
-        fSkin = skin;
-        fOrientation = orientation;
+    private final ScrollBarSkinProvider fScrollBarSkinProvider;
+
+    public SkinnableScrollBarUI(ScrollBarSkinProvider scrollBarSkinProvider) {
+        fScrollBarSkinProvider = scrollBarSkinProvider;
     }
 
-    /**
-     * Creates a horizontal scroll bar using the given skin.
-     *
-     * @param skin the skin to paint the scroll bar with.
-     * @return a {@code SkinnableScrollBarUI} painted with the given skin.
-     */
-    public static SkinnableScrollBarUI createHorizontalScrollBarUI(ScrollBarSkin skin) {
-        return new SkinnableScrollBarUI(skin, ScrollBarOrientation.HORIZONTAL);
-    }
+//    /**
+//     * Creates a {@code SkinnableScrollBarUI} that uses the given {@lin ScrollBarSkin} This
+//     * constructor can be used when the skin available at creation time.
+//     * @param skin the {@code ScrollBarSkin} to use to paint this scroll bar.
+//     */
+//    public SkinnableScrollBarUI(ScrollBarSkin skin) {
+//        fScrollBarSkinProvider = new DefaultScrollBarSkinProvider(skin);
+//    }
 
-    /**
-     * Creates a vertical scroll bar using the given skin.
-     *
-     * @param skin the skin to paint the scroll bar with.
-     * @return a {@code SkinnableScrollBarUI} painted with the given skin.
-     */
-    public static SkinnableScrollBarUI createVerticalScrollBarUI(ScrollBarSkin skin) {
-        return new SkinnableScrollBarUI(skin, ScrollBarOrientation.VERTICAL);
+    @Override
+    public void installUI(JComponent c) {
+        JScrollBar scrollBar = (JScrollBar) c;
+        // convert the Swing scroll bar orientation to the type-safe ScrollBarOrientation.
+        fOrientation = ScrollBarOrientation.getOrientation(scrollBar.getOrientation());
+        fSkin = fScrollBarSkinProvider.provideSkin(fOrientation);
+        super.installUI(c);
     }
 
     @Override
@@ -60,10 +66,10 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         if (isDragging) {
             // do nothing.
         } else if (isAllContentVisible(scrollbar)) {
-            fSkin.trackLayoutOnly(scrollbar, fOrientation);
+            fSkin.layoutTrackOnly(scrollbar, fOrientation);
             updateThumbBoundsFromScrollBarValue();
         } else {
-            fSkin.fullLayout(scrollbar, fOrientation);
+            fSkin.layoutEverything(scrollbar, fOrientation);
             updateThumbBoundsFromScrollBarValue();
         }
     }
@@ -326,4 +332,21 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         }
     }
 
+    // An interface for providing a ScrollBarSkin. ////////////////////////////////////////////////
+
+    public interface ScrollBarSkinProvider {
+        ScrollBarSkin provideSkin(ScrollBarOrientation orientation);
+    }
+
+    // A default implemenation of ScrollBarSkinProvider. //////////////////////////////////////////
+
+//    private static class DefaultScrollBarSkinProvider implements ScrollBarSkinProvider {
+//        private final ScrollBarSkin fScrollBarSkin;
+//        private DefaultScrollBarSkinProvider(ScrollBarSkin scrollBarSkin) {
+//            fScrollBarSkin = scrollBarSkin;
+//        }
+//        public ScrollBarSkin createHorizontalScrollBarSkin(ScrollBarOrientation orientation) {
+//            return fScrollBarSkin;
+//        }
+//    }
 }
