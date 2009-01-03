@@ -1,9 +1,11 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
@@ -15,8 +17,7 @@ public class WindowUtils {
 
     public static final String FRAME_ACTIVE_PROPERTY = "Frame.active";
 
-    public static WindowFocusListener createAndInstallRepaintWindowFocusListener(
-            Window window) {
+    public static WindowFocusListener createAndInstallRepaintWindowFocusListener(Window window) {
 
         // create a WindowFocusListener that repaints the window on focus
         // changes.
@@ -48,11 +49,20 @@ public class WindowUtils {
                 createFrameFocusPropertyChangeListener(focusListener, component));
     }
 
-    public static void installJComponentReapinterOnWindowFocusChanged(JComponent component) {
-        component.addAncestorListener(createAncestorListener(
-                component, createWindowListener(component)));
+    /**
+     * Installs a listener on the given {@link JComponent}'s parent {@link Window} that repaints
+     * the given component when the parent window's focused state changes. If the given component
+     * does not have a parent at the time this method is called, then an ancestor listener will be
+     * installed that installs a window listener when the components parent changes.
+     *
+     * @param component the {@code JComponent} to add the repaint focus listener to.
+     */
+    public static void installJComponentRepainterOnWindowFocusChanged(JComponent component) {
+        // TODO check to see if the component already has an ancestor.
+        component.addAncestorListener(createAncestorListener(component,
+                createWindowListener(component)));
     }
-    
+
     private static AncestorListener createAncestorListener(
             final JComponent component, final WindowListener windowListener) {
         return new AncestorListener() {
@@ -63,26 +73,29 @@ public class WindowUtils {
                     window.addWindowListener(windowListener);
                 }
             }
+
             public void ancestorRemoved(AncestorEvent event) {
                 // no implementation.
             }
+
             public void ancestorMoved(AncestorEvent event) {
                 // no implementation.
             }
         };
     }
-    
+
     private static WindowListener createWindowListener(final JComponent component) {
         return new WindowAdapter() {
             public void windowActivated(WindowEvent e) {
                 component.repaint();
             }
+
             public void windowDeactivated(WindowEvent e) {
                 component.repaint();
             }
         };
     }
-    
+
     private static PropertyChangeListener createFrameFocusPropertyChangeListener(
             final WindowFocusListener focusListener, final JComponent component) {
         return new PropertyChangeListener() {

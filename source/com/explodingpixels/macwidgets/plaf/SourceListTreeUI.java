@@ -1,6 +1,13 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.*;
+import com.explodingpixels.macwidgets.MacColorUtils;
+import com.explodingpixels.macwidgets.MacFontUtils;
+import com.explodingpixels.macwidgets.MacPainterFactory;
+import com.explodingpixels.macwidgets.MacWidgetFactory;
+import com.explodingpixels.macwidgets.SourceList;
+import com.explodingpixels.macwidgets.SourceListBadgeContentProvider;
+import com.explodingpixels.macwidgets.SourceListCountBadgeRenderer;
+import com.explodingpixels.macwidgets.SourceListModel;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.IconProvider;
@@ -11,12 +18,30 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTree;
+import javax.swing.JViewport;
+import javax.swing.KeyStroke;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.tree.*;
-import java.awt.*;
+import javax.swing.tree.AbstractLayoutCache;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeSelectionModel;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 
 /**
@@ -118,7 +143,7 @@ public class SourceListTreeUI extends BasicTreeUI {
         super.installListeners();
         // install a property change listener that repaints the JTree when the parent window's
         // focus state changes.
-        WindowUtils.installJComponentReapinterOnWindowFocusChanged(tree);
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(tree);
     }
 
     @Override
@@ -301,13 +326,13 @@ public class SourceListTreeUI extends BasicTreeUI {
 
         private CategoryTreeCellRenderer iCategoryRenderer = new CategoryTreeCellRenderer();
 
-        private ItemTreeCellRenderer iITemRenderer = new ItemTreeCellRenderer();
+        private ItemTreeCellRenderer iItemRenderer = new ItemTreeCellRenderer();
 
         public Component getTreeCellRendererComponent(
                 JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
                 boolean hasFocus) {
 
-            TreeCellRenderer render = isCategoryRow(row) ? iCategoryRenderer : iITemRenderer;
+            TreeCellRenderer render = isCategoryRow(row) ? iCategoryRenderer : iItemRenderer;
             return render.getTreeCellRendererComponent(
                     tree, value, selected, expanded, leaf, row, hasFocus);
         }
