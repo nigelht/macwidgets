@@ -2,14 +2,19 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.TreeUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -135,6 +140,15 @@ public class SourceList {
         }
         fSourceListControlBar = sourceListControlBar;
         fComponent.add(fSourceListControlBar.getComponent(), BorderLayout.SOUTH);
+    }
+
+    /**
+     * True if there is a {@link SourceListControlBar} installed on this {@code SourceList}.
+     *
+     * @return true if there is a {@link SourceListControlBar} installed on this {@code SourceList}.
+     */
+    public boolean isSourceListControlBarInstalled() {
+        return fSourceListControlBar != null;
     }
 
     /**
@@ -405,12 +419,14 @@ public class SourceList {
                     doShowContextMenu(e);
                 }
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
                     doShowContextMenu(e);
                 }
             }
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 doSourceListClicked(e);
