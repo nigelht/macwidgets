@@ -3,8 +3,13 @@ package com.explodingpixels.widgets.plaf;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.swingx.EPPanel;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 
 /**
@@ -105,7 +110,7 @@ public class ButtonsTogetherScrollBarSkin implements ScrollBarSkin {
         fThumbContainer.add(fThumb);
     }
 
-    public void trackLayoutOnly(JScrollBar scrollBar, ScrollBarOrientation orientation) {
+    public void layoutTrackOnly(JScrollBar scrollBar, ScrollBarOrientation orientation) {
         fCap.setBounds(EMPTY_BOUNDS);
         fIncrementButton.setBounds(EMPTY_BOUNDS);
         fDecrementButton.setBounds(EMPTY_BOUNDS);
@@ -115,7 +120,7 @@ public class ButtonsTogetherScrollBarSkin implements ScrollBarSkin {
         fTrack.setBounds(0, 0, r.width, r.height);
     }
 
-    public void fullLayout(JScrollBar scrollBar, ScrollBarOrientation orientation) {
+    public void layoutEverything(JScrollBar scrollBar, ScrollBarOrientation orientation) {
         // 1) layout the scroll bar cap.
         int capLength = orientation.getLength(fCap.getPreferredSize());
         fCap.setBounds(orientation.createBounds(scrollBar, 0, capLength));
