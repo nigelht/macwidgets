@@ -58,7 +58,7 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         super.installListeners();
         fSkin.installMouseListenersOnButtons(new CustomArrowButtonListener(-1),
                 new CustomArrowButtonListener(1));
-        WindowUtils.installJComponentReapinterOnWindowFocusChanged(scrollbar);
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(scrollbar);
     }
 
     @Override
