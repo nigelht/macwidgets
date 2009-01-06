@@ -314,6 +314,11 @@ public class SourceList {
         for (int i = 0; i < itemToAdd.getChildItems().size(); i++) {
             doAddItemToItem(itemToAdd.getChildItems().get(i), itemToAdd, i);
         }
+        // if the parent node is a new node, expand it. thus the default behavior is to expand a
+        // parent node.
+        if (parentNode.getChildCount() == 1) {
+            TreeUtils.expandPathOnEdt(fTree, new TreePath(parentNode.getPath()));
+        }
     }
 
     private void doShowContextMenu(MouseEvent event) {
