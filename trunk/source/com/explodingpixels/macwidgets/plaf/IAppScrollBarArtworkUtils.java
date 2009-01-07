@@ -4,10 +4,8 @@ import com.explodingpixels.widgets.ImageButton;
 import com.explodingpixels.widgets.ImageUtils;
 import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
 
-import javax.swing.AbstractButton;
-import javax.swing.ImageIcon;
-import java.awt.Dimension;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 
 public class IAppScrollBarArtworkUtils {
 
@@ -181,6 +179,7 @@ public class IAppScrollBarArtworkUtils {
         ImageButton retVal = new ImageButton(images.getActiveImage(), buttonMask);
         retVal.setPressedIcon(images.getPressedImage());
         retVal.setDisabledIcon(images.getInactiveImage());
+        retVal.setInactiveIcon(images.getInactiveImage());
         return retVal;
     }
 
@@ -188,6 +187,7 @@ public class IAppScrollBarArtworkUtils {
         ImageButton retVal = new ImageButton(images.getActiveImage());
         retVal.setPressedIcon(images.getPressedImage());
         retVal.setDisabledIcon(images.getInactiveImage());
+        retVal.setInactiveIcon(images.getInactiveImage());
         return retVal;
     }
 

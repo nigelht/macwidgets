@@ -19,7 +19,7 @@ public class ImageButton extends JButton {
     // a buffered image representing the mask for this button.
     private final BufferedImage fMask;
 
-    private Icon fUnfocusedIcon;
+    private Icon fInactiveIcon;
 
     /**
      * Creates an image based button.
@@ -59,6 +59,10 @@ public class ImageButton extends JButton {
 
         // create the mask from the supplied icon.
         fMask = createMask(mask);
+
+        // repaint this button when the parent window's focus state changes so
+        // that we can correctly show the active or inactive icon.
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(this);
     }
 
     private BufferedImage createMask(Icon mask) {
@@ -74,6 +78,11 @@ public class ImageButton extends JButton {
         return image;
     }
 
+    public Icon getIcon() {
+        return WindowUtils.isParentWindowFocused(this) || fInactiveIcon == null 
+                ? super.getIcon() : fInactiveIcon;
+    }
+
     @Override
     public void setIcon(Icon defaultIcon) {
         super.setIcon(defaultIcon);
@@ -84,9 +93,9 @@ public class ImageButton extends JButton {
         }
     }
 
-    public void setUnfocusedIcon(Icon unfocusedIcon) {
-        // TODO do bounds checking (like above).
-        fUnfocusedIcon = unfocusedIcon;
+    public void setInactiveIcon(Icon inactiveIcon) {
+        checkIconMatchesMaskBounds(inactiveIcon, new ImageIcon(fMask));
+        fInactiveIcon = inactiveIcon;
     }
 
     @Override
