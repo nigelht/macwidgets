@@ -3,17 +3,11 @@ package com.explodingpixels.macwidgets.plaf;
 import com.explodingpixels.painter.ImagePainter;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.widgets.ImageBasedJComponent;
-import com.explodingpixels.widgets.plaf.ButtonsTogetherScrollBarSkin;
-import com.explodingpixels.widgets.plaf.ScrollBarOrientation;
-import com.explodingpixels.widgets.plaf.ScrollBarSkin;
-import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
-import com.explodingpixels.widgets.plaf.SkinnableScrollBarUI;
+import com.explodingpixels.widgets.plaf.*;
 
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
+import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
+import java.awt.*;
 
 /**
  * Creates an iApp style scroll bar, either horizontal or vertical based on
@@ -26,6 +20,10 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
 
     public IAppScrollBarUI() {
         super(createScrollBarSkinProvider());
+    }
+
+    public static ComponentUI createUI(JComponent c)    {
+        return new IAppScrollBarUI();
     }
 
     private static ScrollBarSkinProvider createScrollBarSkinProvider() {
