@@ -2,10 +2,16 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
 
 public class DUnifiedToolbar {
 
@@ -20,7 +26,7 @@ public class DUnifiedToolbar {
         leftButton.setFocusable(false);
 
         JToggleButton rightButton = new JToggleButton(new ImageIcon(
-                Toolkit.getDefaultToolkit().getImage("NSImage://NSColumnViewTemplate")));
+                DUnifiedToolbar.class.getResource("/com/explodingpixels/macwidgets/icons/ColumnViewTemplate.png")));
         rightButton.putClientProperty("JButton.buttonType", "segmentedTextured");
         rightButton.putClientProperty("JButton.segmentPosition", "last");
         rightButton.setFocusable(false);
@@ -31,12 +37,12 @@ public class DUnifiedToolbar {
 
         LabeledComponentGroup viewButtons = new LabeledComponentGroup("View", leftButton, rightButton);
 
-        Icon blueGlobeIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                "NSImage://NSDotMac").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon greyGlobeIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                "NSImage://NSNetwork").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon gear = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                "NSImage://NSAdvanced").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+        Icon blueGlobeIcon = new ImageIcon(DUnifiedToolbar.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/DotMac.png"));
+        Icon greyGlobeIcon = new ImageIcon(DUnifiedToolbar.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/Network.png"));
+        Icon gear = new ImageIcon(DUnifiedToolbar.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/Advanced.png"));
 
         AbstractButton greyGlobeButton =
                 MacButtonFactory.makeUnifiedToolBarButton(
