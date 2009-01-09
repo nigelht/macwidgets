@@ -3,12 +3,16 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.TextProvider;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 
 public class DSourceListTreeUI {
 
@@ -26,9 +30,10 @@ public class DSourceListTreeUI {
 
     public static void main(String[] args) {
 
-        Icon mobileMeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSDotMac").
-                        getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+        Image mobileMeImage = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/DotMac.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+        Icon mobileMeIcon = new ImageIcon(mobileMeImage);
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
         DefaultTreeModel model = new DefaultTreeModel(root);
