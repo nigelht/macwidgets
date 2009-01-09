@@ -1,2 +1,2 @@
-* [http://exploding-pixels.com/google_code/javadoc_0.9.1/ Mac Widgets for Java 0.9.2]
-* [http://exploding-pixels.com/google_code/javadoc_0.9.1/ Mac Widgets for Java 0.9.1]
+  * [http://exploding-pixels.com/google_code/javadoc_0.9.1/ Mac Widgets for Java 0.9.2]
+  * [http://exploding-pixels.com/google_code/javadoc_0.9.1/ Mac Widgets for Java 0.9.1]
