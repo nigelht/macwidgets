@@ -1,9 +1,15 @@
 package com.explodingpixels.macwidgets;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Toolkit;
 
 public class DLabeledComponentGroup {
 
@@ -27,15 +33,15 @@ public class DLabeledComponentGroup {
 
     public static LabeledComponentGroup createViewExample() {
         JToggleButton leftButton = new JToggleButton(new ImageIcon(
-                DUnifiedToolbar.class.getResource("/com/explodingpixels/macwidgets/icons/sourceViewNormal.png")));
+                DLabeledComponentGroup.class.getResource("/com/explodingpixels/macwidgets/icons/sourceViewNormal.png")));
         leftButton.setSelectedIcon(new ImageIcon(
-                DUnifiedToolbar.class.getResource("/com/explodingpixels/macwidgets/icons/sourceViewNormalSelected.png")));
+                DLabeledComponentGroup.class.getResource("/com/explodingpixels/macwidgets/icons/sourceViewNormalSelected.png")));
         leftButton.putClientProperty("JButton.buttonType", "segmentedTextured");
         leftButton.putClientProperty("JButton.segmentPosition", "first");
         leftButton.setFocusable(false);
 
         JToggleButton rightButton = new JToggleButton(new ImageIcon(
-                Toolkit.getDefaultToolkit().getImage("NSImage://NSColumnViewTemplate")));
+                DLabeledComponentGroup.class.getResource("/com/explodingpixels/macwidgets/icons/ColumnViewTemplate.png")));
         rightButton.putClientProperty("JButton.buttonType", "segmentedTextured");
         rightButton.putClientProperty("JButton.segmentPosition", "last");
         rightButton.setFocusable(false);
