@@ -98,7 +98,12 @@ public class SourceListCategory implements TextProvider {
         return fItems.get(index);
     }
 
-    List<SourceListItem> getItems() {
+    /**
+     * Gets a list of this {@code SourceListCategory}'s {@link SourceListItem}s.
+     *
+     * @return a list of this {@code SourceListCategory}'s {@code SourceListItem}s.
+     */
+    public List<SourceListItem> getItems() {
         return Collections.unmodifiableList(fItems);
     }
 

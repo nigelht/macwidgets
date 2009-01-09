@@ -140,7 +140,12 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
         return getText();
     }
 
-    List<SourceListItem> getChildItems() {
+    /**
+     * Gets a list of this {@code SourceListItem}'s child {@code SourceListItem}s.
+     *
+     * @return a list of this {@code SourceListItem}'s child {@code SourceListItem}s.
+     */
+    public List<SourceListItem> getChildItems() {
         return Collections.unmodifiableList(fChildItems);
     }
 
