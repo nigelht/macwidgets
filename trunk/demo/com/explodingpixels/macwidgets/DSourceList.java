@@ -6,12 +6,19 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,10 +26,13 @@ public class DSourceList {
 
     public static void main(String[] args) {
 
-        Icon blueGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSDotMac").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-        final Icon greyGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSNetwork").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+        Image blueGlobeImage = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/DotMac.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        Image greyGlobeImage = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/Network.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+        Icon blueGlobeIcon = new ImageIcon(blueGlobeImage);
+        final Icon greyGlobeIcon = new ImageIcon(greyGlobeImage);
 
         SourceListCategory categoryOne = new SourceListCategory("Category 1");
         SourceListCategory categoryTwo = new SourceListCategory("Category 2");
