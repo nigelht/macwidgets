@@ -2,18 +2,22 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 
 public class DUnifiedToolBarButtonUI {
 
     public static void main(String[] args) {
 
-        Icon preferences = new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                "NSImage://NSPreferencesGeneral").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+        Icon preferences = new ImageIcon(DUnifiedToolBarButtonUI.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/PreferencesGeneral.png"));
 
         TriAreaComponent unifiedToolBar = MacWidgetFactory.createUnifiedToolBar();
         AbstractButton macWidgetsButton = MacButtonFactory.makeUnifiedToolBarButton(
