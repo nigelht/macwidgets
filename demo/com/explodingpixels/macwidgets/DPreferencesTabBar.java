@@ -2,10 +2,12 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
 
 public class DPreferencesTabBar {
 
@@ -15,16 +17,14 @@ public class DPreferencesTabBar {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-                Icon preferences =
-                        new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                                "NSImage://NSPreferencesGeneral").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+                Icon preferences = new ImageIcon(DPreferencesTabBar.class.getResource(
+                        "/com/explodingpixels/macwidgets/icons/PreferencesGeneral.png"));
 
-                Icon userAccounts =
-                        new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                                "NSImage://NSUserAccounts").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-                Icon mobileMe =
-                        new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                                "NSImage://NSDotMac").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+                Icon userAccounts = new ImageIcon(DPreferencesTabBar.class.getResource(
+                        "/com/explodingpixels/macwidgets/icons/UserAccounts.png"));
+
+                Icon mobileMe = new ImageIcon(DPreferencesTabBar.class.getResource(
+                        "/com/explodingpixels/macwidgets/icons/DotMac.png"));
 
                 PreferencesTabBar tabBar = MacWidgetFactory.createUnifiedPreferencesTabBar();
                 tabBar.addTab("General", preferences, null);
