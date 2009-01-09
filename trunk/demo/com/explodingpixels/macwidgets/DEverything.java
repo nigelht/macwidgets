@@ -3,10 +3,18 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.PopupMenuCustomizerUsingStrings;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DEverything {
 
@@ -21,18 +29,14 @@ public class DEverything {
     }
 
     private TriAreaComponent createUnifiedToolBar() {
-        Icon blueGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSDotMac").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon greyGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSNetwork").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon preferences =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSPreferencesGeneral").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
-        Icon gear =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage(
-                        "NSImage://NSAdvanced").getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+        Icon blueGlobeIcon = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/DotMac.png"));
+        Icon greyGlobeIcon = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/Network.png"));
+        Icon preferences = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/PreferencesGeneral.png"));
+        Icon gear = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/Advanced.png"));
 
         AbstractButton greyGlobeButton =
                 MacButtonFactory.makeUnifiedToolBarButton(
@@ -55,13 +59,17 @@ public class DEverything {
     }
 
     private JSplitPane createSourceListAndMainArea() {
-        Icon blueGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSDotMac").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-        Icon greyGlobeIcon =
-                new ImageIcon(Toolkit.getDefaultToolkit().getImage("NSImage://NSNetwork").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+
+        Image blueGlobeImage = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/DotMac.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+        Image greyGlobeImage = new ImageIcon(DEverything.class.getResource(
+                "/com/explodingpixels/macwidgets/icons/Network.png")).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+        Icon blueGlobeIcon = new ImageIcon(blueGlobeImage);
+        Icon greyGlobeIcon = new ImageIcon(greyGlobeImage);
 
         SourceListCategory categoryOne = new SourceListCategory("Category 1");
-        SourceListCategory categoryTwo = new SourceListCategory("Category 2");
+        final SourceListCategory categoryTwo = new SourceListCategory("Category 2");
         SourceListCategory categoryThree = new SourceListCategory("Category 3");
 
         SourceListItem itemA = new SourceListItem("SourceListItem A", blueGlobeIcon);
@@ -71,7 +79,7 @@ public class DEverything {
         SourceListItem itemD = new SourceListItem("SourceListItem E", greyGlobeIcon);
         SourceListItem itemE = new SourceListItem("Really really really really really long SourceListItem", greyGlobeIcon);
 
-        SourceListItem itemG = new SourceListItem("SourceListItem G", greyGlobeIcon);
+        final SourceListItem itemG = new SourceListItem("SourceListItem G", greyGlobeIcon);
         SourceListItem itemH = new SourceListItem("SourceListItem H", greyGlobeIcon);
         SourceListItem itemI = new SourceListItem("SourceListItem I", greyGlobeIcon);
         SourceListItem itemJ = new SourceListItem("SourceListItem J", greyGlobeIcon);
@@ -105,7 +113,11 @@ public class DEverything {
 //        sourceList.setFocusable(false);
 
         SourceListControlBar controlBar = new SourceListControlBar();
-        controlBar.createAndAddButton(MacIcons.PLUS, null);
+        controlBar.createAndAddButton(MacIcons.PLUS, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                model.addItemToItem(new SourceListItem(("Hello")), itemG);
+            }
+        });
         controlBar.createAndAddButton(MacIcons.MINUS, null);
         controlBar.createAndAddPopdownButton(MacIcons.GEAR,
                 new PopupMenuCustomizerUsingStrings(null, "Item One", "Item Two", "Item Three"));
