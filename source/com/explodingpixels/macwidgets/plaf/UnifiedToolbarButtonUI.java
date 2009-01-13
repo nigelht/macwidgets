@@ -23,8 +23,9 @@ public class UnifiedToolbarButtonUI extends BasicButtonUI {
         b.setHorizontalTextPosition(AbstractButton.CENTER);
         b.setVerticalTextPosition(AbstractButton.BOTTOM);
         b.setIconTextGap(0);
-        b.setMargin(new Insets(0, 0, 0, 0));
+        b.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         b.setOpaque(false);
+        b.setFocusable(false);
         // TODO make the font derivation more robust.
         b.setFont(UIManager.getFont("Button.font").deriveFont(11.0f));
     }
