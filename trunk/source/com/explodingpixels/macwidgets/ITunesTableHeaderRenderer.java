@@ -2,19 +2,16 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
 import com.explodingpixels.painter.Painter;
-import com.explodingpixels.swingx.EPPanel;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ITunesTableHeaderRenderer extends EPPanel
+public class ITunesTableHeaderRenderer extends JComponent
         implements TableCellRenderer {
 
     private JTable fTable;
@@ -27,6 +24,10 @@ public class ITunesTableHeaderRenderer extends EPPanel
 
     private int fPressedColumn = -1;
 
+    private boolean fIsColumnPressed = false;
+    
+    private boolean fIsColumnSelected = false;
+    
     private static Color LEFT_BORDER_COLOR = new Color(255, 255, 255, 77);
 
     private static Color RIGHT_BORDER_COLOR = new Color(0, 0, 0, 51);
@@ -36,6 +37,7 @@ public class ITunesTableHeaderRenderer extends EPPanel
     ITunesTableHeaderRenderer() {
         setOpaque(false);
         setFont(MacFontUtils.ITUNES_TABLE_HEADER_FONT);
+        init();
     }
 
     ITunesTableHeaderRenderer(JTable table) {
@@ -43,45 +45,37 @@ public class ITunesTableHeaderRenderer extends EPPanel
         fTable = table;
         setLayout(new BorderLayout());
         add(fLabel, BorderLayout.CENTER);
+        init();
     }
 
-    public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus,
-            int row, int column) {
-
-        boolean windowHasFocus = WindowUtils.isParentWindowFocused(fTable);
-
-        int modelColumn = fTable.convertColumnIndexToModel(column);
-
-        fLabel.setText(value.toString());
-
+    private void init() {
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0,
                         MacColorUtils.LEOPARD_BORDER_COLOR),
                 BorderFactory.createEmptyBorder(1, 5, 0, 5)));
+    }
+    
+    public Component getTableCellRendererComponent(
+            JTable table, Object value, boolean isSelected, boolean hasFocus,
+            int row, int column) {
 
-        Painter<Component> painter =
-                MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
+        int modelColumn = fTable.convertColumnIndexToModel(column);
 
-        if (windowHasFocus && isColumnPressed(modelColumn)
-                && isColumnSelected(modelColumn)) {
-            painter = MacPainterFactory.createIAppPressedSelectedHeaderPainter();
-        } else if (windowHasFocus && isColumnPressed(modelColumn)) {
-            painter = MacPainterFactory.createIAppPressedUnselectedHeaderPainter();
-        } else if (windowHasFocus && isColumnSelected(modelColumn)) {
-            painter = MacPainterFactory.createIAppUnpressedSelectedHeaderPainter();
-        }
-
-        setBackgroundPainter(painter);
+        fLabel.setText(value.toString());
+        fLabel.setFont(fTable.getTableHeader().getFont());
+        fIsColumnSelected = isColumnSelected(modelColumn);
+        fIsColumnPressed = isColumnPressed(modelColumn);
 
         return this;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
         Graphics2D graphics2d = (Graphics2D) g.create();
+        Painter<Component> painter = getBackgroundPainter();
+        painter.paint(graphics2d, this, getWidth(), getHeight());
+        
+        super.paintComponent(g);
 
         graphics2d.setColor(LEFT_BORDER_COLOR);
         graphics2d.drawLine(0, 0, 0, getHeight() - getInsets().bottom);
@@ -93,6 +87,21 @@ public class ITunesTableHeaderRenderer extends EPPanel
 
     }
 
+    private Painter<Component> getBackgroundPainter() {
+        Painter<Component> retVal;
+        boolean windowHasFocus = WindowUtils.isParentWindowFocused(this);
+        if (windowHasFocus && fIsColumnPressed && fIsColumnSelected) {
+            retVal = MacPainterFactory.createIAppPressedSelectedHeaderPainter();
+        } else if (windowHasFocus && fIsColumnPressed) {
+            retVal = MacPainterFactory.createIAppPressedUnselectedHeaderPainter();
+        } else if (windowHasFocus && fIsColumnSelected) {
+            retVal = MacPainterFactory.createIAppUnpressedSelectedHeaderPainter();
+        } else {
+            retVal = MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
+        }
+        return retVal;
+    }
+    
     private boolean isColumnSelected(int column) {
         return column == fSelectedColumn;
     }
