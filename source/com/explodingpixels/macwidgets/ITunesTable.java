@@ -28,6 +28,9 @@ class ITunesTable extends JTable {
     private static final Color ITUNES_RATING_DOT_SELECTED_INACTIVE_COLOR = new Color(0x999999);
     private static final Color ITUNES_RATING_DOT_SELECTED_ACTIVE_COLOR = new Color(255, 255, 255, 150);
 
+    private final ITunesTableHeaderRenderer fHeaderRenderer = 
+            new ITunesTableHeaderRenderer(this);
+    
     ITunesTable(TableModel dm) {
         super(dm);
         init();
@@ -42,7 +45,7 @@ class ITunesTable extends JTable {
         setIntercellSpacing(new Dimension(0, 0));
         adjustColumnWidths();
         installCellRenderers();
-        getTableHeader().setDefaultRenderer(new ITunesTableHeaderRenderer(this));
+        getTableHeader().setDefaultRenderer(fHeaderRenderer);
 
         addFocusListener(createFocusListener());
 
