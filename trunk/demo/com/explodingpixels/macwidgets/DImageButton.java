@@ -2,11 +2,8 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.ImageButton;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class DImageButton {
 
@@ -15,11 +12,11 @@ public class DImageButton {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 Icon icon = new ImageIcon(
-                        DImageButton.class.getResource("./icons/scroller.png"));
+                        DImageButton.class.getResource("/com/explodingpixels/macwidgets/icons/scroller.png"));
                 Icon pressedIcon = new ImageIcon(
-                        DImageButton.class.getResource("./icons/scroller_pressed.png"));
+                        DImageButton.class.getResource("/com/explodingpixels/macwidgets/icons/scroller_pressed.png"));
                 Icon mask = new ImageIcon(
-                        DImageButton.class.getResource("./icons/scroller_mask.png"));
+                        DImageButton.class.getResource("/com/explodingpixels/macwidgets/icons/scroller_mask.png"));
 
                 ImageButton button = new ImageButton(icon, mask);
                 button.setPressedIcon(pressedIcon);
