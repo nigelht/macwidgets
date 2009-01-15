@@ -1,8 +1,25 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -11,7 +28,7 @@ public class PopupButton<E> {
 
     private static final ImageIcon ARROWS_ICON = new ImageIcon(
             PopupButton.class.getResource(
-                    "/com/explodingpixels/images/up_down_arrows_small.png"));
+                    "/com/explodingpixels/macwidgets/images/up_down_arrows_small.png"));
 
     private JButton fButton = new CustomJButton();
 
@@ -75,7 +92,7 @@ public class PopupButton<E> {
         fButton.setFont(newButtonFont);
         fButton.setContentAreaFilled(false);
         fButton.setHorizontalAlignment(SwingConstants.LEFT);
-        fButton.setBorder(BorderFactory.createEmptyBorder(2,4,2,
+        fButton.setBorder(BorderFactory.createEmptyBorder(2, 4, 2,
                 ARROWS_ICON.getIconWidth() + 10));
         fButton.addActionListener(createButtonListener());
 
@@ -86,7 +103,7 @@ public class PopupButton<E> {
         int width = fPopupMenu.getPreferredSize().width - insets.left - insets.right;
         int height = fButton.getPreferredSize().height;
 
-        fButton.setPreferredSize(new Dimension(width,height));
+        fButton.setPreferredSize(new Dimension(width, height));
 
     }
 
@@ -96,7 +113,7 @@ public class PopupButton<E> {
 
     private void setSelectedItem(E itemToSelect) {
         fSelectedItem = itemToSelect;
-        ((JMenuItem)fPopupMenu.getComponent(
+        ((JMenuItem) fPopupMenu.getComponent(
                 fPopupItemsList.indexOf(fSelectedItem))).setSelected(true);
         fButton.setText(fSelectedItem.toString());
     }
@@ -111,20 +128,20 @@ public class PopupButton<E> {
                 // figure out how the height of a menu item.
                 Insets insets = fPopupMenu.getInsets();
                 int itemHeight_px = (fPopupMenu.getPreferredSize().height
-                        - insets.top - insets.bottom)/fPopupItemsList.size();
+                        - insets.top - insets.bottom) / fPopupItemsList.size();
 
                 // calculate the x and y value at which to place the popup menu.
                 // by default, this will place the selected menu item in the
                 // popup item directly over the button.
                 int x = buttonRightX - fPopupMenu.getPreferredSize().width;
                 int y = fButton.getY() - insets.top
-                        - (fPopupItemsList.indexOf(fSelectedItem)*itemHeight_px);
+                        - (fPopupItemsList.indexOf(fSelectedItem) * itemHeight_px);
 
                 // do a cursory check to make sure we're not placing the popup
                 // off the bottom of the screen. note that Java on Mac won't
                 // let the popup show up off screen no matter where you place it.
-                Dimension size   = Toolkit.getDefaultToolkit().getScreenSize();
-                Point bottomOfMenuOnScreen = new Point(0,y + fPopupMenu.getPreferredSize().height);
+                Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+                Point bottomOfMenuOnScreen = new Point(0, y + fPopupMenu.getPreferredSize().height);
                 SwingUtilities.convertPointToScreen(bottomOfMenuOnScreen, fButton);
                 if (bottomOfMenuOnScreen.y > size.height) {
                     y = fButton.getHeight() - fPopupMenu.getPreferredSize().height;
@@ -157,9 +174,7 @@ public class PopupButton<E> {
         };
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Custom JButton.
-    ///////////////////////////////////////////////////////////////////////////
+    // Custom JButton. ////////////////////////////////////////////////////////////////////////////
 
     private static class CustomJButton extends JButton {
 
@@ -168,7 +183,7 @@ public class PopupButton<E> {
             super.paintComponent(g);
 
             int x = getWidth() - ARROWS_ICON.getIconWidth() - 4;
-            int y = getHeight()/2 - ARROWS_ICON.getIconHeight()/2;
+            int y = getHeight() / 2 - ARROWS_ICON.getIconHeight() / 2;
 
             g.drawImage(ARROWS_ICON.getImage(), x, y, null);
 
