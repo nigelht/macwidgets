@@ -3,9 +3,39 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.WindowDragger;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.KeyboardFocusManager;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -30,7 +60,7 @@ import java.beans.PropertyChangeListener;
  */
 public class HudWindow {
 
-    private final JFrame fFrame = new JFrame();
+    private final JDialog fDialog;
 
     private JComponent fContentPane;
 
@@ -38,7 +68,7 @@ public class HudWindow {
 
     private final HudPanel fHudPanel = new HudPanel();
 
-    private final BottomPanel fBottomPanel = new BottomPanel(fFrame);
+    private final BottomPanel fBottomPanel;
 
     private static final int ROUNDED_RECT_DIAMETER = 16;
 
@@ -55,9 +85,24 @@ public class HudWindow {
      * @param title the title to use for this window.
      */
     public HudWindow(String title) {
-        fFrame.setTitle(title);
+        this(title, null);
+    }
+
+    /**
+     * Creates a Heads Up Display style window.
+     *
+     * @param title the title to use for this window.
+     * @param owner the {@link Frame} that this HUD is parented to. Can be null.
+     */
+    public HudWindow(String title, Frame owner) {
+        fDialog = new JDialog(owner);
+        fDialog.setTitle(title);
+        fDialog.setAlwaysOnTop(true);
+        fDialog.setFocusableWindowState(false);
         fTitlePanel = new TitlePanel(title, createCloseButtonActionListener());
+        fBottomPanel = new BottomPanel(fDialog);
         init();
+        installWindowFocusListenerIfNecessary(owner);
     }
 
     private void init() {
@@ -65,40 +110,56 @@ public class HudWindow {
         // set the opacity to 0 (like we do below) this property automatically gets set to true.
         // also note that this client property must be set *before* changing the opacity (not sure
         // why).
-        fFrame.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
+        fDialog.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
 
-        fFrame.setUndecorated(true);
-        fFrame.setAlwaysOnTop(true);
-        fFrame.setBackground(new Color(0, 0, 0, 0));
+        fDialog.setUndecorated(true);
+        fDialog.setAlwaysOnTop(true);
+        fDialog.setBackground(new Color(0, 0, 0, 0));
 
         fHudPanel.add(fTitlePanel, BorderLayout.NORTH);
 //        fHudPanel.add(fBottomPanel, BorderLayout.SOUTH);
 
         // set the backing frame's content pane.
-        fFrame.setContentPane(fHudPanel);
+        fDialog.setContentPane(fHudPanel);
         // set the HUD panel's content pane to a blank JPanel by default.
         JPanel panel = new JPanel();
         panel.setOpaque(false);
         setContentPane(panel);
 
         // listen to the frame's title property so that we can update the label rendering the title.
-        fFrame.addPropertyChangeListener("title", createTitlePropertyChangeListener());
+        fDialog.addPropertyChangeListener("title", createTitlePropertyChangeListener());
 
-        WindowUtils.createAndInstallRepaintWindowFocusListener(fFrame);
+        WindowUtils.createAndInstallRepaintWindowFocusListener(fDialog);
         // listen for focus changes in the window so that we can update the focus state of the title
         // panel (e.g. the font color).
         fTitlePanel.addPropertyChangeListener(
                 WindowUtils.FRAME_ACTIVE_PROPERTY, createFrameFocusPropertyChangeListener());
-        new WindowDragger(fFrame, fTitlePanel);
+        new WindowDragger(fDialog, fTitlePanel);
+    }
+
+    private void installWindowFocusListenerIfNecessary(Window window) {
+        if (window != null) {
+            window.addWindowFocusListener(createWindowFocusListener());
+        }
+    }
+
+    private void updateHudVisibility() {
+        Window focusedWindow = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
+        boolean focusedWindowIsHud = focusedWindow == fDialog;
+        boolean focusedWindowsParentIsFocused = fDialog.getOwner() == focusedWindow;
+        boolean shouldHudHaveFocus = focusedWindowIsHud || focusedWindowsParentIsFocused;
+
+//        boolean hudShouldBeVisible = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null;
+        fDialog.setVisible(shouldHudHaveFocus);
     }
 
     /**
-     * Gets the {@link JFrame} backing this {@code HudWindow}.
+     * Gets the {@link JDialog} backing this {@code HudWindow}.
      *
-     * @return the {@code JFrame} backing this {@code HudWindow}.
+     * @return the {@code JDialog} backing this {@code HudWindow}.
      */
-    public JFrame getJFrame() {
-        return fFrame;
+    public JDialog getJDialog() {
+        return fDialog;
     }
 
     /**
@@ -127,7 +188,7 @@ public class HudWindow {
     private PropertyChangeListener createTitlePropertyChangeListener() {
         return new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                fTitlePanel.setTitle(fFrame.getTitle());
+                fTitlePanel.setTitle(fDialog.getTitle());
             }
         };
     }
@@ -144,7 +205,19 @@ public class HudWindow {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // simulate clicking the "real" close button on a window.
-                fFrame.dispatchEvent(new WindowEvent(fFrame, WindowEvent.WINDOW_CLOSING));
+                fDialog.dispatchEvent(new WindowEvent(fDialog, WindowEvent.WINDOW_CLOSING));
+            }
+        };
+    }
+
+    private WindowFocusListener createWindowFocusListener() {
+        return new WindowFocusListener() {
+            public void windowGainedFocus(WindowEvent e) {
+                fDialog.setVisible(true);
+            }
+
+            public void windowLostFocus(WindowEvent e) {
+                fDialog.setVisible(false);
             }
         };
     }
@@ -227,7 +300,8 @@ public class HudWindow {
 
             // if the window has focus, draw a shiny title bar.
             // else draw a flat background.
-            if (WindowUtils.isParentWindowFocused(this)) {
+            // TODO update this code, but for now, always draw the focused state.
+            if (true) {
                 // 1. The top half --------------------------------------------------------------//
                 // create and set the shiny paint.
                 GradientPaint paint =
