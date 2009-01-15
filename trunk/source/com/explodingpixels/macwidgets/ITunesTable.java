@@ -3,12 +3,21 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.data.Rating;
 import com.explodingpixels.widgets.TableUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -28,9 +37,9 @@ class ITunesTable extends JTable {
     private static final Color ITUNES_RATING_DOT_SELECTED_INACTIVE_COLOR = new Color(0x999999);
     private static final Color ITUNES_RATING_DOT_SELECTED_ACTIVE_COLOR = new Color(255, 255, 255, 150);
 
-    private final ITunesTableHeaderRenderer fHeaderRenderer = 
+    private final ITunesTableHeaderRenderer fHeaderRenderer =
             new ITunesTableHeaderRenderer(this);
-    
+
     ITunesTable(TableModel dm) {
         super(dm);
         init();
@@ -98,6 +107,7 @@ class ITunesTable extends JTable {
                 renderer.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
                         ITUNES_SCROLLPANE_BORDER_COLOR));
                 scrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, renderer);
+                scrollPane.setBorder(BorderFactory.createEmptyBorder());
             }
         }
     }
