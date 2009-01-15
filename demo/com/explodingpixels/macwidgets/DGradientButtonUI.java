@@ -1,13 +1,16 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.GradientButtonUI;
-import com.explodingpixels.widgets.WindowUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.*;
-import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import java.awt.Color;
 
 public class DGradientButtonUI {
@@ -53,7 +56,8 @@ public class DGradientButtonUI {
                 light.setBackground(Color.WHITE);
 
                 JPanel dark = createButtonPanel("Dark gradient", GradientButtonUI.ButtonType.DARK);
-                dark.setBackground(Color.BLACK);
+                dark.setOpaque(false);
+//                dark.setBackground(Color.BLACK);
 
                 builder.add(light, cc.xy(1, 1));
                 builder.add(dark, cc.xy(1, 3));
@@ -68,17 +72,20 @@ public class DGradientButtonUI {
                 unifiedToolBar.addComponentToCenter(buttonOne);
                 unifiedToolBar.addComponentToCenter(buttonTwo);
 
-                JFrame frame = new JFrame("");
-                unifiedToolBar.installWindowDraggerOnWindow(frame);
-                MacUtils.makeWindowLeopardStyle(frame.getRootPane());
-                WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
+                HudWindow hudWindow = new HudWindow("");
+                JDialog dialog = hudWindow.getJDialog();
+//                unifiedToolBar.installWindowDraggerOnWindow(frame);
+//                MacUtils.makeWindowLeopardStyle(frame.getRootPane());
+//                WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
 
-                frame.add(unifiedToolBar.getComponent(), BorderLayout.NORTH);
-                frame.add(new JScrollPane(builder.getPanel()), BorderLayout.CENTER);
-                frame.setSize(500, 400);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.setVisible(true);
+//                frame.add(unifiedToolBar.getComponent(), BorderLayout.NORTH);
+                builder.getPanel().setOpaque(false);
+                hudWindow.setContentPane(builder.getPanel());
+//                frame.setContentPane(new JScrollPane(builder.getPanel()));
+                dialog.setSize(500, 400);
+                dialog.setLocationRelativeTo(null);
+                dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                dialog.setVisible(true);
             }
         });
 
