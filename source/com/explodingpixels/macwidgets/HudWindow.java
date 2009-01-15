@@ -3,39 +3,9 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.WindowDragger;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.KeyboardFocusManager;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -98,7 +68,7 @@ public class HudWindow {
         fDialog = new JDialog(owner);
         fDialog.setTitle(title);
         fDialog.setAlwaysOnTop(true);
-        fDialog.setFocusableWindowState(false);
+//        fDialog.setFocusableWindowState(false);
         fTitlePanel = new TitlePanel(title, createCloseButtonActionListener());
         fBottomPanel = new BottomPanel(fDialog);
         init();
@@ -143,14 +113,68 @@ public class HudWindow {
         }
     }
 
-    private void updateHudVisibility() {
-        Window focusedWindow = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
-        boolean focusedWindowIsHud = focusedWindow == fDialog;
-        boolean focusedWindowsParentIsFocused = fDialog.getOwner() == focusedWindow;
-        boolean shouldHudHaveFocus = focusedWindowIsHud || focusedWindowsParentIsFocused;
+    private void doShowHud() {
+        // if the HUD isn't already visible, make it visible now.
+        if (!fDialog.isVisible()) {
+            // start by indicating that the HUD shouldn't be focusable, so that
+            // we don't steal focus by making it to visible.
+            fDialog.setFocusableWindowState(false);
+            fDialog.setVisible(true);
+            // end by indicating that the HUD may be focused so. this is 
+            // important in order to allow it to hold things like text fields.
+            fDialog.setFocusableWindowState(true);
+        }
+    }
 
-//        boolean hudShouldBeVisible = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner() != null;
-        fDialog.setVisible(shouldHudHaveFocus);
+    private void doMaybeHideHud() {
+        // determine if the HUD needs to be hidden in a background thread. we
+        // use a background thread because we have to wait for focus to settle.
+        new Thread(new Runnable() {
+            public void run() {
+                // wait for focus to settle with a component.
+                doSleepToWaitForFocusOwnershipToTransfer();
+                // if neiether the dialog nor it's parent is focused, then
+                // hide the HUD.
+                if (!isHudOrParentWindowFocused()) {
+                    fDialog.setVisible(false);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Returns true if there the HUD, it's parent, or one of it's parent's 
+     * child Windows is currently focused.
+     */
+    private boolean isHudOrParentWindowFocused() {
+        assert fDialog.getOwner() != null : "The HUD dialog should have an owner.";
+        Window focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
+        return focusOwner != null 
+                && (focusOwner.equals(fDialog) || isChildWindowFocused(fDialog.getOwner()));
+    }
+
+    /**
+     * Returns true if any of the given {@link Window}'s child {@code Window}s
+     * have focus.
+     */
+    private boolean isChildWindowFocused(Window window) {
+        assert window != null : "The given window cannot be null.";
+        boolean isChildWindowFocused = false;
+        for (Window childWindow : window.getOwnedWindows()) {
+            if (childWindow.isFocusOwner()) {
+                isChildWindowFocused = true;
+                break;
+            }
+        }
+        return isChildWindowFocused;
+    }
+    
+    private void doSleepToWaitForFocusOwnershipToTransfer() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // don't care.
+        }
     }
 
     /**
@@ -213,11 +237,11 @@ public class HudWindow {
     private WindowFocusListener createWindowFocusListener() {
         return new WindowFocusListener() {
             public void windowGainedFocus(WindowEvent e) {
-                fDialog.setVisible(true);
+                doShowHud();
             }
 
             public void windowLostFocus(WindowEvent e) {
-                fDialog.setVisible(false);
+                doMaybeHideHud();
             }
         };
     }
@@ -300,8 +324,7 @@ public class HudWindow {
 
             // if the window has focus, draw a shiny title bar.
             // else draw a flat background.
-            // TODO update this code, but for now, always draw the focused state.
-            if (true) {
+            if (WindowUtils.isParentWindowFocused(this)) {
                 // 1. The top half --------------------------------------------------------------//
                 // create and set the shiny paint.
                 GradientPaint paint =
