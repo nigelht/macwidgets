@@ -1,8 +1,6 @@
 package com.explodingpixels.macwidgets;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 public class DHudWindow {
 
@@ -15,8 +13,14 @@ public class DHudWindow {
                 frame.setSize(400, 400);
                 frame.setVisible(true);
 
-                JDialog dialog = new HudWindow("Window", frame).getJDialog();
-//                frame.getRootPane().add(new JLabel("hello"));
+                JTextField textField = new JTextField("foo bar");
+                textField.setOpaque(false);
+                
+                HudWindow hud = new HudWindow("Window", frame);
+                hud.getContentPane().add(textField);
+                
+                JDialog dialog = hud.getJDialog();
+                
 //                WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
                 dialog.setSize(300, 350);
                 dialog.setLocationRelativeTo(null);
