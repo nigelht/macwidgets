@@ -4,6 +4,7 @@ import com.explodingpixels.macwidgets.HudWidgetFactory;
 import com.explodingpixels.widgets.plaf.EPComboPopup;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -55,8 +56,6 @@ public class HudComboBoxUI extends BasicComboBoxUI {
 
         HudPaintingUtils.initHudComponent(comboBox);
         comboBox.addActionListener(createComboBoxListener());
-
-//        comboBox.setPrototypeDisplayValue("Super duper really big");
     }
 
     @Override
@@ -108,7 +107,7 @@ public class HudComboBoxUI extends BasicComboBoxUI {
         JButton arrowButton = new JButton("");
         arrowButton.setUI(fArrowButtonUI);
         Insets currentInsets = arrowButton.getInsets();
-        arrowButton.setMargin(new Insets(
+        arrowButton.setBorder(BorderFactory.createEmptyBorder(
                 currentInsets.top, LEFT_MARGIN, currentInsets.bottom, RIGHT_MARGIN));
         arrowButton.setHorizontalAlignment(SwingConstants.LEFT);
 
