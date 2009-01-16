@@ -39,7 +39,7 @@ public class EPComboPopup implements ComboPopup {
     private ComboBoxVerticalCenterProvider fComboBoxVerticalCenterProvider =
             new DefaultVerticalCenterProvider();
 
-    private static final int LEFT_SHIFT = 15;
+    private static final int LEFT_SHIFT = 5;
 
     public EPComboPopup(JComboBox comboBox) {
         fComboBox = comboBox;
@@ -88,7 +88,7 @@ public class EPComboPopup implements ComboPopup {
         }
 
         fPopupMenu.pack();
-        int popupWidth = fComboBox.getWidth();
+        int popupWidth = fComboBox.getWidth() + 5;
         int popupHeight = fPopupMenu.getPreferredSize().height;
         fPopupMenu.setPreferredSize(new Dimension(popupWidth, popupHeight));
     }
