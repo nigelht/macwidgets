@@ -3,26 +3,10 @@ package com.explodingpixels.macwidgets.plaf;
 import com.explodingpixels.macwidgets.HudWidgetFactory;
 import com.explodingpixels.widgets.plaf.EPComboPopup;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
@@ -74,7 +58,11 @@ public class HudComboBoxUI extends BasicComboBoxUI {
      * Updates the value displayed to match that of {@link JComboBox#getSelectedItem()}.
      */
     private void updateDisplayedItem() {
-        arrowButton.setText(comboBox.getSelectedItem().toString());
+        // TODO make the calculation of the display string more robust
+        // TODO (i.e. use TextProvider interface).
+        String displayValue = comboBox.getSelectedItem() == null
+                ? "" : comboBox.getSelectedItem().toString();
+        arrowButton.setText(displayValue);
     }
 
     /**
