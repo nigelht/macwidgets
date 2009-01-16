@@ -30,7 +30,7 @@ public class HudPaintingUtils {
     private static final Color TOP_PRESSED_COLOR = new Color(249, 249, 249, 153);
     private static final Color BOTTOM_PRESSED_COLOR = new Color(176, 176, 176, 153);
 
-    private static final Color BORDER_COLOR = new Color(0xc5c8cf);
+    public static final Color BORDER_COLOR = new Color(0xc5c8cf);
     private static final int BORDER_WIDTH = 1;
 
     private static final Color LIGHT_SHADOW_COLOR = new Color(0, 0, 0, 145);
