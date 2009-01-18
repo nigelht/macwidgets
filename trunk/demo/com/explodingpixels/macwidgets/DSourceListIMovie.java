@@ -11,10 +11,7 @@ import java.awt.BorderLayout;
 public class DSourceListIMovie {
 
     public static SourceList createSourceList() {
-//        Icon macIcon =
-//                new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/Mac.png"));
-//        Icon dotMac =
-//                new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/DotMac_small.png"));
+
         Icon eventIcon =
                 new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/Event.png"));
         Icon projectIcon =
