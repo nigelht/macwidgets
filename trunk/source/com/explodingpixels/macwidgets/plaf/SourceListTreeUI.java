@@ -1,13 +1,12 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.MacColorUtils;
-import com.explodingpixels.macwidgets.MacFontUtils;
-import com.explodingpixels.macwidgets.MacPainterFactory;
 import com.explodingpixels.macwidgets.MacWidgetFactory;
 import com.explodingpixels.macwidgets.SourceList;
 import com.explodingpixels.macwidgets.SourceListBadgeContentProvider;
+import com.explodingpixels.macwidgets.SourceListColorScheme;
 import com.explodingpixels.macwidgets.SourceListCountBadgeRenderer;
 import com.explodingpixels.macwidgets.SourceListModel;
+import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.IconProvider;
@@ -21,12 +20,12 @@ import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.plaf.basic.BasicTreeUI;
@@ -37,7 +36,9 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -90,26 +91,19 @@ import java.awt.event.ActionEvent;
  */
 public class SourceListTreeUI extends BasicTreeUI {
 
-    private static final FocusStatePainter BACKGROUND_PAINTER = new FocusStatePainter(
-            new RectanglePainter(MacColorUtils.SOURCE_LIST_FOCUSED_BACKGROUND_COLOR),
-            new RectanglePainter(MacColorUtils.SOURCE_LIST_FOCUSED_BACKGROUND_COLOR),
-            new RectanglePainter(MacColorUtils.SOURCE_LIST_UNFOCUSED_BACKGROUND_COLOR));
+    private static final Font CATEGORY_FONT =
+            UIManager.getFont("Label.font").deriveFont(Font.BOLD, 11.0f);
+    private static final Font ITEM_FONT = UIManager.getFont("Label.font").deriveFont(11.0f);
+    private static final Font ITEM_SELECTED_FONT = ITEM_FONT.deriveFont(Font.BOLD);
 
-    private static final FocusStatePainter SELECTION_BACKGROUND_PAINTER = new FocusStatePainter(
-            MacPainterFactory.createSourceListSelectionPainter_componentFocused(),
-            MacPainterFactory.createSourceListSelectionPainter_windowFocused(),
-            MacPainterFactory.createSourceListSelectionPainter_windowUnfocused());
-
-    private static final Icon COLLAPSED_ICON = new ImageIcon(
-            SourceList.class.getResource(
-                    "/com/explodingpixels/macwidgets/images/group_list_right_arrow.png"));
-
-    private static final Icon EXPANDED_ICON = new ImageIcon(
-            SourceList.class.getResource(
-                    "/com/explodingpixels/macwidgets/images/group_list_down_arrow.png"));
+    private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
 
     private final String SELECT_NEXT = "selectNext";
     private final String SELECT_PREVIOUS = "selectPrevious";
+
+    private SourceListColorScheme fColorScheme;
+    private FocusStatePainter fBackgroundPainter;
+    private FocusStatePainter fSelectionBackgroundPainter;
 
     @Override
     protected void completeUIInstall() {
@@ -118,7 +112,6 @@ public class SourceListTreeUI extends BasicTreeUI {
         tree.setSelectionModel(new SourceListTreeSelectionModel());
 
         tree.setOpaque(false);
-        tree.setCellRenderer(new SourceListTreeCellRenderer());
         tree.setRootVisible(false);
         tree.setLargeModel(true);
         tree.setRootVisible(false);
@@ -126,16 +119,11 @@ public class SourceListTreeUI extends BasicTreeUI {
         // TODO key height off font size.
         tree.setRowHeight(20);
 
-        // install the collapsed and expanded icons as well as the margins to indent nodes.
-        setCollapsedIcon(COLLAPSED_ICON);
-        setExpandedIcon(EXPANDED_ICON);
-        int indent = COLLAPSED_ICON.getIconWidth() / 2 + 4;
-        setLeftChildIndent(indent);
-        setRightChildIndent(indent);
-
         // install a custom TreeModelListener to handle root node expansion.
         tree.getModel().addTreeModelListener(new CustomTreeModelListener());
 
+        // install the default color scheme.
+        setColorScheme(new SourceListStandardColorScheme());
     }
 
     @Override
@@ -153,6 +141,45 @@ public class SourceListTreeUI extends BasicTreeUI {
         tree.getInputMap().put(KeyStroke.getKeyStroke("pressed UP"), SELECT_PREVIOUS);
         tree.getActionMap().put(SELECT_NEXT, createNextAction());
         tree.getActionMap().put(SELECT_PREVIOUS, createPreviousAction());
+    }
+
+    public void setColorScheme(SourceListColorScheme colorScheme) {
+        checkColorSchemeNotNull(colorScheme);
+        fColorScheme = colorScheme;
+        fBackgroundPainter = new FocusStatePainter(
+                new RectanglePainter(fColorScheme.getActiveBackgroundColor()),
+                new RectanglePainter(fColorScheme.getActiveBackgroundColor()),
+                new RectanglePainter(fColorScheme.getInactiveBackgroundColor()));
+        fSelectionBackgroundPainter = new FocusStatePainter(
+                fColorScheme.getActiveFocusedSelectedItemPainter(),
+                fColorScheme.getActiveUnfocusedSelectedItemPainter(),
+                fColorScheme.getInactiveSelectedItemPainter());
+        // create a new tree cell renderer in order to pick up the new colors.
+        tree.setCellRenderer(new SourceListTreeCellRenderer());
+        installDisclosureIcons();
+    }
+
+    private void installDisclosureIcons() {
+        // install the collapsed and expanded icons as well as the margins to indent nodes.
+        setCollapsedIcon(fColorScheme.getUnselectedCollapsedIcon());
+        setExpandedIcon(fColorScheme.getUnselectedExpandedIcon());
+        int indent = fColorScheme.getUnselectedCollapsedIcon().getIconWidth() / 2 + 4;
+        setLeftChildIndent(indent);
+        setRightChildIndent(indent);
+    }
+
+    @Override
+    protected void paintExpandControl(Graphics g, Rectangle clipBounds, Insets insets,
+                                      Rectangle bounds, TreePath path, int row, boolean isExpanded,
+                                      boolean hasBeenExpanded, boolean isLeaf) {
+        // if the given path is selected, then
+        boolean isPathSelected = tree.getSelectionModel().isPathSelected(path);
+        setExpandedIcon(isPathSelected ? fColorScheme.getSelectedExpandedIcon()
+                : fColorScheme.getUnselectedExpandedIcon());
+        setCollapsedIcon(isPathSelected ? fColorScheme.getSelectedCollapsedIcon()
+                : fColorScheme.getUnselectedCollapsedIcon());
+
+        super.paintExpandControl(g, clipBounds, insets, bounds, path, row, isExpanded, hasBeenExpanded, isLeaf);
     }
 
     @Override
@@ -191,7 +218,7 @@ public class SourceListTreeUI extends BasicTreeUI {
         // TODO use c.getVisibleRect to trim painting to minimum rectangle.
         // paint the background for the tree.
         Graphics2D backgroundGraphics = (Graphics2D) g.create();
-        BACKGROUND_PAINTER.paint(backgroundGraphics, c, c.getWidth(), c.getHeight());
+        fBackgroundPainter.paint(backgroundGraphics, c, c.getWidth(), c.getHeight());
         backgroundGraphics.dispose();
 
         // TODO use c.getVisibleRect to trim painting to minimum rectangle.
@@ -203,7 +230,7 @@ public class SourceListTreeUI extends BasicTreeUI {
 
             Graphics2D selectionBackgroundGraphics = (Graphics2D) g.create();
             selectionBackgroundGraphics.translate(0, bounds.y);
-            SELECTION_BACKGROUND_PAINTER.paint(
+            fSelectionBackgroundPainter.paint(
                     selectionBackgroundGraphics, c, c.getWidth(), bounds.height);
             selectionBackgroundGraphics.dispose();
         }
@@ -295,11 +322,18 @@ public class SourceListTreeUI extends BasicTreeUI {
         return retVal;
     }
 
+    private static void checkColorSchemeNotNull(SourceListColorScheme colorScheme) {
+        if (colorScheme == null) {
+            throw new IllegalArgumentException("The given SourceListColorScheme cannot be null.");
+        }
+    }
+
     // Custom TreeModelListener. //////////////////////////////////////////////////////////////////
 
     private class CustomTreeModelListener implements TreeModelListener {
 
         public void treeNodesChanged(TreeModelEvent e) {
+            // no implementation.
         }
 
         public void treeNodesInserted(TreeModelEvent e) {
@@ -314,9 +348,11 @@ public class SourceListTreeUI extends BasicTreeUI {
         }
 
         public void treeNodesRemoved(TreeModelEvent e) {
+            // no implementation.
         }
 
         public void treeStructureChanged(TreeModelEvent e) {
+            // no implementation.
         }
     }
 
@@ -342,12 +378,12 @@ public class SourceListTreeUI extends BasicTreeUI {
     private class CategoryTreeCellRenderer implements TreeCellRenderer {
 
         private JLabel fLabel = MacWidgetFactory.makeEmphasizedLabel(new JLabel(),
-                MacColorUtils.MAC_SOURCE_LIST_CATEGORY_FONT_COLOR,
-                MacColorUtils.MAC_SOURCE_LIST_CATEGORY_FONT_COLOR,
-                EmphasizedLabelUI.DEFAULT_EMPHASIS_COLOR);
+                fColorScheme.getCategoryTextColor(),
+                fColorScheme.getCategoryTextColor(),
+                fColorScheme.getCategoryTextShadowColor());
 
         private CategoryTreeCellRenderer() {
-            fLabel.setFont(MacFontUtils.SOURCE_LIST_CATEGORY_FONT);
+            fLabel.setFont(CATEGORY_FONT);
         }
 
         public Component getTreeCellRendererComponent(
@@ -363,21 +399,23 @@ public class SourceListTreeUI extends BasicTreeUI {
 
         private PanelBuilder fBuilder;
 
-        private SourceListCountBadgeRenderer fCountRenderer = new SourceListCountBadgeRenderer();
+        private SourceListCountBadgeRenderer fCountRenderer = new SourceListCountBadgeRenderer(
+                fColorScheme.getSelectedBadgeColor(), fColorScheme.getActiveUnselectedBadgeColor(),
+                fColorScheme.getInativeUnselectedBadgeColor(), fColorScheme.getBadgeTextColor());
 
         private JLabel fSelectedLabel = MacWidgetFactory.makeEmphasizedLabel(new JLabel(),
-                MacColorUtils.MAC_SOURCE_LIST_SELECTED_ITEM_FONT_COLOR,
-                MacColorUtils.MAC_SOURCE_LIST_SELECTED_ITEM_FONT_COLOR,
-                MacColorUtils.MAC_SOURCE_LIST_SELECTED_ITEM_FONT_SHADOW_COLOR);
+                fColorScheme.getSelectedItemTextColor(),
+                fColorScheme.getSelectedItemTextColor(),
+                fColorScheme.getSelectedItemFontShadowColor());
 
         private JLabel fUnselectedLabel = MacWidgetFactory.makeEmphasizedLabel(new JLabel(),
-                MacColorUtils.MAC_SOURCE_LIST_ITEM_FONT_COLOR,
-                MacColorUtils.MAC_SOURCE_LIST_ITEM_FONT_COLOR,
-                MacColorUtils.MAC_SOURCE_LIST_ITEM_FONT_SHADOW_COLOR);
+                fColorScheme.getUnselectedItemTextColor(),
+                fColorScheme.getUnselectedItemTextColor(),
+                TRANSPARENT_COLOR);
 
         private ItemTreeCellRenderer() {
-            fSelectedLabel.setFont(MacFontUtils.SOURCE_LIST_ITEM_SELECTED_FONT);
-            fUnselectedLabel.setFont(MacFontUtils.SOURCE_LIST_ITEM_FONT);
+            fSelectedLabel.setFont(ITEM_SELECTED_FONT);
+            fUnselectedLabel.setFont(ITEM_FONT);
 
             // definte the FormLayout columns and rows.
             FormLayout layout = new FormLayout("fill:0px:grow, 5px, p, 5px", "3px, fill:p:grow, 3px");

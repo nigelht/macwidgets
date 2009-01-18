@@ -10,28 +10,6 @@ public class MacColorUtils {
 
     public static Color LEOPARD_BORDER_COLOR = new Color(0x555555);
 
-    public static Color SOURCE_LIST_FOCUSED_BACKGROUND_COLOR = new Color(0xd6dde5);
-
-    public static Color SOURCE_LIST_UNFOCUSED_BACKGROUND_COLOR = new Color(0xe8e8e8);
-
-    // Leopard list colors. ///////////////////////////////////////////////////////////////////////
-
-    public static final Color MAC_FOCUSED_SOURCE_LIST_BACKGROUND_COLOR = new Color(0xd6dde5);
-
-    public static final Color MAC_SOURCE_LIST_BACKGROUND_COLOR = new Color(0xe8e8e8);
-
-    public static final Color MAC_SOURCE_LIST_CATEGORY_FONT_COLOR = new Color(0x606e80);
-
-    public static final Color MAC_SOURCE_LIST_CATEGORY_FONT_SHADOW_COLOR = new Color(255, 255, 255, 110);
-
-    public static final Color MAC_SOURCE_LIST_ITEM_FONT_COLOR = Color.BLACK;
-
-    public static final Color MAC_SOURCE_LIST_ITEM_FONT_SHADOW_COLOR = new Color(0, 0, 0, 0);
-
-    public static final Color MAC_SOURCE_LIST_SELECTED_ITEM_FONT_COLOR = Color.WHITE;
-
-    public static final Color MAC_SOURCE_LIST_SELECTED_ITEM_FONT_SHADOW_COLOR = new Color(0, 0, 0, 110);
-
     // OS X unified toolbar colors. ///////////////////////////////////////////////////////////////
 
     public static final Color OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR = new Color(64, 64, 64);
