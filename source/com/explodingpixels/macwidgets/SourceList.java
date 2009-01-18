@@ -1,5 +1,6 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
 
 import javax.swing.JComponent;
@@ -220,6 +221,15 @@ public class SourceList {
      */
     public void useIAppStyleScrollBars() {
         IAppWidgetFactory.makeIAppScrollPane(fScrollPane);
+    }
+
+    /**
+     * Sets the {@link SourceListColorScheme} that this {@code SourceList} uses.
+     *
+     * @param colorScheme the {@link SourceListColorScheme} that this {@code SourceList} uses.
+     */
+    public void setColorScheme(SourceListColorScheme colorScheme) {
+        ((SourceListTreeUI) fTree.getUI()).setColorScheme(colorScheme);
     }
 
     private static DefaultMutableTreeNode getNodeForObject(DefaultMutableTreeNode parentNode,

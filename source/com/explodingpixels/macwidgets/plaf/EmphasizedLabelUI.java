@@ -1,6 +1,5 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.MacColorUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.JComponent;
@@ -33,8 +32,7 @@ public class EmphasizedLabelUI extends BasicLabelUI {
     private Color fFocusedTextColor;
     private Color fUnfocusedTextColor;
 
-    public static final Color DEFAULT_EMPHASIS_COLOR =
-            MacColorUtils.MAC_SOURCE_LIST_CATEGORY_FONT_SHADOW_COLOR;
+    public static final Color DEFAULT_EMPHASIS_COLOR = new Color(255, 255, 255, 110);
     public static final Color DEFAULT_FOCUSED_FONT_COLOR = new Color(0x000000);
     public static final Color DEFAULT_UNFOCUSED_FONT_COLOR = new Color(0x3f3f3f);
     public static final Color DEFAULT_DISABLED_FONT_COLOR = new Color(0x3f3f3f);

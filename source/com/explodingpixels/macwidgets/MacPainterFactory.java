@@ -9,9 +9,7 @@ import java.awt.Graphics2D;
 
 public class MacPainterFactory {
 
-    ///////////////////////////////////////////////////////////////////////////
-    // iApp Header painters.
-    ///////////////////////////////////////////////////////////////////////////
+    // iApp Header painters. //////////////////////////////////////////////////////////////////////
 
     public static Painter<Component> createIAppUnpressedUnselectedHeaderPainter() {
         return new Painter<Component>() {
@@ -78,60 +76,7 @@ public class MacPainterFactory {
         };
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Selection painters.
-    ///////////////////////////////////////////////////////////////////////////
-
-    public static Painter<Component> createSourceListSelectionPainter_componentFocused() {
-        return new Painter<Component>() {
-
-            private Color TOP_LINE_COLOR = new Color(0x4580c8);
-            private Color TOP_GRADIENT_COLOR = new Color(0x5d94d6);
-            private Color BOTTOM_GRADIENT_COLOR = new Color(0x1956ad);
-
-            public void paint(Graphics2D graphics2D, Component component,
-                              int width, int height) {
-                paintLeopardGradientSelection(
-                        TOP_LINE_COLOR, BOTTOM_GRADIENT_COLOR,
-                        TOP_GRADIENT_COLOR, BOTTOM_GRADIENT_COLOR,
-                        graphics2D, width, height);
-            }
-        };
-    }
-
-    public static Painter<Component> createSourceListSelectionPainter_windowFocused() {
-        return new Painter<Component>() {
-
-            private Color TOP_LINE_COLOR = new Color(0x91a0c0);
-            private Color TOP_GRADIENT_COLOR = new Color(0xa1b0cf);
-            private Color BOTTOM_GRADIENT_COLOR = new Color(0x7185ab);
-
-            public void paint(Graphics2D graphics2D, Component component,
-                              int width, int height) {
-                paintLeopardGradientSelection(
-                        TOP_LINE_COLOR, BOTTOM_GRADIENT_COLOR,
-                        TOP_GRADIENT_COLOR, BOTTOM_GRADIENT_COLOR,
-                        graphics2D, width, height);
-            }
-        };
-    }
-
-    public static Painter<Component> createSourceListSelectionPainter_windowUnfocused() {
-        return new Painter<Component>() {
-
-            private Color TOP_LINE_COLOR = new Color(0x979797);
-            private Color TOP_GRADIENT_COLOR = new Color(0xb4b4b4);
-            private Color BOTTOM_GRADIENT_COLOR = new Color(0x8a8a8a);
-
-            public void paint(Graphics2D graphics2D, Component component,
-                              int width, int height) {
-                paintLeopardGradientSelection(
-                        TOP_LINE_COLOR, BOTTOM_GRADIENT_COLOR,
-                        TOP_GRADIENT_COLOR, BOTTOM_GRADIENT_COLOR,
-                        graphics2D, width, height);
-            }
-        };
-    }
+    // Selection painters. ////////////////////////////////////////////////////////////////////////
 
     /**
      * Paints a graident with a single pixel border at the top of the component
