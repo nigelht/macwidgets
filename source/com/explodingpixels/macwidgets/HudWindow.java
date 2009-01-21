@@ -67,12 +67,9 @@ public class HudWindow {
     public HudWindow(String title, Frame owner) {
         fDialog = new JDialog(owner);
         fDialog.setTitle(title);
-        fDialog.setAlwaysOnTop(true);
-//        fDialog.setFocusableWindowState(false);
         fTitlePanel = new TitlePanel(title, createCloseButtonActionListener());
         fBottomPanel = new BottomPanel(fDialog);
         init();
-        installWindowFocusListenerIfNecessary(owner);
     }
 
     private void init() {
@@ -105,76 +102,6 @@ public class HudWindow {
         fTitlePanel.addPropertyChangeListener(
                 WindowUtils.FRAME_ACTIVE_PROPERTY, createFrameFocusPropertyChangeListener());
         new WindowDragger(fDialog, fTitlePanel);
-    }
-
-    private void installWindowFocusListenerIfNecessary(Window window) {
-        if (window != null) {
-            window.addWindowFocusListener(createWindowFocusListener());
-        }
-    }
-
-    private void doShowHud() {
-        // if the HUD isn't already visible, make it visible now.
-        if (!fDialog.isVisible()) {
-            // start by indicating that the HUD shouldn't be focusable, so that
-            // we don't steal focus by making it to visible.
-            fDialog.setFocusableWindowState(false);
-            fDialog.setVisible(true);
-            // end by indicating that the HUD may be focused so. this is 
-            // important in order to allow it to hold things like text fields.
-            fDialog.setFocusableWindowState(true);
-        }
-    }
-
-    private void doMaybeHideHud() {
-        // determine if the HUD needs to be hidden in a background thread. we
-        // use a background thread because we have to wait for focus to settle.
-        new Thread(new Runnable() {
-            public void run() {
-                // wait for focus to settle with a component.
-                doSleepToWaitForFocusOwnershipToTransfer();
-                // if neiether the dialog nor it's parent is focused, then
-                // hide the HUD.
-                if (!isHudOrParentWindowFocused()) {
-                    fDialog.setVisible(false);
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * Returns true if there the HUD, it's parent, or one of it's parent's 
-     * child Windows is currently focused.
-     */
-    private boolean isHudOrParentWindowFocused() {
-        assert fDialog.getOwner() != null : "The HUD dialog should have an owner.";
-        Window focusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
-        return focusOwner != null 
-                && (focusOwner.equals(fDialog) || isChildWindowFocused(fDialog.getOwner()));
-    }
-
-    /**
-     * Returns true if any of the given {@link Window}'s child {@code Window}s
-     * have focus.
-     */
-    private boolean isChildWindowFocused(Window window) {
-        assert window != null : "The given window cannot be null.";
-        boolean isChildWindowFocused = false;
-        for (Window childWindow : window.getOwnedWindows()) {
-            if (childWindow.isFocusOwner()) {
-                isChildWindowFocused = true;
-                break;
-            }
-        }
-        return isChildWindowFocused;
-    }
-    
-    private void doSleepToWaitForFocusOwnershipToTransfer() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            // don't care.
-        }
     }
 
     /**
@@ -230,18 +157,6 @@ public class HudWindow {
             public void actionPerformed(ActionEvent e) {
                 // simulate clicking the "real" close button on a window.
                 fDialog.dispatchEvent(new WindowEvent(fDialog, WindowEvent.WINDOW_CLOSING));
-            }
-        };
-    }
-
-    private WindowFocusListener createWindowFocusListener() {
-        return new WindowFocusListener() {
-            public void windowGainedFocus(WindowEvent e) {
-                doShowHud();
-            }
-
-            public void windowLostFocus(WindowEvent e) {
-                doMaybeHideHud();
             }
         };
     }
