@@ -80,7 +80,6 @@ public class HudWindow {
         fDialog.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
 
         fDialog.setUndecorated(true);
-        fDialog.setAlwaysOnTop(true);
         fDialog.setBackground(new Color(0, 0, 0, 0));
 
         fHudPanel.add(fTitlePanel, BorderLayout.NORTH);
