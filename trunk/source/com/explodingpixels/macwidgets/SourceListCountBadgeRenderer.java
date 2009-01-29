@@ -10,8 +10,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 
 /**
@@ -24,14 +26,6 @@ public class SourceListCountBadgeRenderer {
     private boolean fSelected = false;
 
     private static Font BADGE_FONT = new Font("Helvetica", Font.BOLD, 11);
-
-//    private static Color BADGE_SELECTED_BACKGROUND_COLOR = Color.WHITE;
-//
-//    private static Color BADGE_UNSELECTED_BACKGROUND_COLOR = new Color(0x8899bc);
-//
-//    private static Color BADGE_UNSELECTED_UNFOCUSED_BACKGROUND_COLOR = new Color(0x9a9a9a);
-//
-//    private static Color BADGE_TEXT_COLOR = BADGE_SELECTED_BACKGROUND_COLOR;
 
     private final Color fSelectedColor;
     private final Color fActiveUnselectedColor;
@@ -104,9 +98,6 @@ public class SourceListCountBadgeRenderer {
             // draw the badge.
             g2d.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight(), getHeight());
 
-            // get the bounds of the badge text in order to calculate the center.
-            Rectangle2D bounds =
-                    g2d.getFontMetrics().getStringBounds(getText(), g2d);
             // set the color to use for the text - note this color is always
             // the same, though it won't always show because of the composite
             // set below.
@@ -118,8 +109,13 @@ public class SourceListCountBadgeRenderer {
             g2d.setComposite(fSelected
                     ? AlphaComposite.DstOut : AlphaComposite.SrcOver);
             // calculate the bottom left point to draw the text at.
+            Font font = g2d.getFont();
+            FontRenderContext renderContext = g2d.getFontRenderContext();
+            GlyphVector glyphVector = font.createGlyphVector(renderContext, getText());
+            Rectangle visualBounds = glyphVector.getVisualBounds().getBounds();
             int x = getWidth() / 2 - g2d.getFontMetrics().stringWidth(getText()) / 2;
-            int y = getHeight() / 2 + g2d.getFontMetrics().getAscent() / 2;
+            int y = getHeight() / 2 - visualBounds.height / 2 - visualBounds.y;
+
             // draw the badge text.
             g2d.drawString(getText(), x, y);
 
