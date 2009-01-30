@@ -3,19 +3,14 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -232,6 +227,19 @@ public class SourceList {
         ((SourceListTreeUI) fTree.getUI()).setColorScheme(colorScheme);
     }
 
+    /**
+     * Set's the {@link TransferHandler} that this {@code SourceList} should use
+     * during drag and drop operations. If the given handler not null, then
+     * dragging will be turned on for the {@code SourceList}. If the handler is
+     * null, then dragging will be turned off.
+     * @param transferHandler the {@code TransferHandler} for this 
+     *        {@code SourceList}. Can be null.
+     */
+    public void setTransferHandler(TransferHandler transferHandler) {
+        fTree.setDragEnabled(transferHandler != null);
+        fTree.setTransferHandler(transferHandler);
+    }
+    
     private static DefaultMutableTreeNode getNodeForObject(DefaultMutableTreeNode parentNode,
                                                            Object userObject) {
         if (parentNode.getUserObject().equals(userObject)) {
@@ -364,7 +372,7 @@ public class SourceList {
         SourceListClickListener.Button button =
                 SourceListClickListener.Button.getButton(event.getButton());
         int clickCount = event.getClickCount();
-
+        
         if (itemOrCategory == null) {
             // do nothing.
         } else if (itemOrCategory instanceof SourceListItem) {
