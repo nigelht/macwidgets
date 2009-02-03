@@ -4,8 +4,12 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Creates a group of components and provides a label underneath those components. The added
@@ -34,11 +38,26 @@ public class LabeledComponentGroup {
 
     private JComponent fComponent;
 
+    /**
+     * Creates a labeled component group using the given label and components.
+     *
+     * @param labelString the label of the group.
+     * @param components  the components in the group.
+     */
     public LabeledComponentGroup(String labelString, JComponent... components) {
+        this(labelString, Arrays.asList(components));
+    }
 
+    /**
+     * Creates a labeled component group using the given label and components.
+     *
+     * @param labelString the label of the group.
+     * @param components  the components in the group.
+     */
+    public LabeledComponentGroup(String labelString, List<JComponent> components) {
         JComponent componentToAdd;
-        if (components.length == 1) {
-            componentToAdd = components[0];
+        if (components.size() == 1) {
+            componentToAdd = components.get(0);
         } else {
             componentToAdd = new JPanel(new FlowLayout(0, 0, FlowLayout.CENTER));
             componentToAdd.setOpaque(false);
