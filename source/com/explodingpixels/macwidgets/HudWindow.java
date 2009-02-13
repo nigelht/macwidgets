@@ -18,7 +18,7 @@ import java.beans.PropertyChangeListener;
  * section of Apple's Human Interface Guidelines.
  * </p>
  * <p>
- * A is designed to be a lightweight way to unobtrusivley offer controls to the user. The window
+ * HUD's are designed to offer a lightweight way to unobtrusivley offer controls to the user. The window
  * looks like this:
  * <br>
  * <img src="../../../../graphics/HeadsUpDisplay.png">
