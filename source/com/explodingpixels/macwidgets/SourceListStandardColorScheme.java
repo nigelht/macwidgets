@@ -14,6 +14,9 @@ import java.awt.Component;
  * Mac {@link SourceList}:
  * <br>
  * <img src="../../../../graphics/iTunesSourceList.png">
+ *
+ * @see com.explodingpixels.macwidgets.SourceList#setColorScheme(SourceListColorScheme)
+ * @see com.explodingpixels.macwidgets.plaf.SourceListTreeUI#setColorScheme(SourceListColorScheme)
  */
 public class SourceListStandardColorScheme implements SourceListColorScheme {
 
