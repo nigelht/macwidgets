@@ -26,18 +26,15 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
 
     private final ScrollBarSkinProvider fScrollBarSkinProvider;
 
+    /**
+     * Creates a {@code SkinnableScrollBarUI} that query the given {@link ScrollBarSkinProvider} in
+     * order to get the {@link ScrollBarSkin} during the installation of this UI delegate.
+     *
+     * @param scrollBarSkinProvider the provider of the {@code ScrollBarSkin}.
+     */
     public SkinnableScrollBarUI(ScrollBarSkinProvider scrollBarSkinProvider) {
         fScrollBarSkinProvider = scrollBarSkinProvider;
     }
-
-//    /**
-//     * Creates a {@code SkinnableScrollBarUI} that uses the given {@lin ScrollBarSkin} This
-//     * constructor can be used when the skin available at creation time.
-//     * @param skin the {@code ScrollBarSkin} to use to paint this scroll bar.
-//     */
-//    public SkinnableScrollBarUI(ScrollBarSkin skin) {
-//        fScrollBarSkinProvider = new DefaultScrollBarSkinProvider(skin);
-//    }
 
     @Override
     public void installUI(JComponent c) {
@@ -50,14 +47,18 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
 
     @Override
     protected void installComponents() {
+        // delegate to the ScrollBarSkin.
         fSkin.installComponents(scrollbar);
     }
 
     @Override
     protected void installListeners() {
         super.installListeners();
+        // give the ScrollBarSkin the decrement and increment MouseListeners so that it may attach
+        // them to the appropriate components.
         fSkin.installMouseListenersOnButtons(new CustomArrowButtonListener(-1),
                 new CustomArrowButtonListener(1));
+        // repaint the scrollbar when the focus state of the parent window changes.
         WindowUtils.installJComponentRepainterOnWindowFocusChanged(scrollbar);
     }
 
@@ -66,9 +67,13 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         if (isDragging) {
             // do nothing.
         } else if (isAllContentVisible(scrollbar)) {
+            // if all the content is visible, and thus no scrollbar is necssary, tell the
+            // ScrollBarSkin to layout only the track.
             fSkin.layoutTrackOnly(scrollbar, fOrientation);
             updateThumbBoundsFromScrollBarValue();
         } else {
+            // tell the ScrollBarSkin to layout the entire scrollbar. once that's complete, update
+            // the bounds of the visible scroll thumb from the models value.
             fSkin.layoutEverything(scrollbar, fOrientation);
             updateThumbBoundsFromScrollBarValue();
         }
@@ -76,30 +81,39 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
 
     @Override
     protected Dimension getMinimumThumbSize() {
+        // delegate to the ScrollBarSkin.
         return fSkin.getMinimumThumbSize();
     }
 
     @Override
     public Dimension getPreferredSize(JComponent c) {
+        // delegate to the ScrollBarSkin.
         return fSkin.getPreferredSize();
     }
 
     @Override
     protected Rectangle getThumbBounds() {
+        // delegate to the ScrollBarSkin.
         return fSkin.getScrollThumbBounds();
     }
 
+    /**
+     * Convienence method that simply breaks apart the given Rectangle into its primatives and
+     * calls {@link #setThumbBounds(int, int, int, int)}.
+     */
     private void setThumbBounds(Rectangle thumbBounds) {
         setThumbBounds(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height);
     }
 
     @Override
     protected void setThumbBounds(int x, int y, int width, int height) {
+        // delegate to the ScrollBarSkin.
         fSkin.setScrollThumbBounds(new Rectangle(x, y, width, height));
     }
 
     @Override
     protected Rectangle getTrackBounds() {
+        // delegate to the ScrollBarSkin.
         return fSkin.getTrackBounds();
     }
 
@@ -113,7 +127,14 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         // do nothing - not supported.
     }
 
+    /**
+     * Sets the scroll thumb bounds based on the track size, the total size of viewable area and the
+     * amount of content that is currently visible.
+     */
     private void updateThumbBoundsFromScrollBarValue() {
+        // most of the below logic was lifted from BasicScrollBarUI. the logic here has been
+        // greatly simplified here through the use of the ScrollBarOrientation.
+
         float min = scrollbar.getMinimum();
         float extent = scrollbar.getVisibleAmount();
         float range = scrollbar.getMaximum() - min;
@@ -128,17 +149,25 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         float thumbRange = trackSize - thumbLength;
         int thumbPosition = (int) (0.5f + (thumbRange * ((value - min) / (range - extent))));
 
+        // tell the ScrollBarSkin how big the scroll thumb should be.
         fSkin.setScrollThumbBounds(
                 fOrientation.createBounds(scrollbar, thumbPosition, thumbLength));
     }
 
+    /**
+     * Figures out where the scroll thumb should be based on the given MouseEvent and moves the
+     * thumb to that new location.
+     */
     private void updateThumbBoundsAndScrollBarValueFromMouseEvent(MouseEvent event, int offset) {
         int mouseLocation = adjustMousePosition(event.getPoint(), offset);
-        updateThumbBoundsFromMouseEvent(mouseLocation);
-        updateScrollBarValueFromMouseEvent(mouseLocation);
+        updateThumbBoundsFromMouseLocation(mouseLocation);
+        updateScrollBarValueFromMouseLocation(mouseLocation);
     }
 
-    private void updateThumbBoundsFromMouseEvent(int mouseLocation) {
+    /**
+     * Moves the visible scroll thumb to the given location.
+     */
+    private void updateThumbBoundsFromMouseLocation(int mouseLocation) {
         Dimension thumbSize = getThumbBounds().getSize();
         Dimension trackSize = getTrackBounds().getSize();
 
@@ -152,7 +181,13 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         setThumbBounds(fOrientation.updateBoundsPosition(getThumbBounds(), thumbPosition));
     }
 
-    private void updateScrollBarValueFromMouseEvent(int mouseLocation) {
+    /**
+     * Updaates the scrollbar model based on the given mouse location.
+     */
+    private void updateScrollBarValueFromMouseLocation(int mouseLocation) {
+        // most of the below logic was lifted from BasicScrollBarUI. the logic here has been
+        // greatly simplified here through the use of the ScrollBarOrientation.
+
         BoundedRangeModel model = scrollbar.getModel();
         Rectangle thumbBounds = getThumbBounds();
         Rectangle trackBounds = getTrackBounds();
@@ -174,6 +209,9 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         scrollbar.setValue(value + model.getMinimum());
     }
 
+    /**
+     * Gets the maximum possible thumb position.
+     */
     private int getMaximumPossibleThumbPosition(Rectangle trackBounds, Rectangle thumbBounds) {
         int trackStartPosition = fOrientation.getPosition(trackBounds.getLocation());
         int trackLength = fOrientation.getLength(trackBounds.getSize());
@@ -185,12 +223,18 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         return fOrientation.getPosition(mousePoint) - offset;
     }
 
+    /**
+     * True if the given point is before the start of the scroll thumb.
+     */
     private boolean isPointBeforeScrollThumb(Point point) {
         int mousePosition = fOrientation.getPosition(point);
         int thumbPosition = fOrientation.getPosition(getThumbBounds().getLocation());
         return mousePosition < thumbPosition;
     }
 
+    /**
+     * True if the given point is after the end of the scroll thumb.
+     */
     private boolean isPointAfterScrollThumb(Point point) {
         int mousePosition = fOrientation.getPosition(point);
         int thumbPosition = fOrientation.getPosition(getThumbBounds().getLocation());
@@ -206,6 +250,9 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         return new SkinnableTrackListener();
     }
 
+    /**
+     * True if the all the content that the scrollbar is scrolling for is currently visible.
+     */
     private static boolean isAllContentVisible(JScrollBar scrollBar) {
         float extent = scrollBar.getVisibleAmount();
         float range = scrollBar.getMaximum() - scrollBar.getMinimum();
@@ -276,7 +323,8 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         }
 
         private void doMousePressedOnThumb() {
-            offset = fOrientation.getPosition(iMousePoint) - fOrientation.getPosition(getThumbBounds().getLocation());
+            offset = fOrientation.getPosition(iMousePoint)
+                    - fOrientation.getPosition(getThumbBounds().getLocation());
             isDragging = true;
         }
 
@@ -338,15 +386,4 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         ScrollBarSkin provideSkin(ScrollBarOrientation orientation);
     }
 
-    // A default implemenation of ScrollBarSkinProvider. //////////////////////////////////////////
-
-//    private static class DefaultScrollBarSkinProvider implements ScrollBarSkinProvider {
-//        private final ScrollBarSkin fScrollBarSkin;
-//        private DefaultScrollBarSkinProvider(ScrollBarSkin scrollBarSkin) {
-//            fScrollBarSkin = scrollBarSkin;
-//        }
-//        public ScrollBarSkin createHorizontalScrollBarSkin(ScrollBarOrientation orientation) {
-//            return fScrollBarSkin;
-//        }
-//    }
 }
