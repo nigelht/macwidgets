@@ -116,7 +116,9 @@ public final class SourceListModel {
     }
 
     /**
-     * Adds the given "child" item to the given "parent" item at the given index.
+     * Adds the given "child" item to the given "parent" item at the given index. The
+     * parent {@link SourceListItem} will be expanded if it was not a parent but becomes a parent
+     * as a result of this call.
      *
      * @param childItem  the item to add to the given parent item.
      * @param parentItem the item to add the child item to.
