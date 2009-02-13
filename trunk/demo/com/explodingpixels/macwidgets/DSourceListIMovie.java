@@ -39,7 +39,7 @@ public class DSourceListIMovie {
         model.addItemToCategory(new SourceListItem("Event C", eventIcon), eventsCategory);
 
         SourceList sourceList = new SourceList(model);
-        sourceList.setColorScheme(new SoucreListDarkColorScheme());
+        sourceList.setColorScheme(new SourceListDarkColorScheme());
 
         return sourceList;
     }
