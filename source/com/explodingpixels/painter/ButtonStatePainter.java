@@ -4,12 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A {@link Painter} that can be used to paint the various states of a button. This painter will delegate to the
- * supplied painters based on the current state of the button. That is, if the button is being "rolled over", the
- * {@code rolloverPainter} will be called; if the button is pressed, then the {@code pressedPainter} will be called,
- * etc.
- *
- * @param <B>
+ * A {@link com.explodingpixels.painter.Painter} that can be used to paint the various states of a button. This painter
+ * will delegate to the supplied painters based on the current state of the button. That is, if the button is being
+ * "rolled over", the {@code rolloverPainter} will be called; if the button is pressed, then the {@code pressedPainter}
+ * will be called, etc.
  */
 public class ButtonStatePainter<B extends AbstractButton>
         implements Painter<B> {
