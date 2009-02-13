@@ -1,13 +1,18 @@
 package com.explodingpixels.painter;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
+import java.awt.*;
 
+/**
+ * An implemenation of {@link Painter} that fills the given width and height of a {@link Component} with a solid color.
+ */
 public class RectanglePainter implements Painter<Component> {
 
     private final Color fFillColor;
 
+    /**
+     * Creates a {@link Painter} that fills a {@link Component} with the given {@link Color}.
+     * @param fillColor the {@code Color} to fill the {@code Component} with.
+     */
     public RectanglePainter(Color fillColor) {
         fFillColor = fillColor;
     }
