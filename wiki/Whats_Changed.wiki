@@ -1,11 +1,12 @@
 #labels Featured
 ==version 0.9.4==
-# Unified toolbar now renders correctly on Mac's JDK 6 as well as non Mac platforms.
-# SourceListContextMenuProvider is now being called correctly on Windows.
-# SourceListTreeUI now repaints itself when it's parent window's focus state changes.
-# IAppScrollPane now paints correctly when the focus state of the parent window changes
-# SourceList now automatically expands newly added categories and items.
-# IAppScrollBarUI now better integrates into Swing's UI delegate architecture (Issue 37).
+ # Unified toolbar now renders correctly on Mac's JDK 6 as well as non Mac platforms (Issue 24).
+ # SourceListContextMenuProvider is now being called correctly on Windows (Issue 32).
+ # SourceListTreeUI now repaints itself when it's parent window's focus state changes (Issue 34).
+ # IAppScrollPane now paints correctly when the focus state of the parent window changes (Issue 26).
+ # SourceList now automatically expands newly added categories and items (Issue 46).
+ # IAppScrollBarUI now better integrates into Swing's UI delegate architecture (Issue 37).
+
 ==version 0.9.3==
  # iApp style scroll bars
  # {{{ImageButton}}} added which allows for buttons with non-rectangular hot-spots to be created from images
