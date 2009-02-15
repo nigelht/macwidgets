@@ -4,7 +4,7 @@
  # SourceListContextMenuProvider is now being called correctly on Windows (Issue 32).
  # SourceListTreeUI now repaints itself when it's parent window's focus state changes (Issue 34).
  # IAppScrollPane now paints correctly when the focus state of the parent window changes (Issue 26).
- # SourceList now automatically expands newly added categories and items (Issue 46).
+ # {{{SourceList}}} now automatically expands newly added categories and items (Issue 46).
  # IAppScrollBarUI now better integrates into Swing's UI delegate architecture (Issue 37).
 
 ==version 0.9.3==
