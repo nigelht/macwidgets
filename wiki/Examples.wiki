@@ -4,23 +4,47 @@ HUD style controls should be used in conjunction with HUD windows.
 
 [http://exploding-pixels.com/google_code/graphics/HUDLabelUI.png]
 
-{{{JLabel label = HudWidgetFactory.createHudLabel("Label");}}}
+{{{
+JLabel label = HudWidgetFactory.createHudLabel("Label");
+}}}
 
 [http://exploding-pixels.com/google_code/graphics/HUDButtonUI.png]
 
-{{{JButton button = HudWidgetFactory.createHudButton("Button");}}}
+{{{
+JButton button = HudWidgetFactory.createHudButton("Button");
+}}}
 
 [http://exploding-pixels.com/google_code/graphics/HUDCheckBoxUI.png]
 
-{{{JCheckBox checkBox = HudWidgetFactory.createHudCheckBox("Check Box");}}}
+{{{
+JCheckBox checkBox = HudWidgetFactory.createHudCheckBox("Check Box");
+}}}
 
 [http://exploding-pixels.com/google_code/graphics/HUDCobmoBoxUI.png]
 
-{{{JComboBox comboBox = HudWidgetFactory.createHudComboBox(new DefaultComboBoxModel(new String[]{"Item One", "Item Two", "Item Three"}));}}}
+{{{
+JComboBox comboBox = HudWidgetFactory.createHudComboBox(
+        new DefaultComboBoxModel(new String[]{"Item One", "Item Two", "Item Three"}));
+}}}
 
 [http://exploding-pixels.com/google_code/graphics/HUDTextFieldUI.png]
 
-{{{JTextField textField = HudWidgetFactory.createHudTextField("Text field");}}}
+{{{
+JTextField textField = HudWidgetFactory.createHudTextField("Text field");
+}}}
+
+===SourceListDarkColorScheme ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/SourceListDarkColorScheme.html Javadoc])===
+
+The {{{SourceListDarkColorScheme}}} can be used for applications where focus on content is critical, like photo editing applications.
+
+{{{
+SourceListModel model = new SourceListModel();
+SourceListCategory category = new SourceListCategory("Category");
+model.addCategory(category);
+model.addItemToCategory(new SourceListItem("Item"), category);
+SourceList sourceList = new SourceList(model);
+sourceList.setColorScheme(new SourceListDarkColorScheme());
+}}}
 
 ===iApp Scroll Bars ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/IAppWidgetFactory.html Javadoc])===
 iApp style scroll bars can be seen in various Apple applications, most notably [http://www.apple.com/itunes iTunes].
