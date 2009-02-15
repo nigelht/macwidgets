@@ -33,9 +33,9 @@ JComboBox comboBox = HudWidgetFactory.createHudComboBox(
 JTextField textField = HudWidgetFactory.createHudTextField("Text field");
 }}}
 
-===SourceListDarkColorScheme ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/SourceListDarkColorScheme.html Javadoc])===
+===Dark Source Lists ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/SourceListDarkColorScheme.html Javadoc])===
 
-The {{{SourceListDarkColorScheme}}} can be used for applications where focus on content is critical, like photo editing applications.
+The {{{SourceListDarkColorScheme}}} can be installed on {{{SourceList}}}s used in applications where focus on content is critical, like photo editing applications.
 
 [http://exploding-pixels.com/google_code/graphics/iMovieSourceList.png]
 
