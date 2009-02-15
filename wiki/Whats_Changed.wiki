@@ -11,6 +11,10 @@
  # Demos work on all platforms now (Issue 33).
  # Added a System_Requirements wiki page (Issue 4).
  # {{{SourceList}}}s can now have their colors customized via {{{SourceListColorScheme}}} (Issue 31).
+ # {{{SourceList}}} disclosure triangles now render as white when the corresponding category is selected (Issue 53).
+ # {{{SourceListCountBadgeRenderer}}} now correctly centers badge text (Issue 56).
+ # {{{SourceList}}} now exposes the necessary methods to implement drag and drop (Issue 50).
+
 ==version 0.9.3==
  # iApp style scroll bars
  # {{{ImageButton}}} added which allows for buttons with non-rectangular hot-spots to be created from images
