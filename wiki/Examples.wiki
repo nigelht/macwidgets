@@ -37,6 +37,8 @@ JTextField textField = HudWidgetFactory.createHudTextField("Text field");
 
 The {{{SourceListDarkColorScheme}}} can be used for applications where focus on content is critical, like photo editing applications.
 
+[http://exploding-pixels.com/google_code/graphics/iMovieSourceList.png]
+
 {{{
 SourceListModel model = new SourceListModel();
 SourceListCategory category = new SourceListCategory("Category");
