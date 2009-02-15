@@ -10,6 +10,7 @@
  # {{{SourceListCategory}}} and {{{SourceListItem}}} now allow iteration over their children (Issue 20).
  # Demos work on all platforms now (Issue 33).
  # Added a System_Requirements wiki page (Issue 4).
+ # {{{SourceList}}}s can now have their colors customized via {{{SourceListColorScheme}}} (Issue 31).
 ==version 0.9.3==
  # iApp style scroll bars
  # {{{ImageButton}}} added which allows for buttons with non-rectangular hot-spots to be created from images
