@@ -8,6 +8,8 @@
  # {{{IAppScrollBarUI}}} now better integrates into Swing's UI delegate architecture (Issue 37).
  # {{{IAppScrollBarUI}}} now correctly paints the scroll buttons as unfocused when the parent window loses focus (Issue 47).
  # {{{SourceListCategory}}} and {{{SourceListItem}}} now allow iteration over their children (Issue 20).
+ # Demos work on all platforms now (Issue 33).
+ # Added a System_Requirements wiki page (Issue 4).
 ==version 0.9.3==
  # iApp style scroll bars
  # {{{ImageButton}}} added which allows for buttons with non-rectangular hot-spots to be created from images
