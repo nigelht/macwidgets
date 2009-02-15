@@ -18,13 +18,17 @@ import java.awt.event.ActionListener;
 
 public class DEverything {
 
+    private TriAreaComponent fUnifiedToolBar;
+
+    private SourceList fSourceList;
+
     public DEverything(JFrame frame) {
-        TriAreaComponent toolBar = createUnifiedToolBar();
-        toolBar.installWindowDraggerOnWindow(frame);
+        fUnifiedToolBar = createUnifiedToolBar();
+        fUnifiedToolBar.installWindowDraggerOnWindow(frame);
 
         JSplitPane splitPane = createSourceListAndMainArea();
 
-        frame.add(toolBar.getComponent(), BorderLayout.NORTH);
+        frame.add(fUnifiedToolBar.getComponent(), BorderLayout.NORTH);
         frame.add(splitPane, BorderLayout.CENTER);
     }
 
@@ -109,7 +113,7 @@ public class DEverything {
         model.addItemToCategory(itemK, categoryThree);
         model.addItemToCategory(itemL, categoryThree);
 
-        SourceList sourceList = new SourceList(model);
+        fSourceList = new SourceList(model);
 //        sourceList.setFocusable(false);
 
         SourceListControlBar controlBar = new SourceListControlBar();
@@ -122,11 +126,11 @@ public class DEverything {
         controlBar.createAndAddPopdownButton(MacIcons.GEAR,
                 new PopupMenuCustomizerUsingStrings(null, "Item One", "Item Two", "Item Three"));
 
-        sourceList.installSourceListControlBar(controlBar);
+        fSourceList.installSourceListControlBar(controlBar);
 
         JTextArea textArea = new JTextArea();
 
-        JSplitPane splitPane = MacWidgetFactory.createSplitPaneForSourceList(sourceList, textArea);
+        JSplitPane splitPane = MacWidgetFactory.createSplitPaneForSourceList(fSourceList, textArea);
 
         // TODO make SourceList a better size by default
         splitPane.setDividerLocation(200);
@@ -134,6 +138,14 @@ public class DEverything {
         controlBar.installDraggableWidgetOnSplitPane(splitPane);
 
         return splitPane;
+    }
+
+    public TriAreaComponent getUnifiedToolBar() {
+        return fUnifiedToolBar;
+    }
+
+    public SourceList getSourceList() {
+        return fSourceList;
     }
 
     public static void main(String[] args) {
