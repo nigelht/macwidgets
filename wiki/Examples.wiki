@@ -1,4 +1,23 @@
 #labels Featured
+===HUD Style Controls ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/HudWidgetFactory.html Javadoc])===
+HUD style controls should be used in conjunction with HUD windows.
+
+[http://exploding-pixels.com/google_code/graphics/HUDLabelUI.png]
+
+{{{JLabel label = HudWidgetFactory.createHudLabel("Label");}}}
+
+[http://exploding-pixels.com/google_code/graphics/HUDButtonUI.png]
+
+{{{JButton button = HudWidgetFactory.createHudButton("Button");}}}
+
+[http://exploding-pixels.com/google_code/graphics/HUDCheckBoxUI.png]
+
+{{{JCheckBox checkBox = HudWidgetFactory.createHudCheckBox("Check Box");}}}
+
+[http://exploding-pixels.com/google_code/graphics/HUDCobmoBoxUI.png]
+
+{{{JComboBox comboBox = HudWidgetFactory.createHudComboBox(new DefaultComboBoxModel(new String[]{"Item One", "Item Two", "Item Three"}));}}}
+
 ===iApp Scroll Bars ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/IAppWidgetFactory.html Javadoc])===
 iApp style scroll bars can be seen in various Apple applications, most notably [http://www.apple.com/itunes iTunes].
 
