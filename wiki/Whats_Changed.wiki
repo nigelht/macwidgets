@@ -15,6 +15,7 @@
  # {{{SourceListCountBadgeRenderer}}} now correctly centers badge text (Issue 56).
  # {{{SourceList}}} now exposes the necessary methods to implement drag and drop (Issue 50).
  # {{{LabeledComponentGroup}}} now offers a list-based constructor (Issue 58).
+ # Introduced HUD style UI delegates (Issue 43).
 ==version 0.9.3==
  # iApp style scroll bars
  # {{{ImageButton}}} added which allows for buttons with non-rectangular hot-spots to be created from images
