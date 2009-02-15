@@ -1,8 +1,17 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.*;
+import com.explodingpixels.macwidgets.plaf.HudButtonUI;
+import com.explodingpixels.macwidgets.plaf.HudCheckBoxUI;
+import com.explodingpixels.macwidgets.plaf.HudComboBoxUI;
+import com.explodingpixels.macwidgets.plaf.HudLabelUI;
+import com.explodingpixels.macwidgets.plaf.HudTextFieldUI;
 
-import javax.swing.*;
+import javax.swing.ComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  * A factory for creating HUD style widgets. These widgets should be added to a
@@ -19,6 +28,7 @@ public class HudWidgetFactory {
      * iPhoto).
      * <br/><br/>
      * <img src="../../../../graphics/HUDLabelUI.png">
+     *
      * @param labelText the text of the label.
      * @return the HUD style label.
      * @see HudLabelUI
@@ -34,6 +44,7 @@ public class HudWidgetFactory {
      * iPhoto).
      * <br/><br/>
      * <img src="../../../../graphics/HUDButtonUI.png">
+     *
      * @param buttonText the text of the button.
      * @return the HUD style button.
      * @see HudButtonUI
@@ -49,6 +60,7 @@ public class HudWidgetFactory {
      * iPhoto).
      * <br/><br/>
      * <img src="../../../../graphics/HUDCheckBoxUI.png">
+     *
      * @param checkBoxText the text of the check box.
      * @return the HUD style check box.
      * @see HudCheckBoxUI
@@ -64,11 +76,12 @@ public class HudWidgetFactory {
      * iPhoto).
      * <br/><br/>
      * <img src="../../../../graphics/HUDComboBoxUI.png">
+     *
      * @param model the model containing the combo box items.
      * @return the HUD style combo box.
      * @see HudComboBoxUI
      */
-    public static JComboBox createHudCheckBox(ComboBoxModel model) {
+    public static JComboBox createHudComboBox(ComboBoxModel model) {
         JComboBox comboBox = new JComboBox(model);
         comboBox.setUI(new HudComboBoxUI());
         return comboBox;
@@ -79,6 +92,7 @@ public class HudWidgetFactory {
      * iPhoto).
      * <br/><br/>
      * <img src="../../../../graphics/HUDTextFieldUI.png">
+     *
      * @param text the initial text in the text field.
      * @return the HUD style text field.
      * @see HudTextFieldUI
