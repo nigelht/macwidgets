@@ -2,9 +2,7 @@ package com.explodingpixels.macwidgets.plaf;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.JComponent;
-import javax.swing.ButtonModel;
-import javax.swing.AbstractButton;
+import javax.swing.*;
 import java.awt.*;
 
 public class PreferencesTabBarButtonUI extends UnifiedToolbarButtonUI {
@@ -33,7 +31,7 @@ public class PreferencesTabBarButtonUI extends UnifiedToolbarButtonUI {
     protected void installDefaults(AbstractButton b) {
         super.installDefaults(b);
         // TODO save original values.
-        b.setMargin(new Insets(5,6,4,6));
+        b.setBorder(BorderFactory.createEmptyBorder(5,5,4,5));
         b.setOpaque(false);
     }
 

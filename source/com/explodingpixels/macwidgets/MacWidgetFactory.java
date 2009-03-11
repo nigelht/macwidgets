@@ -69,6 +69,7 @@ public class MacWidgetFactory {
 
     public static PreferencesTabBar createUnifiedPreferencesTabBar() {
         final PreferencesTabBar tabBar = new PreferencesTabBar();
+        fixPreferenceTabBarOnMacIfNeccessary(tabBar);
         installUnifiedToolBarBorder(tabBar.getComponent());
         return tabBar;
     }
@@ -214,9 +215,21 @@ public class MacWidgetFactory {
     private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
         // install the custom painter if on non-Mac platforms or on a Mac running Java 1.5.0_16
         // (the version of Java with the textured window bug).
-        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac()) {
+        if (shouldInstallCustomPainter()) {
             unifiedToolBar.setBackgroundPainter(createTexturedWindowWorkaroundPainter());
         }
+    }
+
+    private static void fixPreferenceTabBarOnMacIfNeccessary(PreferencesTabBar preferencesTabBar) {
+        // install the custom painter if on non-Mac platforms or on a Mac running Java 1.5.0_16
+        // (the version of Java with the textured window bug).
+        if (shouldInstallCustomPainter()) {
+            preferencesTabBar.setBackgroundPainter(createTexturedWindowWorkaroundPainter());
+        }
+    }
+
+    private static boolean shouldInstallCustomPainter() {
+        return !PlatformUtils.isMac() || PlatformUtils.isJava6OnMac();
     }
 
     public static Painter<Component> createTexturedWindowWorkaroundPainter() {
