@@ -1,12 +1,11 @@
 package com.explodingpixels.macwidgets;
 
-import com.jgoodies.forms.builder.PanelBuilder;
-import com.jgoodies.forms.layout.FormLayout;
+import com.explodingpixels.painter.Painter;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.Window;
 
 public class PreferencesTabBar {
 
@@ -36,6 +35,10 @@ public class PreferencesTabBar {
 
     public JComponent getComponent() {
         return fTriAreaComponent.getComponent();
+    }
+
+    public void setBackgroundPainter(Painter<Component> painter) {
+        fTriAreaComponent.setBackgroundPainter(painter);
     }
 
 }
