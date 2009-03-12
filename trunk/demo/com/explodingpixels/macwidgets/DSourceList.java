@@ -135,8 +135,11 @@ public class DSourceList {
 
                 SourceListItem itemM = new SourceListItem("SourceListItem M", greyGlobeIcon);
                 model.addItemToCategory(itemM, categoryThree, 0);
+
+                sourceList.setExpanded(categoryThree, true);
             }
         });
+
     }
 
 }
