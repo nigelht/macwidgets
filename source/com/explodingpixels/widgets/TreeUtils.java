@@ -1,12 +1,12 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.JTree;
 import javax.swing.Icon;
+import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeModelEvent;
-import javax.swing.tree.TreePath;
+import javax.swing.event.TreeModelListener;
 import javax.swing.plaf.basic.BasicTreeUI;
+import javax.swing.tree.TreePath;
 import java.awt.Rectangle;
 
 public class TreeUtils {
@@ -29,7 +29,7 @@ public class TreeUtils {
      */
     public static void setCollapsedIcon(JTree tree, Icon icon) {
         if (tree.getUI() instanceof BasicTreeUI) {
-            ((BasicTreeUI)tree.getUI()).setCollapsedIcon(icon);
+            ((BasicTreeUI) tree.getUI()).setCollapsedIcon(icon);
         }
     }
 
@@ -44,7 +44,7 @@ public class TreeUtils {
      * @see BasicTreeUI#setExpandedIcon(javax.swing.Icon)
      */
     public static void setExpandedIcon(JTree tree, Icon icon) {
-        ((BasicTreeUI)tree.getUI()).setExpandedIcon(icon);
+        ((BasicTreeUI) tree.getUI()).setExpandedIcon(icon);
     }
 
     /**
@@ -54,12 +54,12 @@ public class TreeUtils {
      * expanded icon draw into. If the given tree's UI delegate does not extend
      * from {@code BasicTreeUI} then the given tree will not be changed.
      *
-     * @param tree the tree to set the left indent for.
+     * @param tree   the tree to set the left indent for.
      * @param indent the new left indent in pixels.
      * @see BasicTreeUI#setLeftChildIndent(int)
      */
     public static void setLeftChildIndent(JTree tree, int indent) {
-        ((BasicTreeUI)tree.getUI()).setLeftChildIndent(indent);
+        ((BasicTreeUI) tree.getUI()).setLeftChildIndent(indent);
     }
 
     /**
@@ -69,18 +69,19 @@ public class TreeUtils {
      * expanded icon draw into. If the given tree's UI delegate does not extend
      * from {@code BasicTreeUI} then the given tree will not be changed.
      *
-     * @param tree the tree to set the right indent for.
+     * @param tree   the tree to set the right indent for.
      * @param indent the new left indent in pixels.
      * @see BasicTreeUI#setRightChildIndent(int)
      */
     public static void setRightChildIndent(JTree tree, int indent) {
-        ((BasicTreeUI)tree.getUI()).setRightChildIndent(indent);
+        ((BasicTreeUI) tree.getUI()).setRightChildIndent(indent);
     }
 
     /**
      * Repaints the selection. This allows the row selection to have a
      * background color that changes based on the focus state of the
      * component.
+     *
      * @param tree the {@code JTree} to repaint the selection of.
      */
     public static void repaintSelection(JTree tree) {
@@ -92,7 +93,7 @@ public class TreeUtils {
             // one (index zero).
             Rectangle firstSelectedCell = tree.getRowBounds(selectedRows[0]);
             Rectangle lastSelectedCell =
-                    tree.getRowBounds(selectedRows[selectedRows.length-1]);
+                    tree.getRowBounds(selectedRows[selectedRows.length - 1]);
 
             // create the rectangle to repaint by unioning the first and last
             // selected cells in column one and then extending that rectangle
@@ -108,6 +109,14 @@ public class TreeUtils {
 
     }
 
+    public static void setExpandedOnEdt(JTree tree, TreePath path, boolean expanded) {
+        if (expanded) {
+            expandPathOnEdt(tree, path);
+        } else {
+            collapsePathOnEdt(tree, path);
+        }
+    }
+
     public static void expandPathOnEdt(final JTree tree, final TreePath path) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -116,11 +125,20 @@ public class TreeUtils {
         });
     }
 
+    public static void collapsePathOnEdt(final JTree tree, final TreePath path) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                tree.collapsePath(path);
+            }
+        });
+    }
+
     public static void installRootExpandingTreeModelListener(final JTree tree) {
 
         TreeModelListener listener = new TreeModelListener() {
 
-            public void treeNodesChanged(TreeModelEvent e) { }
+            public void treeNodesChanged(TreeModelEvent e) {
+            }
 
             public void treeNodesInserted(TreeModelEvent e) {
                 // if this is the root node, and it hasn't yet been expanded
@@ -131,9 +149,11 @@ public class TreeUtils {
                 }
             }
 
-            public void treeNodesRemoved(TreeModelEvent e) { }
+            public void treeNodesRemoved(TreeModelEvent e) {
+            }
 
-            public void treeStructureChanged(TreeModelEvent e) { }
+            public void treeStructureChanged(TreeModelEvent e) {
+            }
         };
 
         tree.getModel().addTreeModelListener(listener);

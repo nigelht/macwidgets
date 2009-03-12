@@ -3,14 +3,20 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.TransferHandler;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -232,14 +238,49 @@ public class SourceList {
      * during drag and drop operations. If the given handler not null, then
      * dragging will be turned on for the {@code SourceList}. If the handler is
      * null, then dragging will be turned off.
-     * @param transferHandler the {@code TransferHandler} for this 
-     *        {@code SourceList}. Can be null.
+     *
+     * @param transferHandler the {@code TransferHandler} for this
+     *                        {@code SourceList}. Can be null.
      */
     public void setTransferHandler(TransferHandler transferHandler) {
         fTree.setDragEnabled(transferHandler != null);
         fTree.setTransferHandler(transferHandler);
     }
-    
+
+    /**
+     * Sets the expanded state of the given {@link SourceListCategory}.
+     *
+     * @param category the category to set the expanded state on.
+     * @param expanded true if the given category should be expanded, false if it should be
+     *                 collapsed.
+     * @throws IllegalArgumentException if the given {@code SourceListCategory} is not part of the
+     *                                  associated {@link SourceListModel}.
+     */
+    public void setExpanded(SourceListCategory category, boolean expanded) {
+        DefaultMutableTreeNode categoryNode = getNodeForObject(category);
+        checkCategoryNodeNotNull(categoryNode);
+        TreeUtils.setExpandedOnEdt(fTree, new TreePath(categoryNode.getPath()), expanded);
+    }
+
+    /**
+     * Sets the expanded state of the given {@link SourceListItem}.
+     *
+     * @param item     the item to set the expanded state on.
+     * @param expanded true if the given item should be expanded, false if it should be
+     *                 collapsed.
+     * @throws IllegalArgumentException if the given {@code SourceListItem} is not part of the
+     *                                  associated {@link SourceListModel}.
+     */
+    public void setExpanded(SourceListItem item, boolean expanded) {
+        DefaultMutableTreeNode itemNode = getNodeForObject(item);
+        checkItemNodeNotNull(itemNode);
+        TreeUtils.setExpandedOnEdt(fTree, new TreePath(itemNode.getPath()), expanded);
+    }
+
+    private DefaultMutableTreeNode getNodeForObject(Object userObject) {
+        return getNodeForObject(fRoot, userObject);
+    }
+
     private static DefaultMutableTreeNode getNodeForObject(DefaultMutableTreeNode parentNode,
                                                            Object userObject) {
         if (parentNode.getUserObject().equals(userObject)) {
@@ -293,35 +334,35 @@ public class SourceList {
 
     private void doRemoveCategory(SourceListCategory category) {
         DefaultMutableTreeNode categoryNode = getNodeForObject(fRoot, category);
-        checkNodeNotNull(categoryNode);
+        checkCategoryNodeNotNull(categoryNode);
         fTreeModel.removeNodeFromParent(categoryNode);
     }
 
     private void doAddItemToCategory(SourceListItem itemToAdd, SourceListCategory category, int index) {
         DefaultMutableTreeNode categoryNode = getNodeForObject(fRoot, category);
-        checkNodeNotNull(categoryNode);
+        checkCategoryNodeNotNull(categoryNode);
         doAddItemToNode(itemToAdd, categoryNode, index);
     }
 
     private void doRemoveItemFromCategory(SourceListItem itemToRemove, SourceListCategory category) {
         DefaultMutableTreeNode categoryNode = getNodeForObject(fRoot, category);
-        checkNodeNotNull(categoryNode);
+        checkCategoryNodeNotNull(categoryNode);
         DefaultMutableTreeNode itemNode = getNodeForObject(categoryNode, itemToRemove);
-        checkNodeNotNull(itemNode);
+        checkCategoryNodeNotNull(itemNode);
         fTreeModel.removeNodeFromParent(itemNode);
     }
 
     private void doAddItemToItem(SourceListItem itemToAdd, SourceListItem parentItem, int index) {
         DefaultMutableTreeNode parentItemNode = getNodeForObject(fRoot, parentItem);
-        checkNodeNotNull(parentItemNode);
+        checkCategoryNodeNotNull(parentItemNode);
         doAddItemToNode(itemToAdd, parentItemNode, index);
     }
 
     private void doRemoveItemFromItem(SourceListItem itemToRemove, SourceListItem parentItem) {
         DefaultMutableTreeNode parentNode = getNodeForObject(fRoot, parentItem);
-        checkNodeNotNull(parentNode);
+        checkCategoryNodeNotNull(parentNode);
         DefaultMutableTreeNode itemNode = getNodeForObject(parentNode, itemToRemove);
-        checkNodeNotNull(itemNode);
+        checkCategoryNodeNotNull(itemNode);
         fTreeModel.removeNodeFromParent(itemNode);
     }
 
@@ -372,7 +413,7 @@ public class SourceList {
         SourceListClickListener.Button button =
                 SourceListClickListener.Button.getButton(event.getButton());
         int clickCount = event.getClickCount();
-        
+
         if (itemOrCategory == null) {
             // do nothing.
         } else if (itemOrCategory instanceof SourceListItem) {
@@ -521,9 +562,16 @@ public class SourceList {
 
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
-    private static void checkNodeNotNull(MutableTreeNode node) {
+    private static void checkCategoryNodeNotNull(MutableTreeNode node) {
         if (node == null) {
             throw new IllegalArgumentException("The given SourceListCategory " +
+                    "does not exist in this SourceList.");
+        }
+    }
+
+    private static void checkItemNodeNotNull(MutableTreeNode node) {
+        if (node == null) {
+            throw new IllegalArgumentException("The given SourceListItem " +
                     "does not exist in this SourceList.");
         }
     }
