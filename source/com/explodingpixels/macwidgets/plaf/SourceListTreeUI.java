@@ -44,6 +44,7 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * <p>
@@ -247,6 +248,17 @@ public class SourceListTreeUI extends BasicTreeUI {
     protected void paintVerticalPartOfLeg(Graphics g, Rectangle clipBounds, Insets insets,
                                           TreePath path) {
         // do nothing - don't paint vertical lines.
+    }
+
+    @Override
+    protected void selectPathForEvent(TreePath path, MouseEvent event) {
+        // only forward on the selection event if an area other than the expand/collapse control
+        // was clicked. this typically isn't an issue with regular Swing JTrees, however, SourceList
+        // tree nodes fill the entire width of the tree. thus their bounds are underneath the 
+        // expand/collapse control.
+        if (!isLocationInExpandControl(path, event.getX(), event.getY())) {
+            super.selectPathForEvent(path, event);
+        }
     }
 
     private Action createNextAction() {
