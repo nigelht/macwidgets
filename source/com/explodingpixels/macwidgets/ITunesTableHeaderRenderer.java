@@ -11,14 +11,16 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ITunesTableHeaderRenderer extends JComponent
+/**
+ * A table header renderer for an iTunes style table. Note that this class
+ * specifically extends {@link JLabel} in order to be compatible with
+ * Glazed Lists. Glazed Lists looks for a label in the header renderer in
+ * order to install the sort icon, if necessary.
+ */
+public class ITunesTableHeaderRenderer extends JLabel
         implements TableCellRenderer {
 
     private JTable fTable;
-
-    private JLabel fLabel = MacWidgetFactory.makeEmphasizedLabel(new JLabel(),
-            EmphasizedLabelUI.DEFAULT_FOCUSED_FONT_COLOR, UNFOCUSED_FONT_COLOR,
-            EmphasizedLabelUI.DEFAULT_EMPHASIS_COLOR);
 
     private int fSelectedColumn = -1;
 
@@ -43,8 +45,10 @@ public class ITunesTableHeaderRenderer extends JComponent
     ITunesTableHeaderRenderer(JTable table) {
         table.getTableHeader().addMouseListener(new HeaderClickHandler());
         fTable = table;
-        setLayout(new BorderLayout());
-        add(fLabel, BorderLayout.CENTER);
+
+        MacWidgetFactory.makeEmphasizedLabel(this,
+            EmphasizedLabelUI.DEFAULT_FOCUSED_FONT_COLOR, UNFOCUSED_FONT_COLOR,
+            EmphasizedLabelUI.DEFAULT_EMPHASIS_COLOR);
         init();
     }
 
@@ -61,8 +65,8 @@ public class ITunesTableHeaderRenderer extends JComponent
 
         int modelColumn = fTable.convertColumnIndexToModel(column);
 
-        fLabel.setText(value.toString());
-        fLabel.setFont(fTable.getTableHeader().getFont());
+        setText(value.toString());
+        setFont(fTable.getTableHeader().getFont());
         fIsColumnSelected = isColumnSelected(modelColumn);
         fIsColumnPressed = isColumnPressed(modelColumn);
 
@@ -74,7 +78,7 @@ public class ITunesTableHeaderRenderer extends JComponent
         Graphics2D graphics2d = (Graphics2D) g.create();
         Painter<Component> painter = getBackgroundPainter();
         painter.paint(graphics2d, this, getWidth(), getHeight());
-        
+
         super.paintComponent(g);
 
         graphics2d.setColor(LEFT_BORDER_COLOR);
