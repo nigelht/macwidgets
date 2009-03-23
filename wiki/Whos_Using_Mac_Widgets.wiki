@@ -1,2 +1,4 @@
 #labels Featured
 [http://www.pokercopilot.com http://www.pokercopilot.com/img/pokercopilotlogo.png]
+
+[http://www.rockyourphone.com/skin/frontend/rockyour/default/images/rocklogo.png http://www.rockyourphone.com/index.php/installation]
