@@ -1,6 +1,7 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.painter.Painter;
+import com.explodingpixels.widgets.WindowUtils;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -119,4 +120,31 @@ public class MacPainterFactory {
         graphics2D.drawLine(0, height - 1, width, height - 1);
     }
 
+    /**
+     * Creates a {@link Painter} that paints a Mac unified tool bar gradient.
+     *
+     * @return a {@code Painter} that paints a Mac unified tool bar gradient.
+     */
+    public static Painter<Component> createTexturedWindowWorkaroundPainter() {
+        return new Painter<Component>() {
+
+            private Color ACTIVE_TOP_GRADIENT_COLOR = new Color(0xbcbcbc);
+            private Color ACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0x9a9a9a);
+            private Color INACTIVE_TOP_GRADIENT_COLOR = new Color(0xe4e4e4);
+            private Color INACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0xd1d1d1);
+
+            public void paint(Graphics2D graphics2D, Component component, int width, int height) {
+                boolean containedInActiveWindow = WindowUtils.isParentWindowFocused(component);
+
+                Color topColor = containedInActiveWindow
+                        ? ACTIVE_TOP_GRADIENT_COLOR : INACTIVE_TOP_GRADIENT_COLOR;
+                Color bottomColor = containedInActiveWindow
+                        ? ACTIVE_BOTTOM_GRADIENT_COLOR : INACTIVE_BOTTOM_GRADIENT_COLOR;
+
+                GradientPaint paint = new GradientPaint(0, 1, topColor, 0, height, bottomColor);
+                graphics2D.setPaint(paint);
+                graphics2D.fillRect(0, 0, width, height);
+            }
+        };
+    }
 }
