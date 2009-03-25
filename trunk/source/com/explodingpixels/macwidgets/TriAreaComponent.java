@@ -22,8 +22,8 @@ import java.awt.Window;
  * You cannot directly create a {@code TriAreaComponent} and should instead use the factory
  * methods provided in {@link MacWidgetFactory}.
  *
- * @see MacWidgetFactory#createBottomBar(BottomBarSize)
- * @see MacWidgetFactory#createUnifiedToolBar()
+ * @see com.explodingpixels.macwidgets.UnifiedToolBar
+ * @see com.explodingpixels.macwidgets.BottomBar
  */
 public class TriAreaComponent {
 
@@ -84,10 +84,22 @@ public class TriAreaComponent {
         new WindowDragger(window, getComponent());
     }
 
+    /**
+     * Adds the given component to the left side of this {@code TriAreaComponent}.
+     *
+     * @param toolToAdd the tool to add to this {@code TriAreaComponent}.
+     */
     public void addComponentToLeft(JComponent toolToAdd) {
         addComponentToLeft(toolToAdd, fSpacer_pixels);
     }
 
+    /**
+     * Adds the given component to the left side of this {@code TriAreaComponent} followed by the
+     * given an empty space of the given pixel width.
+     *
+     * @param toolToAdd     the tool to add to this {@code TriAreaComponent}.
+     * @param spacer_pixels the amount of space to post-pend the added component with.
+     */
     public void addComponentToLeft(JComponent toolToAdd, int spacer_pixels) {
         fLeftPanelBuilder.appendColumn("p");
         fLeftPanelBuilder.add(toolToAdd);
@@ -97,14 +109,24 @@ public class TriAreaComponent {
         fLeftPanelBuilder.nextColumn();
     }
 
+    /**
+     * Adds the given component to the center of this {@code TriAreaComponent}.
+     *
+     * @param toolToAdd the tool to add to this {@code TriAreaComponent}.
+     */
     public void addComponentToCenter(JComponent toolToAdd) {
-//        fCenterPanelBuilder.appendColumn("p");
-//        fCenterPanelBuilder.add(toolToAdd);
-//        fCenterPanelBuilder.nextColumn();
-        // TODO add spacer
         addComponentToCenter(toolToAdd, fSpacer_pixels);
     }
 
+    /**
+     * Adds the given component to the center of this {@code TriAreaComponent}. If this is not the
+     * first component to be added to the center, then the given component will be preceeded by a
+     * space of the given width.
+     *
+     * @param toolToAdd     the tool to add to this {@code TriAreaComponent}.
+     * @param spacer_pixels the amount of space to pre-pend the added component with *if* the given
+     *                      component is *not* the first component to be added to the center.
+     */
     public void addComponentToCenter(JComponent toolToAdd, int spacer_pixels) {
         if (getCenterComponentCount() > 0) {
             fCenterPanelBuilder.appendColumn("p");
@@ -117,11 +139,24 @@ public class TriAreaComponent {
         fCenterPanelBuilder.nextColumn();
     }
 
-
+    /**
+     * Adds the given component to the right side of this {@code TriAreaComponent}.
+     *
+     * @param toolToAdd the tool to add to this {@code TriAreaComponent}.
+     */
     public void addComponentToRight(JComponent toolToAdd) {
         addComponentToRight(toolToAdd, fSpacer_pixels);
     }
 
+    /**
+     * Adds the given component to the right side of this {@code TriAreaComponent}. If this is not
+     * the first component to be added to the right, then the given component will be followed by a
+     * space of the given width.
+     *
+     * @param toolToAdd     the tool to add to this {@code TriAreaComponent}.
+     * @param spacer_pixels the amount of space to post-pend the added component with *if* the given
+     *                      component is *not* the first component to be added to the center.
+     */
     public void addComponentToRight(JComponent toolToAdd, int spacer_pixels) {
         fRightPanelBuilder.appendColumn("p");
         fRightPanelBuilder.add(toolToAdd);
