@@ -19,7 +19,7 @@ public class DUnifiedToolBarButtonUI {
         Icon preferences = new ImageIcon(DUnifiedToolBarButtonUI.class.getResource(
                 "/com/explodingpixels/macwidgets/icons/PreferencesGeneral.png"));
 
-        TriAreaComponent unifiedToolBar = MacWidgetFactory.createUnifiedToolBar();
+        UnifiedToolBar unifiedToolBar = new UnifiedToolBar();
         AbstractButton macWidgetsButton = MacButtonFactory.makeUnifiedToolBarButton(
                 new JButton("Preferences", preferences));
 //        macWidgetsButton.setEnabled(false);

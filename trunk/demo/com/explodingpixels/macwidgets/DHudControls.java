@@ -1,6 +1,5 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.HudLabelUI;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -20,8 +19,7 @@ public class DHudControls {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 
-                JLabel label = new JLabel("Label");
-                label.setUI(new HudLabelUI());
+                JLabel label = HudWidgetFactory.createHudLabel("Label");
 
                 JButton button = HudWidgetFactory.createHudButton("Button");
 
