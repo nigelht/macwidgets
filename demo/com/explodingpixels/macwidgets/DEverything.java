@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 
 public class DEverything {
 
-    private TriAreaComponent fUnifiedToolBar;
+    private UnifiedToolBar fUnifiedToolBar;
 
     private SourceList fSourceList;
 
@@ -32,7 +32,7 @@ public class DEverything {
         frame.add(splitPane, BorderLayout.CENTER);
     }
 
-    private TriAreaComponent createUnifiedToolBar() {
+    private UnifiedToolBar createUnifiedToolBar() {
         Icon blueGlobeIcon = new ImageIcon(DEverything.class.getResource(
                 "/com/explodingpixels/macwidgets/icons/DotMac.png"));
         Icon greyGlobeIcon = new ImageIcon(DEverything.class.getResource(
@@ -50,7 +50,7 @@ public class DEverything {
         AbstractButton blueButton = new JButton("MobileMe", blueGlobeIcon);
         blueButton.setEnabled(true);
 
-        TriAreaComponent toolBar = MacWidgetFactory.createUnifiedToolBar();
+        UnifiedToolBar toolBar = new UnifiedToolBar();
         toolBar.addComponentToLeft(MacButtonFactory.makeUnifiedToolBarButton(
                 blueButton));
         toolBar.addComponentToLeft(greyGlobeButton);
@@ -140,7 +140,7 @@ public class DEverything {
         return splitPane;
     }
 
-    public TriAreaComponent getUnifiedToolBar() {
+    public UnifiedToolBar getUnifiedToolBar() {
         return fUnifiedToolBar;
     }
 

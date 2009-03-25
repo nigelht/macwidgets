@@ -49,7 +49,7 @@ public class DUnifiedToolbar {
                         new JButton("Network", greyGlobeIcon));
         greyGlobeButton.setEnabled(false);
 
-        TriAreaComponent toolBar = MacWidgetFactory.createUnifiedToolBar();
+        UnifiedToolBar toolBar = new UnifiedToolBar();
 
         toolBar.addComponentToLeft(viewButtons.getComponent());
         toolBar.addComponentToCenter(MacButtonFactory.makeUnifiedToolBarButton(

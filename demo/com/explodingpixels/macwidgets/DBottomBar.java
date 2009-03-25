@@ -2,7 +2,11 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import java.awt.BorderLayout;
 
 public class DBottomBar {
@@ -31,7 +35,7 @@ public class DBottomBar {
 
         JTextArea textArea = new JTextArea();
 
-        TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARGE);
+        BottomBar bottomBar = new BottomBar(BottomBarSize.LARGE);
         bottomBar.addComponentToLeft(leftButton, 0);
         bottomBar.addComponentToLeft(rightButton);
         bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("362 Items"));

@@ -26,7 +26,7 @@ public class DPreferencesTabBar {
                 Icon mobileMe = new ImageIcon(DPreferencesTabBar.class.getResource(
                         "/com/explodingpixels/macwidgets/icons/DotMac.png"));
 
-                PreferencesTabBar tabBar = MacWidgetFactory.createUnifiedPreferencesTabBar();
+                PreferencesTabBar tabBar = new PreferencesTabBar();
                 tabBar.addTab("General", preferences, null);
                 tabBar.addTab("Accounts", userAccounts, null);
                 tabBar.addTab("MobileMe", mobileMe, null);

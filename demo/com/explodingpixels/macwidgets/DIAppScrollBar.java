@@ -43,7 +43,7 @@ public class DIAppScrollBar {
 
                 JFrame frame = new JFrame();
                 frame.add(scrollPane, BorderLayout.CENTER);
-                frame.add(MacWidgetFactory.createBottomBar(BottomBarSize.SMALL).getComponent(),
+                frame.add(new BottomBar(BottomBarSize.SMALL).getComponent(),
                         BorderLayout.SOUTH);
                 frame.setSize(300, 300);
                 frame.setLocationRelativeTo(null);
