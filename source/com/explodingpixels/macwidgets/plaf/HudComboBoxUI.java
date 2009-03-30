@@ -3,10 +3,26 @@ package com.explodingpixels.macwidgets.plaf;
 import com.explodingpixels.macwidgets.HudWidgetFactory;
 import com.explodingpixels.widgets.plaf.EPComboPopup;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
@@ -27,6 +43,8 @@ public class HudComboBoxUI extends BasicComboBoxUI {
 
     private static final int DEFAULT_WIDTH = 100;
 
+    private ActionListener fSelectedItemChangedActionListener = createSelectedItemChangedActionListener();
+
     /**
      * Creates a HUD style {@link javax.swing.plaf.ComboBoxUI}.
      */
@@ -43,6 +61,17 @@ public class HudComboBoxUI extends BasicComboBoxUI {
     }
 
     @Override
+    protected void installListeners() {
+        super.installListeners();
+        comboBox.addActionListener(fSelectedItemChangedActionListener);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        comboBox.removeActionListener(fSelectedItemChangedActionListener);
+    }
+
+    @Override
     protected void uninstallDefaults() {
         super.uninstallDefaults();
         // TODO implement this.
@@ -52,6 +81,19 @@ public class HudComboBoxUI extends BasicComboBoxUI {
     protected void installComponents() {
         super.installComponents();
         updateDisplayedItem();
+    }
+
+    /**
+     * Creates an {@link ActionListener} that udpates the displayed item in the {@code arrowButton}.
+     * NOTE: This listener doesn't seem to be required on Mac OS X, but Windows does. The selected
+     * item is not correctly reflected in the UI without this listener.
+     */
+    private ActionListener createSelectedItemChangedActionListener() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateDisplayedItem();
+            }
+        };
     }
 
     /**
