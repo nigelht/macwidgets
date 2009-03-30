@@ -3,7 +3,13 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 import java.awt.Cursor;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -156,7 +162,10 @@ public class SourceListControlBar {
             MouseEvent convertedEvent =
                     SwingUtilities.convertMouseEvent(fSplitterHandle, e, fSplitPane);
             int newLocation = convertedEvent.getPoint().x + fDelta;
-            fSplitPane.setDividerLocation(newLocation);
+            // bound newLocation between the minimum and maximum divider locations.
+            int boundedNewLocation = Math.max(fSplitPane.getMinimumDividerLocation(),
+                    Math.min(newLocation, fSplitPane.getMaximumDividerLocation()));
+            fSplitPane.setDividerLocation(boundedNewLocation);
         }
 
         public void mouseMoved(MouseEvent e) {
