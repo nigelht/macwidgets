@@ -264,7 +264,7 @@ public class HudComboBoxUI extends BasicComboBoxUI {
      */
     private int calculateArrowButtonVisualVerticalCenter() {
         int arrowButtonShadowHeight = HudPaintingUtils.getHudControlShadowSize(arrowButton);
-        return (arrowButton.getHeight() - arrowButtonShadowHeight) / 2;
+        return (comboBox.getHeight() - arrowButtonShadowHeight) / 2;
     }
 
     /**
