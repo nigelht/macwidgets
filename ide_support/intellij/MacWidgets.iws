@@ -18,23 +18,17 @@
     <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" name="Default" comment="Fixed so that SwingUtilities.updateComponentTreeUI caused the appropriate reaction in SourceList (Issue 80).">
+    <list default="true" readonly="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MacWidgets.iws" afterPath="$PROJECT_DIR$/MacWidgets.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DTrackingSpacer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MacWidgets.ipr" afterPath="$PROJECT_DIR$/MacWidgets.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DBottomBar.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DBottomBar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceList.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TrackingSpacer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/SourceListTreeUI.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/SourceListTreeUI.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DTrackingSpacer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/plaf/EPComboPopup.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/plaf/EPComboPopup.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacPreferencesTabBar.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/macwidgets/macwidgets.iml" afterPath="$PROJECT_DIR$/macwidgets/macwidgets.iml" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/PreferencesWidget.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TrackingSpacer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java" />
     </list>
     <ignored path="MacWidgets.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -182,13 +176,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MacWidgetFactory.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MacWidgetFactory.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.805668">
+            <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TriAreaComponent.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="13" selection-start="523" selection-end="523" vertical-scroll-proportion="0.1659919">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1030,13 +1033,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/java/awt/image/BufferedImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/java/awt/image/BufferedImageOp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -1143,10 +1139,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.805668">
+        <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="13" selection-start="523" selection-end="523" vertical-scroll-proportion="0.1659919">
+          <folding />
         </state>
       </provider>
     </entry>
