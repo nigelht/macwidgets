@@ -1,8 +1,6 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -10,10 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTree;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.table.TableModel;
-import javax.swing.tree.TreeModel;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -85,15 +81,6 @@ public class MacWidgetFactory {
         return splitPane;
     }
 
-    public static JTree createSourceList(TreeModel model) {
-        return makeSourceList(new JTree(model));
-    }
-
-    public static JTree makeSourceList(JTree tree) {
-        tree.setUI(new SourceListTreeUI());
-        return tree;
-    }
-
     public static JScrollPane createSourceListScrollPane(JComponent content) {
         return makeSourceListScrollPane(new JScrollPane(content));
     }
@@ -103,19 +90,6 @@ public class MacWidgetFactory {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         return scrollPane;
-    }
-
-    // Private utility methods. ///////////////////////////////////////////////////////////////////
-
-    private static void installUnifiedToolBarBorder(final JComponent component) {
-
-        FocusStateMatteBorder border = new FocusStateMatteBorder(0, 0, 1, 0,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
-                component);
-
-        component.setBorder(BorderFactory.createCompoundBorder(
-                border, component.getBorder()));
     }
 
 }

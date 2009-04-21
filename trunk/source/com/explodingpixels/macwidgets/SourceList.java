@@ -14,6 +14,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.BorderLayout;
 import java.awt.Point;
@@ -70,7 +71,7 @@ public class SourceList {
 
     private DefaultTreeModel fTreeModel = new DefaultTreeModel(fRoot);
 
-    private JTree fTree = MacWidgetFactory.createSourceList(fTreeModel);
+    private JTree fTree = new CustomJTree(fTreeModel);
 
     private JScrollPane fScrollPane = MacWidgetFactory.createSourceListScrollPane(fTree);
 
@@ -576,7 +577,7 @@ public class SourceList {
         }
     }
 
-    // EmptySourceListContextMenuProvider implementation. ///////////////////////////////////////
+    // EmptySourceListContextMenuProvider implementation. /////////////////////////////////////////
 
     private static class EmptySourceListContextMenuProvider implements SourceListContextMenuProvider {
         public JPopupMenu createContextMenu() {
@@ -589,6 +590,20 @@ public class SourceList {
 
         public JPopupMenu createContextMenu(SourceListCategory category) {
             return null;
+        }
+    }
+
+    // Custom JTree implementation that always returns SourceListTreeUI delegate. /////////////////
+
+    private static class CustomJTree extends JTree {
+        public CustomJTree(TreeModel newModel) {
+            super(newModel);
+        }
+
+        @Override
+        public void updateUI() {
+            setUI(new SourceListTreeUI());
+            invalidate();
         }
     }
 }
