@@ -13,17 +13,7 @@ import java.awt.Component;
 import java.awt.Window;
 
 /**
- * A component that has three areas in which it widgets can be added. This is the component behind
- * the Unfied Tool Bar and the Bottom Bar. Here's what a {@code TriAreaComponent} Unified Tool Bar
- * looks like with widgets added to each of the three areas:
- * <br>
- * <img src="../../../resources/UnifiedToolBar.png">
- * <br>
- * You cannot directly create a {@code TriAreaComponent} and should instead use the factory
- * methods provided in {@link MacWidgetFactory}.
- *
- * @see com.explodingpixels.macwidgets.UnifiedToolBar
- * @see com.explodingpixels.macwidgets.BottomBar
+ * A component that has three areas in which it widgets can be added.
  */
 public class TriAreaComponent {
 
