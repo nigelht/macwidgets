@@ -33,6 +33,7 @@ import javax.swing.tree.AbstractLayoutCache;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -49,9 +50,8 @@ import java.awt.event.MouseEvent;
 /**
  * <p>
  * A UI delegate that paints a {@link JTree} as an <a href="http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE">Apple defined</a>
- * Source List. While this UI delegate can be directly installed on existing {@code JTree}s, it is
- * recommended that you use the {@link MacWidgetFactory#makeSourceList(javax.swing.JTree)} method
- * in conjuction with {@link MacWidgetFactory#createSourceListScrollPane(javax.swing.JComponent)}.
+ * Source List. Consider using this UI delegate with
+ * {@link MacWidgetFactory#createSourceListScrollPane(javax.swing.JComponent)}.
  * </p>
  * <p>
  * For the best development experience, it is recommended that you migrate your code to use the
@@ -106,6 +106,8 @@ public class SourceListTreeUI extends BasicTreeUI {
     private FocusStatePainter fBackgroundPainter;
     private FocusStatePainter fSelectionBackgroundPainter;
 
+    private CustomTreeModelListener fTreeModelListener = new CustomTreeModelListener();
+
     @Override
     protected void completeUIInstall() {
         super.completeUIInstall();
@@ -119,9 +121,6 @@ public class SourceListTreeUI extends BasicTreeUI {
         tree.setShowsRootHandles(true);
         // TODO key height off font size.
         tree.setRowHeight(20);
-
-        // install a custom TreeModelListener to handle root node expansion.
-        tree.getModel().addTreeModelListener(new CustomTreeModelListener());
 
         // install the default color scheme.
         setColorScheme(new SourceListStandardColorScheme());
@@ -142,6 +141,21 @@ public class SourceListTreeUI extends BasicTreeUI {
         tree.getInputMap().put(KeyStroke.getKeyStroke("pressed UP"), SELECT_PREVIOUS);
         tree.getActionMap().put(SELECT_NEXT, createNextAction());
         tree.getActionMap().put(SELECT_PREVIOUS, createPreviousAction());
+    }
+
+    @Override
+    protected void setModel(TreeModel model) {
+        // if there was a previously installed TreeModel, uninstall our listener from it.
+        if (treeModel != null) {
+            treeModel.removeTreeModelListener(fTreeModelListener);
+        }
+
+        super.setModel(model);
+
+        // install our listener on the new TreeModel if neccessary.
+        if (model != null) {
+            model.addTreeModelListener(new CustomTreeModelListener());
+        }
     }
 
     public void setColorScheme(SourceListColorScheme colorScheme) {

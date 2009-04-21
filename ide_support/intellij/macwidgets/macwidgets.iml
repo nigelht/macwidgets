@@ -30,14 +30,13 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.4.jar!/" />
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="library" name="Forms" level="project" />
-    <orderEntryProperties />
   </component>
 </module>
 
