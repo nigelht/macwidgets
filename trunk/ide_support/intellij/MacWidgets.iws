@@ -19,7 +19,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DTrackingSpacer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java" />
@@ -176,22 +175,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MacWidgetFactory.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MacWidgetFactory.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.0">
+            <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.805668">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TriAreaComponent.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="13" selection-start="523" selection-end="523" vertical-scroll-proportion="0.1659919">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -954,7 +944,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed so that SwingUtilities.updateComponentTreeUI caused the appropriate reaction in SourceList (Issue 80)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated comments." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -965,7 +955,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Set scrollpane border to empty in configureEnclosingScrollPane." />
     <MESSAGE value="Fixed path to icon." />
     <MESSAGE value="Initial commit." />
     <MESSAGE value="Intermediate checkin." />
@@ -990,6 +979,7 @@
     <MESSAGE value="Made SourceListControlBar observer left and right minimum component widths (issue 73)." />
     <MESSAGE value="Fixed vertical alignment problem when associated JComboBox gets tall (issue 79)." />
     <MESSAGE value="Fixed so that SwingUtilities.updateComponentTreeUI caused the appropriate reaction in SourceList (Issue 80)." />
+    <MESSAGE value="Updated comments." />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1137,19 +1127,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="13" selection-start="523" selection-end="523" vertical-scroll-proportion="0.1659919">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.805668">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
