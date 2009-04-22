@@ -1,5 +1,6 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TextProvider;
 import com.explodingpixels.widgets.WindowUtils;
 
@@ -49,7 +50,8 @@ public class DSourceListTreeUI {
         categoryOne.add(itemB);
         categoryOne.add(itemC);
 
-        JTree tree = MacWidgetFactory.makeSourceList(new JTree(model));
+        JTree tree = new JTree(model);
+        tree.setUI(new SourceListTreeUI());
         final JScrollPane pane = MacWidgetFactory.makeSourceListScrollPane(new JScrollPane(tree));
 
         SwingUtilities.invokeLater(new Runnable() {
