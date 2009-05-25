@@ -148,15 +148,17 @@ public class TriAreaComponent {
      *                      component is *not* the first component to be added to the center.
      */
     public void addComponentToRight(JComponent toolToAdd, int spacer_pixels) {
-        fRightPanelBuilder.appendColumn("p");
-        fRightPanelBuilder.add(toolToAdd);
-        fRightPanelBuilder.nextColumn();
-
-        if (getCenterComponentCount() > 0) {
+        // first, add a spacer if there is already an component on the right.
+        if (getRightComponentCount() > 0) {
             fRightPanelBuilder.appendColumn("p");
             fRightPanelBuilder.add(MacWidgetFactory.createSpacer(spacer_pixels, 0));
             fRightPanelBuilder.nextColumn();
         }
+
+        // next, add the given component.
+        fRightPanelBuilder.appendColumn("p");
+        fRightPanelBuilder.add(toolToAdd);
+        fRightPanelBuilder.nextColumn();
     }
 
     void setBackgroundPainter(Painter<Component> backgroundPainter) {
