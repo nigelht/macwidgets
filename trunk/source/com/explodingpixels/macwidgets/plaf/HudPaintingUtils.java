@@ -25,6 +25,8 @@ public class HudPaintingUtils {
     public static final float FONT_SIZE = 11.0f;
     public static final Color FONT_COLOR = Color.WHITE;
 
+    public static final Color PRESSED_MARK_COLOR = new Color(0, 0, 0, 225);
+
     private static final Color TOP_COLOR = new Color(170, 170, 170, 50);
     private static final Color BOTTOM_COLOR = new Color(17, 17, 17, 50);
     private static final Color TOP_PRESSED_COLOR = new Color(249, 249, 249, 153);
@@ -118,7 +120,7 @@ public class HudPaintingUtils {
      */
     public enum Roundedness {
 
-        ROUNDED_BUTTON(.95), COMBO_BUTTON(0.45), CHECK_BOX(0.4);
+        ROUNDED_BUTTON(.95), COMBO_BUTTON(0.45), CHECK_BOX(0.4), RADIO(1.0);
 
         private final double fRoundedPercentage;
 

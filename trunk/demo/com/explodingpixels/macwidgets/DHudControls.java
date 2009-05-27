@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -32,19 +33,22 @@ public class DHudControls {
                 JTextField textField = HudWidgetFactory.createHudTextField("Text field");
                 textField.setColumns(8);
 
+                JRadioButton radioButton = HudWidgetFactory.createHudRadioButton("Radio Button");
+
                 HudWindow hudWindow = new HudWindow("");
                 JDialog dialog = hudWindow.getJDialog();
 
                 hudWindow.getContentPane().setLayout(
-                        new FormLayout("10dlu,left:p", "10dlu,p,3dlu,p,3dlu,p,3dlu,p,3dlu,p"));
+                        new FormLayout("10dlu,left:p", "10dlu,p,3dlu,p,3dlu,p,3dlu,p,3dlu,p,3dlu,p"));
                 CellConstraints cc = new CellConstraints();
                 hudWindow.getContentPane().add(label, cc.xy(2, 2));
                 hudWindow.getContentPane().add(button, cc.xy(2, 4));
                 hudWindow.getContentPane().add(checkBox, cc.xy(2, 6));
                 hudWindow.getContentPane().add(comboBox, cc.xy(2, 8));
                 hudWindow.getContentPane().add(textField, cc.xy(2, 10));
+                hudWindow.getContentPane().add(radioButton, cc.xy(2, 12));
 
-                dialog.setSize(500, 400);
+                dialog.setSize(250, 300);
                 dialog.setLocationRelativeTo(null);
                 dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 dialog.setVisible(true);

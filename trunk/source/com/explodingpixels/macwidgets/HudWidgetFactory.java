@@ -4,6 +4,7 @@ import com.explodingpixels.macwidgets.plaf.HudButtonUI;
 import com.explodingpixels.macwidgets.plaf.HudCheckBoxUI;
 import com.explodingpixels.macwidgets.plaf.HudComboBoxUI;
 import com.explodingpixels.macwidgets.plaf.HudLabelUI;
+import com.explodingpixels.macwidgets.plaf.HudRadioButtonUI;
 import com.explodingpixels.macwidgets.plaf.HudTextFieldUI;
 
 import javax.swing.ComboBoxModel;
@@ -11,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
@@ -88,8 +90,8 @@ public class HudWidgetFactory {
     }
 
     /**
-     * Creates a Heads Up Display (HUD) style text field, similar to that seen in various iApps (e.g.
-     * iPhoto).
+     * Creates a Heads Up Display (HUD) style text field, similar to that seen in various iApps
+     * (e.g. iPhoto).
      * <br/><br/>
      * <img src="../../../../graphics/HUDTextFieldUI.png">
      *
@@ -103,4 +105,19 @@ public class HudWidgetFactory {
         return textField;
     }
 
+    /**
+     * Creates a Heads Up Display (HUD) style radio button, similar to that seen in various iApps
+     * (e.g. iPhoto).
+     * <br/><br/>
+     * <img src="../../../../graphics/HUDRadioButtonUI.png">
+     *
+     * @param text the text of the radio button.
+     * @return the HUD style radio button.
+     * @see HudRadioButtonUI
+     */
+    public static JRadioButton createHudRadioButton(String text) {
+        JRadioButton radioButton = new JRadioButton(text);
+        radioButton.setUI(new HudRadioButtonUI());
+        return radioButton;
+    }
 }
