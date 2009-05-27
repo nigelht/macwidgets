@@ -18,8 +18,6 @@ import java.awt.Graphics2D;
  */
 public class HudCheckBoxUI extends BasicCheckBoxUI {
 
-    private static final Color PRESSED_CHECK_MARK_COLOR = new Color(0, 0, 0, 225);
-
     @Override
     protected void installDefaults(final AbstractButton b) {
         super.installDefaults(b);
@@ -75,7 +73,7 @@ public class HudCheckBoxUI extends BasicCheckBoxUI {
             int y3 = -1;
 
             Color color = model.isPressed() ?
-                    PRESSED_CHECK_MARK_COLOR : HudPaintingUtils.FONT_COLOR;
+                    HudPaintingUtils.PRESSED_MARK_COLOR : HudPaintingUtils.FONT_COLOR;
 
             graphics.setStroke(new BasicStroke(1.65f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND));
             graphics.setColor(color);
