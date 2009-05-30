@@ -1,12 +1,16 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.data.Rating;
+import com.explodingpixels.data.RatingChangeListener;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.explodingpixels.data.Rating;
-import com.explodingpixels.data.RatingChangeListener;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,7 +27,7 @@ public class RatingComponent {
 
     private boolean fFocused = true;
 
-    private List<JLabel> ratingIndicators = new ArrayList<JLabel>();
+    private List<JLabel> fRatingIndicators = new ArrayList<JLabel>();
 
     private List<RatingChangeListener> fListeners =
             new ArrayList<RatingChangeListener>();
@@ -54,24 +58,18 @@ public class RatingComponent {
     }
 
     private void buildRatingPanel() {
-
         // definte the FormLayout columns and rows.
-        FormLayout layout = new FormLayout(
-                "","fill:p:grow");
-        // create the cell constraints to use in the layout.
-        CellConstraints cc = new CellConstraints();
-        // create the builder with our panel as the component to be filled.
+        FormLayout layout = new FormLayout("", "fill:p:grow");
         PanelBuilder builder = new PanelBuilder(layout, fComponent);
 
-        fComponent.setOpaque(true);
-        for (int i=0; i< Rating.values().length-1; i++) {
+        fComponent.setOpaque(false);
+        for (int i = 0; i < Rating.values().length - 1; i++) {
             RatingLabel label = new RatingLabel(i);
-            ratingIndicators.add(label);
+            fRatingIndicators.add(label);
 
             builder.appendColumn("p");
-            builder.add(label, cc.xy(builder.getColumn(), 1));
+            builder.add(label, new CellConstraints().xy(builder.getColumn(), 1));
             builder.nextColumn();
-
         }
     }
 
@@ -96,11 +94,12 @@ public class RatingComponent {
         fFocused = focused;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Custom class to return icon for rating indicator based on its position
-    // in the larger component and the current rating.
-    ///////////////////////////////////////////////////////////////////////////
+    // Custom label implementation. ///////////////////////////////////////////////////////////////
 
+    /**
+     * Custom class to return icon for rating indicator based on its position in the larger
+     * component and the current rating.
+     */
     private class RatingLabel extends JLabel {
 
         private int fPosition;
@@ -121,7 +120,7 @@ public class RatingComponent {
                 retVal = getDotIcon();
             }
 
-          return retVal;
+            return retVal;
         }
 
         private Icon getStarIcon() {
@@ -152,9 +151,7 @@ public class RatingComponent {
 
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Rating change listener support.
-    ///////////////////////////////////////////////////////////////////////////
+    // Rating change listener support. ////////////////////////////////////////////////////////////
 
     public void addRatingChangeListener(RatingChangeListener listener) {
         fListeners.add(listener);
