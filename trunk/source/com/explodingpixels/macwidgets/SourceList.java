@@ -226,6 +226,15 @@ public class SourceList {
     }
 
     /**
+     * Gets the {@link SourceListColorScheme} that this {@code SourceList} uses.
+     *
+     * @return the {@link SourceListColorScheme} that this {@code SourceList} uses.
+     */
+    public SourceListColorScheme getColorScheme() {
+        return ((SourceListTreeUI) fTree.getUI()).getColorScheme();
+    }
+
+    /**
      * Sets the {@link SourceListColorScheme} that this {@code SourceList} uses.
      *
      * @param colorScheme the {@link SourceListColorScheme} that this {@code SourceList} uses.

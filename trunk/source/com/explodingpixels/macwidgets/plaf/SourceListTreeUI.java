@@ -158,6 +158,21 @@ public class SourceListTreeUI extends BasicTreeUI {
         }
     }
 
+    /**
+     * Gets the {@link SourceListColorScheme} that this {@code SourceListTreeUI} uses to paint.
+     *
+     * @return the {@link SourceListColorScheme} that this {@code SourceList} uses to paint.
+     */
+    public SourceListColorScheme getColorScheme() {
+        return fColorScheme;
+    }
+
+    /**
+     * Sets the {@link SourceListColorScheme} that this {@code SourceListTreeUI} uses to paint.
+     *
+     * @param colorScheme the {@link SourceListColorScheme} that this {@code SourceList} uses to
+     *                    paint.
+     */
     public void setColorScheme(SourceListColorScheme colorScheme) {
         checkColorSchemeNotNull(colorScheme);
         fColorScheme = colorScheme;
