@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -148,9 +149,11 @@ public class EPComboPopup implements ComboPopup {
 
     public void show() {
         clearAndFillMenu();
-        Point popupLocation = placePopupOnScreen();
+//        Point popupLocation = placePopupOnScreen();
+        Rectangle popupBounds = calculateInitialPopupBounds();
 
-        fPopupMenu.show(fComboBox, popupLocation.x, popupLocation.y);
+//        fPopupMenu.show(fComboBox, popupLocation.x, popupLocation.y);
+        fPopupMenu.show(fComboBox, popupBounds.x, popupBounds.y);
         forceCorrectPopupSelection();
     }
 
@@ -217,5 +220,44 @@ public class EPComboPopup implements ComboPopup {
         public int provideCenter(JComboBox comboBox) {
             return comboBox.getHeight() / 2;
         }
+    }
+
+    // Utility methods. ///////////////////////////////////////////////////////////////////////////
+
+    private Rectangle calculateInitialPopupBounds() {
+        // grab the right most location of the button.
+        int comboBoxRightEdge = fComboBox.getWidth();
+
+        // figure out how the height of a menu item.
+        Insets insets = fPopupMenu.getInsets();
+
+        // calculate the x and y value at which to place the popup menu. by default, this will place
+        // the selected menu item in the popup item directly over the button.
+        int x = comboBoxRightEdge - fPopupMenu.getPreferredSize().width - LEFT_SHIFT;
+        int selectedItemIndex = fPopupMenu.getSelectionModel().getSelectedIndex();
+        int componentCenter = fComboBoxVerticalCenterProvider.provideCenter(fComboBox);
+        int menuItemHeight = fPopupMenu.getComponent(selectedItemIndex).getPreferredSize().height;
+        int menuItemCenter = insets.top + (selectedItemIndex * menuItemHeight) + menuItemHeight / 2;
+        int y = componentCenter - menuItemCenter;
+
+        // TODO this method doesn't robustly handle multiple monitors.
+
+        Rectangle bounds = new Rectangle(new Point(x, y), fPopupMenu.getPreferredSize());
+
+        Dimension preferredSize = fPopupMenu.getPreferredSize();
+
+        // do a cursory check to make sure we're not placing the popup
+        // off the bottom of the screen. note that Java on Mac won't
+        // let the popup show up off screen no matter where you place it.
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        Point bottomOfMenuOnScreen = new Point(0, y + preferredSize.height);
+        SwingUtilities.convertPointToScreen(bottomOfMenuOnScreen, fComboBox);
+        if (bottomOfMenuOnScreen.y > size.height) {
+            y = fComboBox.getHeight() - preferredSize.height;
+        }
+
+        Point position = new Point(x, y);
+
+        return bounds;
     }
 }
