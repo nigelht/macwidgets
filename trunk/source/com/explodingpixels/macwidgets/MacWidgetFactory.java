@@ -1,6 +1,7 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
+import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -21,7 +22,9 @@ import java.awt.Dimension;
 public class MacWidgetFactory {
 
     public static JTable createITunesTable(TableModel tableModel) {
-        return new ITunesTable(tableModel);
+        JTable table = new JTable(tableModel);
+        table.setUI(new ITunesTableUI());
+        return table;
     }
 
     public static JScrollPane wrapITunesTableInJScrollPane(JTable table) {
