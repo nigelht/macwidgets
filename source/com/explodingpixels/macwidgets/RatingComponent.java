@@ -6,11 +6,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -52,7 +48,7 @@ public class RatingComponent {
             new ImageIcon(ITunesRatingTableCellRenderer.class.getResource(
                     "/com/explodingpixels/macwidgets/images/itunes_dot_focused.png"));
 
-    RatingComponent(Rating rating) {
+    public RatingComponent(Rating rating) {
         fRating = rating;
         buildRatingPanel();
     }
