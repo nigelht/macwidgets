@@ -4,19 +4,11 @@ import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -73,6 +65,7 @@ public class ITunesTableHeaderRenderer extends JLabel
             setText("");
             setHorizontalAlignment(SwingConstants.CENTER);
         } else {
+            setIcon(null);
             setText(value.toString());
             setFont(fTable.getTableHeader().getFont());
             setHorizontalAlignment(SwingConstants.LEFT);
