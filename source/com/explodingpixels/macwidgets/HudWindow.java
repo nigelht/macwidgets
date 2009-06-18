@@ -3,9 +3,37 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.WindowDragger;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -113,6 +141,13 @@ public class HudWindow {
     }
 
     /**
+     * Hides the close button on this HUD's title bar.
+     */
+    public void hideCloseButton() {
+        fTitlePanel.hideCloseButton();
+    }
+
+    /**
      * Gets the {@link JComponent} to add content to.
      *
      * @return the container to add content to.
@@ -196,6 +231,10 @@ public class HudWindow {
             fLabel = new JLabel(title, SwingConstants.CENTER);
             fLabel.setFont(fLabel.getFont().deriveFont(Font.BOLD, 11.0f));
 
+            setOpaque(false);
+            setPreferredSize(new Dimension(-1, 20));
+            updateFocusState();
+
             fCloseButton.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
             fCloseButton.setVerticalAlignment(SwingConstants.CENTER);
             fCloseButton.setOpaque(false);
@@ -206,15 +245,15 @@ public class HudWindow {
             fCloseButton.setPressedIcon(CLOSE_PRESSED_ICON);
             fCloseButton.addActionListener(closeButtonActionListener);
 
-            setOpaque(false);
-            setPreferredSize(new Dimension(-1, 20));
-            updateFocusState();
-
             setLayout(new BorderLayout());
-            add(fCloseButton, BorderLayout.WEST);
             add(fLabel, BorderLayout.CENTER);
+            add(fCloseButton, BorderLayout.WEST);
             add(MacWidgetFactory.createSpacer(
                     fCloseButton.getPreferredSize().width, 0), BorderLayout.EAST);
+        }
+
+        private void hideCloseButton() {
+            fCloseButton.setVisible(false);
         }
 
         private void setTitle(String title) {
