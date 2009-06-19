@@ -47,7 +47,6 @@ public class WindowUtils {
             Class clazz = Class.forName("com.sun.awt.AWTUtilities");
             Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
             method.invoke(clazz, window, false);
-            System.out.println("here");
         } catch (Exception e) {
             // silently ignore this exception.
         }
