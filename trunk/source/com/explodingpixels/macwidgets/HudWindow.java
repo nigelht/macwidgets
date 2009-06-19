@@ -1,9 +1,11 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.util.PlatformUtils;
 import com.explodingpixels.widgets.WindowDragger;
 import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Area;
@@ -184,8 +186,7 @@ public class HudWindow {
 
         private final JButton fCloseButton = new JButton(CLOSE_ICON);
 
-        private final JComponent fSpacer = MacWidgetFactory.createSpacer(
-                fCloseButton.getPreferredSize().width, 0);
+        private final JComponent fSpacer;
 
         private final JLabel fLabel;
 
@@ -197,7 +198,7 @@ public class HudWindow {
             setPreferredSize(new Dimension(-1, 20));
             updateFocusState();
 
-            fCloseButton.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            fCloseButton.setBorder(getCloseButtonBorder());
             fCloseButton.setVerticalAlignment(SwingConstants.CENTER);
             fCloseButton.setOpaque(false);
             fCloseButton.setFocusable(false);
@@ -207,15 +208,23 @@ public class HudWindow {
             fCloseButton.setPressedIcon(CLOSE_PRESSED_ICON);
             fCloseButton.addActionListener(closeButtonActionListener);
 
+            fSpacer = MacWidgetFactory.createSpacer(fCloseButton.getPreferredSize().width, 0);
+
             setLayout(new BorderLayout());
             add(fLabel, BorderLayout.CENTER);
-            add(fCloseButton, BorderLayout.WEST);
-            add(fSpacer, BorderLayout.EAST);
+            add(fCloseButton, PlatformUtils.isMac() ? BorderLayout.WEST : BorderLayout.EAST);
+            add(fSpacer, PlatformUtils.isMac() ? BorderLayout.EAST : BorderLayout.WEST);
         }
 
         private void hideCloseButton() {
             fCloseButton.setVisible(false);
             fSpacer.setVisible(false);
+        }
+
+        private Border getCloseButtonBorder() {
+             return PlatformUtils.isMac()
+                     ? BorderFactory.createEmptyBorder(0, 5, 0, 0)
+                     : BorderFactory.createEmptyBorder(0, 0, 0, 5);
         }
 
         private void setTitle(String title) {
@@ -278,9 +287,7 @@ public class HudWindow {
     private static class HudPanel extends JPanel {
 
         private static final Color HIGHLIGHT = new Color(255, 255, 255, 59);
-
         private static final Color HIGHLIGHT_BOTTOM = new Color(255, 255, 255, 25);
-
         private static final Color BACKGROUND = new Color(30, 30, 30, 216);
 
         private HudPanel() {
@@ -332,11 +339,8 @@ public class HudWindow {
                         "/com/explodingpixels/macwidgets/images/resize_corner_dark.png"));
 
         private final Window fWindow;
-
         private final JLabel fResizeCorner = new JLabel(RESIZE_ICON);
-
         private int fXOffsetToWindowEdge;
-
         private int fYOffsetToWidnowEdge;
 
         public BottomPanel(Window window) {
