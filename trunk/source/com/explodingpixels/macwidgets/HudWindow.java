@@ -225,6 +225,9 @@ public class HudWindow {
 
         private final JButton fCloseButton = new JButton(CLOSE_ICON);
 
+        private final JComponent fSpacer = MacWidgetFactory.createSpacer(
+                fCloseButton.getPreferredSize().width, 0);
+
         private final JLabel fLabel;
 
         private TitlePanel(String title, ActionListener closeButtonActionListener) {
@@ -248,12 +251,12 @@ public class HudWindow {
             setLayout(new BorderLayout());
             add(fLabel, BorderLayout.CENTER);
             add(fCloseButton, BorderLayout.WEST);
-            add(MacWidgetFactory.createSpacer(
-                    fCloseButton.getPreferredSize().width, 0), BorderLayout.EAST);
+            add(fSpacer, BorderLayout.EAST);
         }
 
         private void hideCloseButton() {
             fCloseButton.setVisible(false);
+            fSpacer.setVisible(false);
         }
 
         private void setTitle(String title) {
