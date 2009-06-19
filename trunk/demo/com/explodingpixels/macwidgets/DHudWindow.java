@@ -12,12 +12,13 @@ public class DHudWindow {
                 JFrame frame = new JFrame();
                 frame.setSize(400, 400);
                 frame.setVisible(true);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                JTextField textField = new JTextField("foo bar");
-                textField.setOpaque(false);
+//                JTextField textField = new JTextField("foo bar");
+//                textField.setOpaque(false);
                 
                 HudWindow hud = new HudWindow("Window", frame);
-                hud.getContentPane().add(textField);
+//                hud.getContentPane().add(textField);
                 
                 JDialog dialog = hud.getJDialog();
                 

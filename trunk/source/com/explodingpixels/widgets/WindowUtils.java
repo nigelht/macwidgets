@@ -1,21 +1,59 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import com.explodingpixels.util.PlatformUtils;
+
+import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-import java.awt.Component;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Method;
 
 public class WindowUtils {
 
-    public static final String FRAME_ACTIVE_PROPERTY = "Frame.active";
+    // TODO get rid of this, as it doesn't work across platforms.
+    private static final String FRAME_ACTIVE_PROPERTY = "Frame.active";
+
+    /**
+     * Try's to make the given {@link Window} non-opqaue (transparent) across platforms and JREs. This method is not
+     * guaranteed to succeed, and will fail silently if the given {@code Window} cannot be made non-opaque.
+     * <p/>
+     * This method is useful, for example, when creating a HUD style window that is semi-transparent, and thus doesn't
+     * want the window background to be drawn.
+     * @param window the {@code Window} to make non-opaque.
+     */
+    public static void makeWindowNonOpaque(Window window) {
+        // on the mac, simply setting the window's background color to be fully transparent makes the window non-opaque.
+        // on non-mac platforms, try to use the facilities of Java 6 update 10.
+        if (PlatformUtils.isMac()) {
+            window.setBackground(new Color(0, 0, 0, 0));
+        } else {
+            window.setBackground(new Color(0, 0, 0, 0));
+            quietlyTryToMakeWindowNonOqaque(window);
+        }
+
+    }
+
+    /**
+     * Trys to invoke {@code com.sun.awt.AWTUtilities.setWindowOpaque(window, false)} on the given {@link Window}. This
+     * will only work when running with JRE 6 update 10 or higher. This method will silently fail if the method cannot
+     * be invoked.
+     */
+    private static void quietlyTryToMakeWindowNonOqaque(Window window) {
+        try {
+            Class clazz = Class.forName("com.sun.awt.AWTUtilities");
+            Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
+            method.invoke(clazz, window, false);
+            System.out.println("here");
+        } catch (Exception e) {
+            // silently ignore this exception.
+        }
+    }
 
     public static WindowFocusListener createAndInstallRepaintWindowFocusListener(Window window) {
 
@@ -36,6 +74,11 @@ public class WindowUtils {
         return windowFocusListener;
     }
 
+    /**
+     * {@code true} if the given {@link Component}'s parent {@link Window} is currently active (focused).
+     * @param component the {@code Component} to check the parent {@code Window}'s focus for.
+     * @return {@code true} if the given {@code Component}'s parent {@code Window} is currently active.
+     */
     public static boolean isParentWindowFocused(Component component) {
         Window window = SwingUtilities.getWindowAncestor(component);
         return window != null && window.isFocused();
