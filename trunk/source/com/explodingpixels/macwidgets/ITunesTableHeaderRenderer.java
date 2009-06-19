@@ -2,38 +2,43 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
 import com.explodingpixels.painter.Painter;
+import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 
 /**
  * A table header renderer for an iTunes style table. Note that this class specifically extends
  * {@link JLabel} in order to be compatible with Glazed Lists. Glazed Lists looks for a label in the
  * header renderer in order to install the sort icon, if necessary.
  */
-public class ITunesTableHeaderRenderer extends JLabel
-        implements TableCellRenderer {
+public class ITunesTableHeaderRenderer extends JLabel implements TableCellRenderer {
 
     private JTable fTable;
 
-    private int fSelectedColumn = -1;
-
     private int fPressedColumn = -1;
+    private int fColumnModelIndexBeingPainted = -1;
 
-    private boolean fIsColumnPressed = false;
-
-    private boolean fIsColumnSelected = false;
-
-    private static Color HIGHLIGHT_BORDER_COLOR = new Color(255, 255, 255, 77);
-
+    //private static Color HIGHLIGHT_BORDER_COLOR = new Color(255, 255, 255, 77);
     private static Color BORDER_COLOR = new Color(0, 0, 0, 51);
-
     private static Color UNFOCUSED_FONT_COLOR = new Color(0x8f8f8f);
 
     private static Border BORDER = BorderFactory.createCompoundBorder(
@@ -41,6 +46,9 @@ public class ITunesTableHeaderRenderer extends JLabel
             BorderFactory.createCompoundBorder(
                     BorderFactory.createMatteBorder(0, 0, 0, 1, BORDER_COLOR),
                     BorderFactory.createEmptyBorder(1, 5, 0, 5)));
+
+    private static final int SORT_ICON_INDENT_PIXELS = 6;
+    private static final Color SORT_ICON_COLOR = new Color(0, 0, 0, 175);
 
     public ITunesTableHeaderRenderer(JTable table) {
         fTable = table;
@@ -53,6 +61,9 @@ public class ITunesTableHeaderRenderer extends JLabel
                 EmphasizedLabelUI.DEFAULT_FOCUSED_FONT_COLOR, UNFOCUSED_FONT_COLOR,
                 EmphasizedLabelUI.DEFAULT_EMPHASIS_COLOR);
         setBorder(BORDER);
+
+        // TODO table column re-ordering is not supported at this time.
+        fTable.getTableHeader().setReorderingAllowed(false);
     }
 
     public Component getTableCellRendererComponent(
@@ -65,24 +76,15 @@ public class ITunesTableHeaderRenderer extends JLabel
             setText("");
             setHorizontalAlignment(SwingConstants.CENTER);
         } else {
-            setIcon(null);
             setText(value.toString());
             setFont(fTable.getTableHeader().getFont());
             setHorizontalAlignment(SwingConstants.LEFT);
         }
 
-        // only change the selected and pressed flags if the given column index is within the
-        // bounds of the column model. this renderer is robust to painting a column header not
-        // within the column models bounds, which allows it to paint the header for to the right of
-        // the right-most column if necessary.
-        if (0 <= column && column < fTable.getColumnCount()) {
-            int modelColumn = fTable.convertColumnIndexToModel(column);
-            fIsColumnSelected = isColumnSelected(modelColumn);
-            fIsColumnPressed = isColumnPressed(modelColumn);
-        } else {
-            fIsColumnSelected = false;
-            fIsColumnPressed = false;
-        }
+        // keep the index of the column we're rendering. if the column isn't a value in the model,
+        // then use -1 as the index.
+        fColumnModelIndexBeingPainted = 0 <= column && column < fTable.getColumnCount()
+                ? fTable.convertColumnIndexToModel(column) : -1;
 
         return this;
     }
@@ -95,73 +97,53 @@ public class ITunesTableHeaderRenderer extends JLabel
 
         super.paintComponent(g);
 
-//        paintLeftHighlight(graphics2d);
-//        paintRightHighlight(graphics2d);
-
+        paintSortIndicatorIfNecessary(graphics2d);
         graphics2d.dispose();
     }
 
-    protected void paintLeftHighlight(Graphics2D graphics2d) {
-        graphics2d.setColor(HIGHLIGHT_BORDER_COLOR);
-        graphics2d.drawLine(0, 0, 0, getHeight() - getInsets().bottom);
-    }
-
-    protected void paintRightHighlight(Graphics2D graphics2d) {
-        graphics2d.setColor(BORDER_COLOR);
-        graphics2d.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight() - getInsets().bottom);
-//        graphics2d.setColor(HIGHLIGHT_BORDER_COLOR);
-//        graphics2d.drawLine(getWidth(), 0, getWidth(), getHeight() - getInsets().bottom);
-//        graphics2d.drawLine(0, 0, 0, getHeight() - getInsets().bottom);
-    }
-
-    public Painter<Component> getBackgroundPainter() {
-        Painter<Component> retVal;
-        boolean windowHasFocus = WindowUtils.isParentWindowFocused(fTable);
-        // TODO cleanup this logic.
-        if (!fTable.isEnabled()) {
-            retVal = MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
-        } else if (windowHasFocus && fIsColumnPressed && fIsColumnSelected) {
-            retVal = MacPainterFactory.createIAppPressedSelectedHeaderPainter();
-        } else if (windowHasFocus && fIsColumnPressed) {
-            retVal = MacPainterFactory.createIAppPressedUnselectedHeaderPainter();
-        } else if (windowHasFocus && fIsColumnSelected) {
-            retVal = MacPainterFactory.createIAppUnpressedSelectedHeaderPainter();
-        } else {
-            retVal = MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
+    private void paintSortIndicatorIfNecessary(Graphics2D graphics2d) {
+        TableUtils.SortDirection sortDirection = getColumnBeingPaintedSortDirection();
+        if (sortDirection != TableUtils.SortDirection.NONE) {
+            paintSortIndicator(graphics2d, sortDirection);
         }
-        return retVal;
     }
 
-    private boolean isColumnSelected(int column) {
-        return column == fSelectedColumn;
-    }
+    private void paintSortIndicator(Graphics2D graphics2d, TableUtils.SortDirection sortDirection) {
+        Shape sortShape = sortDirection == TableUtils.SortDirection.ASCENDING
+                ? createSortAscendingShape() : createSortDescendingShape();
 
-    private boolean isColumnPressed(int column) {
-        return column == fPressedColumn;
+        int x = getWidth() - sortShape.getBounds().width - SORT_ICON_INDENT_PIXELS;
+        int y = getHeight() / 2 - sortShape.getBounds().height / 2;
+
+        graphics2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2d.translate(x, y);
+        graphics2d.setColor(SORT_ICON_COLOR);
+        graphics2d.fill(sortShape);
     }
 
     private class HeaderClickHandler extends MouseAdapter {
 
-        private boolean mouseEventIsPerformingPopupTrigger = false;
+        private boolean iMouseEventIsPerformingPopupTrigger = false;
 
         public void mouseClicked(MouseEvent mouseEvent) {
-            // if the MouseEvent is popping up a context menu, do not sort
-            if (mouseEventIsPerformingPopupTrigger) return;
+            if (shouldProcessMouseClicked()) {
+                final TableColumnModel columnModel = fTable.getColumnModel();
+                int viewColumn = columnModel.getColumnIndexAtX(mouseEvent.getX());
+                int modelColumn = fTable.convertColumnIndexToModel(viewColumn);
+                TableUtils.toggleSortDirection(fTable.getTableHeader(), modelColumn);
 
-            // if the cursor indicates we're resizing columns, do not sort
-            if (fTable.getTableHeader().getCursor() == Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR)) {
-                return;
+                fTable.getTableHeader().repaint();
             }
+        }
 
-            final TableColumnModel columnModel = fTable.getColumnModel();
-            int viewColumn = columnModel.getColumnIndexAtX(mouseEvent.getX());
-            fSelectedColumn = fTable.convertColumnIndexToModel(viewColumn);
-
-            fTable.getTableHeader().repaint();
+        private boolean shouldProcessMouseClicked() {
+            return !iMouseEventIsPerformingPopupTrigger
+                    && fTable.getTableHeader().getCursor() != Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
         }
 
         public void mousePressed(MouseEvent mouseEvent) {
-            this.mouseEventIsPerformingPopupTrigger = mouseEvent.isPopupTrigger();
+            iMouseEventIsPerformingPopupTrigger = mouseEvent.isPopupTrigger();
 
             if (fTable.getTableHeader().getCursor() != Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR)) {
                 final TableColumnModel columnModel = fTable.getColumnModel();
@@ -179,5 +161,58 @@ public class ITunesTableHeaderRenderer extends JLabel
         }
     }
 
+    // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
+    private boolean isColumnBeingPaintedPressed() {
+        return fPressedColumn >= 0 && fColumnModelIndexBeingPainted == fPressedColumn;
+    }
+
+    private boolean isColumnBeingPaintedSelected() {
+        return TableUtils.isColumnSelected(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
+    }
+
+    private TableUtils.SortDirection getColumnBeingPaintedSortDirection() {
+        return TableUtils.getSortDirection(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
+    }
+
+    private Painter<Component> getBackgroundPainter() {
+        Painter<Component> retVal;
+
+        boolean windowHasFocus = WindowUtils.isParentWindowFocused(fTable);
+        boolean isColumnSelected = isColumnBeingPaintedSelected();
+        boolean isColumnPressed = isColumnBeingPaintedPressed();
+
+        // TODO cleanup this logic.
+        if (!fTable.isEnabled()) {
+            retVal = MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
+        } else if (windowHasFocus && isColumnPressed && isColumnSelected) {
+            retVal = MacPainterFactory.createIAppPressedSelectedHeaderPainter();
+        } else if (windowHasFocus && isColumnPressed) {
+            retVal = MacPainterFactory.createIAppPressedUnselectedHeaderPainter();
+        } else if (windowHasFocus && isColumnSelected) {
+            retVal = MacPainterFactory.createIAppUnpressedSelectedHeaderPainter();
+        } else {
+            retVal = MacPainterFactory.createIAppUnpressedUnselectedHeaderPainter();
+        }
+        return retVal;
+    }
+
+    private static GeneralPath createSortAscendingShape() {
+        float width = 7;
+        float height = 6;
+        GeneralPath path = new GeneralPath();
+        path.moveTo(width / 2.0f, 0.0f);
+        path.lineTo(width, height);
+        path.lineTo(0.0f, height);
+        path.lineTo(width / 2.0f, 0.0f);
+        return path;
+    }
+
+    private static GeneralPath createSortDescendingShape() {
+        GeneralPath path = createSortAscendingShape();
+        double centerX = path.getBounds2D().getWidth() / 2.0;
+        double centerY = path.getBounds2D().getHeight() / 2.0;
+        path.transform(AffineTransform.getRotateInstance(Math.PI, centerX, centerY));
+        return path;
+    }
 }
