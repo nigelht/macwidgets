@@ -29,14 +29,11 @@ public class WindowUtils {
      */
     public static void makeWindowNonOpaque(Window window) {
         // on the mac, simply setting the window's background color to be fully transparent makes the window non-opaque.
+        window.setBackground(new Color(0, 0, 0, 0));
         // on non-mac platforms, try to use the facilities of Java 6 update 10.
-        if (PlatformUtils.isMac()) {
-            window.setBackground(new Color(0, 0, 0, 0));
-        } else {
-            window.setBackground(new Color(0, 0, 0, 0));
+        if (!PlatformUtils.isMac()) {
             quietlyTryToMakeWindowNonOqaque(window);
         }
-
     }
 
     /**
