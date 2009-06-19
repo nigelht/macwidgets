@@ -43,6 +43,7 @@ public class WindowUtils {
      * Trys to invoke {@code com.sun.awt.AWTUtilities.setWindowOpaque(window, false)} on the given {@link Window}. This
      * will only work when running with JRE 6 update 10 or higher. This method will silently fail if the method cannot
      * be invoked.
+     * @param window the {@code Window} to try and make non-opaque.
      */
     private static void quietlyTryToMakeWindowNonOqaque(Window window) {
         try {
