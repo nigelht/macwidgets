@@ -3,37 +3,9 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.widgets.WindowDragger;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -106,9 +78,8 @@ public class HudWindow {
         // also note that this client property must be set *before* changing the opacity (not sure
         // why).
         fDialog.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
-
         fDialog.setUndecorated(true);
-        fDialog.setBackground(new Color(0, 0, 0, 0));
+        WindowUtils.makeWindowNonOpaque(fDialog);
 
         fHudPanel.add(fTitlePanel, BorderLayout.NORTH);
 //        fHudPanel.add(fBottomPanel, BorderLayout.SOUTH);
@@ -124,10 +95,6 @@ public class HudWindow {
         fDialog.addPropertyChangeListener("title", createTitlePropertyChangeListener());
 
         WindowUtils.createAndInstallRepaintWindowFocusListener(fDialog);
-        // listen for focus changes in the window so that we can update the focus state of the title
-        // panel (e.g. the font color).
-        fTitlePanel.addPropertyChangeListener(
-                WindowUtils.FRAME_ACTIVE_PROPERTY, createFrameFocusPropertyChangeListener());
         new WindowDragger(fDialog, fTitlePanel);
     }
 
@@ -174,14 +141,6 @@ public class HudWindow {
         return new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 fTitlePanel.setTitle(fDialog.getTitle());
-            }
-        };
-    }
-
-    private PropertyChangeListener createFrameFocusPropertyChangeListener() {
-        return new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                fTitlePanel.updateFocusState();
             }
         };
     }
@@ -264,7 +223,7 @@ public class HudWindow {
         }
 
         private void updateFocusState() {
-            Boolean focused = (Boolean) getClientProperty(WindowUtils.FRAME_ACTIVE_PROPERTY);
+            Boolean focused = WindowUtils.isParentWindowFocused(this);
             fLabel.setForeground(focused == null || focused ? FONT_COLOR : UNFOCUSED_FONT_COLOR);
         }
 
