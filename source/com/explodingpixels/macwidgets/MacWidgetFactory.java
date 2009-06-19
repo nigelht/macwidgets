@@ -21,21 +21,18 @@ import java.awt.Dimension;
  */
 public class MacWidgetFactory {
 
+    /**
+     * Creates an iTunes style table like the one listed below:
+     * <br/>
+     * <img src="../../../../graphics/iTunesTable.png">
+     * <br/>
+     * To wrap this table in an iApp style {@link JScrollPane}, see
+     * {@link IAppWidgetFactory#createScrollPaneWithButtonsTogether(java.awt.Component)};
+     */
     public static JTable createITunesTable(TableModel tableModel) {
         JTable table = new JTable(tableModel);
         table.setUI(new ITunesTableUI());
         return table;
-    }
-
-    public static JScrollPane wrapITunesTableInJScrollPane(JTable table) {
-        JScrollPane scrollPane = new JScrollPane(table,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        // TODO install custom ScrollBarUIs here.
-
-        return scrollPane;
     }
 
     public static ComponentBottomBar createComponentStatusBar() {

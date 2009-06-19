@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,6 +19,9 @@ import java.beans.PropertyChangeListener;
 public class TableUtils {
 
     private static final CellRendererPane CELL_RENDER_PANE = new CellRendererPane();
+
+    private static final String SELECTED_COLUMN_KEY = "EPJTableHeader.selectedColumn";
+    private static final String SORT_DIRECTION_KEY = "EPJTableHeader.sortDirection";
 
     private TableUtils() {
         // no constructor - utility class.
@@ -123,5 +127,67 @@ public class TableUtils {
                 }
             }
         };
+    }
+
+    // Support for making column headers selected and sorted. /////////////////////////////////////
+
+    public static int getSelectedColumn(JTableHeader tableHeader) {
+        Object selectedColumnValue = tableHeader.getClientProperty(SELECTED_COLUMN_KEY);
+        return selectedColumnValue != null && selectedColumnValue instanceof Integer
+                ? ((Integer) selectedColumnValue) : -1;
+    }
+
+    public static boolean isColumnSelected(JTableHeader tableHeader, int columnModelIndex) {
+        int selectedColumn = getSelectedColumn(tableHeader);
+        return selectedColumn >= 0 && selectedColumn == columnModelIndex;
+    }
+
+    public static SortDirection getSortDirection(JTableHeader tableHeader, int columnModelIndex) {
+        Object sortDirection = tableHeader.getClientProperty(SORT_DIRECTION_KEY);
+        boolean isColumnSelected = isColumnSelected(tableHeader, columnModelIndex);
+        return sortDirection != null && sortDirection instanceof String && isColumnSelected
+                ? SortDirection.find((String) sortDirection) : SortDirection.NONE;
+    }
+
+    public static void toggleSortDirection(JTableHeader tableHeader, int columnModelIndex) {
+        Object oldSortDirection = tableHeader.getClientProperty(SORT_DIRECTION_KEY);
+        SortDirection newSortDirection;
+        if (oldSortDirection == null) {
+            newSortDirection = SortDirection.ASCENDING;
+        } else {
+            newSortDirection =
+                    SortDirection.find((String) oldSortDirection) == SortDirection.ASCENDING
+                            ? SortDirection.DESCENDING : SortDirection.ASCENDING;
+        }
+        setSortDirection(tableHeader, columnModelIndex, newSortDirection);
+    }
+
+    private static void setSortDirection(JTableHeader tableHeader, int columnModelIndex,
+                                         SortDirection sortDirection) {
+        tableHeader.putClientProperty(SELECTED_COLUMN_KEY, columnModelIndex);
+        tableHeader.putClientProperty(SORT_DIRECTION_KEY, sortDirection.getValue());
+    }
+
+    public enum SortDirection {
+        NONE(""), ASCENDING("ascending"), DESCENDING("descending");
+
+        private final String fValue;
+
+        SortDirection(String value) {
+            fValue = value;
+        }
+
+        private String getValue() {
+            return fValue;
+        }
+
+        private static SortDirection find(String value) {
+            for (SortDirection sortDirection : values()) {
+                if (sortDirection.getValue().equals(value)) {
+                    return sortDirection;
+                }
+            }
+            throw new IllegalArgumentException("No sort direction found for " + value);
+        }
     }
 }
