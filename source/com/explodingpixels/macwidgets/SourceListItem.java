@@ -4,6 +4,8 @@ import com.explodingpixels.widgets.IconProvider;
 import com.explodingpixels.widgets.TextProvider;
 
 import javax.swing.Icon;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +15,10 @@ import java.util.List;
  */
 public class SourceListItem implements TextProvider, IconProvider, SourceListBadgeContentProvider {
 
+    private static final String TEXT = "text";
+    private static final String ICON = "icon";
+    private static final String COUNTER_VALUE = "counter";
+
     private List<SourceListItem> fChildItems = new ArrayList<SourceListItem>();
 
     private String fText;
@@ -20,6 +26,8 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
     private Icon fIcon;
 
     private int fCounterValue;
+
+    private PropertyChangeSupport fSupport = new PropertyChangeSupport(this);
 
     /**
      * Creates a {@code SourceListItem} with the given text.
@@ -61,7 +69,9 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
      */
     public void setText(String text) {
         checkText(text);
+        String oldText = fText;
         fText = text;
+        fSupport.firePropertyChange(TEXT, oldText, fText);
     }
 
     /**
@@ -79,7 +89,9 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
      * @param icon the icon to use for this item. Can be null.
      */
     public void setIcon(Icon icon) {
+        Icon oldIcon = fIcon;
         fIcon = icon;
+        fSupport.firePropertyChange(ICON, oldIcon, fIcon);
     }
 
     boolean hasCounterValue() {
@@ -105,7 +117,9 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
      */
     public void setCounterValue(int counterValue) {
         checkCount(counterValue);
+        int oldCounterValue = fCounterValue;
         fCounterValue = counterValue;
+        fSupport.firePropertyChange(COUNTER_VALUE, oldCounterValue, fCounterValue);
     }
 
     /**
@@ -171,6 +185,26 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
 
     SourceListItem removeItem(int index) {
         return fChildItems.remove(index);
+    }
+
+    // Property change support. ///////////////////////////////////////////////////////////////////
+
+    /**
+     * Adds a {@link PropertyChangeListener} on this {@code SourceListItem}.
+     *
+     * @param listener the listener to add.
+     */
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        fSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Removes a {@link PropertyChangeListener} from this {@code SourceListItem}.
+     *
+     * @param listener the listener to remove.
+     */
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        fSupport.removePropertyChangeListener(listener);
     }
 
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
