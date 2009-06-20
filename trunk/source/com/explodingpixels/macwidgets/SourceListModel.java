@@ -1,5 +1,7 @@
 package com.explodingpixels.macwidgets;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +12,8 @@ import java.util.List;
 public final class SourceListModel {
 
     private List<SourceListCategory> fCategories = new ArrayList<SourceListCategory>();
-
     private List<SourceListModelListener> fListeners = new ArrayList<SourceListModelListener>();
+    private PropertyChangeListener fPropertyChangeListener = createSourceListItemListener();
 
     // SourceListCategory methods /////////////////////////////////////////////////////////////////
 
@@ -99,8 +101,9 @@ public final class SourceListModel {
      * @throws IllegalStateException if the given category is not in the model.
      */
     public void addItemToCategory(SourceListItem item, SourceListCategory category, int index) {
-        checkCategoryIsInModel(category);
+        validateCategoryIsInModel(category);
         category.addItem(index, item);
+        item.addPropertyChangeListener(fPropertyChangeListener);
         fireItemAddedToCategory(item, category, index);
     }
 
@@ -126,8 +129,9 @@ public final class SourceListModel {
      * @throws IllegalStateException if the given child or parent item is not in the model.
      */
     public void addItemToItem(SourceListItem childItem, SourceListItem parentItem, int index) {
-        checkItemIsInModel(parentItem);
+        validateItemIsInModel(parentItem);
         parentItem.addItem(index, childItem);
+        childItem.addPropertyChangeListener(fPropertyChangeListener);
         fireItemAddedToItem(childItem, parentItem, index);
     }
 
@@ -139,9 +143,10 @@ public final class SourceListModel {
      * @throws IllegalStateException if the given category is not in the model.
      */
     public void removeItemFromCategory(SourceListItem item, SourceListCategory category) {
-        checkItemIsInModel(item);
-        checkCategoryIsInModel(category);
+        validateItemIsInModel(item);
+        validateCategoryIsInModel(category);
         category.removeItem(item);
+        item.removePropertyChangeListener(fPropertyChangeListener);
         fireItemRemovedFromCategory(item, category);
     }
 
@@ -164,9 +169,10 @@ public final class SourceListModel {
      * @throws IllegalStateException if the given child or parent item is not in the model.
      */
     public void removeItemFromItem(SourceListItem childItem, SourceListItem parentItem) {
-        checkItemIsInModel(childItem);
-        checkItemIsInModel(parentItem);
+        validateItemIsInModel(childItem);
+        validateItemIsInModel(parentItem);
         parentItem.removeItem(childItem);
+        childItem.removePropertyChangeListener(fPropertyChangeListener);
         fireItemRemovedFromItem(childItem, parentItem);
     }
 
@@ -178,16 +184,26 @@ public final class SourceListModel {
      * @throws IllegalStateException if the given child or parent item is not in the model.
      */
     public void removeItemFromItem(SourceListItem parentItem, int index) {
-        checkItemIsInModel(parentItem);
+        validateItemIsInModel(parentItem);
         SourceListItem itemRemoved = parentItem.removeItem(index);
         fireItemRemovedFromItem(itemRemoved, parentItem);
     }
 
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
-    private void checkCategoryIsInModel(SourceListCategory category) {
+    private PropertyChangeListener createSourceListItemListener() {
+        return new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent event) {
+                SourceListItem item = (SourceListItem) event.getSource();
+                fireItemChanged(item);
+            }
+        };
+    }
+
+    private void validateCategoryIsInModel(SourceListCategory category) {
         if (!fCategories.contains(category)) {
-            throw new IllegalArgumentException("The " + category.getText() + " category is not part of this model.");
+            throw new IllegalArgumentException(
+                    "The " + category.getText() + " category is not part of this model.");
         }
     }
 
@@ -197,7 +213,7 @@ public final class SourceListModel {
      * @param item the item to check if is in this model.
      * @throws IllegalArgumentException if the given item is not part of this model.
      */
-    public void checkItemIsInModel(SourceListItem item) {
+    public void validateItemIsInModel(SourceListItem item) {
         boolean found = false;
         for (SourceListCategory category : fCategories) {
             found = category.containsItem(item);
@@ -247,6 +263,12 @@ public final class SourceListModel {
                                          SourceListItem parentItem) {
         for (SourceListModelListener listener : fListeners) {
             listener.itemRemovedFromItem(childItem, parentItem);
+        }
+    }
+
+    private void fireItemChanged(SourceListItem item) {
+        for (SourceListModelListener listener : fListeners) {
+            listener.itemChanged(item);
         }
     }
 

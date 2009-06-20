@@ -54,4 +54,10 @@ public interface SourceListModelListener {
      */
     void itemRemovedFromItem(SourceListItem itemRemoved, SourceListItem parentItem);
 
+    /**
+     * Called when an item's content changes (e.g. text, icon etc.).
+     *
+     * @param item the item that was changed.
+     */
+    void itemChanged(SourceListItem item);
 }

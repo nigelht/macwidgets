@@ -201,7 +201,7 @@ public class SourceList {
      * @throws IllegalArgumentException if the given item is not in the list.
      */
     public void setSelectedItem(SourceListItem item) {
-        getModel().checkItemIsInModel(item);
+        getModel().validateItemIsInModel(item);
         DefaultMutableTreeNode treeNode = getNodeForObject(fRoot, item);
         fTree.setSelectionPath(new TreePath(treeNode.getPath()));
     }
@@ -390,6 +390,12 @@ public class SourceList {
         }
     }
 
+    private void doItemChanged(SourceListItem item) {
+        DefaultMutableTreeNode itemNode = getNodeForObject(fRoot, item);
+        checkItemNodeNotNull(itemNode);
+        fTreeModel.nodeChanged(itemNode);
+    }
+
     private void doShowContextMenu(MouseEvent event) {
         // grab the item or category under the mouse events point if there is
         // there is an item or category under this point.
@@ -474,6 +480,10 @@ public class SourceList {
 
             public void itemRemovedFromItem(SourceListItem item, SourceListItem parentItem) {
                 doRemoveItemFromItem(item, parentItem);
+            }
+
+            public void itemChanged(SourceListItem item) {
+                doItemChanged(item);
             }
         };
     }

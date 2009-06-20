@@ -43,7 +43,7 @@ public class DSourceList {
 
         SourceListItem itemC = new SourceListItem("SourceListItem C", greyGlobeIcon);
         SourceListItem itemD = new SourceListItem("SourceListItem D", greyGlobeIcon);
-        SourceListItem itemE = new SourceListItem("Really really really really really long SourceListItem", greyGlobeIcon);
+        final SourceListItem itemE = new SourceListItem("Really really really really really long SourceListItem", greyGlobeIcon);
 
         SourceListItem itemG = new SourceListItem("SourceListItem G", greyGlobeIcon);
         SourceListItem itemH = new SourceListItem("SourceListItem H", greyGlobeIcon);
@@ -56,6 +56,19 @@ public class DSourceList {
         itemC.setCounterValue(385);
         itemE.setCounterValue(3);
         itemI.setCounterValue(17);
+
+        new Thread(new Runnable() {
+            public void run() {
+                for (int i = 0; i < 500; i++) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        //
+                    }
+                    itemE.setCounterValue(i);
+                }
+            }
+        }).start();
 
         final SourceListModel model = new SourceListModel();
         model.addCategory(categoryOne);
