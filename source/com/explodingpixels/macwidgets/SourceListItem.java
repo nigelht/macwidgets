@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class SourceListItem implements TextProvider, IconProvider, SourceListBadgeContentProvider {
 
-    private static final String TEXT = "text";
-    private static final String ICON = "icon";
-    private static final String COUNTER_VALUE = "counter";
+    public static final String TEXT = "text";
+    public static final String ICON = "icon";
+    public static final String COUNTER_VALUE = "counter";
 
     private List<SourceListItem> fChildItems = new ArrayList<SourceListItem>();
 
