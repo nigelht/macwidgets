@@ -2,6 +2,7 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
 import com.explodingpixels.painter.Painter;
+import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
@@ -12,16 +13,12 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
@@ -33,8 +30,6 @@ import java.awt.geom.GeneralPath;
 public class ITunesTableHeaderRenderer extends JLabel implements TableCellRenderer {
 
     private JTable fTable;
-
-    private int fPressedColumn = -1;
     private int fColumnModelIndexBeingPainted = -1;
 
     //private static Color HIGHLIGHT_BORDER_COLOR = new Color(255, 255, 255, 77);
@@ -56,7 +51,6 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
     }
 
     private void init() {
-        fTable.getTableHeader().addMouseListener(new HeaderClickHandler());
         MacWidgetFactory.makeEmphasizedLabel(this,
                 EmphasizedLabelUI.DEFAULT_FOCUSED_FONT_COLOR, UNFOCUSED_FONT_COLOR,
                 EmphasizedLabelUI.DEFAULT_EMPHASIS_COLOR);
@@ -64,6 +58,10 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
 
         // TODO table column re-ordering is not supported at this time.
         fTable.getTableHeader().setReorderingAllowed(false);
+    }
+
+    public void setSortDelegate(TableUtils.SortDelegate sortDelegate) {
+        TableUtils.makeSortable(fTable, sortDelegate);
     }
 
     public Component getTableCellRendererComponent(
@@ -108,7 +106,8 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
         }
     }
 
-    private void paintSortIndicator(Graphics2D graphics2d, TableUtils.SortDirection sortDirection) {
+    private void paintSortIndicator(Graphics2D graphics2d,
+                                    TableUtils.SortDirection sortDirection) {
         Shape sortShape = sortDirection == TableUtils.SortDirection.ASCENDING
                 ? createSortAscendingShape() : createSortDescendingShape();
 
@@ -122,57 +121,18 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
         graphics2d.fill(sortShape);
     }
 
-    private class HeaderClickHandler extends MouseAdapter {
-
-        private boolean iMouseEventIsPerformingPopupTrigger = false;
-
-        public void mouseClicked(MouseEvent mouseEvent) {
-            if (shouldProcessMouseClicked()) {
-                final TableColumnModel columnModel = fTable.getColumnModel();
-                int viewColumn = columnModel.getColumnIndexAtX(mouseEvent.getX());
-                int modelColumn = fTable.convertColumnIndexToModel(viewColumn);
-                TableUtils.toggleSortDirection(fTable.getTableHeader(), modelColumn);
-
-                fTable.getTableHeader().repaint();
-            }
-        }
-
-        private boolean shouldProcessMouseClicked() {
-            return !iMouseEventIsPerformingPopupTrigger
-                    && fTable.getTableHeader().getCursor() != Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-        }
-
-        public void mousePressed(MouseEvent mouseEvent) {
-            iMouseEventIsPerformingPopupTrigger = mouseEvent.isPopupTrigger();
-
-            if (fTable.getTableHeader().getCursor() != Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR)) {
-                final TableColumnModel columnModel = fTable.getColumnModel();
-                int viewColumn = columnModel.getColumnIndexAtX(mouseEvent.getX());
-                fPressedColumn = fTable.convertColumnIndexToModel(viewColumn);
-
-                fTable.getTableHeader().repaint();
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            fPressedColumn = -1;
-            fTable.getTableHeader().repaint();
-        }
-    }
-
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
 
     private boolean isColumnBeingPaintedPressed() {
-        return fPressedColumn >= 0 && fColumnModelIndexBeingPainted == fPressedColumn;
+        return TableHeaderUtils.isColumnPressed(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
     }
 
     private boolean isColumnBeingPaintedSelected() {
-        return TableUtils.isColumnSelected(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
+        return TableHeaderUtils.isColumnSelected(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
     }
 
     private TableUtils.SortDirection getColumnBeingPaintedSortDirection() {
-        return TableUtils.getSortDirection(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
+        return TableHeaderUtils.getSortDirection(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
     }
 
     private Painter<Component> getBackgroundPainter() {
