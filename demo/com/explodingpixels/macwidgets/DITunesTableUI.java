@@ -1,6 +1,7 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
+import com.explodingpixels.widgets.TableUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -11,6 +12,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 
 public class DITunesTableUI {
+
+    private static TableUtils.SortDelegate createDummySortDelegate() {
+        return new TableUtils.SortDelegate() {
+            public void sort(int columnModelIndex, TableUtils.SortDirection sortDirection) {
+                // no implementation.
+            }
+        };
+    }
 
     public static void main(String[] args) {
 
@@ -39,6 +48,8 @@ public class DITunesTableUI {
                 table.setUI(new ITunesTableUI());
                 table.getColumnModel().getColumn(0).setPreferredWidth(150);
                 table.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+                TableUtils.makeSortable(table, createDummySortDelegate());
 
                 JScrollPane scrollPane = new JScrollPane(table);
                 scrollPane.setBorder(BorderFactory.createEmptyBorder());

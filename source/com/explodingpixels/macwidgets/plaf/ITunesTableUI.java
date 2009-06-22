@@ -4,6 +4,7 @@ import com.explodingpixels.data.Rating;
 import com.explodingpixels.macwidgets.ITunesRatingTableCellRenderer;
 import com.explodingpixels.macwidgets.ITunesTableHeaderRenderer;
 import com.explodingpixels.macwidgets.MacFontUtils;
+import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
@@ -54,7 +55,7 @@ public class ITunesTableUI extends BasicTableUI {
         table.getTableHeader().setDefaultRenderer(new ITunesTableHeaderRenderer(table));
 
         table.setShowHorizontalLines(false);
-        TableUtils.makeHeaderFillEmptySpace(table);
+        TableHeaderUtils.makeHeaderFillEmptySpace(table);
         TableUtils.makeStriped(table, EVEN_ROW_COLOR);
 
         table.setDefaultRenderer(Rating.class, new ITunesRatingTableCellRenderer());

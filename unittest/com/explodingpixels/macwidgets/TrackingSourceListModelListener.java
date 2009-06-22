@@ -48,6 +48,9 @@ public class TrackingSourceListModelListener implements SourceListModelListener 
         fItemAddedToOrRemovedFrom = parentItem;
     }
 
+    public void itemChanged(SourceListItem item) {
+    }
+
     public boolean wasCategoryAddedCalled() {
         return fWasCategoryAddedCalled;
     }

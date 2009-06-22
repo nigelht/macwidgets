@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project relativePaths="false" version="4">
   <component name="BookmarkManager">
-    <editor_bookmark url="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DITunesTableUI.java" line="32" number="9" description="table.setUI(new ITunesTableUI);" />
+    <editor_bookmark url="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DITunesTableUI.java" line="47" number="9" description="table.setUI(new ITunesTableUI);" />
   </component>
   <component name="CCaseConfig">
     <option name="checkoutReserved" value="false" />
@@ -19,18 +19,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DTrackingSpacer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DBottomBar.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DBottomBar.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/plaf/EPComboPopup.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/plaf/EPComboPopup.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacPreferencesTabBar.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/PreferencesWidget.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MacWidgets.iws" afterPath="$PROJECT_DIR$/MacWidgets.iws" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../graphics/WidgetCollage_small.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableUtils.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/ITunesTableHeaderRenderer.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/ITunesTableHeaderRenderer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableHeaderUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../unittest/com/explodingpixels/macwidgets/TrackingSourceListModelListener.java" afterPath="$PROJECT_DIR$/../../unittest/com/explodingpixels/macwidgets/TrackingSourceListModelListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DITunesTableUI.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DITunesTableUI.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TrackingSpacer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudWindow.java" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudWindow.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DTrackingSpacer.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../graphics/WidgetCollage.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/ITunesTableUI.java" afterPath="$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/ITunesTableUI.java" />
     </list>
-    <ignored path="MacWidgets.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="MacWidgets.iws" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="Commander">
@@ -60,7 +63,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/Test.java" line="22" class="com.explodingpixels.macwidgets.Test" package="com.explodingpixels.macwidgets">
+      <breakpoint url="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/Test.java" line="52" class="com.explodingpixels.macwidgets.Test" package="com.explodingpixels.macwidgets">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -74,6 +77,19 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/SourceListTreeUI.java" line="114" class="com.explodingpixels.macwidgets.plaf.SourceListTreeUI" package="com.explodingpixels.macwidgets.plaf">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/Test.java" line="32" class="com.explodingpixels.macwidgets.Test" package="com.explodingpixels.macwidgets">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -144,19 +160,60 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HudComboBoxUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/HudComboBoxUI.java">
+      <file leaf-file-name="ITunesTableUI.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/ITunesTableUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="13" selection-start="1630" selection-end="1630" vertical-scroll-proportion="0.0">
+            <state line="41" column="0" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1245634656000" expanded="false" signature="53:951" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="103" column="41" selection-start="4201" selection-end="4201" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1245634656000" expanded="false" signature="45:301" placeholder="..." />
+                <marker date="1245634656000" expanded="true" signature="411:996" placeholder="/**...*/" />
+                <marker date="1245634656000" expanded="true" signature="1824:2093" placeholder="{...}" />
+                <marker date="1245634656000" expanded="true" signature="1870:2086" placeholder="{...}" />
+                <marker date="1245634656000" expanded="true" signature="1938:2076" placeholder="{...}" />
+                <marker date="1245634656000" expanded="true" signature="2167:2958" placeholder="{...}" />
+                <marker date="1245634656000" expanded="true" signature="3737:4003" placeholder="/**...*/" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TableHeaderUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableHeaderUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="92" column="25" selection-start="3833" selection-end="3833" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1245634656000" expanded="true" signature="45:548" placeholder="..." />
+                <marker date="1245634656000" expanded="true" signature="6389:6588" placeholder="/**...*/" />
+                <marker date="1245634656000" expanded="true" signature="6654:6853" placeholder="/**...*/" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StripedViewportBorder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/widgets/StripedViewportBorder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="43" selection-start="349" selection-end="349" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Test.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/Test.java">
+      <file leaf-file-name="ITunesTableHeaderRenderer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/ITunesTableHeaderRenderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0">
+            <state line="63" column="26" selection-start="2487" selection-end="2487" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -164,52 +221,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SourceListTreeUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/SourceListTreeUI.java">
+      <file leaf-file-name="DITunesTableUI.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DITunesTableUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="57" selection-start="6748" selection-end="6748" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MacWidgetFactory.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.805668">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BasicTreeUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/javax/swing/plaf/basic/BasicTreeUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="381" column="45" selection-start="11961" selection-end="11978" vertical-scroll-proportion="-6.4615383">
+            <state line="35" column="2" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.44859812">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SourceList.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceList.java">
+      <file leaf-file-name="IAppScrollBarUI.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/IAppScrollBarUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="601" column="0" selection-start="24654" selection-end="24654" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DSourceList.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="13" selection-start="6634" selection-end="6634" vertical-scroll-proportion="0.0">
+            <state line="15" column="1" selection-start="460" selection-end="525" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -272,6 +296,24 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
+          <option name="myItemId" value="unittest" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="macwidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="MacWidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="macwidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
           <option name="myItemId" value="source" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
@@ -301,6 +343,32 @@
           <option name="myItemId" value="explodingpixels" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="widgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="plaf" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="MacWidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="macwidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="source" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="explodingpixels" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -321,6 +389,32 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="macwidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="MacWidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="macwidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="source" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="explodingpixels" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="macwidgets" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="plaf" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -357,35 +451,41 @@
       <abbreviatePackageNames />
       <showStructure ProjectPane="false" />
       <autoscrollToSource />
-      <autoscrollFromSource ProjectPane="false" />
+      <autoscrollFromSource ProjectPane="true" />
       <sortByType />
     </navigator>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.searchVisible" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../Libraries/quaqua-5.0/src/ch/randelshofer/quaqua" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="dynamic.classpath" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="options.lastSelected" value="project.scopes" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.explodingpixels.widgets.TableUtils" />
       <recent name="com.explodingpixels.macwidgets.MacPainterFactory" />
       <recent name="com.explodingpixels.macwidgets.SourceListStandardColorScheme" />
       <recent name="com.explodingpixels.macwidgets.ITunesTable" />
     </key>
     <key name="IntroduceConstantDialog.RECENTS_KEY">
+      <recent name="com.explodingpixels.macwidgets.ITunesTableHeaderRenderer" />
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -395,9 +495,110 @@
       <recent name="com.explodingpixels.macwidgets" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DSourceList">
-    <tempConfiguration default="false" name="Test" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="com.explodingpixels.macwidgets.Test" />
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="6/19/09 7:24 PM" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+            <PATH vcs="svn" revision="286">$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/HudWindow.java</PATH>
+            <PATH vcs="svn" revision="286">$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/RatingComponent.java</PATH>
+            <PATH vcs="svn" revision="286">$PROJECT_DIR$/../../source/com/explodingpixels/widgets/WindowUtils.java</PATH>
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+          <PATH vcs="svn" revision="286">$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudWindow.java</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Switched" />
+          <option name="myStatusName" value="Switched" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SWITCHED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
+  <component name="RunManager" selected="Application.DITunesTableUI">
+    <tempConfiguration default="false" name="DHudWindow" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="com.explodingpixels.macwidgets.DHudWindow" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -408,13 +609,7 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="macwidgets" />
       <envs />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="50133" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
         <option name="Make" value="true" />
@@ -798,7 +993,49 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <list size="17">
+    <configuration default="false" name="DITunesTableUI" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="com.explodingpixels.macwidgets.DITunesTableUI" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="macwidgets" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="58910" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="DRatingComponent" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="com.explodingpixels.macwidgets.DRatingComponent" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="macwidgets" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <list size="19">
       <item index="0" class="java.lang.String" itemvalue="Application.DHudControls" />
       <item index="1" class="java.lang.String" itemvalue="Application.DImageBasedScrollBarUI" />
       <item index="2" class="java.lang.String" itemvalue="Application.DImageButton" />
@@ -815,7 +1052,9 @@
       <item index="13" class="java.lang.String" itemvalue="Application.DGradientButtonUI" />
       <item index="14" class="java.lang.String" itemvalue="Application.DSourceListContextMenuProvider" />
       <item index="15" class="java.lang.String" itemvalue="Application.DSourceListIMovie" />
-      <item index="16" class="java.lang.String" itemvalue="Application.Test" />
+      <item index="16" class="java.lang.String" itemvalue="Application.DITunesTableUI" />
+      <item index="17" class="java.lang.String" itemvalue="Application.DRatingComponent" />
+      <item index="18" class="java.lang.String" itemvalue="Application.DHudWindow" />
     </list>
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
       <module name="" />
@@ -866,7 +1105,7 @@
   <component name="StructureViewFactory">
     <option name="AUTOSCROLL_MODE" value="true" />
     <option name="AUTOSCROLL_FROM_SOURCE" value="false" />
-    <option name="ACTIVE_ACTIONS" value="" />
+    <option name="ACTIVE_ACTIONS" value="VISIBILITY_SORTER" />
   </component>
   <component name="SvnConfiguration">
     <option name="USER" value="" />
@@ -901,29 +1140,30 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="47" y="48" width="1508" height="909" extended-state="0" />
-    <editor active="true" />
+    <frame x="51" y="48" width="1508" height="909" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296433" sideWeight="0.5" order="7" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25017136" sideWeight="0.6638037" order="0" side_tool="false" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32657927" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24948595" sideWeight="0.5" order="1" side_tool="false" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25017136" sideWeight="0.71411043" order="0" side_tool="false" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32638037" sideWeight="0.5" order="1" side_tool="false" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24948595" sideWeight="0.66503066" order="1" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32760736" sideWeight="0.5" order="14" side_tool="false" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32760736" sideWeight="0.5" order="14" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296433" sideWeight="0.5" order="11" side_tool="false" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2822086" sideWeight="0.5" order="2" side_tool="false" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32883435" sideWeight="0.5" order="11" side_tool="false" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27730063" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.398773" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32760736" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="SVN Repositories" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3289941" sideWeight="0.5" order="12" side_tool="false" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
+      <window_info id="IntelliJad Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32883435" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" />
@@ -944,7 +1184,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated comments." />
+    <option name="LAST_COMMIT_MESSAGE" value="Intermediate checkin." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -955,18 +1195,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Fixed path to icon." />
-    <MESSAGE value="Initial commit." />
-    <MESSAGE value="Intermediate checkin." />
-    <MESSAGE value="Intermediate commit." />
-    <MESSAGE value="Commented out unused icons." />
-    <MESSAGE value="Removed lines with unused icons." />
-    <MESSAGE value="Enhancements in support of skinning a SourceList (issue 31)." />
-    <MESSAGE value="Updated text centering logic (issue 56)." />
-    <MESSAGE value="Added additional constructor method to support passing list of items (issue 58)." />
-    <MESSAGE value="Deleted." />
-    <MESSAGE value="Updated Javadoc." />
-    <MESSAGE value="Updated Javadoc and did minor refactoring." />
     <MESSAGE value="Moved." />
     <MESSAGE value="Made use dark color scheme." />
     <MESSAGE value="Fixed method name." />
@@ -978,8 +1206,20 @@
     <MESSAGE value="Added actionListener that updates the displayed item when an item is selected (issue 70)." />
     <MESSAGE value="Made SourceListControlBar observer left and right minimum component widths (issue 73)." />
     <MESSAGE value="Fixed vertical alignment problem when associated JComboBox gets tall (issue 79)." />
-    <MESSAGE value="Fixed so that SwingUtilities.updateComponentTreeUI caused the appropriate reaction in SourceList (Issue 80)." />
     <MESSAGE value="Updated comments." />
+    <MESSAGE value="Removed files." />
+    <MESSAGE value="Fixed so that SwingUtilities.updateComponentTreeUI caused the appropriate reaction in SourceList (Issue 80)." />
+    <MESSAGE value="Fixed logic in addComponentToRight (issue 89)." />
+    <MESSAGE value="Add HudRadioButtonUI (issue 90)." />
+    <MESSAGE value="Added setSourceListColorScheme and setColorScheme methods." />
+    <MESSAGE value="Made rating component transparent (non-opaque)." />
+    <MESSAGE value="Intermediate checkin for iTunes table refactoring." />
+    <MESSAGE value="Added method to hide the close button (issue 95)." />
+    <MESSAGE value="Removed file." />
+    <MESSAGE value="Fixed centering of title when close button not showing." />
+    <MESSAGE value="Add property change support for SourceListItem. This allows the model, and in turn the SourceList to be notified when a SourceListItem is changed, and thus repaint the node (issue 13)." />
+    <MESSAGE value="Made property keys public." />
+    <MESSAGE value="Intermediate checkin." />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1023,123 +1263,139 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/java/awt/image/BufferedImageOp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListIMovie.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListITunes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudControls.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="940" selection-end="940" vertical-scroll-proportion="0.0">
+        <state line="41" column="57" selection-start="1524" selection-end="1524" vertical-scroll-proportion="0.6504673">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/HudComboBoxUI.java">
+    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DHudWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="13" selection-start="1630" selection-end="1630" vertical-scroll-proportion="0.0">
+        <state line="22" column="31" selection-start="701" selection-end="701" vertical-scroll-proportion="0.49345794">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/Test.java">
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/HudWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0">
+        <state line="122" column="7" selection-start="4005" selection-end="4005" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DUnifiedToolbar.java">
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceListModelListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1623" selection-end="1770" vertical-scroll-proportion="0.0">
+        <state line="60" column="29" selection-start="1995" selection-end="1995" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/javax/swing/JComponent.java">
+    <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/javax/swing/tree/DefaultTreeModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceListTreeUI.java">
+    <entry file="file://$PROJECT_DIR$/../../unittest/com/explodingpixels/macwidgets/TrackingSourceListModelListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="41" selection-start="1941" selection-end="1941" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/javax/swing/JTree.java">
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceListItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="553" column="16" selection-start="20392" selection-end="20392" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Developer/Java/JDK Source/jdk-1_5_0-src-scsl/j2se/src/share/classes/javax/swing/plaf/basic/BasicTreeUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="381" column="45" selection-start="11961" selection-end="11978" vertical-scroll-proportion="-6.4615383">
-          <folding />
+        <state line="19" column="9" selection-start="631" selection-end="631" vertical-scroll-proportion="0.42242992">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DSourceList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="13" selection-start="6634" selection-end="6634" vertical-scroll-proportion="0.0">
+        <state line="63" column="38" selection-start="2944" selection-end="2944" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceListModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="70" selection-start="7272" selection-end="7272" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/SourceList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="601" column="0" selection-start="24654" selection-end="24654" vertical-scroll-proportion="0.0">
+        <state line="390" column="5" selection-start="16183" selection-end="16183" vertical-scroll-proportion="-10.692307">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/SourceListTreeUI.java">
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/widgets/StripedViewportBorder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="57" selection-start="6748" selection-end="6748" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/TriAreaComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="523" selection-end="523" vertical-scroll-proportion="0.1659919">
+        <state line="13" column="43" selection-start="349" selection-end="349" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/MacWidgetFactory.java">
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="3659" selection-end="3659" vertical-scroll-proportion="0.805668">
+        <state line="103" column="41" selection-start="4201" selection-end="4201" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1245634656000" expanded="false" signature="45:301" placeholder="..." />
+            <marker date="1245634656000" expanded="true" signature="411:996" placeholder="/**...*/" />
+            <marker date="1245634656000" expanded="true" signature="1824:2093" placeholder="{...}" />
+            <marker date="1245634656000" expanded="true" signature="1870:2086" placeholder="{...}" />
+            <marker date="1245634656000" expanded="true" signature="1938:2076" placeholder="{...}" />
+            <marker date="1245634656000" expanded="true" signature="2167:2958" placeholder="{...}" />
+            <marker date="1245634656000" expanded="true" signature="3737:4003" placeholder="/**...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/widgets/TableHeaderUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="25" selection-start="3833" selection-end="3833" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1245634656000" expanded="true" signature="45:548" placeholder="..." />
+            <marker date="1245634656000" expanded="true" signature="6389:6588" placeholder="/**...*/" />
+            <marker date="1245634656000" expanded="true" signature="6654:6853" placeholder="/**...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/ITunesTableHeaderRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="26" selection-start="2487" selection-end="2487" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../source/com/explodingpixels/macwidgets/plaf/ITunesTableUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1245634656000" expanded="false" signature="53:951" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../demo/com/explodingpixels/macwidgets/DITunesTableUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="2" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.44859812">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1160,7 +1416,13 @@
           <value>
             <UIState>
               <option name="proportions">
-                <SplitterProportionsDataImpl />
+                <SplitterProportionsDataImpl>
+                  <option name="proportions">
+                    <list>
+                      <option value="0.2" />
+                    </list>
+                  </option>
+                </SplitterProportionsDataImpl>
               </option>
             </UIState>
           </value>
@@ -1182,7 +1444,13 @@
           <value>
             <UIState>
               <option name="proportions">
-                <SplitterProportionsDataImpl />
+                <SplitterProportionsDataImpl>
+                  <option name="proportions">
+                    <list>
+                      <option value="0.2" />
+                    </list>
+                  </option>
+                </SplitterProportionsDataImpl>
               </option>
             </UIState>
           </value>
