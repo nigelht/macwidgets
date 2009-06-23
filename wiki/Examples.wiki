@@ -1,4 +1,31 @@
 #labels Featured
+===iTunes Table ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createITunesTable(javax.swing.table.TableModel) Javadoc])===
+
+Create an iTunes style table like this:
+
+[http://exploding-pixels.com/google_code/graphics/iTunesTable.png]
+
+{{{
+String[][] data = new String[][]{
+        {"A", "B", "C"},
+        {"D", "E", "F"},
+        {"G", "H", "I"}};
+String[] columnNames = String[]{"One", "Two", "Three"};
+TableModel model = new DefaultTableModel(data, columnNames);
+JTable table = MacWidgetFactory.createITunesTable(model);
+}}}
+
+you can add sort indicators by doing this:
+
+{{{
+TableUtils.SortDelegate sortDelegate = new TableUtils.SortDelegate() {
+        public void sort(int columnModelIndex, TableUtils.SortDirection sortDirection) {
+            // trigger your sorting here.
+        }
+    };
+TableUtils.makeSortable(table, sortDelegate);
+}}}
+
 ===HUD Style Controls ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/HudWidgetFactory.html Javadoc])===
 HUD style controls should be used in conjunction with HUD windows.
 
@@ -84,7 +111,7 @@ Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/
 
 *Simple Bottom Bar example:*
 {{{
-TriAreaComponent bottomBar = MacWidgetFactory.createBottomBar(BottomBarSize.LARGE);
+BottomBar bottomBar = BottomBar(BottomBarSize.LARGE);
 bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("My Label"));
 }}}
 
@@ -109,7 +136,7 @@ Unified Tool Bars (described [http://developer.apple.com/documentation/UserExper
 
 *Simple Unified Tool Bar example:*
 {{{
-TriAreaComponent toolBar =  MacWidgetFactory.createUnifiedToolBar();
+UnifiedToolBar toolBar =  UnifiedToolBar();
 JButton button = new JButton("My Button");
 button.putClientProperty("JButton.buttonType", "textured");
 toolBar.addComponentToLeft(button);
