@@ -28,6 +28,12 @@ import java.awt.event.WindowFocusListener;
  * A UI delegate that renders an iTunes style table.
  * <br/>
  * <img src="../../../../../graphics/iTunesTable.png">
+ * <p/>
+ * Sorting indicators will be rendered if a
+ * {@link com.explodingpixels.widgets.TableUtils.SortDelegate} is installed on the associated
+ * {@link JTable} via the
+ * {@link TableUtils#makeSortable(javax.swing.JTable, com.explodingpixels.widgets.TableUtils.SortDelegate)}
+ * method.
  */
 public class ITunesTableUI extends BasicTableUI {
 

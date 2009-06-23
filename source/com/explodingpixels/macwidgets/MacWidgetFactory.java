@@ -26,6 +26,12 @@ public class MacWidgetFactory {
      * <br/>
      * <img src="../../../../graphics/iTunesTable.png">
      * <br/>
+     * Sorting indicators will be rendered if a
+     * {@link com.explodingpixels.widgets.TableUtils.SortDelegate} is installed on the associated
+     * {@link JTable} via the
+     * {@link com.explodingpixels.widgets.TableUtils#makeSortable(javax.swing.JTable, com.explodingpixels.widgets.TableUtils.SortDelegate)}
+     * method.
+     * <p/>
      * To wrap this table in an iApp style {@link JScrollPane}, see
      * {@link IAppWidgetFactory#createScrollPaneWithButtonsTogether(java.awt.Component)};
      */
