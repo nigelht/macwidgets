@@ -1,6 +1,6 @@
 #labels Featured
 ==version 0.9.5==
- # iTunes style table officially introduced via {{{ITunesTableUI delegate.
+ # iTunes style table officially introduced via {{{ITunesTableUI}}} delegate.
  # {{{UnifiedToolBar}}}, {{{BottomBar}}} and {{{PreferencesTabBar}}} now have top level classes (Issue 72).
  # {{{SourceList}}} no longer auto-expands all nodes (Issue 64).
  # {{{PreferencesTabBar}}} now renders a unified tool bar area on JDK 6 (Issue 62).
