@@ -4,7 +4,6 @@
 Create an iTunes style table like this:
 
 [http://exploding-pixels.com/google_code/graphics/iTunesTable.png]
-
 {{{
 String[][] data = new String[][]{
         {"A", "B", "C"},
