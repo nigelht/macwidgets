@@ -97,10 +97,10 @@ HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/doc
 *Simple HUD example:*
 {{{
 HudWindow hud = new HudWindow("Window");
-hud.getJFrame().setSize(300, 350);
-hud.getJFrame().setLocationRelativeTo(null);
-hud.getJFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-hud.getJFrame().setVisible(true);
+hud.getJDialog().setSize(300, 350);
+hud.getJDialog().setLocationRelativeTo(null);
+hud.getJDialog().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+hud.getJDialog().setVisible(true);
 }}}
 
 ===Bottom Bar ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createBottomBar() Javadoc])===
