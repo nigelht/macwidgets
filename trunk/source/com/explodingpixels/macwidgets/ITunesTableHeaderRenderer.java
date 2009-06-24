@@ -6,19 +6,10 @@ import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
@@ -74,6 +65,7 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
             setText("");
             setHorizontalAlignment(SwingConstants.CENTER);
         } else {
+            setIcon(null);
             setText(value.toString());
             setFont(fTable.getTableHeader().getFont());
             setHorizontalAlignment(SwingConstants.LEFT);
