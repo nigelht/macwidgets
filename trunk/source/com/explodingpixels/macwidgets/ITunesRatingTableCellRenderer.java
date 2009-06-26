@@ -2,8 +2,10 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.data.Rating;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.Color;
 import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,11 +35,15 @@ public class ITunesRatingTableCellRenderer extends DefaultTableCellRenderer {
         Rating rating = (Rating) value;
 
         // grab the cached rating component for the corresponding rating.
-        RatingComponent renderer = fRatingsToRatingComponents.get(rating);
+        RatingComponent renderer = value == null
+                ? fRatingsToRatingComponents.get(Rating.NO_RATING)
+                : fRatingsToRatingComponents.get(rating);
         renderer.setFocused(table.hasFocus());
         renderer.setSelected(table.isRowSelected(row));
 
         renderer.getComponent().setBackground(getBackground());
+
+        renderer.getComponent().setBorder(BorderFactory.createLineBorder(Color.RED));
 
         return renderer.getComponent();
     }
