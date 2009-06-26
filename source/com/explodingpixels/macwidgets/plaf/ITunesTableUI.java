@@ -9,18 +9,20 @@ import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.BorderFactory;
+import javax.swing.CellRendererPane;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicTableUI;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -50,6 +52,10 @@ public class ITunesTableUI extends BasicTableUI {
     public void installUI(JComponent c) {
         super.installUI(c);
 
+        table.remove(rendererPane);
+        rendererPane = createCustomCellRendererPane();
+        table.add(rendererPane);
+
         // TODO save defaults.
 
         table.setOpaque(false);
@@ -65,7 +71,6 @@ public class ITunesTableUI extends BasicTableUI {
         TableUtils.makeStriped(table, EVEN_ROW_COLOR);
 
         table.setDefaultRenderer(Rating.class, new ITunesRatingTableCellRenderer());
-        table.setDefaultRenderer(Object.class, createTransparentTableCellRenderer());
 
         table.setDefaultEditor(Object.class, createDefaultTableCellEditor());
 
@@ -91,23 +96,6 @@ public class ITunesTableUI extends BasicTableUI {
     @Override
     public void uninstallUI(JComponent c) {
         super.uninstallUI(c);
-    }
-
-    private TableCellRenderer createTransparentTableCellRenderer() {
-        return new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(
-                    JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (component instanceof JComponent) {
-                    JComponent jcomponent = (JComponent) component;
-                    jcomponent.setOpaque(isSelected);
-                    jcomponent.setBorder(table.isRowSelected(row)
-                            ? getSelectedRowBorder() : getRowBorder());
-                }
-                return component;
-            }
-        };
     }
 
     private TableCellEditor createDefaultTableCellEditor() {
@@ -142,6 +130,30 @@ public class ITunesTableUI extends BasicTableUI {
     private Color getSelectedRowBottomHighlight() {
         return WindowUtils.isParentWindowFocused(table)
                 ? SELECTION_ACTIVE_BOTTOM_BORDER_COLOR : SELECTION_INACTIVE_BOTTOM_BORDER_COLOR;
+    }
+
+    /**
+     * Creates a custom {@link CellRendererPane} that sets the renderer component to be non-opqaque
+     * if the associated row isn't selected. This custom {@code CellRendererPane} is needed because
+     * a table UI delegate has no prepare renderer like {@link JTable} has.
+     */
+    private CellRendererPane createCustomCellRendererPane() {
+        return new CellRendererPane() {
+            @Override
+            public void paintComponent(Graphics graphics, Component component, Container container,
+                                       int x, int y, int w, int h, boolean shouldValidate) {
+
+                int rowAtPoint = table.rowAtPoint(new Point(x, y));
+                boolean isSelected = table.isRowSelected(rowAtPoint);
+                if (component instanceof JComponent) {
+                    JComponent jcomponent = (JComponent) component;
+                    jcomponent.setOpaque(isSelected);
+                    jcomponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
+                }
+
+                super.paintComponent(graphics, component, container, x, y, w, h, shouldValidate);
+            }
+        };
     }
 
 }
