@@ -96,7 +96,7 @@ public class SourceListCountBadgeRenderer {
                     : getUnselectedBadgeColor(WindowUtils.isParentWindowFocused(this)));
 
             // draw the badge.
-            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight(), getHeight());
+            g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, getHeight(), getHeight());
 
             // set the color to use for the text - note this color is always
             // the same, though it won't always show because of the composite
