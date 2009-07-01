@@ -2,16 +2,8 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
@@ -96,7 +88,7 @@ public class SourceListCountBadgeRenderer {
                     : getUnselectedBadgeColor(WindowUtils.isParentWindowFocused(this)));
 
             // draw the badge.
-            g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, getHeight(), getHeight());
+            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), getHeight(), getHeight());
 
             // set the color to use for the text - note this color is always
             // the same, though it won't always show because of the composite
