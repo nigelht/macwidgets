@@ -6,7 +6,11 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -49,16 +53,16 @@ public class RatingComponent {
                     "/com/explodingpixels/macwidgets/images/itunes_dot_focused.png"));
 
     public RatingComponent(Rating rating) {
-        fRating = rating;
-        buildRatingPanel();
+        setRating(rating);
     }
 
     private void buildRatingPanel() {
+        fRatingIndicators.clear();
+
         // definte the FormLayout columns and rows.
         FormLayout layout = new FormLayout("", "fill:p:grow");
         PanelBuilder builder = new PanelBuilder(layout, fComponent);
 
-        fComponent.setOpaque(false);
         for (int i = 0; i < Rating.values().length - 1; i++) {
             RatingLabel label = new RatingLabel(i);
             fRatingIndicators.add(label);
@@ -88,6 +92,11 @@ public class RatingComponent {
 
     public void setFocused(boolean focused) {
         fFocused = focused;
+    }
+
+    public void setRating(Rating rating) {
+        fRating = rating;
+        buildRatingPanel();
     }
 
     // Custom label implementation. ///////////////////////////////////////////////////////////////
