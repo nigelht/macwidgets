@@ -54,6 +54,7 @@ public class RatingComponent {
 
     public RatingComponent(Rating rating) {
         setRating(rating);
+        fComponent.setOpaque(false);
     }
 
     private void buildRatingPanel() {
