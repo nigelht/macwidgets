@@ -58,6 +58,7 @@ public class RatingComponent {
 
     private void buildRatingPanel() {
         fRatingIndicators.clear();
+        fComponent.removeAll();
 
         // definte the FormLayout columns and rows.
         FormLayout layout = new FormLayout("", "fill:p:grow");
