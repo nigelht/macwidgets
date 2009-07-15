@@ -8,21 +8,11 @@ import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.CellRendererPane;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComponent;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicTableUI;
 import javax.swing.table.TableCellEditor;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -47,6 +37,7 @@ public class ITunesTableUI extends BasicTableUI {
     private static final Color SELECTION_INACTIVE_SELECTION_BACKGROUND_COLOR = new Color(0xc0c0c0);
     private static final Color SELECTION_ACTIVE_BOTTOM_BORDER_COLOR = new Color(125, 170, 234);
     private static final Color SELECTION_INACTIVE_BOTTOM_BORDER_COLOR = new Color(224, 224, 224);
+    private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
 
     @Override
     public void installUI(JComponent c) {
@@ -146,9 +137,10 @@ public class ITunesTableUI extends BasicTableUI {
                 int rowAtPoint = table.rowAtPoint(new Point(x, y));
                 boolean isSelected = table.isRowSelected(rowAtPoint);
                 if (component instanceof JComponent) {
-                    JComponent jcomponent = (JComponent) component;
-                    jcomponent.setOpaque(isSelected);
-                    jcomponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
+                    JComponent jComponent = (JComponent) component;
+                    jComponent.setOpaque(isSelected);
+                    jComponent.setBorder(isSelected ? getSelectedRowBorder() : getRowBorder());
+                    jComponent.setBackground(isSelected ? jComponent.getBackground() : TRANSPARENT_COLOR);
                 }
 
                 super.paintComponent(graphics, component, container, x, y, w, h, shouldValidate);
