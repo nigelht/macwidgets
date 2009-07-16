@@ -19,7 +19,7 @@ you can add sort indicators by doing this:
 {{{
 TableUtils.SortDelegate sortDelegate = new TableUtils.SortDelegate() {
         public void sort(int columnModelIndex, TableUtils.SortDirection sortDirection) {
-            // trigger your sorting here.
+            // initiate your sorting here.
         }
     };
 TableUtils.makeSortable(table, sortDelegate);
