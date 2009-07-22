@@ -255,6 +255,17 @@ public class SourceList {
     }
 
     /**
+     * Scrolls the given {@link SourceListItem} to be visible.
+     *
+     * @param item the {@code SourceListItem} to scroll to visible.
+     */
+    public void scrollItemToVisible(SourceListItem item) {
+        getModel().validateItemIsInModel(item);
+        DefaultMutableTreeNode treeNode = getNodeForObject(fRoot, item);
+        fTree.scrollPathToVisible(new TreePath(treeNode.getPath()));
+    }
+
+    /**
      * Sets the expanded state of the given {@link SourceListCategory}.
      *
      * @param category the category to set the expanded state on.
