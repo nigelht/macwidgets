@@ -3,21 +3,11 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.TransferHandler;
+import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Point;
+import javax.swing.tree.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -204,6 +194,13 @@ public class SourceList {
         getModel().validateItemIsInModel(item);
         DefaultMutableTreeNode treeNode = getNodeForObject(fRoot, item);
         fTree.setSelectionPath(new TreePath(treeNode.getPath()));
+    }
+
+    /**
+     * Clears the current selection, if there is one.
+     */
+    public void clearSelection() {
+        fTree.clearSelection();
     }
 
     /**
