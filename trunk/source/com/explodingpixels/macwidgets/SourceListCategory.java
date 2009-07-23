@@ -16,6 +16,7 @@ public class SourceListCategory implements TextProvider {
     private List<SourceListItem> fItems = new ArrayList<SourceListItem>();
 
     private String fText;
+    private final boolean fCollapsable;
 
     /**
      * Creates a {@code SourceListCategory} with the given text. The capitalization of the text will
@@ -24,8 +25,21 @@ public class SourceListCategory implements TextProvider {
      * @param text the category text. Cannot be null.
      */
     public SourceListCategory(String text) {
+        this(text, true);
+    }
+
+    /**
+     * Creates a {@code SourceListCategory} with the given text. The capitalization of the text will
+     * be ignored, as categories are rendered in full caps. If this {@code SourceListCategory} is marked as not
+     * collapsable, then no disclosure icon will be shown, making the {@code SourceListCategory} always expanded.
+     *
+     * @param text        the {@code SourceListCategory} text. Cannot be null.
+     * @param collapsable {@code true} if this {@code SourceListCategory} should be collapsable.
+     */
+    public SourceListCategory(String text, boolean collapsable) {
         checkText(text);
         fText = text;
+        fCollapsable = collapsable;
     }
 
     private void checkText(String text) {
@@ -53,6 +67,15 @@ public class SourceListCategory implements TextProvider {
     public void setText(String text) {
         checkText(text);
         fText = text;
+    }
+
+    /**
+     * {@code true} if this {@code SourceListCategory} is collapsable.
+     *
+     * @return {@code true} if this {@code SourceListCategory} is collapsable.
+     */
+    public boolean isCollapsable() {
+        return fCollapsable;
     }
 
     /**
