@@ -632,5 +632,18 @@ public class SourceList {
             setUI(new SourceListTreeUI());
             invalidate();
         }
+
+        @Override
+        public void collapsePath(TreePath path) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+            Object categoryOrItem = node.getUserObject();
+
+            if (categoryOrItem instanceof SourceListCategory
+                    && !((SourceListCategory) categoryOrItem).isCollapsable()) {
+                // ignore the request to collapse, as this is a non-collapsable category.
+            } else {
+                super.collapsePath(path);
+            }
+        }
     }
 }
