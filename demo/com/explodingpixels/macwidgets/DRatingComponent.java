@@ -15,6 +15,8 @@ public class DRatingComponent {
 
                 RatingComponent ratingComponent = new RatingComponent(Rating.FOUR_STARS);
 
+                ratingComponent.setRating(Rating.THREE_STARS);
+
                 JFrame frame = new JFrame();
                 frame.add(ratingComponent.getComponent(), BorderLayout.CENTER);
                 frame.setSize(150, 100);

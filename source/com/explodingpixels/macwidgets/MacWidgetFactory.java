@@ -33,7 +33,7 @@ public class MacWidgetFactory {
      * method.
      * <p/>
      * To wrap this table in an iApp style {@link JScrollPane}, see
-     * {@link IAppWidgetFactory#createScrollPaneWithButtonsTogether(java.awt.Component)};
+     * {@link IAppWidgetFactory#createScrollPane(java.awt.Component)};
      */
     public static JTable createITunesTable(TableModel tableModel) {
         JTable table = new JTable(tableModel);

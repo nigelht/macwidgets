@@ -102,13 +102,12 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
      * calls {@link #setThumbBounds(int, int, int, int)}.
      */
     private void setThumbBounds(Rectangle thumbBounds) {
-        setThumbBounds(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height);
+        fSkin.setScrollThumbBounds(thumbBounds);
     }
 
     @Override
     protected void setThumbBounds(int x, int y, int width, int height) {
-        // delegate to the ScrollBarSkin.
-        fSkin.setScrollThumbBounds(new Rectangle(x, y, width, height));
+        setThumbBounds(new Rectangle(x, y, width, height));
     }
 
     @Override
@@ -170,6 +169,10 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
     private void updateThumbBoundsFromMouseLocation(int mouseLocation) {
         Dimension thumbSize = getThumbBounds().getSize();
         Dimension trackSize = getTrackBounds().getSize();
+
+        // The mouseLocation is relative to the scrollbar but we need it
+        // relative to the track.
+        mouseLocation -= fOrientation.getPosition(getTrackBounds().getLocation());
 
         // set the visible thumb bounds. this smoothly tracks where the user has the mouse.
         // when they release the mouse, the actual scroll thumb position will be updated to
@@ -237,7 +240,8 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
      */
     private boolean isPointAfterScrollThumb(Point point) {
         int mousePosition = fOrientation.getPosition(point);
-        int thumbPosition = fOrientation.getPosition(getThumbBounds().getLocation());
+        int thumbPosition = fOrientation.getPosition(getThumbBounds().getLocation())
+                + fOrientation.getLength(getThumbBounds().getSize());
         return mousePosition > thumbPosition;
     }
 
@@ -290,6 +294,14 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
                     : "The listener should be registered with the scrollbar for mouse events.";
             currentMouseX = event.getX();
             currentMouseY = event.getY();
+            // The mouse position is relative to the scrollbar but we need it
+            // relative to the track.
+            int trackPos = fOrientation.getPosition(getTrackBounds().getLocation());
+            if (fOrientation == ScrollBarOrientation.HORIZONTAL) {
+                currentMouseX -= trackPos;
+            } else {
+                currentMouseY -= trackPos;
+            }
             iMousePoint.x = currentMouseX;
             iMousePoint.y = currentMouseY;
         }
@@ -314,8 +326,7 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
 
             if (getThumbBounds().contains(iMousePoint)) {
                 doMousePressedOnThumb();
-            } else
-            if (getSupportsAbsolutePositioning() && SwingUtilities.isMiddleMouseButton(event)) {
+            } else if (getSupportsAbsolutePositioning() && SwingUtilities.isMiddleMouseButton(event)) {
                 doMiddleMouseButtonPressedOnTrack(event);
             } else if (getTrackBounds().contains(iMousePoint)) {
                 doMousePressedOnTrack();

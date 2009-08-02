@@ -39,7 +39,8 @@ public class DIAppScrollBar {
                 textArea.setWrapStyleWord(true);
                 textArea.setLineWrap(true);
 
-                JScrollPane scrollPane = IAppWidgetFactory.createScrollPaneWithButtonsTogether(textArea);
+                IAppWidgetFactory.setIAppScrollBarButtonsSeparate(true);
+                JScrollPane scrollPane = IAppWidgetFactory.createScrollPane(textArea);
 
                 JFrame frame = new JFrame();
                 frame.add(scrollPane, BorderLayout.CENTER);
