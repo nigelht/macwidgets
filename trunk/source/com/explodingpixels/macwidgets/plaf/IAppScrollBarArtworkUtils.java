@@ -4,8 +4,10 @@ import com.explodingpixels.widgets.ImageButton;
 import com.explodingpixels.widgets.ImageUtils;
 import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
+import java.awt.Dimension;
+import java.awt.Image;
 
 public class IAppScrollBarArtworkUtils {
 
@@ -27,8 +29,17 @@ public class IAppScrollBarArtworkUtils {
     private static final String V_SCROLLER_TOGETHER_INCREMENT_BUTTONS =
             "/com/explodingpixels/macwidgets/images/v_scroller_together_increment_button.png";
 
+    private static final String V_SCROLLER_SEPARATE_DECREMENT_BUTTONS =
+            "/com/explodingpixels/macwidgets/images/v_scroller_separate_decrement_button.png";
+
+    private static final String V_SCROLLER_SEPARATE_INCREMENT_BUTTONS =
+            "/com/explodingpixels/macwidgets/images/v_scroller_separate_increment_button.png";
+
     private static final String V_SCROLLERS =
             "/com/explodingpixels/macwidgets/images/v_scroller.png";
+
+    private static final String V_TOP_BUTTON_MASK =
+            "/com/explodingpixels/macwidgets/images/v_scroller_mask_top.png";
 
     private static final String V_BOTTOM_BUTTON_MASK =
             "/com/explodingpixels/macwidgets/images/v_scroller_mask_bottom.png";
@@ -47,8 +58,17 @@ public class IAppScrollBarArtworkUtils {
     private static final String H_SCROLLER_TOGETHER_INCREMENT_BUTTONS =
             "/com/explodingpixels/macwidgets/images/h_scroller_together_increment_button.png";
 
+    private static final String H_SCROLLER_SEPARATE_DECREMENT_BUTTONS =
+            "/com/explodingpixels/macwidgets/images/h_scroller_separate_decrement_button.png";
+
+    private static final String H_SCROLLER_SEPARATE_INCREMENT_BUTTONS =
+            "/com/explodingpixels/macwidgets/images/h_scroller_separate_increment_button.png";
+
     private static final String H_SCROLLERS =
             "/com/explodingpixels/macwidgets/images/h_scroller.png";
+
+    private static final String H_LEFT_BUTTON_MASK =
+            "/com/explodingpixels/macwidgets/images/h_scroller_mask_left.png";
 
     private static final String H_RIGHT_BUTTON_MASK =
             "/com/explodingpixels/macwidgets/images/h_scroller_mask_right.png";
@@ -65,6 +85,18 @@ public class IAppScrollBarArtworkUtils {
         ArtworkUtils.ImageSet images = ArtworkUtils.getImageSet(
                 IAppScrollBarArtworkUtils.class.getResource(V_SCROLLER_TOGETHER_INCREMENT_BUTTONS));
         return createButton(images);
+    }
+
+    public static AbstractButton createVerticalSeparateDecrementButton() {
+        ArtworkUtils.ImageSet images = ArtworkUtils.getImageSet(
+                IAppScrollBarArtworkUtils.class.getResource(V_SCROLLER_SEPARATE_DECREMENT_BUTTONS));
+        return createButton(images, getTopButtonMask());
+    }
+
+    public static AbstractButton createVerticalSeparateIncrementButton() {
+        ArtworkUtils.ImageSet images = ArtworkUtils.getImageSet(
+                IAppScrollBarArtworkUtils.class.getResource(V_SCROLLER_SEPARATE_INCREMENT_BUTTONS));
+        return createButton(images, getBottomButtonMask());
     }
 
     public static ScrollThumbImagePainter createVerticalScrollerThumb() {
@@ -98,6 +130,10 @@ public class IAppScrollBarArtworkUtils {
         return new Dimension(getVerticalTrack().getIconWidth(), getVerticalScrollBarMiniumumHeight());
     }
 
+    private static ImageIcon getTopButtonMask() {
+        return new ImageIcon(IAppScrollBarArtworkUtils.class.getResource(V_TOP_BUTTON_MASK));
+    }
+
     private static ImageIcon getBottomButtonMask() {
         return new ImageIcon(IAppScrollBarArtworkUtils.class.getResource(V_BOTTOM_BUTTON_MASK));
     }
@@ -124,6 +160,18 @@ public class IAppScrollBarArtworkUtils {
         ArtworkUtils.ImageSet images = ArtworkUtils.getImageSet(
                 IAppScrollBarArtworkUtils.class.getResource(H_SCROLLER_TOGETHER_INCREMENT_BUTTONS));
         return createButton(images);
+    }
+
+    public static AbstractButton createHorizontalSeparateDecrementButton() {
+        ArtworkUtils.ImageSet images = ArtworkUtils.getImageSet(
+                IAppScrollBarArtworkUtils.class.getResource(H_SCROLLER_SEPARATE_DECREMENT_BUTTONS));
+        return createButton(images, getLeftButtonMask());
+    }
+
+    public static AbstractButton createHorizontalSeparateIncrementButton() {
+        ArtworkUtils.ImageSet images = ArtworkUtils.getImageSet(
+                IAppScrollBarArtworkUtils.class.getResource(H_SCROLLER_SEPARATE_INCREMENT_BUTTONS));
+        return createButton(images, getRightButtonMask());
     }
 
     public static ScrollThumbImagePainter createHorizontalScrollerThumb() {
@@ -157,6 +205,10 @@ public class IAppScrollBarArtworkUtils {
 
     public static Dimension getHorizontalScrollBarMinimumSize() {
         return new Dimension(getHorizontalScrollBarMiniumumWidth(), getHorizontalTrack().getIconHeight());
+    }
+
+    private static ImageIcon getLeftButtonMask() {
+        return new ImageIcon(IAppScrollBarArtworkUtils.class.getResource(H_LEFT_BUTTON_MASK));
     }
 
     private static ImageIcon getRightButtonMask() {

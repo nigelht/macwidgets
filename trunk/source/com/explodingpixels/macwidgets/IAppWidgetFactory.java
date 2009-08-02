@@ -24,19 +24,22 @@ public class IAppWidgetFactory {
 
     /**
      * Creates an iApp style {@link JScrollPane}, with vertical and horizontal scrollbars shown as
-     * needed.
+     * needed. The increment/decrement buttons will be placed together or separatebased on the value
+     * of {@link IAppScrollBarUI#areButtonsSeparate()}.
      *
      * @param view the view to wrap inside the {@code JScrollPane}.
      * @return an iApp style {@code JScrollPane}.
      * @see #makeIAppScrollPane
      */
-    public static JScrollPane createScrollPaneWithButtonsTogether(Component view) {
-        return createScrollPaneWithButtonsTogether(view, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+    public static JScrollPane createScrollPane(Component view) {
+        return createScrollPane(view, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
     /**
-     * Creates an iApp style {@link JScrollPane} using the given scroll bar policies.
+     * Creates an iApp style {@link JScrollPane} using the given scroll bar policies. The
+     * increment/decrement buttons will be placed together or separatebased on the value of
+     * {@link IAppScrollBarUI#areButtonsSeparate()}.
      *
      * @param view                      the view to wrap inside the {@code JScrollPane}.
      * @param verticalScrollBarPolicy   the vertical scroll bar policy.
@@ -44,8 +47,8 @@ public class IAppWidgetFactory {
      * @return an iApp style {@code JScrollPane} using the given scroll bar policies.
      * @see #makeIAppScrollPane
      */
-    public static JScrollPane createScrollPaneWithButtonsTogether(
-            Component view, int verticalScrollBarPolicy, int horizontalScrollBarPolicy) {
+    public static JScrollPane createScrollPane(Component view, int verticalScrollBarPolicy,
+                                               int horizontalScrollBarPolicy) {
         JScrollPane retVal = new JScrollPane(view, verticalScrollBarPolicy, horizontalScrollBarPolicy);
         makeIAppScrollPane(retVal);
         return retVal;
@@ -65,6 +68,18 @@ public class IAppWidgetFactory {
         scrollPane.setCorner(JScrollPane.LOWER_RIGHT_CORNER, SCROLL_PANE_CORNER);
         // TODO listen for scrollBar.setUI calls in order to reinstall UI delegates.
         return scrollPane;
+    }
+
+    /**
+     * Sets the default "buttons separate" status for scroll bars. The default value is
+     * {@code false}, meaning that the buttons will be placed together at the right or bottom of the
+     * scroll bar. A value of {@code true} means that the buttons will be placed at opposite ends of
+     * the scroll bar.
+     *
+     * @param buttonsApart the "buttons apart" status.
+     */
+    public static void setIAppScrollBarButtonsSeparate(boolean buttonsApart) {
+        IAppScrollBarUI.setButtonsSeparate(buttonsApart);
     }
 
     // ScrollBarUI creation methods ///////////////////////////////////////////////////////////////
