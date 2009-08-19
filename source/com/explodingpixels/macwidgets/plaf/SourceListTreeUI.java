@@ -65,8 +65,7 @@ import java.awt.event.MouseEvent;
  */
 public class SourceListTreeUI extends BasicTreeUI {
 
-    private static final Font CATEGORY_FONT =
-            UIManager.getFont("Label.font").deriveFont(Font.BOLD, 11.0f);
+    private static final Font CATEGORY_FONT = UIManager.getFont("Label.font").deriveFont(Font.BOLD, 11.0f);
     private static final Font ITEM_FONT = UIManager.getFont("Label.font").deriveFont(11.0f);
     private static final Font ITEM_SELECTED_FONT = ITEM_FONT.deriveFont(Font.BOLD);
 
@@ -80,6 +79,7 @@ public class SourceListTreeUI extends BasicTreeUI {
     private FocusStatePainter fSelectionBackgroundPainter;
 
     private CustomTreeModelListener fTreeModelListener = new CustomTreeModelListener();
+    private WindowUtils.Disposer fDisposer;
 
     @Override
     protected void completeUIInstall() {
@@ -104,7 +104,13 @@ public class SourceListTreeUI extends BasicTreeUI {
         super.installListeners();
         // install a property change listener that repaints the JTree when the parent window's
         // focus state changes.
-        WindowUtils.installJComponentRepainterOnWindowFocusChanged(tree);
+        fDisposer = WindowUtils.installJComponentRepainterOnWindowFocusChanged(tree);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        super.uninstallListeners();
+        fDisposer.dispose();
     }
 
     @Override

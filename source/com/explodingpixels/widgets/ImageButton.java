@@ -20,6 +20,7 @@ public class ImageButton extends JButton {
     private final BufferedImage fMask;
 
     private Icon fInactiveIcon;
+    private final WindowUtils.Disposer fDisposer;
 
     /**
      * Creates an image based button.
@@ -62,7 +63,15 @@ public class ImageButton extends JButton {
 
         // repaint this button when the parent window's focus state changes so
         // that we can correctly show the active or inactive icon.
-        WindowUtils.installJComponentRepainterOnWindowFocusChanged(this);
+        fDisposer = WindowUtils.installJComponentRepainterOnWindowFocusChanged(this);
+    }
+
+    /**
+     * Should be called when this button is no longer needed. This button installs listeners on the parent frame, thus
+     * it's important to uninstall those listeners so that this button may be garbage collected.
+     */
+    public void dispose() {
+        fDisposer.dispose();
     }
 
     private BufferedImage createMask(Icon mask) {
@@ -79,7 +88,7 @@ public class ImageButton extends JButton {
     }
 
     public Icon getIcon() {
-        return WindowUtils.isParentWindowFocused(this) || fInactiveIcon == null 
+        return WindowUtils.isParentWindowFocused(this) || fInactiveIcon == null
                 ? super.getIcon() : fInactiveIcon;
     }
 
