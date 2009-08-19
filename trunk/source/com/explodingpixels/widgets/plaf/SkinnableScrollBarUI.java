@@ -2,16 +2,9 @@ package com.explodingpixels.widgets.plaf;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.BoundedRangeModel;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -21,10 +14,9 @@ import java.awt.event.MouseEvent;
 public class SkinnableScrollBarUI extends BasicScrollBarUI {
 
     private ScrollBarSkin fSkin;
-
     private ScrollBarOrientation fOrientation;
-
     private final ScrollBarSkinProvider fScrollBarSkinProvider;
+    private WindowUtils.Disposer fDisposer;
 
     /**
      * Creates a {@code SkinnableScrollBarUI} that query the given {@link ScrollBarSkinProvider} in
@@ -59,7 +51,13 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         fSkin.installMouseListenersOnButtons(new CustomArrowButtonListener(-1),
                 new CustomArrowButtonListener(1));
         // repaint the scrollbar when the focus state of the parent window changes.
-        WindowUtils.installJComponentRepainterOnWindowFocusChanged(scrollbar);
+        fDisposer = WindowUtils.installJComponentRepainterOnWindowFocusChanged(scrollbar);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        super.uninstallListeners();
+        fDisposer.dispose();
     }
 
     @Override

@@ -25,6 +25,7 @@ public class WindowUtils {
      * <p/>
      * This method is useful, for example, when creating a HUD style window that is semi-transparent, and thus doesn't
      * want the window background to be drawn.
+     *
      * @param window the {@code Window} to make non-opaque.
      */
     public static void makeWindowNonOpaque(Window window) {
@@ -37,9 +38,10 @@ public class WindowUtils {
     }
 
     /**
-     * Trys to invoke {@code com.sun.awt.AWTUtilities.setWindowOpaque(window, false)} on the given {@link Window}. This
+     * Trys to invoke {@code com.sun.awt.AWTUtilities.setWindowOpaque(window,false)} on the given {@link Window}. This
      * will only work when running with JRE 6 update 10 or higher. This method will silently fail if the method cannot
      * be invoked.
+     *
      * @param window the {@code Window} to try and make non-opaque.
      */
     private static void quietlyTryToMakeWindowNonOqaque(Window window) {
@@ -73,6 +75,7 @@ public class WindowUtils {
 
     /**
      * {@code true} if the given {@link Component}'s parent {@link Window} is currently active (focused).
+     *
      * @param component the {@code Component} to check the parent {@code Window}'s focus for.
      * @return {@code true} if the given {@code Component}'s parent {@code Window} is currently active.
      */
@@ -96,11 +99,14 @@ public class WindowUtils {
      * installed that installs a window listener when the components parent changes.
      *
      * @param component the {@code JComponent} to add the repaint focus listener to.
+     * @return a {@link Disposer} than uninstalls listeners installed by this method.
      */
-    public static void installJComponentRepainterOnWindowFocusChanged(JComponent component) {
+    public static Disposer installJComponentRepainterOnWindowFocusChanged(JComponent component) {
         // TODO check to see if the component already has an ancestor.
-        component.addAncestorListener(createAncestorListener(component,
-                createWindowListener(component)));
+        WindowListener windowListener = createWindowListener(component);
+        AncestorListener ancestorListener = createAncestorListener(component, windowListener);
+        component.addAncestorListener(ancestorListener);
+        return new Disposer(component, ancestorListener, windowListener);
     }
 
     private static AncestorListener createAncestorListener(
@@ -157,4 +163,37 @@ public class WindowUtils {
         };
     }
 
+    /**
+     * A helper class that uninstalls listeners installed by
+     * {@link WindowUtils#installJComponentRepainterOnWindowFocusChanged(javax.swing.JComponent)}. The
+     * {@link com.explodingpixels.widgets.WindowUtils.Disposer#dispose()} method should be called when object that
+     * installed the listener is no longer needed.
+     */
+    public static class Disposer {
+
+        private final JComponent fComponent;
+        private final AncestorListener fAncestorListener;
+        private final WindowListener fWindowListener;
+
+        private Disposer(JComponent component, AncestorListener ancestorListener, WindowListener windowListener) {
+            fComponent = component;
+            fAncestorListener = ancestorListener;
+            fWindowListener = windowListener;
+        }
+
+        /**
+         * Should be called when the {@link JComponent} that the
+         * {@link WindowUtils#installJComponentRepainterOnWindowFocusChanged(javax.swing.JComponent)} method was called
+         * on is no longer needed.
+         */
+        public void dispose() {
+            // first, remove the AncestorListener that was installed in installJComponentRepainterOnWindowFocusChanged.
+            fComponent.removeAncestorListener(fAncestorListener);
+            // next, remove the WindowListener that was installed on the parent Window.
+            Window window = SwingUtilities.getWindowAncestor(fComponent);
+            if (window != null) {
+                window.removeWindowListener(fWindowListener);
+            }
+        }
+    }
 }
