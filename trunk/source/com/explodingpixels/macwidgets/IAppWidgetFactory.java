@@ -3,20 +3,13 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.macwidgets.plaf.IAppScrollBarUI;
 import com.explodingpixels.widgets.ImageBasedJComponent;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A factory for iApp style widgets.
  */
 public class IAppWidgetFactory {
-
-    private static JComponent SCROLL_PANE_CORNER =
-            new ImageBasedJComponent(new ImageIcon(IAppWidgetFactory.class.getResource(
-                    "/com/explodingpixels/macwidgets/images/iapp_scrollpane_corner.png")).getImage());
 
     private IAppWidgetFactory() {
         // utility class - no constructor needed.
@@ -65,7 +58,7 @@ public class IAppWidgetFactory {
     public static JScrollPane makeIAppScrollPane(JScrollPane scrollPane) {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         installUIDelegates(scrollPane);
-        scrollPane.setCorner(JScrollPane.LOWER_RIGHT_CORNER, SCROLL_PANE_CORNER);
+        scrollPane.setCorner(JScrollPane.LOWER_RIGHT_CORNER, createScrollPaneCornder());
         // TODO listen for scrollBar.setUI calls in order to reinstall UI delegates.
         return scrollPane;
     }
@@ -89,4 +82,11 @@ public class IAppWidgetFactory {
         scrollPane.getHorizontalScrollBar().setUI(new IAppScrollBarUI());
     }
 
+    /**
+     * Creates an iApp style scrollpane corner.
+     */
+    private static JComponent createScrollPaneCornder() {
+        return new ImageBasedJComponent(new ImageIcon(IAppWidgetFactory.class.getResource(
+                "/com/explodingpixels/macwidgets/images/iapp_scrollpane_corner.png")).getImage());
+    }
 }
