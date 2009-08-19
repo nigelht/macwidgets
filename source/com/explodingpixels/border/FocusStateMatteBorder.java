@@ -2,11 +2,11 @@ package com.explodingpixels.border;
 
 import com.explodingpixels.widgets.WindowUtils;
 
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.JComponent;
-import java.awt.Color;
-import java.awt.event.WindowFocusListener;
+import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 public class FocusStateMatteBorder extends MatteBorder {
 
@@ -24,8 +24,7 @@ public class FocusStateMatteBorder extends MatteBorder {
         fUnfocusedColor = unfocusedColor;
         fComponentToTrackFocusOf = componentToTrackFocusOf;
         updateColor(true);
-        WindowUtils.installWindowFocusListener(createWindowFocusListener(),
-                fComponentToTrackFocusOf);
+        WindowUtils.installWeakWindowFocusListener(fComponentToTrackFocusOf, createWindowFocusListener());
     }
 
     private void updateColor(boolean focused) {
@@ -38,6 +37,7 @@ public class FocusStateMatteBorder extends MatteBorder {
             public void windowGainedFocus(WindowEvent e) {
                 updateColor(true);
             }
+
             public void windowLostFocus(WindowEvent e) {
                 updateColor(false);
             }

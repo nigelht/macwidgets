@@ -79,7 +79,6 @@ public class SourceListTreeUI extends BasicTreeUI {
     private FocusStatePainter fSelectionBackgroundPainter;
 
     private CustomTreeModelListener fTreeModelListener = new CustomTreeModelListener();
-    private WindowUtils.Disposer fDisposer;
 
     @Override
     protected void completeUIInstall() {
@@ -104,13 +103,7 @@ public class SourceListTreeUI extends BasicTreeUI {
         super.installListeners();
         // install a property change listener that repaints the JTree when the parent window's
         // focus state changes.
-        fDisposer = WindowUtils.installJComponentRepainterOnWindowFocusChanged(tree);
-    }
-
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        fDisposer.dispose();
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(tree);
     }
 
     @Override

@@ -16,7 +16,6 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
     private ScrollBarSkin fSkin;
     private ScrollBarOrientation fOrientation;
     private final ScrollBarSkinProvider fScrollBarSkinProvider;
-    private WindowUtils.Disposer fDisposer;
 
     /**
      * Creates a {@code SkinnableScrollBarUI} that query the given {@link ScrollBarSkinProvider} in
@@ -48,16 +47,9 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
         super.installListeners();
         // give the ScrollBarSkin the decrement and increment MouseListeners so that it may attach
         // them to the appropriate components.
-        fSkin.installMouseListenersOnButtons(new CustomArrowButtonListener(-1),
-                new CustomArrowButtonListener(1));
+        fSkin.installMouseListenersOnButtons(new CustomArrowButtonListener(-1), new CustomArrowButtonListener(1));
         // repaint the scrollbar when the focus state of the parent window changes.
-        fDisposer = WindowUtils.installJComponentRepainterOnWindowFocusChanged(scrollbar);
-    }
-
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        fDisposer.dispose();
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(scrollbar);
     }
 
     @Override

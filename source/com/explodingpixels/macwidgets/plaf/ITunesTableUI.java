@@ -66,7 +66,7 @@ public class ITunesTableUI extends BasicTableUI {
         table.setDefaultEditor(Object.class, createDefaultTableCellEditor());
 
         makeTableActive();
-        WindowUtils.installWindowFocusListener(createWindowFocusListener(), table);
+        WindowUtils.installWeakWindowFocusListener(table, createWindowFocusListener());
     }
 
     @Override
@@ -82,11 +82,6 @@ public class ITunesTableUI extends BasicTableUI {
     private void makeTableInactive() {
         table.setSelectionForeground(SELECTION_INACTIVE_SELECTION_FOREGROUND_COLOR);
         table.setSelectionBackground(SELECTION_INACTIVE_SELECTION_BACKGROUND_COLOR);
-    }
-
-    @Override
-    public void uninstallUI(JComponent c) {
-        super.uninstallUI(c);
     }
 
     private TableCellEditor createDefaultTableCellEditor() {
