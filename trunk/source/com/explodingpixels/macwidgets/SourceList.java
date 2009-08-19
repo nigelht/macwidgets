@@ -58,26 +58,21 @@ public class SourceList {
             new ArrayList<SourceListSelectionListener>();
 
     private DefaultMutableTreeNode fRoot = new DefaultMutableTreeNode("root");
-
     private DefaultTreeModel fTreeModel = new DefaultTreeModel(fRoot);
-
     private JTree fTree = new CustomJTree(fTreeModel);
 
     private JScrollPane fScrollPane = MacWidgetFactory.createSourceListScrollPane(fTree);
-
     private final JPanel fComponent = new JPanel(new BorderLayout());
-
     private TreeSelectionListener fTreeSelectionListener = createTreeSelectionListener();
-
     private MouseListener fMouseListener = createMouseListener();
 
     private SourceListControlBar fSourceListControlBar;
 
     private SourceListContextMenuProvider fContextMenuProvider =
             new EmptySourceListContextMenuProvider();
-
     private List<SourceListClickListener> fSourceListClickListeners =
             new ArrayList<SourceListClickListener>();
+    private SourceListToolTipProvider fToolTipProvider = new EmptyToolTipProvider();
 
     /**
      * Creates a {@code SourceList} with an empty {@link SourceListModel}.
@@ -112,6 +107,7 @@ public class SourceList {
         fTree.addTreeSelectionListener(fTreeSelectionListener);
         fTree.addMouseListener(fMouseListener);
     }
+
 
     /**
      * Installs the given {@link SourceListControlBar} at the base of this {@code SourceList}. This
@@ -337,6 +333,18 @@ public class SourceList {
      */
     public SourceListModel getModel() {
         return fModel;
+    }
+
+    /**
+     * Sets the {@link SourceListToolTipProvider} to use.
+     *
+     * @param toolTipProvider the {@code SourceListToolTipProvider to use.
+     */
+    public void setToolTipProvider(SourceListToolTipProvider toolTipProvider) {
+        if (toolTipProvider == null) {
+            throw new IllegalArgumentException("SourceListToolTipProvider cannot be null.");
+        }
+        fToolTipProvider = toolTipProvider;
     }
 
     private void doAddCategory(SourceListCategory category, int index) {
@@ -622,9 +630,10 @@ public class SourceList {
 
     // Custom JTree implementation that always returns SourceListTreeUI delegate. /////////////////
 
-    private static class CustomJTree extends JTree {
+    private class CustomJTree extends JTree {
         public CustomJTree(TreeModel newModel) {
             super(newModel);
+            ToolTipManager.sharedInstance().registerComponent(this);
         }
 
         @Override
@@ -644,6 +653,31 @@ public class SourceList {
             } else {
                 super.collapsePath(path);
             }
+        }
+
+        @Override
+        public String getToolTipText(MouseEvent event) {
+            TreePath path = getPathForLocation(event.getX(), event.getY());
+            Object userObject = ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+            String toolTipText = null;
+            if (userObject instanceof SourceListCategory) {
+                toolTipText = fToolTipProvider.getTooltip((SourceListCategory) userObject);
+            } else if (userObject instanceof SourceListItem) {
+                toolTipText = fToolTipProvider.getTooltip((SourceListItem) userObject);
+            }
+            return toolTipText;
+        }
+    }
+
+    // Empty SourceListTooltipProvider. ///////////////////////////////////////////////////////////
+
+    private static class EmptyToolTipProvider implements SourceListToolTipProvider {
+        public String getTooltip(SourceListCategory category) {
+            return null;
+        }
+
+        public String getTooltip(SourceListItem item) {
+            return null;
         }
     }
 }
