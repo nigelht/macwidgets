@@ -84,7 +84,6 @@ public class HudWindow {
         WindowUtils.makeWindowNonOpaque(fDialog);
 
         fHudPanel.add(fTitlePanel, BorderLayout.NORTH);
-//        fHudPanel.add(fBottomPanel, BorderLayout.SOUTH);
 
         // set the backing frame's content pane.
         fDialog.setContentPane(fHudPanel);
@@ -114,6 +113,15 @@ public class HudWindow {
      */
     public void hideCloseButton() {
         fTitlePanel.hideCloseButton();
+    }
+
+    /**
+     * Makes this HUD resizeable. Note that there is currently a bug in the Mac JRE which causes a very bad flicker when
+     * a window is programmatically resized. For now, it's suggested that you do not use this method unless you are on a
+     * non-Mac platform.
+     */
+    public void makeResizeable() {
+        fHudPanel.add(fBottomPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -222,9 +230,9 @@ public class HudWindow {
         }
 
         private Border getCloseButtonBorder() {
-             return PlatformUtils.isMac()
-                     ? BorderFactory.createEmptyBorder(0, 5, 0, 0)
-                     : BorderFactory.createEmptyBorder(0, 0, 0, 5);
+            return PlatformUtils.isMac()
+                    ? BorderFactory.createEmptyBorder(0, 5, 0, 0)
+                    : BorderFactory.createEmptyBorder(0, 0, 0, 5);
         }
 
         private void setTitle(String title) {
