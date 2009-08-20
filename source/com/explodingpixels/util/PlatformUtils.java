@@ -33,4 +33,13 @@ public class PlatformUtils {
         return isMac() && getJavaVersion().startsWith("1.6");
     }
 
+    /**
+     * True if this JVM is running 64 bit Java on a Mac.
+     *
+     * @return true if this JVM is running 64 bit Java on a Mac.
+     */
+    public static boolean is64BitJavaOnMac() {
+        return isMac() && System.getProperty("os.arch").equals("x86_64");
+    }
+
 }

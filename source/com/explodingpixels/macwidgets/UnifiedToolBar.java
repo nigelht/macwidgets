@@ -5,9 +5,8 @@ import com.explodingpixels.util.PlatformUtils;
 import com.explodingpixels.widgets.WindowDragger;
 import com.jgoodies.forms.factories.Borders;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import java.awt.Window;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A Mac style Unified Tool Bar. For a full description of what a Unified Tool Bar is, see the
@@ -103,7 +102,7 @@ public class UnifiedToolBar {
     private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
         // install the custom painter if on non-Mac platforms or on a Mac running Java 1.6
         // (the version of Java with the textured window bug).
-        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac()) {
+        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac() || PlatformUtils.is64BitJavaOnMac()) {
             unifiedToolBar.setBackgroundPainter(MacPainterFactory.createTexturedWindowWorkaroundPainter());
         }
     }
