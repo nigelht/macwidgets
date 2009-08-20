@@ -2,14 +2,9 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.util.PlatformUtils;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JToggleButton;
+import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 
@@ -83,7 +78,7 @@ public class PreferencesTabBar {
     private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
         // install the custom painter if on non-Mac platforms or on a Mac running Java 1.6
         // (the version of Java with the textured window bug).
-        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac()) {
+        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac() || PlatformUtils.is64BitJavaOnMac()) {
             unifiedToolBar.setBackgroundPainter(MacPainterFactory.createTexturedWindowWorkaroundPainter());
         }
     }
