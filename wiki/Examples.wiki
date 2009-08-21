@@ -135,6 +135,10 @@ Unified Tool Bars (described [http://developer.apple.com/documentation/UserExper
 
 *Simple Unified Tool Bar example:*
 {{{
+// For some versions of Mac OS X, Java will handle painting the Unified Tool Bar.
+// Calling this method ensures that this painting is turned on if necessary.
+MacUtils.makeWindowLeopardStyle(frame.getRootPane());
+
 UnifiedToolBar toolBar =  UnifiedToolBar();
 JButton button = new JButton("My Button");
 button.putClientProperty("JButton.buttonType", "textured");
