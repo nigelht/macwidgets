@@ -1,6 +1,8 @@
 package com.explodingpixels.widgets.plaf;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.ComboPopup;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,11 +14,8 @@ import java.awt.event.*;
 public class EPComboPopup implements ComboPopup {
 
     private final JComboBox fComboBox;
-
     private JPopupMenu fPopupMenu = new JPopupMenu();
-
     private Font fFont;
-
     private ComboBoxVerticalCenterProvider fComboBoxVerticalCenterProvider =
             new DefaultVerticalCenterProvider();
 
@@ -25,6 +24,27 @@ public class EPComboPopup implements ComboPopup {
     public EPComboPopup(JComboBox comboBox) {
         fComboBox = comboBox;
         fFont = comboBox.getFont();
+        fPopupMenu.addPopupMenuListener(createPopupMenuListener());
+    }
+
+    /**
+     * Creates a {@link PopupMenuListener} on the underlying {@link JPopupMenu} which forwards along the popup event
+     * notification to the associated {@link JComboBox}.
+     */
+    private PopupMenuListener createPopupMenuListener() {
+        return new PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                fComboBox.firePopupMenuWillBecomeVisible();
+            }
+
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                fComboBox.firePopupMenuWillBecomeInvisible();
+            }
+
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                fComboBox.firePopupMenuCanceled();
+            }
+        };
     }
 
     public void setFont(Font font) {
