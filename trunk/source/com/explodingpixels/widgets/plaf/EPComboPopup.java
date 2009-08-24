@@ -90,8 +90,8 @@ public class EPComboPopup implements ComboPopup {
 
         fPopupMenu.pack();
         int popupWidth = fComboBox.getWidth() + 5;
-        int popupHeight = fPopupMenu.getPreferredSize().height;
-        fPopupMenu.setPreferredSize(new Dimension(popupWidth, popupHeight));
+        // adjust the width to be slightly wider than the associated combo box.
+        fPopupMenu.setSize(popupWidth, fPopupMenu.getHeight());
     }
 
     private Point placePopupOnScreen() {
