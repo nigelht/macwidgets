@@ -8,11 +8,21 @@ import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.CellRendererPane;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicTableUI;
 import javax.swing.table.TableCellEditor;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -62,7 +72,6 @@ public class ITunesTableUI extends BasicTableUI {
         TableUtils.makeStriped(table, EVEN_ROW_COLOR);
 
         table.setDefaultRenderer(Rating.class, new ITunesRatingTableCellRenderer());
-
         table.setDefaultEditor(Object.class, createDefaultTableCellEditor());
 
         makeTableActive();
