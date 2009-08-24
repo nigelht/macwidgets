@@ -1,29 +1,9 @@
 package com.explodingpixels.widgets.plaf;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.MenuElement;
-import javax.swing.MenuSelectionManager;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * An implementation of {@link ComboPopup} that uses actual {@link JMenuItem}s rather than a
@@ -149,12 +129,15 @@ public class EPComboPopup implements ComboPopup {
 
     public void show() {
         clearAndFillMenu();
+        // if there are combo box items, then show the popup menu.
+        if (fComboBox.getModel().getSize() > 0) {
 //        Point popupLocation = placePopupOnScreen();
-        Rectangle popupBounds = calculateInitialPopupBounds();
+            Rectangle popupBounds = calculateInitialPopupBounds();
 
 //        fPopupMenu.show(fComboBox, popupLocation.x, popupLocation.y);
-        fPopupMenu.show(fComboBox, popupBounds.x, popupBounds.y);
-        forceCorrectPopupSelection();
+            fPopupMenu.show(fComboBox, popupBounds.x, popupBounds.y);
+            forceCorrectPopupSelection();
+        }
     }
 
     public void hide() {
