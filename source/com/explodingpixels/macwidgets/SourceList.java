@@ -658,7 +658,8 @@ public class SourceList {
         @Override
         public String getToolTipText(MouseEvent event) {
             TreePath path = getPathForLocation(event.getX(), event.getY());
-            Object userObject = ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+            Object userObject = path == null
+                    ? null : ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
             String toolTipText = null;
             if (userObject instanceof SourceListCategory) {
                 toolTipText = fToolTipProvider.getTooltip((SourceListCategory) userObject);
