@@ -3,26 +3,12 @@ package com.explodingpixels.macwidgets.plaf;
 import com.explodingpixels.macwidgets.HudWidgetFactory;
 import com.explodingpixels.widgets.plaf.EPComboPopup;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
@@ -36,14 +22,12 @@ import java.awt.geom.GeneralPath;
 public class HudComboBoxUI extends BasicComboBoxUI {
 
     private HudButtonUI fArrowButtonUI;
+    private ActionListener fSelectedItemChangedActionListener = createSelectedItemChangedActionListener();
+    private PopupMenuListener fPopupMenuListener = createPopupMenuListener();
 
     private static final int LEFT_MARGIN = 7;
-
     private static final int RIGHT_MARGIN = 19;
-
     private static final int DEFAULT_WIDTH = 100;
-
-    private ActionListener fSelectedItemChangedActionListener = createSelectedItemChangedActionListener();
 
     /**
      * Creates a HUD style {@link javax.swing.plaf.ComboBoxUI}.
@@ -57,13 +41,15 @@ public class HudComboBoxUI extends BasicComboBoxUI {
         super.installDefaults();
 
         HudPaintingUtils.initHudComponent(comboBox);
-        comboBox.addActionListener(createComboBoxListener());
+
     }
 
     @Override
     protected void installListeners() {
         super.installListeners();
+        comboBox.addActionListener(createComboBoxListener());
         comboBox.addActionListener(fSelectedItemChangedActionListener);
+        comboBox.addPopupMenuListener(fPopupMenuListener);
     }
 
     @Override
@@ -103,7 +89,7 @@ public class HudComboBoxUI extends BasicComboBoxUI {
         // TODO make the calculation of the display string more robust
         // TODO (i.e. use TextProvider interface).
         String displayValue = comboBox.getSelectedItem() == null
-                ? "" : comboBox.getSelectedItem().toString();
+                ? " " : comboBox.getSelectedItem().toString();
         arrowButton.setText(displayValue);
     }
 
@@ -132,9 +118,30 @@ public class HudComboBoxUI extends BasicComboBoxUI {
         };
     }
 
+    /**
+     * Creates a {@link PopupMenuListener} that forces the associated combo box button to be pressed when the combo
+     * popup is shown and to be non-pressed when the combo popup is hidden.
+     */
+    private PopupMenuListener createPopupMenuListener() {
+        return new PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                arrowButton.getModel().setPressed(true);
+            }
+
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                arrowButton.getModel().setPressed(false);
+            }
+
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                // no implementation.
+            }
+        };
+    }
+
     @Override
     protected JButton createArrowButton() {
         JButton arrowButton = new JButton("");
+        arrowButton.setModel(createButtonModel());
         arrowButton.setUI(fArrowButtonUI);
         Insets currentInsets = arrowButton.getInsets();
         arrowButton.setBorder(BorderFactory.createEmptyBorder(
@@ -143,6 +150,20 @@ public class HudComboBoxUI extends BasicComboBoxUI {
 
         return arrowButton;
     }
+
+    /**
+     * Creates a custom {@link ButtonModel} that forces the button to be in the pressed state if the corresponding
+     * combo boxe's poup is showing.
+     */
+    private ButtonModel createButtonModel() {
+        return new DefaultButtonModel() {
+            @Override
+            public boolean isPressed() {
+                return super.isPressed() || isPopupVisible(comboBox);
+            }
+        };
+    }
+
 
     @Override
     protected ListCellRenderer createRenderer() {
