@@ -5,6 +5,7 @@ import com.explodingpixels.macwidgets.plaf.HudCheckBoxUI;
 import com.explodingpixels.macwidgets.plaf.HudComboBoxUI;
 import com.explodingpixels.macwidgets.plaf.HudLabelUI;
 import com.explodingpixels.macwidgets.plaf.HudRadioButtonUI;
+import com.explodingpixels.macwidgets.plaf.HudSliderUI;
 import com.explodingpixels.macwidgets.plaf.HudTextFieldUI;
 
 import javax.swing.ComboBoxModel;
@@ -13,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 
 /**
@@ -119,5 +121,11 @@ public class HudWidgetFactory {
         JRadioButton radioButton = new JRadioButton(text);
         radioButton.setUI(new HudRadioButtonUI());
         return radioButton;
+    }
+
+    public static JSlider createHudSlider() {
+        JSlider slider = new JSlider();
+        slider.setUI(new HudSliderUI(slider));
+        return slider;
     }
 }

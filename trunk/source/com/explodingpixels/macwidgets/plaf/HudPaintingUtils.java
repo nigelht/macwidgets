@@ -8,7 +8,10 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * A collection of utilty method for painting Heads Up Style widgets. See the following for examples
@@ -87,24 +90,44 @@ public class HudPaintingUtils {
      */
     public static void paintHudControlBackground(Graphics2D graphics, AbstractButton button,
                                                  int width, int height, Roundedness roundedness) {
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Paint paint = HudPaintingUtils.createButtonPaint(button, BORDER_WIDTH);
+        paintHudControlBackground(graphics, new Rectangle(0, 0, width, height),
+                roundedness.getShapeProvider(), paint);
+    }
+
+    /**
+     * Paints a HUD style background in the given shape. This includes a drop shadow which will be
+     * drawn under the shape to be painted. The shadow will be draw outside the given bounds.
+     *
+     * @param graphics      the {@code Graphics2D} context to draw in.
+     * @param bounds        the bounds to paint in.
+     * @param shapeProvider the delegate to request the {@link Shape} from.
+     * @param paint         the {@link Paint} to use to fill the {@code Shape}.
+     */
+    public static void paintHudControlBackground(Graphics2D graphics, Rectangle bounds,
+                                                 ShapeProvider shapeProvider, Paint paint) {
+
+        graphics.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // TODO replace with real drop shadow painting.
 
+        int x = bounds.x;
+        int y = bounds.y;
+        int width = bounds.width;
+        int height = bounds.height;
+
         graphics.setColor(LIGHT_SHADOW_COLOR);
-        int arcDiameter = roundedness.getRoundedDiameter(height);
-        graphics.drawRoundRect(0, 0, width - 1, height, arcDiameter, arcDiameter);
+        graphics.draw(shapeProvider.createShape(x, y, width - 1, height));
 
         graphics.setColor(DARK_SHADOW_COLOR);
-        int smallerShadowArcDiameter = height - 1;
-        graphics.drawRoundRect(0, 0, width - 1, height + 1, smallerShadowArcDiameter,
-                smallerShadowArcDiameter);
+        graphics.draw(shapeProvider.createShape(x, y, width - 1, height + 1));
 
-        graphics.setPaint(HudPaintingUtils.createButtonPaint(button, BORDER_WIDTH));
-        graphics.fillRoundRect(0, 1, width, height - 1, arcDiameter, arcDiameter);
+        graphics.setPaint(paint);
+        graphics.fill(shapeProvider.createShape(x, y + 1, width, height - 1));
 
         graphics.setColor(BORDER_COLOR);
-        graphics.drawRoundRect(0, 0, width - 1, height - 1, arcDiameter, arcDiameter);
+        graphics.draw(shapeProvider.createShape(x, y, width - 1, height - 1));
     }
 
     private static Paint createButtonPaint(AbstractButton button, int lineBorderWidth) {
@@ -120,12 +143,14 @@ public class HudPaintingUtils {
      */
     public enum Roundedness {
 
-        ROUNDED_BUTTON(.95), COMBO_BUTTON(0.45), CHECK_BOX(0.4), RADIO(1.0);
+        ROUNDED_BUTTON(.95), COMBO_BUTTON(0.45), CHECK_BOX(0.4), RADIO(1.0), SLIDER_KNOB(1.0);
 
         private final double fRoundedPercentage;
+        private final ShapeProvider fShapeProvider;
 
         private Roundedness(double roundedPercentage) {
             fRoundedPercentage = roundedPercentage;
+            fShapeProvider = createShapeProvider();
         }
 
         private int getRoundedDiameter(int controlHeight) {
@@ -135,6 +160,23 @@ public class HudPaintingUtils {
             return roundedDiameter - makeItEven;
         }
 
+        private ShapeProvider getShapeProvider() {
+            return fShapeProvider;
+        }
+
+        private ShapeProvider createShapeProvider() {
+            return new ShapeProvider() {
+                public Shape createShape(double x, double y, double width, double height) {
+                    double arcDiameter = getRoundedDiameter((int) height);
+                    return new RoundRectangle2D.Double(x, y, width, height, arcDiameter,
+                            arcDiameter);
+                }
+            };
+        }
+    }
+
+    public interface ShapeProvider {
+        Shape createShape(double x, double y, double width, double height);
     }
 
 }
