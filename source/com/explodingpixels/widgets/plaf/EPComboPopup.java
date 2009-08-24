@@ -1,11 +1,31 @@
 package com.explodingpixels.widgets.plaf;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
+import javax.swing.SwingUtilities;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 
 /**
  * An implementation of {@link ComboPopup} that uses actual {@link JMenuItem}s rather than a
@@ -132,6 +152,12 @@ public class EPComboPopup implements ComboPopup {
         };
     }
 
+    private void forceCorrectPopupSelectionIfNeccessary() {
+        if (fComboBox.getSelectedIndex() >= 0) {
+            forceCorrectPopupSelection();
+        }
+    }
+
     private void forceCorrectPopupSelection() {
         assert fPopupMenu.isShowing() : "The popup must be showing for this method to work properly.";
 
@@ -156,7 +182,7 @@ public class EPComboPopup implements ComboPopup {
 
 //        fPopupMenu.show(fComboBox, popupLocation.x, popupLocation.y);
             fPopupMenu.show(fComboBox, popupBounds.x, popupBounds.y);
-            forceCorrectPopupSelection();
+            forceCorrectPopupSelectionIfNeccessary();
         }
     }
 
@@ -239,7 +265,9 @@ public class EPComboPopup implements ComboPopup {
         int x = comboBoxRightEdge - fPopupMenu.getPreferredSize().width - LEFT_SHIFT;
         int selectedItemIndex = fPopupMenu.getSelectionModel().getSelectedIndex();
         int componentCenter = fComboBoxVerticalCenterProvider.provideCenter(fComboBox);
-        int menuItemHeight = fPopupMenu.getComponent(selectedItemIndex).getPreferredSize().height;
+        int menuItemHeight = fPopupMenu.getSelectionModel().getSelectedIndex() >= 0
+                ? fPopupMenu.getComponent(selectedItemIndex).getPreferredSize().height
+                : 0;
         int menuItemCenter = insets.top + (selectedItemIndex * menuItemHeight) + menuItemHeight / 2;
         int y = componentCenter - menuItemCenter;
 
