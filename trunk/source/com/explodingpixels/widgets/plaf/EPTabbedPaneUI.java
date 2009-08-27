@@ -82,7 +82,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
     private void doMouseMotion(int x, int y) {
         int tabIndex = tabForCoordinate(tabPane, x, y);
-        if (tabIndex > 0 && tabIndex < tabPane.getTabCount()) {
+        if (tabIndex >= 0 && tabIndex < tabPane.getTabCount()) {
             Rectangle tabBounds = getTabBounds(tabPane, tabIndex);
             System.out.println(tabIndex + ", " + isMouseOverCloseButton(tabBounds, x, y));
         }
