@@ -1,22 +1,19 @@
 package com.explodingpixels.widgets.plaf;
 
 import com.explodingpixels.painter.Painter;
+import com.explodingpixels.widgets.TabCloseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Point;
@@ -27,41 +24,28 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
-    private static final Color SELECTED_BORDER_COLOR = new Color(0x666666);
-    private static final Color UNSELECTED_BORDER_COLOR = new Color(0x888888);
-    private static final Color SELECTED_BACKGROUND_COLOR = Color.WHITE;
-    private static final Color UNSELECTED_BACKGROUND_COLOR = new Color(0xcccccc);
+    public static final String TAB_CLOSE_LISTENER_KEY = "TabbedPane.closeListener";
+    public static final String CLOSE_BUTTON_LOCATION_KEY = "TabbedPane.closeButtonLocation";
+    public static final Object CLOSE_BUTTON_LOCATION_VALUE_LEFT = EPTabPainter.CloseButtonLocation.LEFT;
+    public static final Object CLOSE_BUTTON_LOCATION_VALUE_RIGHT = EPTabPainter.CloseButtonLocation.RIGHT;
 
-    private static final int CORNER_ARC_DIAMETER = 6;
-
+    private EPTabPainter fTabPainter = new EPTabPainter();
     private Painter<Component> fContentBorderTopEdgeBackgroundPainter = createContentBorderTopEdgeBackgroundPainter();
     private boolean fPaintFullContentBorder = true;
     private int fCurrentTabWidth = DEFAULT_TAB_WIDTH;
     private int fMouseOverCloseButtonTabIndex = NO_TAB;
     private int fMousePressedCloseButtonTabIndex = NO_TAB;
+    private TabCloseListener fTabCloseListener;
 
     private static final Insets FULL_CONTENT_BORDER_INSETS = new Insets(6, 0, 0, 0);
     private static final Insets HAIRLINE_BORDER_INSETS = new Insets(2, 0, 0, 0);
 
     private static final int DEFAULT_TAB_WIDTH = 100;
-
-    private static final int CLOSE_BUTTON_LEFT_PAD = 4;
-    private static final int CLOSE_BUTTON_RIGHT_PAD = 4;
-
-    private static final ImageIcon CLOSE_ICON_SELECTED =
-            new ImageIcon(EPTabbedPaneUI.class.getResource("/com/explodingpixels/widgets/images/close.png"));
-    private static final ImageIcon CLOSE_ICON_UNSELECTED =
-            new ImageIcon(EPTabbedPaneUI.class.getResource("/com/explodingpixels/widgets/images/close_unselected.png"));
-    private static final ImageIcon CLOSE_ICON_OVER =
-            new ImageIcon(EPTabbedPaneUI.class.getResource("/com/explodingpixels/widgets/images/close_over.png"));
-    private static final ImageIcon CLOSE_ICON_PRESSED =
-            new ImageIcon(EPTabbedPaneUI.class.getResource("/com/explodingpixels/widgets/images/close_pressed.png"));
-
-    private static final Dimension CLOSE_BUTTON_BOUNDS =
-            new Dimension(CLOSE_ICON_SELECTED.getIconWidth(), CLOSE_ICON_SELECTED.getIconHeight());
 
     private static final int NO_TAB = -1;
 
@@ -73,9 +57,11 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         tabPane.setFont(oldFont.deriveFont(oldFont.getSize() - 2.0f));
         tabPane.setBorder(BorderFactory.createEmptyBorder());
 
-        int leftPad = CLOSE_ICON_SELECTED.getIconWidth() + CLOSE_BUTTON_LEFT_PAD + CLOSE_BUTTON_RIGHT_PAD;
-        tabInsets = new Insets(2, leftPad, 2, 10);
+        tabInsets = new Insets(2, 10, 2, 10);
         selectedTabPadInsets = new Insets(1, 1, 1, 1);
+
+        doExtractTabCloseProperty();
+        doExtractCloseButtonLocationProperty();
     }
 
     @Override
@@ -83,66 +69,99 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         super.installListeners();
         tabPane.addMouseMotionListener(createCloseButtonMouseMotionListener());
         tabPane.addMouseListener(createCloseButtonMouseListener());
+        tabPane.addPropertyChangeListener(TAB_CLOSE_LISTENER_KEY, createTabCloseListenerPropertyChangeListener());
+        tabPane.addPropertyChangeListener(CLOSE_BUTTON_LOCATION_KEY, createCloseButtonLocationPropertyChangeListener());
     }
 
     private MouseMotionListener createCloseButtonMouseMotionListener() {
         return new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                doMouseMoved(e.getX(), e.getY());
+                doMouseMoved(e.getPoint());
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                doMousePressed(e.getX(), e.getY());
-                doMouseMoved(e.getX(), e.getY());
+                doMousePressed(e.getPoint());
+                doMouseMoved(e.getPoint());
             }
         };
     }
 
-    private void doMouseMoved(int x, int y) {
-        int tabIndex = tabForCoordinate(tabPane, x, y);
+    private void doMouseMoved(Point point) {
+        int tabIndex = tabForCoordinate(tabPane, point.x, point.y);
+        int oldMouseOverCloseButtonTabIndex = fMouseOverCloseButtonTabIndex;
         if (isTabIndexValid(tabIndex)) {
             Rectangle tabBounds = getTabBounds(tabPane, tabIndex);
-            int oldMouseOverCloseButtonTabIndex = fMouseOverCloseButtonTabIndex;
-            fMouseOverCloseButtonTabIndex = isMouseOverCloseButton(tabBounds, x, y) ? tabIndex : NO_TAB;
-            repaintTab(oldMouseOverCloseButtonTabIndex);
+            fMouseOverCloseButtonTabIndex = fTabPainter.isPointOverCloseButton(tabBounds, point) ? tabIndex : NO_TAB;
             repaintTab(fMouseOverCloseButtonTabIndex);
         }
+        repaintTab(oldMouseOverCloseButtonTabIndex);
     }
 
     private MouseListener createCloseButtonMouseListener() {
         return new MouseAdapter() {
             @Override
+            public void mouseExited(MouseEvent e) {
+                int oldMouseOverCloseButtonTabIndex = fMouseOverCloseButtonTabIndex;
+                fMouseOverCloseButtonTabIndex = NO_TAB;
+                repaintTab(oldMouseOverCloseButtonTabIndex);
+            }
+
+            @Override
             public void mousePressed(MouseEvent e) {
-                doMousePressed(e.getX(), e.getY());
+                doMousePressed(e.getPoint());
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                closeTab(fMousePressedCloseButtonTabIndex);
-                repaintTab(fMouseOverCloseButtonTabIndex);
+                closeTabIfValid(fMousePressedCloseButtonTabIndex);
+                int oldMousePressedOverCloseButtonTabIndex = fMouseOverCloseButtonTabIndex;
                 fMousePressedCloseButtonTabIndex = NO_TAB;
+                repaintTab(oldMousePressedOverCloseButtonTabIndex);
             }
         };
     }
 
-    private void doMousePressed(int x, int y) {
-        int tabIndex = tabForCoordinate(tabPane, x, y);
+    private void doMousePressed(Point point) {
+        int tabIndex = tabForCoordinate(tabPane, point.x, point.y);
+        int oldMousePressedCloseButtonIndex = fMousePressedCloseButtonTabIndex;
         if (isTabIndexValid(tabIndex)) {
             Rectangle tabBounds = getTabBounds(tabPane, tabIndex);
-            int oldMousePressedCloseButtonIndex = fMousePressedCloseButtonTabIndex;
-            fMousePressedCloseButtonTabIndex = isMouseOverCloseButton(tabBounds, x, y) ? tabIndex : NO_TAB;
-            repaintTab(oldMousePressedCloseButtonIndex);
+            fMousePressedCloseButtonTabIndex = fTabPainter.isPointOverCloseButton(tabBounds, point) ? tabIndex : NO_TAB;
             repaintTab(fMousePressedCloseButtonTabIndex);
+        }
+        repaintTab(oldMousePressedCloseButtonIndex);
+    }
+
+    private PropertyChangeListener createTabCloseListenerPropertyChangeListener() {
+        return new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                doExtractTabCloseProperty();
+            }
+        };
+    }
+
+    private void doExtractTabCloseProperty() {
+        Object closeListenerValue = tabPane.getClientProperty(TAB_CLOSE_LISTENER_KEY);
+        if (closeListenerValue instanceof TabCloseListener) {
+            fTabCloseListener = (TabCloseListener) closeListenerValue;
         }
     }
 
-    private boolean isMouseOverCloseButton(Rectangle tabBounds, int mouseX, int mouseY) {
-        Point closeLocation =
-                getCloseButtonLocation(tabBounds.x, tabBounds.y, tabBounds.width, tabBounds.height);
-        Rectangle closeBounds = new Rectangle(closeLocation, CLOSE_BUTTON_BOUNDS);
-        return closeBounds.contains(mouseX, mouseY);
+    private PropertyChangeListener createCloseButtonLocationPropertyChangeListener() {
+        return new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                doExtractCloseButtonLocationProperty();
+            }
+        };
+    }
+
+    private void doExtractCloseButtonLocationProperty() {
+        Object closeButtonLocationValue = tabPane.getClientProperty(CLOSE_BUTTON_LOCATION_KEY);
+        if (closeButtonLocationValue instanceof EPTabPainter.CloseButtonLocation) {
+            setCloseButtonLocation((EPTabPainter.CloseButtonLocation) closeButtonLocationValue);
+        }
     }
 
     @Override
@@ -161,95 +180,17 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
     @Override
     protected void paintTab(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect) {
-//        super.paintTab(g, tabPlacement, rects, tabIndex, iconRect, textRect);
-
         Rectangle tabRect = rects[tabIndex];
-        int selectedIndex = tabPane.getSelectedIndex();
-        boolean isSelected = selectedIndex == tabIndex;
-
-        paintTabBackground(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
-                tabRect.width, tabRect.height, isSelected);
-        paintTabBorder(g, tabPlacement, tabIndex, tabRect.x, tabRect.y,
-                tabRect.width, tabRect.height, isSelected);
+        boolean isSelected = tabIndex == tabPane.getSelectedIndex();
 
         String title = tabPane.getTitleAt(tabIndex);
-        Font font = tabPane.getFont();
-        FontMetrics metrics = g.getFontMetrics(font);
         Icon icon = getIconForTab(tabIndex);
 
-        String trimedText = doLayoutLabel(metrics, title, icon, tabRect, iconRect, textRect, isSelected);
-        paintText(g, tabPlacement, font, metrics, tabIndex, trimedText, textRect, isSelected);
-        paintIcon(g, tabPlacement, tabIndex, icon, iconRect, isSelected);
-    }
-
-    private String doLayoutLabel(FontMetrics metrics, String title, Icon icon,
-                                 Rectangle tabRect, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
-
-        int rightSidePad = isSelected ? 1 : 0;
-        int textWidth = metrics.stringWidth(title);
-        boolean tooWide = textWidth > tabRect.width - (CLOSE_BUTTON_LEFT_PAD + CLOSE_BUTTON_BOUNDS.width + 3)
-                - 5 - rightSidePad;
-
-        Rectangle adjustedTabRect = new Rectangle();
-        adjustedTabRect.x = tooWide
-                ? tabRect.x + CLOSE_BUTTON_LEFT_PAD + CLOSE_BUTTON_BOUNDS.width + 3 : tabRect.x;
-        adjustedTabRect.y = tabRect.y;
-        adjustedTabRect.width = tooWide
-                ? tabRect.width - CLOSE_BUTTON_LEFT_PAD - CLOSE_BUTTON_BOUNDS.width - 3 - 5 - rightSidePad : tabRect.width;
-        adjustedTabRect.height = tabRect.height;
-
-        iconRect.x = 0;
-        iconRect.y = 0;
-
-        return SwingUtilities.layoutCompoundLabel(tabPane, metrics, title, icon,
-                SwingUtilities.CENTER, SwingUtilities.CENTER, SwingUtilities.CENTER, SwingUtilities.TRAILING,
-                adjustedTabRect, iconRect, textRect, textIconGap);
-    }
-
-    @Override
-    protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y,
-                                      int width, int height, boolean isSelected) {
         Graphics2D graphics = (Graphics2D) g;
-
-        graphics.setColor(isSelected ? SELECTED_BACKGROUND_COLOR : UNSELECTED_BACKGROUND_COLOR);
-        graphics.fillRoundRect(x, y, width - 1, height, CORNER_ARC_DIAMETER, CORNER_ARC_DIAMETER);
-
-        Point closeButtonLocation = getCloseButtonLocation(x, y, width, height);
-
-        Image closeButtonImage = getCloseImageForTab(tabIndex, isSelected);
-        graphics.drawImage(closeButtonImage, closeButtonLocation.x, closeButtonLocation.y, null);
-    }
-
-    private Image getCloseImageForTab(int tabIndex, boolean isSelected) {
-        ImageIcon closeImageIcon;
-
-        if (tabIndex == fMousePressedCloseButtonTabIndex && tabIndex == fMouseOverCloseButtonTabIndex) {
-            closeImageIcon = CLOSE_ICON_PRESSED;
-        } else if (tabIndex == fMouseOverCloseButtonTabIndex) {
-            closeImageIcon = CLOSE_ICON_OVER;
-        } else if (isSelected) {
-            closeImageIcon = CLOSE_ICON_SELECTED;
-        } else {
-            closeImageIcon = CLOSE_ICON_UNSELECTED;
-        }
-
-        return closeImageIcon.getImage();
-    }
-
-    @Override
-    protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex, int x, int y,
-                                  int width, int height, boolean isSelected) {
-        Graphics2D graphics = (Graphics2D) g;
-        graphics.setColor(isSelected ? SELECTED_BORDER_COLOR : UNSELECTED_BORDER_COLOR);
-        graphics.drawRoundRect(x, y, width - 1, height + CORNER_ARC_DIAMETER / 2,
-                CORNER_ARC_DIAMETER, CORNER_ARC_DIAMETER);
-    }
-
-    @Override
-    protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects,
-                                       int tabIndex, Rectangle iconRect, Rectangle textRect,
-                                       boolean isSelected) {
-        // do nothing.
+        boolean isMouseOverCloseButton = fMouseOverCloseButtonTabIndex == tabIndex;
+        boolean isMousePressedOverCloseButton = fMousePressedCloseButtonTabIndex == tabIndex;
+        fTabPainter.paintTab(graphics, tabPane, tabRect, title, icon, isSelected, isMouseOverCloseButton,
+                isMousePressedOverCloseButton);
     }
 
     @Override
@@ -272,7 +213,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
                 Paint paint = new GradientPaint(0, 0, Color.WHITE, 0, height - 1, new Color(0xf8f8f8));
                 graphics.setPaint(paint);
                 graphics.fillRect(0, 0, width, height - 1);
-                graphics.setColor(SELECTED_BORDER_COLOR);
+                graphics.setColor(EPTabPainter.SELECTED_BORDER_COLOR);
                 graphics.drawLine(0, 0, width, 0);
                 graphics.setColor(new Color(0x999999));
                 // TODO figure out why we need to subtract off another extra pixel here -- doesn't make sense.
@@ -282,17 +223,20 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     @Override
-    protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+    protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement, int selectedIndex,
+                                              int x, int y, int w, int h) {
         // do nothing.
     }
 
     @Override
-    protected void paintContentBorderRightEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+    protected void paintContentBorderRightEdge(Graphics g, int tabPlacement, int selectedIndex,
+                                               int x, int y, int w, int h) {
         // do nothing.
     }
 
     @Override
-    protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+    protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement, int selectedIndex,
+                                                int x, int y, int w, int h) {
         // do nothing.
     }
 
@@ -313,17 +257,18 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         return fCurrentTabWidth;
     }
 
+    // Public API methods. ////////////////////////////////////////////////////////////////////////////////////////////
+
     public void setPaintsFullContentBorder(boolean paintsFullContentBorder) {
         fPaintFullContentBorder = paintsFullContentBorder;
         tabPane.repaint();
     }
 
-    private Point getCloseButtonLocation(int tabLeftX, int tabTopY, int tabWidth,
-                                         int tabHeight) {
-        int closeX = tabLeftX + CLOSE_BUTTON_LEFT_PAD;
-        int closeY = tabTopY + tabHeight / 2 - CLOSE_ICON_SELECTED.getIconHeight() / 2;
-        return new Point(closeX, closeY);
+    public void setCloseButtonLocation(EPTabPainter.CloseButtonLocation closeButtonLocation) {
+        fTabPainter.setCloseButtonLocation(closeButtonLocation);
     }
+
+    // Helper methods. ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void repaintTab(int tabIndex) {
         if (isTabIndexValid(tabIndex)) {
@@ -336,10 +281,22 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         return tabIndex >= 0 && tabIndex < tabPane.getTabCount();
     }
 
+    private void closeTabIfValid(int tabIndex) {
+        if (isTabIndexValid(tabIndex)) {
+            closeTab(tabIndex);
+        }
+    }
+
     private void closeTab(int tabIndex) {
         assert isTabIndexValid(tabIndex) : "The tab index should be valid.";
 
-        // TODO handle closing the tab here.
-        System.out.println("Would close tab " + tabIndex);
+        if (fTabCloseListener != null && fTabCloseListener.tabAboutToBeClosed(tabIndex)) {
+            String title = tabPane.getTitleAt(tabIndex);
+            Component component = tabPane.getComponentAt(tabIndex);
+            // TODO would be nice to animate closing of tab.
+            tabPane.removeTabAt(tabIndex);
+            fTabCloseListener.tabClosed(title, component);
+        }
     }
+
 }

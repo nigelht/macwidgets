@@ -1,9 +1,20 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.widgets.TabCloseListener;
 import com.explodingpixels.widgets.plaf.EPTabbedPaneUI;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 public class DEPTabbedPaneUI {
@@ -49,7 +60,7 @@ public class DEPTabbedPaneUI {
 //                tabbedPane.setBorder(BorderFactory.createEmptyBorder(-10, 0, 0, 0));
                 tabbedPane.setUI(new EPTabbedPaneUI());
                 tabbedPane.addTab("Tab One", textArea);
-                tabbedPane.addTab("Tab Two", new JPanel() {
+                tabbedPane.addTab("Tab Two Really long tab title", new JPanel() {
                     @Override
                     protected void paintComponent(Graphics g) {
                         g.setColor(Color.RED);
@@ -61,6 +72,17 @@ public class DEPTabbedPaneUI {
                     }
                 });
                 tabbedPane.setOpaque(false);
+
+                TabCloseListener closeListener = new TabCloseListener() {
+                    public boolean tabAboutToBeClosed(int tabIndex) {
+                        return true;
+                    }
+
+                    public void tabClosed(String title, Component component) {
+                    }
+                };
+                tabbedPane.putClientProperty(EPTabbedPaneUI.TAB_CLOSE_LISTENER_KEY, closeListener);
+//                tabbedPane.putClientProperty(EPTabbedPaneUI.CLOSE_BUTTON_LOCATION_KEY, EPTabbedPaneUI.CLOSE_BUTTON_LOCATION_VALUE_RIGHT);
 
 //                JButton remove = new JButton("Remove Scrollpane");
 //                BottomBar bottomBar = new BottomBar(BottomBarSize.SMALL);
