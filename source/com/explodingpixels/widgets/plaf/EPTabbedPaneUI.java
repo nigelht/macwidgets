@@ -6,6 +6,7 @@ import com.explodingpixels.widgets.TabCloseListener;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,10 +16,15 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -26,6 +32,10 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
@@ -37,17 +47,20 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     private EPTabPainter fTabPainter = new EPTabPainter();
     private Painter<Component> fContentBorderTopEdgeBackgroundPainter = createContentBorderTopEdgeBackgroundPainter();
     private boolean fPaintFullContentBorder = true;
-    private int fCurrentTabWidth = DEFAULT_TAB_WIDTH;
+    private int fCurrentDefaultTabWidth = DEFAULT_TAB_WIDTH;
     private int fMouseOverCloseButtonTabIndex = NO_TAB;
     private int fMousePressedCloseButtonTabIndex = NO_TAB;
     private TabCloseListener fTabCloseListener;
+    private Timer fTabCloseTimer = new Timer(10, null);
+    private Map<Component, Integer> fTabWidths = new HashMap<Component, Integer>();
 
     private static final Insets FULL_CONTENT_BORDER_INSETS = new Insets(6, 0, 0, 0);
     private static final Insets HAIRLINE_BORDER_INSETS = new Insets(2, 0, 0, 0);
 
     private static final int DEFAULT_TAB_WIDTH = 100;
-
     private static final int NO_TAB = -1;
+    private static final int SMALLEST_TAB_WIDTH_BEFORE_CLOSING = 25;
+    private static final int TAB_ANIMATION_DELTA = 7;
 
     @Override
     protected void installDefaults() {
@@ -58,7 +71,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         tabPane.setBorder(BorderFactory.createEmptyBorder());
 
         tabInsets = new Insets(2, 10, 2, 10);
-        selectedTabPadInsets = new Insets(1, 1, 1, 1);
+        selectedTabPadInsets = new Insets(2, 0, 2, 0);
 
         doExtractTabCloseProperty();
         doExtractCloseButtonLocationProperty();
@@ -69,6 +82,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         super.installListeners();
         tabPane.addMouseMotionListener(createCloseButtonMouseMotionListener());
         tabPane.addMouseListener(createCloseButtonMouseListener());
+        tabPane.addContainerListener(createContainerListener());
         tabPane.addPropertyChangeListener(TAB_CLOSE_LISTENER_KEY, createTabCloseListenerPropertyChangeListener());
         tabPane.addPropertyChangeListener(CLOSE_BUTTON_LOCATION_KEY, createCloseButtonLocationPropertyChangeListener());
     }
@@ -115,7 +129,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                closeTabIfValid(fMousePressedCloseButtonTabIndex);
+                closeTabUsingAnimationIfValid(fMousePressedCloseButtonTabIndex);
                 int oldMousePressedOverCloseButtonTabIndex = fMouseOverCloseButtonTabIndex;
                 fMousePressedCloseButtonTabIndex = NO_TAB;
                 repaintTab(oldMousePressedOverCloseButtonTabIndex);
@@ -132,6 +146,20 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
             repaintTab(fMousePressedCloseButtonTabIndex);
         }
         repaintTab(oldMousePressedCloseButtonIndex);
+    }
+
+    private ContainerListener createContainerListener() {
+        return new ContainerListener() {
+            public void componentAdded(ContainerEvent e) {
+                Component componentAdded = e.getChild();
+                fTabWidths.put(componentAdded, SMALLEST_TAB_WIDTH_BEFORE_CLOSING);
+                animateTabBeingAdded(componentAdded);
+            }
+
+            public void componentRemoved(ContainerEvent e) {
+                fTabWidths.remove(e.getChild());
+            }
+        };
     }
 
     private PropertyChangeListener createTabCloseListenerPropertyChangeListener() {
@@ -165,6 +193,11 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     @Override
+    protected LayoutManager createLayoutManager() {
+        return new CustomLayoutManager();
+    }
+
+    @Override
     protected Insets getContentBorderInsets(int tabPlacement) {
         return fPaintFullContentBorder ? FULL_CONTENT_BORDER_INSETS : HAIRLINE_BORDER_INSETS;
     }
@@ -175,7 +208,6 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
                 RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paint(g, c);
         paintContentBorder(g, tabPane.getTabPlacement(), tabPane.getSelectedIndex());
-
     }
 
     @Override
@@ -202,9 +234,11 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         fContentBorderTopEdgeBackgroundPainter.paint(graphics, tabPane, width, borderHeight);
         graphics.translate(-x, -y);
 
-        graphics.setColor(Color.WHITE);
-        Rectangle boundsOfSelectedTab = getTabBounds(tabPane, tabPane.getSelectedIndex());
-        graphics.drawLine(boundsOfSelectedTab.x + 1, y, boundsOfSelectedTab.x + boundsOfSelectedTab.width - 2, y);
+        if (tabPane.getSelectedIndex() >= 0) {
+            graphics.setColor(Color.WHITE);
+            Rectangle boundsOfSelectedTab = getTabBounds(tabPane, tabPane.getSelectedIndex());
+            graphics.drawLine(boundsOfSelectedTab.x, y, boundsOfSelectedTab.x + boundsOfSelectedTab.width, y);
+        }
     }
 
     private Painter<Component> createContentBorderTopEdgeBackgroundPainter() {
@@ -252,9 +286,8 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
     @Override
     protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
-//        return super.calculateTabWidth(tabPlacement, tabIndex, metrics);
-//        int preferredWidth = super.calculateTabWidth(tabPlacement, tabIndex, metrics);
-        return fCurrentTabWidth;
+        Component tabComponent = tabPane.getComponent(tabIndex);
+        return fTabWidths.get(tabComponent);
     }
 
     // Public API methods. ////////////////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +301,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         fTabPainter.setCloseButtonLocation(closeButtonLocation);
     }
 
-    // Helper methods. ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Helper methods. ////////////////////////////////////////////////////////////////////////////
 
     private void repaintTab(int tabIndex) {
         if (isTabIndexValid(tabIndex)) {
@@ -281,9 +314,16 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         return tabIndex >= 0 && tabIndex < tabPane.getTabCount();
     }
 
-    private void closeTabIfValid(int tabIndex) {
+    private void animateTabBeingAdded(Component tabComponent) {
+        fTabCloseTimer.addActionListener(createTabAddedAnimation(tabComponent));
+        fTabCloseTimer.start();
+    }
+
+    private void closeTabUsingAnimationIfValid(int tabIndex) {
         if (isTabIndexValid(tabIndex)) {
-            closeTab(tabIndex);
+            Component tabComponentToClose = tabPane.getComponent(tabIndex);
+            fTabCloseTimer.addActionListener(createTabRemovedAnimation(tabComponentToClose));
+            fTabCloseTimer.start();
         }
     }
 
@@ -293,9 +333,93 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         if (fTabCloseListener != null && fTabCloseListener.tabAboutToBeClosed(tabIndex)) {
             String title = tabPane.getTitleAt(tabIndex);
             Component component = tabPane.getComponentAt(tabIndex);
-            // TODO would be nice to animate closing of tab.
             tabPane.removeTabAt(tabIndex);
             fTabCloseListener.tabClosed(title, component);
+        }
+    }
+
+    // Tab animation helper methods. //////////////////////////////////////////////////////////////
+
+    private ActionListener createTabAddedAnimation(final Component tabComponentAdded) {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int currentTabWidth = fTabWidths.get(tabComponentAdded);
+                int newTabWidth = Math.min(currentTabWidth + TAB_ANIMATION_DELTA, fCurrentDefaultTabWidth);
+                fTabWidths.put(tabComponentAdded, newTabWidth);
+                if (newTabWidth == fCurrentDefaultTabWidth) {
+                    animationFinished(this);
+                }
+                tabPane.doLayout();
+                tabPane.repaint();
+            }
+        };
+    }
+
+    private ActionListener createTabRemovedAnimation(final Component tabComponentToClose) {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int currentTabWidth = fTabWidths.get(tabComponentToClose);
+                int newTabWidth = Math.max(currentTabWidth - TAB_ANIMATION_DELTA, SMALLEST_TAB_WIDTH_BEFORE_CLOSING);
+                fTabWidths.put(tabComponentToClose, newTabWidth);
+                if (newTabWidth == SMALLEST_TAB_WIDTH_BEFORE_CLOSING) {
+                    animationFinished(this);
+                    int tabIndex = tabPane.indexOfComponent(tabComponentToClose);
+                    closeTab(tabIndex);
+                }
+                tabPane.doLayout();
+                tabPane.repaint();
+            }
+        };
+    }
+
+    private void animationFinished(ActionListener actionListenerToRemove) {
+        fTabCloseTimer.removeActionListener(actionListenerToRemove);
+        if (fTabCloseTimer.getActionListeners().length == 0) {
+            fTabCloseTimer.stop();
+        }
+    }
+
+    // CustomLayoutManager implementation. ////////////////////////////////////////////////////////
+
+    private class CustomLayoutManager extends TabbedPaneLayout {
+
+        @Override
+        protected void calculateTabRects(int tabPlacement, int tabCount) {
+            System.out.println("here");
+            super.calculateTabRects(tabPlacement, tabCount);
+        }
+
+        @Override
+        public void calculateLayoutInfo() {
+            super.calculateLayoutInfo();
+
+            Insets tabAreaInsets = getTabAreaInsets(tabPane.getTabPlacement());
+            int tabAreaWidth = tabPane.getWidth() - tabAreaInsets.left - tabAreaInsets.right;
+            int numTabs = tabPane.getTabCount();
+            int totalTabWidth = 0;
+            List<Component> componentsUsingDefaultTabWidth = new ArrayList<Component>();
+
+            for (Component component : fTabWidths.keySet()) {
+                int width = fTabWidths.get(component);
+                totalTabWidth += width;
+                if (width == fCurrentDefaultTabWidth) {
+                    componentsUsingDefaultTabWidth.add(component);
+                }
+            }
+
+            int extraSpace = tabAreaWidth - totalTabWidth;
+
+//            System.out.println("extraSpace " + extraSpace);
+            if ((extraSpace > 0 && fCurrentDefaultTabWidth < DEFAULT_TAB_WIDTH || extraSpace < 0) && componentsUsingDefaultTabWidth.size() > 0) {
+                int extraSpaceForTab = extraSpace / componentsUsingDefaultTabWidth.size();
+
+                fCurrentDefaultTabWidth += extraSpaceForTab - 2;
+                System.out.println("fCurrentDefaultTabWidth " + fCurrentDefaultTabWidth);
+                for (Component component : componentsUsingDefaultTabWidth) {
+                    fTabWidths.put(component, fCurrentDefaultTabWidth);
+//                    fTabWidths.put(component,  25);
+                }
+            }
         }
     }
 

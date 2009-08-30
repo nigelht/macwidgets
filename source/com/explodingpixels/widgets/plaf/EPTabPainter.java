@@ -12,6 +12,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
 
 public class EPTabPainter {
 
@@ -19,7 +21,7 @@ public class EPTabPainter {
     private CloseButtonIcon fCloseButtonIcon = new DefaultCloseButtonIcon();
 
     private static final int CONTENT_DISTANCE_FROM_EDGE = 5;
-    private static final int CLOSE_BUTTON_DISTANCE_FROM_EDGE = 4;
+    private static final int CLOSE_BUTTON_DISTANCE_FROM_EDGE = 5;
     private static final int CLOSE_BUTTON_DISTANCE_FROM_CONTENT = 3;
 
     // create single variable to reuse when layout the tab. this reuse of rectangle is also seen in BasicLabelUI and
@@ -41,25 +43,30 @@ public class EPTabPainter {
         fCloseButtonLocation = closeButtonLocation;
     }
 
-    public void paintTab(Graphics2D graphics, JTabbedPane tabPane, Rectangle tabBounds, String tabText,
-                         Icon tabIcon, boolean isSelected, boolean isMouseOverCloseButton, boolean isMousePressedOverCloseButton) {
+    public void paintTab(Graphics2D graphics, JTabbedPane tabPane, Rectangle tabBounds,
+                         String tabText, Icon tabIcon, boolean isSelected,
+                         boolean isMouseOverCloseButton, boolean isMousePressedOverCloseButton) {
 
         paintTabBackgroundAndBorder(graphics, tabBounds, isSelected);
-        paintCloseButton(graphics, tabBounds, isSelected, isMouseOverCloseButton, isMousePressedOverCloseButton);
+        paintCloseButton(graphics, tabBounds, isSelected, isMouseOverCloseButton,
+                isMousePressedOverCloseButton);
 
         FontMetrics fontMetrics = graphics.getFontMetrics();
         int closeButtonWidth = fCloseButtonIcon.getWidth();
 
         int textWidth = fontMetrics.stringWidth(tabText);
 
-        int widthRequiredForCloseButton = fCloseButtonLocation.calculateWidthRequiredForCloseButton(closeButtonWidth);
+        int widthRequiredForCloseButton =
+                fCloseButtonLocation.calculateWidthRequiredForCloseButton(closeButtonWidth);
         boolean tooWide = textWidth > tabBounds.width - widthRequiredForCloseButton;
 
         Rectangle adjustedTabRect = new Rectangle();
         adjustedTabRect.x = tooWide
                 ? fCloseButtonLocation.calculateContentX(tabBounds, closeButtonWidth) : tabBounds.x;
         adjustedTabRect.y = tabBounds.y;
-        adjustedTabRect.width = tooWide ? tabBounds.width - widthRequiredForCloseButton - CONTENT_DISTANCE_FROM_EDGE : tabBounds.width;
+        adjustedTabRect.width = tooWide
+                ? tabBounds.width - widthRequiredForCloseButton - CONTENT_DISTANCE_FROM_EDGE
+                : tabBounds.width;
         adjustedTabRect.height = tabBounds.height;
 
         ICON_BOUNDS.x = 0;
@@ -72,19 +79,18 @@ public class EPTabPainter {
         graphics.setColor(tabPane.getForeground());
         int textY = TEXT_BOUNDS.y + fontMetrics.getAscent();
         BasicGraphicsUtils.drawString(graphics, clippedText, -1, TEXT_BOUNDS.x, textY);
-
     }
 
     private void paintTabBackgroundAndBorder(Graphics2D graphics, Rectangle tabBounds, boolean isSelected) {
         int extendedHeight = tabBounds.height + CORNER_ARC_DIAMETER / 2;
         // paint the background.
         graphics.setColor(isSelected ? SELECTED_BACKGROUND_COLOR : UNSELECTED_BACKGROUND_COLOR);
-        graphics.fillRoundRect(tabBounds.x, tabBounds.y, tabBounds.width - 1, extendedHeight,
+        graphics.fillRoundRect(tabBounds.x, tabBounds.y, tabBounds.width, extendedHeight,
                 CORNER_ARC_DIAMETER, CORNER_ARC_DIAMETER);
 
         // paint the border.
         graphics.setColor(isSelected ? SELECTED_BORDER_COLOR : UNSELECTED_BORDER_COLOR);
-        graphics.drawRoundRect(tabBounds.x, tabBounds.y, tabBounds.width - 1, extendedHeight,
+        graphics.drawRoundRect(tabBounds.x, tabBounds.y, tabBounds.width, extendedHeight,
                 CORNER_ARC_DIAMETER, CORNER_ARC_DIAMETER);
     }
 
@@ -97,6 +103,7 @@ public class EPTabPainter {
         graphics.drawImage(closeImageIcon.getImage(), x, y, null);
     }
 
+
     public boolean isPointOverCloseButton(Rectangle tabBounds, Point point) {
         int closeButtonWidth = fCloseButtonIcon.getWidth();
         int closeButtonHeight = fCloseButtonIcon.getHeight();
@@ -105,6 +112,33 @@ public class EPTabPainter {
         boolean overHorizontally = closeButtonX <= point.x && point.x <= closeButtonX + closeButtonWidth;
         boolean overVertically = closeButtonY <= point.y && point.y <= closeButtonY + closeButtonHeight;
         return overHorizontally && overVertically;
+    }
+
+    private Shape createTabShape(Rectangle tabBounds) {
+        int topIndent = 3;
+        int topCurveRadius = 3;
+        int bottomCurveRadius = 4;
+        int topLeftX = tabBounds.x + topIndent;
+        int topRightX = tabBounds.x + tabBounds.width - topIndent;
+        int bottomLeftX = tabBounds.x;
+        int bottomRightX = tabBounds.x + tabBounds.width;
+
+        GeneralPath path = new GeneralPath();
+        path.moveTo(topLeftX + topCurveRadius, tabBounds.y);
+        path.quadTo(topLeftX, tabBounds.y, topLeftX, tabBounds.y + topCurveRadius);
+//        path.lineTo(topLeftX,  tabBounds.y + tabBounds.height - bottomCurveRadius);
+        path.quadTo(topLeftX, tabBounds.y + tabBounds.height, bottomLeftX, tabBounds.y + tabBounds.height);
+//        path.moveTo(tabBounds.x + curveRadius, tabBounds.y);
+//        path.quadTo(topLeftX, tabBounds.y + tabBounds.height, bottomLeftX, tabBounds.y + tabBounds.height);
+//        path.lineTo(tabBounds.x,  tabBounds.y + tabBounds.height);
+//        path.lineTo(tabBounds.x + tabBounds.width, tabBounds.y + tabBounds.height);
+//        path.lineTo(tabBounds.x + tabBounds.width, tabBounds.y + topCurveRadius);
+//        path.quadTo(tabBounds.x + tabBounds.width, tabBounds.y, tabBounds.x + tabBounds.width - topCurveRadius, tabBounds.y);
+        path.lineTo(bottomRightX, tabBounds.y + tabBounds.height);
+        path.quadTo(topRightX, tabBounds.y + tabBounds.height, topRightX, tabBounds.y + topCurveRadius);
+        path.quadTo(topRightX, tabBounds.y, topRightX - topCurveRadius, tabBounds.y);
+        path.closePath();
+        return path;
     }
 
     // CloseButton enumeration implementation. ////////////////////////////////////////////////////////////////////////
@@ -162,9 +196,7 @@ public class EPTabPainter {
         private ImageIcon fSelected = createImageIcon("close.png");
         private ImageIcon fUnselected = createImageIcon("close_unselected.png");
         private ImageIcon fOver = createImageIcon("close_over.png");
-        private ImageIcon fPressed = createImageIcon("close_over.png");
-        // TODO uncomment out below line.
-//        private ImageIcon fPressed = createImageIcon("close_pressed.png");
+        private ImageIcon fPressed = createImageIcon("close_pressed.png");
 
         public int getWidth() {
             return fSelected.getIconWidth();

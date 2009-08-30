@@ -4,6 +4,8 @@ import com.explodingpixels.widgets.TabCloseListener;
 import com.explodingpixels.widgets.plaf.EPTabbedPaneUI;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,11 +13,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.GeneralPath;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DEPTabbedPaneUI {
 
@@ -56,21 +56,29 @@ public class DEPTabbedPaneUI {
 //                IAppWidgetFactory.setIAppScrollBarButtonsSeparate(true);
 //                JScrollPane scrollPane = IAppWidgetFactory.createScrollPane(textArea);
 
-                JTabbedPane tabbedPane = new JTabbedPane();
+                final JTabbedPane tabbedPane = new JTabbedPane();
 //                tabbedPane.setBorder(BorderFactory.createEmptyBorder(-10, 0, 0, 0));
                 tabbedPane.setUI(new EPTabbedPaneUI());
                 tabbedPane.addTab("Tab One", textArea);
-                tabbedPane.addTab("Tab Two Really long tab title", new JPanel() {
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        g.setColor(Color.RED);
-                        GeneralPath path = new GeneralPath();
-                        path.moveTo(0, 0);
-                        path.quadTo(0f, 100f, 100f, 100f);
-                        path.closePath();
-                        ((Graphics2D) g).draw(path);
-                    }
+                tabbedPane.addTab("Tab Two Really long tab title", new JTextArea() {
+//                    @Override
+//                    protected void paintComponent(Graphics g) {
+//                        g.setColor(Color.WHITE);
+//                        g.fillRect(0,0,getWidth(),getHeight());
+//                        g.setColor(Color.RED);
+//                        GeneralPath path = new GeneralPath();
+//                        float k = 0.5522847498f;
+//                        path.moveTo(0, 0);
+////                        path.quadTo(0f, 100f, 100f, 100f);
+//                        path.curveTo(0f, 50f * (1-k), 50f * k, 100f, 100f, 100f);
+//                        path.curveTo(150f * (1-k), 100f, 200f, 50f * k, 200f, 0f);
+//                        path.closePath();
+//                        ((Graphics2D) g).draw(path);
+//                        g.setColor(Color.BLUE);
+//                        ((Graphics2D) g).draw(new Ellipse2D.Float(-0f,-100f,200f,200f));
+//                    }
                 });
+                tabbedPane.addTab("Tab Three", new JTextArea());
                 tabbedPane.setOpaque(false);
 
                 TabCloseListener closeListener = new TabCloseListener() {
@@ -92,18 +100,40 @@ public class DEPTabbedPaneUI {
 //                tabbedComponent.addTab("Tab One", textArea);
 //                tabbedComponent.addTab("Tab Two", new JTextArea());
 
-                UnifiedToolBar toolbar = new UnifiedToolBar();
+                JButton addButton = new JButton(new ImageIcon(
+                        DBottomBar.class.getResource("/com/explodingpixels/macwidgets/icons/AddItem10.png")));
+                addButton.putClientProperty("JButton.buttonType", "textured");
+                addButton.putClientProperty("JComponent.sizeVariant", "small");
+                addButton.setFocusable(false);
+                addButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        tabbedPane.addTab("Tab Title", new JTextArea());
+                        tabbedPane.setSelectedIndex(tabbedPane.getComponentCount() - 1);
+                    }
+                });
+
+                BottomBar bottomBar = new BottomBar(BottomBarSize.SMALL);
+//                bottomBar.addComponentToLeft(addButton);
+
+                JPanel panel = new JPanel(new BorderLayout());
+                panel.add(addButton, BorderLayout.CENTER);
+                panel.setOpaque(false);
+                panel.setBorder(BorderFactory.createEmptyBorder(-4, 0, 0, 0));
+                bottomBar.addComponentToLeft(panel);
 
                 final JFrame frame = new JFrame();
                 MacUtils.makeWindowLeopardStyle(frame.getRootPane());
 //                frame.add(toolbar.getComponent(), BorderLayout.NORTH);
                 frame.add(tabbedPane, BorderLayout.CENTER);
+                frame.add(bottomBar.getComponent(), BorderLayout.SOUTH);
 //                frame.add(tabbedComponent.getComponent(), BorderLayout.CENTER);
 //                frame.add(bottomBar.getComponent(), BorderLayout.SOUTH);
-                frame.setSize(300, 300);
+                frame.setSize(400, 300);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setVisible(true);
+
+                bottomBar.installWindowDraggerOnWindow(frame);
             }
         });
     }
