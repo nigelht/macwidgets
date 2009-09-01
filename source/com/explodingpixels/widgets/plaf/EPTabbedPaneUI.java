@@ -10,6 +10,7 @@ import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
@@ -32,9 +33,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class EPTabbedPaneUI extends BasicTabbedPaneUI {
@@ -383,43 +382,137 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
     private class CustomLayoutManager extends TabbedPaneLayout {
 
-        @Override
+//        @Override
+//        public void calculateLayoutInfo() {
+//            super.calculateLayoutInfo();
+//
+//            Insets tabAreaInsets = getTabAreaInsets(tabPane.getTabPlacement());
+//            int tabAreaWidth = tabPane.getWidth() - tabAreaInsets.left - tabAreaInsets.right;
+//            int numTabs = tabPane.getTabCount();
+//            int totalTabWidth = 0;
+//            List<Component> componentsUsingDefaultTabWidth = new ArrayList<Component>();
+//
+//            for (Component component : fTabWidths.keySet()) {
+//                int width = fTabWidths.get(component);
+//                totalTabWidth += width;
+//                if (width == fCurrentDefaultTabWidth) {
+//                    componentsUsingDefaultTabWidth.add(component);
+//                }
+//            }
+//
+//            int extraSpace = tabAreaWidth - totalTabWidth;
+//
+////            System.out.println("extraSpace " + extraSpace);
+//            if ((extraSpace > 0 && fCurrentDefaultTabWidth < DEFAULT_TAB_WIDTH || extraSpace < 0) && componentsUsingDefaultTabWidth.size() > 0) {
+//                int extraSpaceForTab = extraSpace / componentsUsingDefaultTabWidth.size();
+//
+//                fCurrentDefaultTabWidth += extraSpaceForTab - 2;
+//                System.out.println("fCurrentDefaultTabWidth " + fCurrentDefaultTabWidth);
+//                for (Component component : componentsUsingDefaultTabWidth) {
+//                    fTabWidths.put(component, fCurrentDefaultTabWidth);
+////                    fTabWidths.put(component,  25);
+//                }
+//            }
+
         protected void calculateTabRects(int tabPlacement, int tabCount) {
-            System.out.println("here");
-            super.calculateTabRects(tabPlacement, tabCount);
-        }
+            FontMetrics metrics = getFontMetrics();
+            Dimension size = tabPane.getSize();
+            Insets insets = tabPane.getInsets();
+            Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
+            int fontHeight = metrics.getHeight();
+            int selectedIndex = tabPane.getSelectedIndex();
+            int i, j;
+            boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
+//            boolean leftToRight = BasicGraphicsUtils.isLeftToRight(tabPane);
+            boolean leftToRight = true;
+            int x = tabAreaInsets.left;
+            int y = tabAreaInsets.top;
+            int totalWidth = 0;
+            int totalHeight = 0;
 
-        @Override
-        public void calculateLayoutInfo() {
-            super.calculateLayoutInfo();
+            //
+            // Calculate bounds within which a tab run must fit
+            //
+            switch (tabPlacement) {
+                case LEFT:
+                case RIGHT:
+                    maxTabWidth = calculateMaxTabWidth(tabPlacement);
+                    break;
+                case BOTTOM:
+                case TOP:
+                default:
+                    maxTabHeight = calculateMaxTabHeight(tabPlacement);
+            }
 
-            Insets tabAreaInsets = getTabAreaInsets(tabPane.getTabPlacement());
-            int tabAreaWidth = tabPane.getWidth() - tabAreaInsets.left - tabAreaInsets.right;
-            int numTabs = tabPane.getTabCount();
-            int totalTabWidth = 0;
-            List<Component> componentsUsingDefaultTabWidth = new ArrayList<Component>();
+            runCount = 0;
+            selectedRun = -1;
 
-            for (Component component : fTabWidths.keySet()) {
-                int width = fTabWidths.get(component);
-                totalTabWidth += width;
-                if (width == fCurrentDefaultTabWidth) {
-                    componentsUsingDefaultTabWidth.add(component);
+            if (tabCount == 0) {
+                return;
+            }
+
+            selectedRun = 0;
+            runCount = 1;
+
+            // Run through tabs and lay them out in a single run
+            Rectangle rect;
+            for (i = 0; i < tabCount; i++) {
+                rect = rects[i];
+
+                if (!verticalTabRuns) {
+                    // Tabs on TOP or BOTTOM....
+                    if (i > 0) {
+                        rect.x = rects[i - 1].x + rects[i - 1].width;
+                    } else {
+                        tabRuns[0] = 0;
+                        maxTabWidth = 0;
+                        totalHeight += maxTabHeight;
+                        rect.x = x;
+                    }
+                    rect.width = calculateTabWidth(tabPlacement, i, metrics);
+                    totalWidth = rect.x + rect.width;
+                    maxTabWidth = Math.max(maxTabWidth, rect.width);
+
+                    rect.y = y;
+                    rect.height = maxTabHeight/* - 2*/;
+
+                } else {
+                    // Tabs on LEFT or RIGHT...
+                    if (i > 0) {
+                        rect.y = rects[i - 1].y + rects[i - 1].height;
+                    } else {
+                        tabRuns[0] = 0;
+                        maxTabHeight = 0;
+                        totalWidth = maxTabWidth;
+                        rect.y = y;
+                    }
+                    rect.height = calculateTabHeight(tabPlacement, i, fontHeight);
+                    totalHeight = rect.y + rect.height;
+                    maxTabHeight = Math.max(maxTabHeight, rect.height);
+
+                    rect.x = x;
+                    rect.width = maxTabWidth/* - 2*/;
+
                 }
             }
 
-            int extraSpace = tabAreaWidth - totalTabWidth;
-
-//            System.out.println("extraSpace " + extraSpace);
-            if ((extraSpace > 0 && fCurrentDefaultTabWidth < DEFAULT_TAB_WIDTH || extraSpace < 0) && componentsUsingDefaultTabWidth.size() > 0) {
-                int extraSpaceForTab = extraSpace / componentsUsingDefaultTabWidth.size();
-
-                fCurrentDefaultTabWidth += extraSpaceForTab - 2;
-                System.out.println("fCurrentDefaultTabWidth " + fCurrentDefaultTabWidth);
-                for (Component component : componentsUsingDefaultTabWidth) {
-                    fTabWidths.put(component, fCurrentDefaultTabWidth);
-//                    fTabWidths.put(component,  25);
-                }
+//            if (tabsOverlapBorder) {
+            if (true) {
+                // Pad the selected tab so that it appears raised in front
+//                padSelectedTab(tabPlacement, selectedIndex);
             }
+
+            // if right to left and tab placement on the top or
+            // the bottom, flip x positions and adjust by widths
+//            if (!leftToRight && !verticalTabRuns) {
+//                int rightMargin = size.width
+//                        - (insets.right + tabAreaInsets.right);
+//                for (i = 0; i < tabCount; i++) {
+//                    rects[i].x = rightMargin - rects[i].x - rects[i].width;
+//                }
+//            }
+            //tabPanel.setSize(totalWidth, totalHeight);
+//            tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth, totalHeight));
         }
     }
 
