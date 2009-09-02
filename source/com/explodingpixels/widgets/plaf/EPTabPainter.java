@@ -1,5 +1,3 @@
-/* Copyright 2009 The MathWorks, Inc. */
-
 package com.explodingpixels.widgets.plaf;
 
 import javax.swing.*;
