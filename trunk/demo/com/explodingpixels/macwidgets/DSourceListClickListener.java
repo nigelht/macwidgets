@@ -1,5 +1,3 @@
-/* Copyright 2008 The MathWorks, Inc. */
-
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
@@ -35,9 +33,49 @@ public class DSourceListClickListener {
                 SourceList sourceList = DSourceListMail.createSourceList();
                 sourceList.addSourceListClickListener(clickListener);
 
+//                JTree sourceList = new JTree(new String[]{
+//                        "Node One", "Node Two", "Node Three", "Node Four",
+//                        "Node Five"});
+//                sourceList.setUI(new BasicTreeUI() {
+//                    protected MouseListener createMouseListener() {
+//                        return new MouseListener() {
+//
+//                            public void mouseClicked(MouseEvent e) {
+//                                System.out.println("Node clicked.");
+//                            }
+//
+//                            public void mousePressed(MouseEvent e) {
+//                                System.out.println("Node pressed.");
+//                            }
+//
+//                            public void mouseReleased(MouseEvent e) {
+//                            }
+//
+//                            public void mouseEntered(MouseEvent e) {
+//                            }
+//
+//                            public void mouseExited(MouseEvent e) {
+//                            }
+//                        };
+//                    }
+//                });
+//
+//                sourceList.addMouseListener(new MouseAdapter() {
+//                    public void mouseClicked(MouseEvent e) {
+//                        System.out.println("Node clicked.");
+//                    }
+//
+//                    public void mousePressed(MouseEvent e) {
+//                        System.out.println("Node pressed.");
+//                    }
+//                });
+
+//                JScrollPane scrollPane = new JScrollPane(sourceList);
+
                 JFrame frame = new JFrame();
                 WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
                 frame.add(sourceList.getComponent(), BorderLayout.CENTER);
+//                frame.add(scrollPane, BorderLayout.CENTER);
                 frame.setSize(225, 250);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
