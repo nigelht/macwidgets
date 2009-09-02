@@ -1,8 +1,6 @@
-/* Copyright 2009 The MathWorks, Inc. */
-
 package com.explodingpixels.widgets;
 
-import java.awt.Component;
+import java.awt.*;
 
 public interface TabCloseListener {
 
