@@ -3,34 +3,10 @@ package com.explodingpixels.widgets.plaf;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.widgets.TabCloseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Paint;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -51,7 +27,8 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     private int fMousePressedCloseButtonTabIndex = NO_TAB;
     private TabCloseListener fTabCloseListener;
     private Timer fTabCloseTimer = new Timer(10, null);
-    private Map<Component, Integer> fTabWidths = new HashMap<Component, Integer>();
+    //    private Map<Component, Integer> fTabWidths = new HashMap<Component, Integer>();
+    private CustomLayoutManager fLayoutManager = new CustomLayoutManager();
 
     private static final Insets FULL_CONTENT_BORDER_INSETS = new Insets(6, 0, 0, 0);
     private static final Insets HAIRLINE_BORDER_INSETS = new Insets(2, 0, 0, 0);
@@ -151,12 +128,13 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         return new ContainerListener() {
             public void componentAdded(ContainerEvent e) {
                 Component componentAdded = e.getChild();
-                fTabWidths.put(componentAdded, SMALLEST_TAB_WIDTH_BEFORE_CLOSING);
+//                fTabWidths.put(componentAdded, SMALLEST_TAB_WIDTH_BEFORE_CLOSING);
+                fLayoutManager.forceTabWidth(componentAdded, SMALLEST_TAB_WIDTH_BEFORE_CLOSING);
                 animateTabBeingAdded(componentAdded);
             }
 
             public void componentRemoved(ContainerEvent e) {
-                fTabWidths.remove(e.getChild());
+//                fTabWidths.remove(e.getChild());
             }
         };
     }
@@ -193,7 +171,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 
     @Override
     protected LayoutManager createLayoutManager() {
-        return new CustomLayoutManager();
+        return fLayoutManager;
     }
 
     @Override
@@ -283,11 +261,11 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         return 0;
     }
 
-    @Override
-    protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
-        Component tabComponent = tabPane.getComponent(tabIndex);
-        return fTabWidths.get(tabComponent);
-    }
+//    @Override
+//    protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
+//        Component tabComponent = tabPane.getComponent(tabIndex);
+//        return fTabWidths.get(tabComponent);
+//    }
 
     // Public API methods. ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -342,11 +320,12 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     private ActionListener createTabAddedAnimation(final Component tabComponentAdded) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int currentTabWidth = fTabWidths.get(tabComponentAdded);
+//                int currentTabWidth = fTabWidths.get(tabComponentAdded);
+                int currentTabWidth = fLayoutManager.getTabWidth(tabComponentAdded);
                 int newTabWidth = Math.min(currentTabWidth + TAB_ANIMATION_DELTA, fCurrentDefaultTabWidth);
-                fTabWidths.put(tabComponentAdded, newTabWidth);
+                fLayoutManager.forceTabWidth(tabComponentAdded, newTabWidth);
                 if (newTabWidth == fCurrentDefaultTabWidth) {
-                    animationFinished(this);
+                    animationFinished(this, tabComponentAdded);
                 }
                 tabPane.doLayout();
                 tabPane.repaint();
@@ -357,11 +336,11 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     private ActionListener createTabRemovedAnimation(final Component tabComponentToClose) {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int currentTabWidth = fTabWidths.get(tabComponentToClose);
+                int currentTabWidth = fLayoutManager.getTabWidth(tabComponentToClose);
                 int newTabWidth = Math.max(currentTabWidth - TAB_ANIMATION_DELTA, SMALLEST_TAB_WIDTH_BEFORE_CLOSING);
-                fTabWidths.put(tabComponentToClose, newTabWidth);
+                fLayoutManager.forceTabWidth(tabComponentToClose, newTabWidth);
                 if (newTabWidth == SMALLEST_TAB_WIDTH_BEFORE_CLOSING) {
-                    animationFinished(this);
+                    animationFinished(this, tabComponentToClose);
                     int tabIndex = tabPane.indexOfComponent(tabComponentToClose);
                     closeTab(tabIndex);
                 }
@@ -371,8 +350,9 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         };
     }
 
-    private void animationFinished(ActionListener actionListenerToRemove) {
+    private void animationFinished(ActionListener actionListenerToRemove, Component tabComponent) {
         fTabCloseTimer.removeActionListener(actionListenerToRemove);
+        fLayoutManager.useDefaultTabWidth(tabComponent);
         if (fTabCloseTimer.getActionListeners().length == 0) {
             fTabCloseTimer.stop();
         }
@@ -381,6 +361,21 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     // CustomLayoutManager implementation. ////////////////////////////////////////////////////////
 
     private class CustomLayoutManager extends TabbedPaneLayout {
+
+        private Map<Component, Integer> fTabsBeingAnimatedToWidths = new HashMap<Component, Integer>();
+
+        private void forceTabWidth(Component tabComponent, int width) {
+            fTabsBeingAnimatedToWidths.put(tabComponent, width);
+        }
+
+        private void useDefaultTabWidth(Component tabComponent) {
+            fTabsBeingAnimatedToWidths.remove(tabComponent);
+        }
+
+        private int getTabWidth(Component tabComponent) {
+            Integer forcedTabWidth = fTabsBeingAnimatedToWidths.get(tabComponent);
+            return forcedTabWidth == null ? fCurrentDefaultTabWidth : forcedTabWidth;
+        }
 
 //        @Override
 //        public void calculateLayoutInfo() {
@@ -415,104 +410,70 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
 //            }
 
         protected void calculateTabRects(int tabPlacement, int tabCount) {
-            FontMetrics metrics = getFontMetrics();
-            Dimension size = tabPane.getSize();
-            Insets insets = tabPane.getInsets();
             Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-            int fontHeight = metrics.getHeight();
-            int selectedIndex = tabPane.getSelectedIndex();
-            int i, j;
-            boolean verticalTabRuns = (tabPlacement == LEFT || tabPlacement == RIGHT);
-//            boolean leftToRight = BasicGraphicsUtils.isLeftToRight(tabPane);
-            boolean leftToRight = true;
-            int x = tabAreaInsets.left;
+            int currentX = tabAreaInsets.left;
             int y = tabAreaInsets.top;
-            int totalWidth = 0;
-            int totalHeight = 0;
+            int tabAreaWidth = tabPane.getWidth() - tabAreaInsets.left - tabAreaInsets.right;
 
-            //
-            // Calculate bounds within which a tab run must fit
-            //
-            switch (tabPlacement) {
-                case LEFT:
-                case RIGHT:
-                    maxTabWidth = calculateMaxTabWidth(tabPlacement);
-                    break;
-                case BOTTOM:
-                case TOP:
-                default:
-                    maxTabHeight = calculateMaxTabHeight(tabPlacement);
+            int requiredWidth = calculateRequiredWidth();
+            int extraSpace = requiredWidth - tabAreaWidth;
+            int numDefaultWidthTabs = getNumDefaultWidthTabs();
+            // TODO add checking about minimum tab width.
+            if (numDefaultWidthTabs > 0) {
+                int extraSpacePerTab = extraSpace / numDefaultWidthTabs;
+                int newDefaultTabWidth = fCurrentDefaultTabWidth - extraSpacePerTab;
+                fCurrentDefaultTabWidth = Math.min(newDefaultTabWidth, DEFAULT_TAB_WIDTH);
             }
 
-            runCount = 0;
-            selectedRun = -1;
+            maxTabWidth = 0;
+            maxTabHeight = calculateMaxTabHeight(tabPlacement);
 
-            if (tabCount == 0) {
-                return;
-            }
-
-            selectedRun = 0;
+            // inidicate that there is one "run" of tabs. this value is used during the actual
+            // laying out of the container and must be set here.
             runCount = 1;
 
-            // Run through tabs and lay them out in a single run
-            Rectangle rect;
-            for (i = 0; i < tabCount; i++) {
-                rect = rects[i];
+            // iterate through tabs and lay them out in a single row (run).
+            for (int i = 0; i < tabCount; i++) {
+                Rectangle rect = rects[i];
 
-                if (!verticalTabRuns) {
-                    // Tabs on TOP or BOTTOM....
-                    if (i > 0) {
-                        rect.x = rects[i - 1].x + rects[i - 1].width;
-                    } else {
-                        tabRuns[0] = 0;
-                        maxTabWidth = 0;
-                        totalHeight += maxTabHeight;
-                        rect.x = x;
-                    }
-                    rect.width = calculateTabWidth(tabPlacement, i, metrics);
-                    totalWidth = rect.x + rect.width;
-                    maxTabWidth = Math.max(maxTabWidth, rect.width);
+                rect.width = isTabBeingAnimated(i) ? getForcedTabWidth(i) : fCurrentDefaultTabWidth;
+                maxTabWidth = Math.max(maxTabWidth, rect.width);
 
-                    rect.y = y;
-                    rect.height = maxTabHeight/* - 2*/;
+                rect.x = currentX;
+                // move the currentX variable over to the right edge of this tab, which is the
+                // beginning of the next tab.
+                currentX += rect.width;
 
-                } else {
-                    // Tabs on LEFT or RIGHT...
-                    if (i > 0) {
-                        rect.y = rects[i - 1].y + rects[i - 1].height;
-                    } else {
-                        tabRuns[0] = 0;
-                        maxTabHeight = 0;
-                        totalWidth = maxTabWidth;
-                        rect.y = y;
-                    }
-                    rect.height = calculateTabHeight(tabPlacement, i, fontHeight);
-                    totalHeight = rect.y + rect.height;
-                    maxTabHeight = Math.max(maxTabHeight, rect.height);
-
-                    rect.x = x;
-                    rect.width = maxTabWidth/* - 2*/;
-
-                }
+                rect.y = y;
+                rect.height = maxTabHeight;
             }
+        }
 
-//            if (tabsOverlapBorder) {
-            if (true) {
-                // Pad the selected tab so that it appears raised in front
-//                padSelectedTab(tabPlacement, selectedIndex);
+        private boolean isTabBeingAnimated(int tabIndex) {
+            Component tabComponent = tabPane.getComponentAt(tabIndex);
+            return fTabsBeingAnimatedToWidths.get(tabComponent) != null;
+        }
+
+        private int getForcedTabWidth(int tabIndex) {
+            Component tabComponent = tabPane.getComponentAt(tabIndex);
+            return fTabsBeingAnimatedToWidths.get(tabComponent);
+        }
+
+        private int getNumDefaultWidthTabs() {
+            return tabPane.getTabCount() - fTabsBeingAnimatedToWidths.size();
+        }
+
+        private int sumOfForcedTabWidths() {
+            int sum = 0;
+            for (int width : fTabsBeingAnimatedToWidths.values()) {
+                sum += width;
             }
+            return sum;
+        }
 
-            // if right to left and tab placement on the top or
-            // the bottom, flip x positions and adjust by widths
-//            if (!leftToRight && !verticalTabRuns) {
-//                int rightMargin = size.width
-//                        - (insets.right + tabAreaInsets.right);
-//                for (i = 0; i < tabCount; i++) {
-//                    rects[i].x = rightMargin - rects[i].x - rects[i].width;
-//                }
-//            }
-            //tabPanel.setSize(totalWidth, totalHeight);
-//            tabScroller.tabPanel.setPreferredSize(new Dimension(totalWidth, totalHeight));
+        private int calculateRequiredWidth() {
+            int totalDefaultWidthTabsWidth = getNumDefaultWidthTabs() * fCurrentDefaultTabWidth;
+            return totalDefaultWidthTabsWidth + sumOfForcedTabWidths();
         }
     }
 

@@ -2,17 +2,9 @@
 
 package com.explodingpixels.widgets.plaf;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 public class EPTabPainter {
@@ -58,7 +50,7 @@ public class EPTabPainter {
 
         int widthRequiredForCloseButton =
                 fCloseButtonLocation.calculateWidthRequiredForCloseButton(closeButtonWidth);
-        boolean tooWide = textWidth > tabBounds.width - widthRequiredForCloseButton;
+        boolean tooWide = textWidth > tabBounds.width - widthRequiredForCloseButton - CONTENT_DISTANCE_FROM_EDGE;
 
         Rectangle adjustedTabRect = new Rectangle();
         adjustedTabRect.x = tooWide
@@ -76,9 +68,10 @@ public class EPTabPainter {
                 SwingUtilities.CENTER, SwingUtilities.CENTER, SwingUtilities.CENTER, SwingUtilities.TRAILING,
                 adjustedTabRect, ICON_BOUNDS, TEXT_BOUNDS, 4);
 
-        graphics.setColor(tabPane.getForeground());
+        int textX = fCloseButtonLocation.adjustXToPreventEncroachment(tabBounds, closeButtonWidth, TEXT_BOUNDS);
         int textY = TEXT_BOUNDS.y + fontMetrics.getAscent();
-        BasicGraphicsUtils.drawString(graphics, clippedText, -1, TEXT_BOUNDS.x, textY);
+        graphics.setColor(tabPane.getForeground());
+        BasicGraphicsUtils.drawString(graphics, clippedText, -1, textX, textY);
     }
 
     private void paintTabBackgroundAndBorder(Graphics2D graphics, Rectangle tabBounds, boolean isSelected) {
@@ -152,6 +145,11 @@ public class EPTabPainter {
             int calculateContentX(Rectangle tabBounds, int closeButtonWidth) {
                 return tabBounds.x + calculateWidthRequiredForCloseButton(closeButtonWidth);
             }
+            int adjustXToPreventEncroachment(Rectangle tabBounds, int closeButtonWidth, Rectangle contentBounds) {
+                int closeButtonX = calculateCloseButtonX(tabBounds, closeButtonWidth);
+                int closeButtonXWithPad = closeButtonX + closeButtonWidth + CLOSE_BUTTON_DISTANCE_FROM_CONTENT;
+                return Math.max(closeButtonXWithPad, contentBounds.x);
+            }
         },
         RIGHT {
             int calculateCloseButtonX(Rectangle tabBounds, int closeButtonWidth) {
@@ -160,11 +158,19 @@ public class EPTabPainter {
             int calculateContentX(Rectangle tabBounds, int closeButtonWidth) {
                 return tabBounds.x + CONTENT_DISTANCE_FROM_EDGE;
             }
+            int adjustXToPreventEncroachment(Rectangle tabBounds, int closeButtonWidth, Rectangle contentBounds) {
+                int closeButtonX = calculateCloseButtonX(tabBounds, closeButtonWidth);
+                int closeButtonXWithPad = closeButtonX - CLOSE_BUTTON_DISTANCE_FROM_CONTENT;
+                int shiftAmount = (contentBounds.x + contentBounds.width) - closeButtonXWithPad;
+                return shiftAmount > 0 ? contentBounds.x - shiftAmount : contentBounds.x;
+            }
         };
 
         abstract int calculateCloseButtonX(Rectangle tabBounds, int closeButtonWidth);
 
         abstract int calculateContentX(Rectangle tabBounds, int closeButtonWidth);
+
+        abstract int adjustXToPreventEncroachment(Rectangle tabBounds, int closeButtonWidth, Rectangle contentBounds);
 
         private int calculateCloseButtonY(Rectangle tabBounds, int closeButtonHeight) {
             return tabBounds.y + tabBounds.height / 2 - closeButtonHeight / 2;
@@ -172,11 +178,6 @@ public class EPTabPainter {
 
         int calculateWidthRequiredForCloseButton(int closeButtonWidth) {
             return closeButtonWidth + CLOSE_BUTTON_DISTANCE_FROM_EDGE + CLOSE_BUTTON_DISTANCE_FROM_CONTENT;
-        }
-
-        private int calculateContentWidthAvailable(Rectangle tabBounds, Icon closeButtonIcon) {
-            return tabBounds.width - closeButtonIcon.getIconWidth() - CLOSE_BUTTON_DISTANCE_FROM_EDGE
-                    - CLOSE_BUTTON_DISTANCE_FROM_CONTENT - CONTENT_DISTANCE_FROM_EDGE;
         }
 
     }
