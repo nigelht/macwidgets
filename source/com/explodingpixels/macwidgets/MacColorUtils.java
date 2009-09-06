@@ -4,6 +4,9 @@ import com.explodingpixels.util.PlatformUtils;
 
 import java.awt.Color;
 
+/**
+ * Utility methods for dealing with Mac colors.
+ */
 public class MacColorUtils {
 
     public static Color EMPTY_COLOR = new Color(0, 0, 0, 0);
@@ -19,12 +22,24 @@ public class MacColorUtils {
     private static final Color TEXTURED_WINDOW_FOCUSED_BORDER_COLOR = new Color(0x515151);
     private static final Color TEXTURED_WINDOW_UNFOCUSED_BORDER_COLOR = new Color(0x969696);
 
+    /**
+     * Gets the color used to separate a {@link UnifiedToolBar} from the window content when the
+     * window is active.
+     *
+     * @return the border color when the window is active.
+     */
     public static Color getTexturedWindowToolbarBorderFocusedColor() {
         return PlatformUtils.isLeopard()
                 ? LEOPARD_TEXTURED_WINDOW_FOCUSED_BORDER_COLOR
                 : TEXTURED_WINDOW_FOCUSED_BORDER_COLOR;
     }
 
+    /**
+     * Gets the color used to separate a {@link UnifiedToolBar} from the window content when the
+     * window is inactive.
+     *
+     * @return the border color when the window is inactive.
+     */
     public static Color getTexturedWindowToolbarBorderUnfocusedColor() {
         return PlatformUtils.isLeopard()
                 ? LEOPARD_TEXTURED_WINDOW_UNFOCUSED_BORDER_COLOR
