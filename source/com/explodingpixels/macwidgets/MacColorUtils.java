@@ -1,5 +1,7 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.util.PlatformUtils;
+
 import java.awt.Color;
 
 public class MacColorUtils {
@@ -12,20 +14,20 @@ public class MacColorUtils {
 
     // OS X unified toolbar colors. ///////////////////////////////////////////////////////////////
 
-    public static final Color OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR = new Color(64, 64, 64);
+    private static final Color LEOPARD_TEXTURED_WINDOW_FOCUSED_BORDER_COLOR = new Color(64, 64, 64);
+    private static final Color LEOPARD_TEXTURED_WINDOW_UNFOCUSED_BORDER_COLOR = new Color(135, 135, 135);
+    private static final Color TEXTURED_WINDOW_FOCUSED_BORDER_COLOR = new Color(0x515151);
+    private static final Color TEXTURED_WINDOW_UNFOCUSED_BORDER_COLOR = new Color(0x969696);
 
-    public static final Color OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR = new Color(135, 135, 135);
+    public static Color getTexturedWindowToolbarBorderFocusedColor() {
+        return PlatformUtils.isLeopard()
+                ? LEOPARD_TEXTURED_WINDOW_FOCUSED_BORDER_COLOR
+                : TEXTURED_WINDOW_FOCUSED_BORDER_COLOR;
+    }
 
-    // OS X bottom bar colors. ////////////////////////////////////////////////////////////////////
-
-    public static final Color OS_X_BOTTOM_BAR_ACTIVE_TOP_COLOR = new Color(0xbbbbbb);
-
-    public static final Color OS_X_BOTTOM_BAR_ACTIVE_BOTTOM_COLOR = new Color(0x969696);
-
-    public static final Color OS_X_BOTTOM_BAR_INACTIVE_TOP_COLOR = new Color(0xe3e3e3);
-
-    public static final Color OS_X_BOTTOM_BAR_INACTIVE_BOTTOM_COLOR = new Color(0xcfcfcf);
-
-    public static final Color OS_X_BOTTOM_BAR_BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 110);
-
+    public static Color getTexturedWindowToolbarBorderUnfocusedColor() {
+        return PlatformUtils.isLeopard()
+                ? LEOPARD_TEXTURED_WINDOW_UNFOCUSED_BORDER_COLOR
+                : TEXTURED_WINDOW_UNFOCUSED_BORDER_COLOR;
+    }
 }

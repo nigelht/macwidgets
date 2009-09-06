@@ -16,6 +16,15 @@ public class PlatformUtils {
     }
 
     /**
+     * Gets the operating system version that the JVM is running on.
+     *
+     * @return the operating system version that the JVM is running on.
+     */
+    public static String getOsVersion() {
+        return System.getProperty("os.version");
+    }
+
+    /**
      * True if this JVM is running on a Mac.
      *
      * @return true if this JVM is running on a Mac.
@@ -40,6 +49,15 @@ public class PlatformUtils {
      */
     public static boolean is64BitJavaOnMac() {
         return isMac() && System.getProperty("os.arch").equals("x86_64");
+    }
+
+    /**
+     * True if this JVM is running on Mac OS X 10.5, Leopard.
+     *
+     * @return true if this JVM is running on Mac OS X 10.5, Leopard.
+     */
+    public static boolean isLeopard() {
+        return isMac() && getOsVersion().startsWith("10.5");
     }
 
 }

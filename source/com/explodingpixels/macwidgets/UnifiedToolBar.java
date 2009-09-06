@@ -1,12 +1,12 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.border.FocusStateMatteBorder;
-import com.explodingpixels.util.PlatformUtils;
 import com.explodingpixels.widgets.WindowDragger;
 import com.jgoodies.forms.factories.Borders;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import java.awt.Window;
 
 /**
  * A Mac style Unified Tool Bar. For a full description of what a Unified Tool Bar is, see the
@@ -100,9 +100,8 @@ public class UnifiedToolBar {
      *                       necessary.
      */
     private static void fixUnifiedToolBarOnMacIfNeccessary(TriAreaComponent unifiedToolBar) {
-        // install the custom painter if on non-Mac platforms or on a Mac running Java 1.6
-        // (the version of Java with the textured window bug).
-        if (!PlatformUtils.isMac() || PlatformUtils.isJava6OnMac() || PlatformUtils.is64BitJavaOnMac()) {
+        // install the custom painter if on non-Mac platforms or in other various Mac cases.
+        if (MacUtils.shouldManuallyPaintTexturedWindowBackground()) {
             unifiedToolBar.setBackgroundPainter(MacPainterFactory.createTexturedWindowWorkaroundPainter());
         }
     }
@@ -110,8 +109,8 @@ public class UnifiedToolBar {
     static void installUnifiedToolBarBorder(final JComponent component) {
 
         FocusStateMatteBorder border = new FocusStateMatteBorder(0, 0, 1, 0,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
+                MacColorUtils.getTexturedWindowToolbarBorderFocusedColor(),
+                MacColorUtils.getTexturedWindowToolbarBorderUnfocusedColor(),
                 component);
 
         component.setBorder(BorderFactory.createCompoundBorder(

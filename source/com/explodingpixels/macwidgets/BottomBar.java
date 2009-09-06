@@ -4,11 +4,13 @@ import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.GradientPainter;
 import com.explodingpixels.painter.Painter;
+import com.explodingpixels.util.PlatformUtils;
 import com.explodingpixels.widgets.WindowDragger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -30,6 +32,18 @@ import java.awt.Window;
 public class BottomBar {
 
     private final TriAreaComponent fBottomBar = new TriAreaComponent(5);
+
+    private static final Color ACTIVE_TOP_COLOR = new Color(0xcccccc);
+    private static final Color ACTIVE_BOTTOM_COLOR = new Color(0xa7a7a7);
+    private static final Color INACTIVE_TOP_COLOR = new Color(0xe9e9e9);
+    private static final Color INACTIVE_BOTTOM_COLOR = new Color(0xd8d8d8);
+    private static final Color BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 100);
+
+    private static final Color LEOPARD_ACTIVE_TOP_COLOR = new Color(0xbbbbbb);
+    private static final Color LEOPARD_ACTIVE_BOTTOM_COLOR = new Color(0x969696);
+    private static final Color LEOPARD_INACTIVE_TOP_COLOR = new Color(0xe3e3e3);
+    private static final Color LEOPARD_INACTIVE_BOTTOM_COLOR = new Color(0xcfcfcf);
+    private static final Color LEOPARD_BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 110);
 
     /**
      * Creates a {@code BottomBar} of the given size.
@@ -137,26 +151,16 @@ public class BottomBar {
     // Private methods. ///////////////////////////////////////////////////////////////////////////
 
     private void createAndInstallBackgroundPainter() {
-        Painter<Component> focusedPainter =
-                new GradientPainter(
-                        MacColorUtils.OS_X_BOTTOM_BAR_ACTIVE_TOP_COLOR,
-                        MacColorUtils.OS_X_BOTTOM_BAR_ACTIVE_BOTTOM_COLOR);
-        Painter<Component> unfocusedPainter =
-                new GradientPainter(
-                        MacColorUtils.OS_X_BOTTOM_BAR_INACTIVE_TOP_COLOR,
-                        MacColorUtils.OS_X_BOTTOM_BAR_INACTIVE_BOTTOM_COLOR);
-        Painter<Component> painter = new FocusStatePainter(focusedPainter, focusedPainter,
-                unfocusedPainter);
-        fBottomBar.setBackgroundPainter(painter);
+        fBottomBar.setBackgroundPainter(PlatformUtils.isLeopard()
+                ? createLeopardPainter() : createDefaultPainter());
     }
 
     private void createAndInstallBorder() {
         FocusStateMatteBorder outterBorder = new FocusStateMatteBorder(1, 0, 0, 0,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_FOCUSED_BOTTOM_COLOR,
-                MacColorUtils.OS_X_UNIFIED_TOOLBAR_UNFOCUSED_BORDER_COLOR,
+                MacColorUtils.getTexturedWindowToolbarBorderFocusedColor(),
+                MacColorUtils.getTexturedWindowToolbarBorderUnfocusedColor(),
                 fBottomBar.getComponent());
-        Border innerBorder = BorderFactory.createMatteBorder(1, 0, 0, 0,
-                MacColorUtils.OS_X_BOTTOM_BAR_BORDER_HIGHLIGHT_COLOR);
+        Border innerBorder = BorderFactory.createMatteBorder(1, 0, 0, 0, getBorderHighlightColor());
         Border lineBorders = BorderFactory.createCompoundBorder(outterBorder, innerBorder);
 
         // TODO determine if there is a good standard for this. there doesn't seem to be any
@@ -166,6 +170,26 @@ public class BottomBar {
         fBottomBar.getComponent().setBorder(
                 BorderFactory.createCompoundBorder(lineBorders,
                         BorderFactory.createEmptyBorder(0, padding, 0, padding)));
+    }
+
+    private static Painter<Component> createDefaultPainter() {
+        Painter<Component> focusedPainter = new GradientPainter(
+                ACTIVE_TOP_COLOR, ACTIVE_BOTTOM_COLOR);
+        Painter<Component> unfocusedPainter = new GradientPainter(
+                INACTIVE_TOP_COLOR, INACTIVE_BOTTOM_COLOR);
+        return new FocusStatePainter(focusedPainter, focusedPainter, unfocusedPainter);
+    }
+
+    private static Painter<Component> createLeopardPainter() {
+        Painter<Component> focusedPainter = new GradientPainter(
+                LEOPARD_ACTIVE_TOP_COLOR, LEOPARD_ACTIVE_BOTTOM_COLOR);
+        Painter<Component> unfocusedPainter = new GradientPainter(
+                LEOPARD_INACTIVE_TOP_COLOR, LEOPARD_INACTIVE_BOTTOM_COLOR);
+        return new FocusStatePainter(focusedPainter, focusedPainter, unfocusedPainter);
+    }
+
+    private static Color getBorderHighlightColor() {
+        return PlatformUtils.isLeopard() ? LEOPARD_BORDER_HIGHLIGHT_COLOR : BORDER_HIGHLIGHT_COLOR;
     }
 
 }
