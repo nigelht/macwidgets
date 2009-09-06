@@ -123,6 +123,17 @@ public class HudWidgetFactory {
         return radioButton;
     }
 
+    /**
+     * Creates a Heads Up Display (HUD) style slider, similar to that seen in various iApps
+     * (e.g. iPhoto).
+     * <br/><br/>
+     * <img src="../../../../../graphics/HUDSliderUI-round.png">
+     * <br/>
+     * <img src="../../../../../graphics/HUDSliderUI-pointy.png">
+     *
+     * @return the HUD style slider.
+     * @see HudSliderUI
+     */
     public static JSlider createHudSlider() {
         JSlider slider = new JSlider();
         slider.setUI(new HudSliderUI(slider));
