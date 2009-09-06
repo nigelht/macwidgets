@@ -1,5 +1,8 @@
 package com.explodingpixels.util;
 
+/**
+ * Utility methods for dealing with the platform (e.g. Mac or Windows).
+ */
 public class PlatformUtils {
 
     private PlatformUtils() {
