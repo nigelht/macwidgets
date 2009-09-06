@@ -15,6 +15,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
+/**
+ * Creates a Heads Up Display (HUD) style slider, similar to that seen in various iApps
+ * (e.g. iPhoto).
+ * <br>
+ * <img src="../../../../../graphics/HUDSliderUI-round.png">
+ * <br/>
+ * <img src="../../../../../graphics/HUDSliderUI-pointy.png">
+ */
 public class HudSliderUI extends BasicSliderUI {
 
     private static final int SLIDER_KNOB_WIDTH = 11;
