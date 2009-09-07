@@ -6,6 +6,7 @@ import com.explodingpixels.painter.GradientPainter;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.util.PlatformUtils;
 import com.explodingpixels.widgets.WindowDragger;
+import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -62,6 +63,10 @@ public class BottomBar {
         // the height of the line border.
         int height = size.getHeight() + 2;
         fBottomBar.getComponent().setPreferredSize(new Dimension(-1, height));
+
+        // install a listener that will repaint this component when the parent window's focus state
+        // changes.
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(fBottomBar.getComponent());
     }
 
     /**
