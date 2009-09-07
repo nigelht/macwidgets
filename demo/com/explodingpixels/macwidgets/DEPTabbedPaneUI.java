@@ -53,31 +53,10 @@ public class DEPTabbedPaneUI {
                 JScrollPane scrollPane = new JScrollPane(textArea);
                 scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-//                IAppWidgetFactory.setIAppScrollBarButtonsSeparate(true);
-//                JScrollPane scrollPane = IAppWidgetFactory.createScrollPane(textArea);
-
                 final JTabbedPane tabbedPane = new JTabbedPane();
-//                tabbedPane.setBorder(BorderFactory.createEmptyBorder(-10, 0, 0, 0));
                 tabbedPane.setUI(new EPTabbedPaneUI());
                 tabbedPane.addTab("Tab One", textArea);
-                tabbedPane.addTab("Tab Two Really long tab title", new JTextArea() {
-//                    @Override
-//                    protected void paintComponent(Graphics g) {
-//                        g.setColor(Color.WHITE);
-//                        g.fillRect(0,0,getWidth(),getHeight());
-//                        g.setColor(Color.RED);
-//                        GeneralPath path = new GeneralPath();
-//                        float k = 0.5522847498f;
-//                        path.moveTo(0, 0);
-////                        path.quadTo(0f, 100f, 100f, 100f);
-//                        path.curveTo(0f, 50f * (1-k), 50f * k, 100f, 100f, 100f);
-//                        path.curveTo(150f * (1-k), 100f, 200f, 50f * k, 200f, 0f);
-//                        path.closePath();
-//                        ((Graphics2D) g).draw(path);
-//                        g.setColor(Color.BLUE);
-//                        ((Graphics2D) g).draw(new Ellipse2D.Float(-0f,-100f,200f,200f));
-//                    }
-                });
+                tabbedPane.addTab("Tab Two Really long tab title", new JTextArea());
                 tabbedPane.addTab("Tab Three", new JTextArea());
                 tabbedPane.setOpaque(false);
 
@@ -92,14 +71,6 @@ public class DEPTabbedPaneUI {
                 tabbedPane.putClientProperty(EPTabbedPaneUI.TAB_CLOSE_LISTENER_KEY, closeListener);
 //                tabbedPane.putClientProperty(EPTabbedPaneUI.CLOSE_BUTTON_LOCATION_KEY, EPTabbedPaneUI.CLOSE_BUTTON_LOCATION_VALUE_RIGHT);
 
-//                JButton remove = new JButton("Remove Scrollpane");
-//                BottomBar bottomBar = new BottomBar(BottomBarSize.SMALL);
-//                bottomBar.addComponentToLeft(remove);
-
-//                TabbedComponent tabbedComponent = new TabbedComponent();
-//                tabbedComponent.addTab("Tab One", textArea);
-//                tabbedComponent.addTab("Tab Two", new JTextArea());
-
                 JButton addButton = new JButton(new ImageIcon(
                         DBottomBar.class.getResource("/com/explodingpixels/macwidgets/icons/AddItem10.png")));
                 addButton.putClientProperty("JButton.buttonType", "textured");
@@ -113,7 +84,6 @@ public class DEPTabbedPaneUI {
                 });
 
                 BottomBar bottomBar = new BottomBar(BottomBarSize.SMALL);
-//                bottomBar.addComponentToLeft(addButton);
 
                 JPanel panel = new JPanel(new BorderLayout());
                 panel.add(addButton, BorderLayout.CENTER);
@@ -123,11 +93,8 @@ public class DEPTabbedPaneUI {
 
                 final JFrame frame = new JFrame();
                 MacUtils.makeWindowLeopardStyle(frame.getRootPane());
-//                frame.add(toolbar.getComponent(), BorderLayout.NORTH);
                 frame.add(tabbedPane, BorderLayout.CENTER);
                 frame.add(bottomBar.getComponent(), BorderLayout.SOUTH);
-//                frame.add(tabbedComponent.getComponent(), BorderLayout.CENTER);
-//                frame.add(bottomBar.getComponent(), BorderLayout.SOUTH);
                 frame.setSize(400, 300);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
