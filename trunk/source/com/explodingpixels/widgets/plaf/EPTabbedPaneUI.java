@@ -48,7 +48,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     private int fCurrentDefaultTabWidth = DEFAULT_TAB_WIDTH;
     private int fMouseOverCloseButtonTabIndex = NO_TAB;
     private int fMousePressedCloseButtonTabIndex = NO_TAB;
-    private TabCloseListener fTabCloseListener;
+    private TabCloseListener fTabCloseListener = new DefaultTabCloseListener();
     private Timer fTabCloseTimer = new Timer(10, null);
     private CustomLayoutManager fLayoutManager = new CustomLayoutManager();
 
@@ -316,7 +316,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     }
 
     private void closeTabUsingAnimationIfValid(int tabIndex) {
-        if (isTabIndexValid(tabIndex) && fTabCloseListener != null && fTabCloseListener.tabAboutToBeClosed(tabIndex)) {
+        if (isTabIndexValid(tabIndex) && fTabCloseListener.tabAboutToBeClosed(tabIndex)) {
             Component tabComponentToClose = tabPane.getComponent(tabIndex);
             fTabCloseTimer.addActionListener(createTabRemovedAnimation(tabComponentToClose));
             fTabCloseTimer.start();
@@ -459,6 +459,19 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         private int calculateRequiredWidth() {
             int totalDefaultWidthTabsWidth = getNumDefaultWidthTabs() * fCurrentDefaultTabWidth;
             return totalDefaultWidthTabsWidth + sumOfForcedTabWidths();
+        }
+    }
+
+    // DefaultTabCloseListener implementation. ////////////////////////////////////////////////////
+
+    private static class DefaultTabCloseListener implements TabCloseListener {
+
+        public boolean tabAboutToBeClosed(int tabIndex) {
+            return true;
+        }
+
+        public void tabClosed(String title, Component component) {
+            // no implementation.
         }
     }
 
