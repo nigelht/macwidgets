@@ -1,6 +1,5 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.TabCloseListener;
 import com.explodingpixels.widgets.plaf.EPTabbedPaneUI;
 
 import javax.swing.BorderFactory;
@@ -13,7 +12,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -60,15 +58,15 @@ public class DEPTabbedPaneUI {
                 tabbedPane.addTab("Tab Three", new JTextArea());
                 tabbedPane.setOpaque(false);
 
-                TabCloseListener closeListener = new TabCloseListener() {
-                    public boolean tabAboutToBeClosed(int tabIndex) {
-                        return true;
-                    }
-
-                    public void tabClosed(String title, Component component) {
-                    }
-                };
-                tabbedPane.putClientProperty(EPTabbedPaneUI.TAB_CLOSE_LISTENER_KEY, closeListener);
+//                TabCloseListener closeListener = new TabCloseListener() {
+//                    public boolean tabAboutToBeClosed(int tabIndex) {
+//                        return true;
+//                    }
+//
+//                    public void tabClosed(String title, Component component) {
+//                    }
+//                };
+//                tabbedPane.putClientProperty(EPTabbedPaneUI.TAB_CLOSE_LISTENER_KEY, closeListener);
 //                tabbedPane.putClientProperty(EPTabbedPaneUI.CLOSE_BUTTON_LOCATION_KEY, EPTabbedPaneUI.CLOSE_BUTTON_LOCATION_VALUE_RIGHT);
 
                 JButton addButton = new JButton(new ImageIcon(
