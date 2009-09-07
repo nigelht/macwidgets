@@ -2,10 +2,8 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.data.Rating;
 
-import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.Color;
 import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,8 +40,6 @@ public class ITunesRatingTableCellRenderer extends DefaultTableCellRenderer {
         renderer.setSelected(table.isRowSelected(row));
 
         renderer.getComponent().setBackground(getBackground());
-
-        renderer.getComponent().setBorder(BorderFactory.createLineBorder(Color.RED));
 
         return renderer.getComponent();
     }
