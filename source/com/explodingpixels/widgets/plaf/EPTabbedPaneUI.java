@@ -3,33 +3,10 @@ package com.explodingpixels.widgets.plaf;
 import com.explodingpixels.painter.Painter;
 import com.explodingpixels.widgets.TabCloseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Paint;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -59,6 +36,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     private static final int NO_TAB = -1;
     private static final int SMALLEST_TAB_WIDTH = 35;
     private static final int TAB_ANIMATION_DELTA = 7;
+    private static final int OVERFLOW_BUTTON_AREA_WIDTH = 25;
 
     @Override
     protected void installDefaults() {
@@ -400,12 +378,17 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
             int tabAreaWidth = tabPane.getWidth() - tabAreaInsets.left - tabAreaInsets.right;
 
             int requiredWidth = calculateRequiredWidth();
-            int extraSpace = requiredWidth - tabAreaWidth;
+            boolean notEnoughRoom = requiredWidth > tabAreaWidth;
+            int extraSpace = tabAreaWidth - requiredWidth;
+//            int extraSpace = notEnoughRoom
+//                    ? tabAreaWidth - requiredWidth - OVERFLOW_BUTTON_AREA_WIDTH
+//                    : tabAreaWidth - requiredWidth;
             int numDefaultWidthTabs = getNumDefaultWidthTabs();
 
+            System.out.println("tabbed pane width " + tabAreaWidth + ", extra space " + extraSpace);
             if (numDefaultWidthTabs > 0) {
                 int extraSpacePerTab = extraSpace / numDefaultWidthTabs;
-                int newDefaultTabWidth = fCurrentDefaultTabWidth - extraSpacePerTab;
+                int newDefaultTabWidth = fCurrentDefaultTabWidth + extraSpacePerTab;
                 fCurrentDefaultTabWidth = Math.min(newDefaultTabWidth, DEFAULT_TAB_WIDTH);
                 fCurrentDefaultTabWidth = Math.max(SMALLEST_TAB_WIDTH, fCurrentDefaultTabWidth);
             }
@@ -460,6 +443,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
             int totalDefaultWidthTabsWidth = getNumDefaultWidthTabs() * fCurrentDefaultTabWidth;
             return totalDefaultWidthTabsWidth + sumOfForcedTabWidths();
         }
+
     }
 
     // DefaultTabCloseListener implementation. ////////////////////////////////////////////////////
