@@ -2,6 +2,7 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.widgets.WindowDragger;
+import com.explodingpixels.widgets.WindowUtils;
 import com.jgoodies.forms.factories.Borders;
 
 import javax.swing.BorderFactory;
@@ -36,6 +37,7 @@ public class UnifiedToolBar {
         fixUnifiedToolBarOnMacIfNeccessary(fUnifiedToolBar);
         fUnifiedToolBar.getComponent().setBorder(Borders.createEmptyBorder("3dlu, 4dlu, 3dlu, 4dlu"));
         installUnifiedToolBarBorder(fUnifiedToolBar.getComponent());
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(fUnifiedToolBar.getComponent());
     }
 
     /**

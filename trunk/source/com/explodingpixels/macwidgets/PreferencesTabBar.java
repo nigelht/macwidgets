@@ -1,5 +1,7 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.widgets.WindowUtils;
+
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -24,6 +26,7 @@ public class PreferencesTabBar {
         fPreferencesTabBar.getComponent().setBorder(b);
         UnifiedToolBar.installUnifiedToolBarBorder(fPreferencesTabBar.getComponent());
         fixUnifiedToolBarOnMacIfNeccessary(fPreferencesTabBar);
+        WindowUtils.installJComponentRepainterOnWindowFocusChanged(fPreferencesTabBar.getComponent());
     }
 
     public void addTab(String title, Icon icon, ActionListener listener) {

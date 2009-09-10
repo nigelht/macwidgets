@@ -1,7 +1,5 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.WindowUtils;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -35,7 +33,6 @@ public class DPreferencesTabBar {
                 JFrame frame = new JFrame("A Java Preferences Window");
                 tabBar.installWindowDraggerOnWindow(frame);
                 MacUtils.makeWindowLeopardStyle(frame.getRootPane());
-                WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
 
                 frame.add(tabBar.getComponent(), BorderLayout.NORTH);
                 frame.add(new JTextArea(), BorderLayout.CENTER);

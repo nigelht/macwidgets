@@ -1,7 +1,5 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.WindowUtils;
-
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
@@ -69,7 +67,6 @@ public class DUnifiedToolbar {
         JFrame frame = new JFrame();
         toolBar.installWindowDraggerOnWindow(frame);
         MacUtils.makeWindowLeopardStyle(frame.getRootPane());
-        WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
         frame.add(toolBar.getComponent(), BorderLayout.NORTH);
         frame.add(textArea, BorderLayout.CENTER);
         frame.setSize(500, 350);
