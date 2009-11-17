@@ -1,11 +1,11 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
+import sun.swing.SwingUtilities2;
+
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
+import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style button, similar to that seen in various iApps (e.g.
@@ -55,6 +55,7 @@ public class HudButtonUI extends BasicButtonUI {
 
         AbstractButton button = (AbstractButton) c;
         Graphics2D graphics = (Graphics2D) g.create();
+        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary(graphics, button);
 
         int buttonHeight = button.getHeight() - HudPaintingUtils.getHudControlShadowSize(button);
         HudPaintingUtils.paintHudControlBackground(graphics, button, button.getWidth(),
@@ -63,6 +64,21 @@ public class HudButtonUI extends BasicButtonUI {
         graphics.dispose();
 
         super.paint(g, c);
+    }
+
+    @Override
+    protected void paintText(Graphics g, AbstractButton button, Rectangle textRect, String text) {
+        FontMetrics fontMetrics = SwingUtilities2.getFontMetrics(button, g);
+        int mnemonicIndex = button.getDisplayedMnemonicIndex();
+
+        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, button);
+
+//        g.setColor(button.isEnabled()
+//                ? button.getForeground() : HudPaintingUtils.FONT_DISABLED_COLOR);
+        g.setColor(button.getForeground());
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex,
+                textRect.x + getTextShiftOffset(),
+                textRect.y + fontMetrics.getAscent() + getTextShiftOffset());
     }
 
 }
