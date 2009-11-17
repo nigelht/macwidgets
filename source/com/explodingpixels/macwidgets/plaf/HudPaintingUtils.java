@@ -1,16 +1,7 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 /**
@@ -27,6 +18,7 @@ public class HudPaintingUtils {
 
     public static final float FONT_SIZE = 11.0f;
     public static final Color FONT_COLOR = Color.WHITE;
+    public static final Color FONT_DISABLED_COLOR = new Color(0xaaaaaa);
 
     public static final Color PRESSED_MARK_COLOR = new Color(0, 0, 0, 225);
 
@@ -49,7 +41,7 @@ public class HudPaintingUtils {
      * Initializes the given {@link JComponent} as a HUD style widget. This includes setting the
      * font, foreground and opacity of the given component.
      *
-     * @param component
+     * @param component the component to initialize as a HUD component.
      */
     public static void initHudComponent(JComponent component) {
         component.setFont(HudPaintingUtils.getHudFont());
@@ -136,6 +128,20 @@ public class HudPaintingUtils {
         Color bottomColor = isPressed ? BOTTOM_PRESSED_COLOR : BOTTOM_COLOR;
         int bottomY = button.getHeight() - lineBorderWidth * 2;
         return new GradientPaint(0, lineBorderWidth, topColor, 0, bottomY, bottomColor);
+    }
+
+    /**
+     * Installs an {@link AlphaComposite} on the given {@link Graphics2D) if the given
+     * {@link Component} is disabled.
+     *
+     * @param graphics  the {@code Graphics2D} to adjust.
+     * @param component the {@code Component} whos enablement state should be queried.
+     */
+    public static void updateGraphisToPaintDisabledControlIfNecessary(Graphics2D graphics,
+                                                                      Component component) {
+        if (!component.isEnabled()) {
+            graphics.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+        }
     }
 
     /**

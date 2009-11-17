@@ -3,17 +3,9 @@ package com.explodingpixels.macwidgets;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DHudControls {
 
@@ -28,8 +20,17 @@ public class DHudControls {
                 JCheckBox checkBox = HudWidgetFactory.createHudCheckBox("Check Box");
                 checkBox.setSelected(true);
 
-                JComboBox comboBox = HudWidgetFactory.createHudComboBox(
+                final JComboBox comboBox = HudWidgetFactory.createHudComboBox(
                         new DefaultComboBoxModel(new String[]{"Item One", "Item Two", "Item Three"}));
+//                        new DefaultComboBoxModel());
+
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        ((DefaultComboBoxModel) comboBox.getModel()).addElement("Item One");
+                    }
+                });
+                comboBox.setEnabled(false);
+
 
                 JTextField textField = HudWidgetFactory.createHudTextField("Text field");
                 textField.setColumns(8);
