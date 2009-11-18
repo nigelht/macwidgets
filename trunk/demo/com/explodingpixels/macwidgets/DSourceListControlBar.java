@@ -1,10 +1,9 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.PopupMenuCustomizer;
-import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 
 public class DSourceListControlBar {
 
@@ -14,6 +13,7 @@ public class DSourceListControlBar {
                 SourceList sourceList = DSourceListMail.createSourceList();
                 SourceListControlBar controlBar = new SourceListControlBar();
                 sourceList.installSourceListControlBar(controlBar);
+                controlBar.hideResizeHandle();
 
                 controlBar.createAndAddButton(MacIcons.PLUS, null);
                 controlBar.createAndAddButton(MacIcons.MINUS, null);
@@ -34,7 +34,6 @@ public class DSourceListControlBar {
                 controlBar.installDraggableWidgetOnSplitPane(splitPane);
 
                 JFrame frame = new JFrame();
-                WindowUtils.createAndInstallRepaintWindowFocusListener(frame);
 //                frame.add(splitPane, BorderLayout.CENTER);
                 frame.add(sourceList.getComponent(), BorderLayout.CENTER);
 //                frame.setSize(500,275);
