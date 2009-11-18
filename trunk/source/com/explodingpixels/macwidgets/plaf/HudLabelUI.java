@@ -1,7 +1,8 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicLabelUI;
+import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style label, similar to that seen in various iApps (e.g. iPhoto).
@@ -16,4 +17,14 @@ public class HudLabelUI extends BasicLabelUI {
         HudPaintingUtils.initHudComponent(c);
     }
 
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, c);
+        super.paint(g, c);
+    }
+
+    @Override
+    protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY) {
+        super.paintEnabledText(l, g, s, textX, textY);
+    }
 }

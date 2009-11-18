@@ -52,16 +52,13 @@ public class HudButtonUI extends BasicButtonUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
-
         AbstractButton button = (AbstractButton) c;
-        Graphics2D graphics = (Graphics2D) g.create();
+        Graphics2D graphics = (Graphics2D) g;
         HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary(graphics, button);
 
         int buttonHeight = button.getHeight() - HudPaintingUtils.getHudControlShadowSize(button);
         HudPaintingUtils.paintHudControlBackground(graphics, button, button.getWidth(),
                 buttonHeight, fRoundedness);
-
-        graphics.dispose();
 
         super.paint(g, c);
     }
@@ -71,10 +68,6 @@ public class HudButtonUI extends BasicButtonUI {
         FontMetrics fontMetrics = SwingUtilities2.getFontMetrics(button, g);
         int mnemonicIndex = button.getDisplayedMnemonicIndex();
 
-        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, button);
-
-//        g.setColor(button.isEnabled()
-//                ? button.getForeground() : HudPaintingUtils.FONT_DISABLED_COLOR);
         g.setColor(button.getForeground());
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex,
                 textRect.x + getTextShiftOffset(),
