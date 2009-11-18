@@ -1,13 +1,11 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
+import sun.swing.SwingUtilities2;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicRadioButtonUI;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 /**
@@ -28,7 +26,24 @@ public class HudRadioButtonUI extends BasicRadioButtonUI {
         icon = new DotIcon();
     }
 
-    // Dot icon implementation. ///////////////////////////////////////////////////////////////////
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, c);
+        super.paint(g, c);
+    }
+
+    @Override
+    protected void paintText(Graphics g, AbstractButton button, Rectangle textRect, String text) {
+        FontMetrics fontMetrics = SwingUtilities2.getFontMetrics(button, g);
+        int mnemonicIndex = button.getDisplayedMnemonicIndex();
+
+        g.setColor(button.getForeground());
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex,
+                textRect.x + getTextShiftOffset(),
+                textRect.y + fontMetrics.getAscent() + getTextShiftOffset());
+    }
+
+// Dot icon implementation. ///////////////////////////////////////////////////////////////////
 
     private static class DotIcon implements Icon {
 

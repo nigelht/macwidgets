@@ -1,10 +1,9 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style text field, similar to that seen in various iApps (e.g.
@@ -31,4 +30,5 @@ public class HudTextFieldUI extends BasicTextFieldUI {
         textComponent.setSelectionColor(HudPaintingUtils.FONT_COLOR);
         textComponent.setCaretColor(HudPaintingUtils.FONT_COLOR);
     }
+
 }

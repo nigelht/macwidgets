@@ -1,14 +1,11 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
+import sun.swing.SwingUtilities2;
+
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicCheckBoxUI;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
+import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style check box button, similar to that seen in various iApps
@@ -26,6 +23,24 @@ public class HudCheckBoxUI extends BasicCheckBoxUI {
         b.setIconTextGap((int) (HudPaintingUtils.FONT_SIZE / 2));
 
         icon = new CheckIcon();
+    }
+
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, c);
+        super.paint(g, c);
+    }
+
+    @Override
+    protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
+        AbstractButton button = (AbstractButton) c;
+        FontMetrics fontMetrics = SwingUtilities2.getFontMetrics(button, g);
+        int mnemonicIndex = button.getDisplayedMnemonicIndex();
+
+        g.setColor(button.getForeground());
+        BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex,
+                textRect.x + getTextShiftOffset(),
+                textRect.y + fontMetrics.getAscent() + getTextShiftOffset());
     }
 
     // Check icon implementation. /////////////////////////////////////////////////////////////////
