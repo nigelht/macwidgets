@@ -1,7 +1,5 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import sun.swing.SwingUtilities2;
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicCheckBoxUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
@@ -34,7 +32,7 @@ public class HudCheckBoxUI extends BasicCheckBoxUI {
     @Override
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
         AbstractButton button = (AbstractButton) c;
-        FontMetrics fontMetrics = SwingUtilities2.getFontMetrics(button, g);
+        FontMetrics fontMetrics = g.getFontMetrics(button.getFont());
         int mnemonicIndex = button.getDisplayedMnemonicIndex();
 
         g.setColor(button.getForeground());
