@@ -19,7 +19,7 @@ public class HudLabelUI extends BasicLabelUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, c);
+        HudPaintingUtils.updateGraphicsToPaintDisabledControlIfNecessary((Graphics2D) g, c);
         super.paint(g, c);
     }
 
