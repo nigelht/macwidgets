@@ -137,10 +137,10 @@ public class HudPaintingUtils {
      * @param graphics  the {@code Graphics2D} to adjust.
      * @param component the {@code Component} whos enablement state should be queried.
      */
-    public static void updateGraphisToPaintDisabledControlIfNecessary(Graphics2D graphics,
-                                                                      Component component) {
+    public static void updateGraphicsToPaintDisabledControlIfNecessary(Graphics2D graphics,
+                                                                       Component component) {
         if (!component.isEnabled()) {
-            graphics.setComposite(AlphaComposite.SrcOver.derive(0.5f));
+            graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         }
     }
 

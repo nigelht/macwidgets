@@ -195,7 +195,7 @@ public class HudComboBoxUI extends BasicComboBoxUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary((Graphics2D) g, c);
+        HudPaintingUtils.updateGraphicsToPaintDisabledControlIfNecessary((Graphics2D) g, c);
         super.paint(g, c);
 
         Graphics2D graphics = (Graphics2D) g.create();

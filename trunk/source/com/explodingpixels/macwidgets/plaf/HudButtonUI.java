@@ -52,7 +52,7 @@ public class HudButtonUI extends BasicButtonUI {
     public void paint(Graphics g, JComponent c) {
         AbstractButton button = (AbstractButton) c;
         Graphics2D graphics = (Graphics2D) g;
-        HudPaintingUtils.updateGraphisToPaintDisabledControlIfNecessary(graphics, button);
+        HudPaintingUtils.updateGraphicsToPaintDisabledControlIfNecessary(graphics, button);
 
         int buttonHeight = button.getHeight() - HudPaintingUtils.getHudControlShadowSize(button);
         HudPaintingUtils.paintHudControlBackground(graphics, button, button.getWidth(),
