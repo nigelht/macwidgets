@@ -7,10 +7,8 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import java.awt.Component;
-import java.awt.Window;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A component that has three areas in which it widgets can be added.
@@ -19,10 +17,8 @@ public class TriAreaComponent {
 
     private PanelBuilder fLeftPanelBuilder = new PanelBuilder(
             new FormLayout("", "fill:p:grow"), new JPanel());
-
     private PanelBuilder fCenterPanelBuilder = new PanelBuilder(
             new FormLayout("", "fill:p:grow"), new JPanel());
-
     private PanelBuilder fRightPanelBuilder = new PanelBuilder(
             new FormLayout("", "fill:p:grow"), new JPanel());
 
@@ -30,11 +26,19 @@ public class TriAreaComponent {
 
     private int fSpacer_pixels;
 
-    TriAreaComponent() {
+    /**
+     * Creates a {@code TriAreaComponent} that uses a padding of 0 pixels between components.
+     */
+    public TriAreaComponent() {
         this(0);
     }
 
-    TriAreaComponent(int spacer_pixels) {
+    /**
+     * Creates a {@code TriAreaComponent} that uses the given padding between components.
+     *
+     * @param spacer_pixels the space in pixels to add between components.
+     */
+    public TriAreaComponent(int spacer_pixels) {
         fSpacer_pixels = spacer_pixels;
 
         // definte the FormLayout columns and rows.
@@ -62,14 +66,29 @@ public class TriAreaComponent {
 //        fRightPanelBuilder.getPanel().setBorder(BorderFactory.createLineBorder(Color.GREEN));
     }
 
+    /**
+     * Forces each of the areas (left, center and right) to have the same widths regardless of the
+     * size of the items each of the area contains.
+     */
     void forceAreasToHaveTheSameWidth() {
         ((FormLayout) fPanel.getLayout()).setColumnGroups(new int[][]{{1, 2, 3}});
     }
 
+    /**
+     * Gets the user interface component representing this {@code SourceList}. The returned
+     * {@link JComponent} should be added to a container that will be displayed.
+     *
+     * @return the user interface component representing this {@code SourceList}.
+     */
     public JComponent getComponent() {
         return fPanel;
     }
 
+    /**
+     * Installs a {@link WindowDragger} on the given {@link Window}.
+     *
+     * @param window the {@code Window} to install the {@code WindowDragger} on.
+     */
     public void installWindowDraggerOnWindow(Window window) {
         new WindowDragger(window, getComponent());
     }
@@ -161,7 +180,13 @@ public class TriAreaComponent {
         fRightPanelBuilder.nextColumn();
     }
 
-    void setBackgroundPainter(Painter<Component> backgroundPainter) {
+    /**
+     * Set's the background {@link Painter} that this {@code TriAreaComponent} uses.
+     *
+     * @param backgroundPainter the background {@link Painter} that this {@code TriAreaComponent}
+     *                          uses.
+     */
+    public void setBackgroundPainter(Painter<Component> backgroundPainter) {
         fPanel.setBackgroundPainter(backgroundPainter);
     }
 
