@@ -354,6 +354,7 @@ public class HudWindow {
         public BottomPanel(Window window) {
             super(new FlowLayout(SwingConstants.RIGHT));
             fWindow = window;
+            setOpaque(false);
             add(fResizeCorner);
             fResizeCorner.addMouseListener(createMouseListener());
             fResizeCorner.addMouseMotionListener(createMouseMotionListener());
