@@ -18,9 +18,11 @@ public class HudLabelUI extends BasicLabelUI {
     }
 
     @Override
-    public void paint(Graphics g, JComponent c) {
-        HudPaintingUtils.updateGraphicsToPaintDisabledControlIfNecessary((Graphics2D) g, c);
-        super.paint(g, c);
+    public void paint(Graphics graphics, JComponent c) {
+        HudPaintingUtils.updateGraphicsToPaintDisabledControlIfNecessary((Graphics2D) graphics, c);
+        ((Graphics2D) graphics).setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        super.paint(graphics, c);
     }
 
     @Override
