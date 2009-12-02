@@ -33,13 +33,9 @@ import java.beans.PropertyChangeListener;
 public class HudWindow {
 
     private final JDialog fDialog;
-
     private JComponent fContentPane;
-
     private final TitlePanel fTitlePanel;
-
     private final HudPanel fHudPanel = new HudPanel();
-
     private final BottomPanel fBottomPanel;
 
     private static final int ROUNDED_RECT_DIAMETER = 16;
@@ -81,7 +77,11 @@ public class HudWindow {
         // why).
         fDialog.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
         fDialog.setUndecorated(true);
+
         WindowUtils.makeWindowNonOpaque(fDialog);
+        // for Java 5 on platforms other than Mac (those that don't support transparency), it looks
+        // nicer to use a black background rather than the default (usually white).
+        fDialog.getRootPane().setBackground(Color.BLACK);
 
         fHudPanel.add(fTitlePanel, BorderLayout.NORTH);
 
@@ -380,6 +380,10 @@ public class HudWindow {
                     fWindow.setSize(windowPoint.x + fXOffsetToWindowEdge,
                             windowPoint.y + fYOffsetToWidnowEdge);
 
+                    // the following two lines are a work-around to Sun bug 6318144:
+                    // http://bugs.sun.com/view_bug.do;?bug_id=6318144
+                    fWindow.invalidate();
+                    fWindow.validate();
                 }
             };
         }
