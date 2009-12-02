@@ -2,23 +2,20 @@ package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class DSourceListMail {
 
     public static SourceList createSourceList() {
         Icon mailboxIcon =
-                new ImageIcon(DSourceListITunes.class.getResource("./icons/mailbox.png"));
+                new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/mailbox.png"));
         Icon sentIcon =
-                new ImageIcon(DSourceListITunes.class.getResource("./icons/sent.png"));
+                new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/sent.png"));
         Icon trashCanIcon =
-                new ImageIcon(DSourceListITunes.class.getResource("./icons/trashcan.png"));
+                new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/trashcan.png"));
         Icon rss =
-                new ImageIcon(DSourceListITunes.class.getResource("./icons/rss.png"));
+                new ImageIcon(DSourceListITunes.class.getResource("/com/explodingpixels/macwidgets/icons/rss.png"));
 
         final SourceListModel model = new SourceListModel();
 
