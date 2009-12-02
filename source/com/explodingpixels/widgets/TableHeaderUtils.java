@@ -50,8 +50,13 @@ public class TableHeaderUtils {
     /**
      * Paints the given JTable's table default header background at given
      * x for the given width.
+     *
+     * @param graphics the {@link Graphics} to paint into.
+     * @param table    the table that the header belongs to.
+     * @param x        the x coordinate of the table header.
+     * @param width    the width of the table header.
      */
-    private static void paintHeader(Graphics g, JTable table, int x, int width) {
+    public static void paintHeader(Graphics graphics, JTable table, int x, int width) {
         TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
         Component component = renderer.getTableCellRendererComponent(
                 table, "", false, false, -1, table.getColumnCount());
@@ -59,7 +64,7 @@ public class TableHeaderUtils {
         component.setBounds(0, 0, width, table.getTableHeader().getHeight());
 
         ((JComponent) component).setOpaque(false);
-        CELL_RENDER_PANE.paintComponent(g, component, null, x, 0,
+        CELL_RENDER_PANE.paintComponent(graphics, component, null, x, 0,
                 width, table.getTableHeader().getHeight(), true);
     }
 
