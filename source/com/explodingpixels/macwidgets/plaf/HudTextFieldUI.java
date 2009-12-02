@@ -31,4 +31,10 @@ public class HudTextFieldUI extends BasicTextFieldUI {
         textComponent.setCaretColor(HudPaintingUtils.FONT_COLOR);
     }
 
+    @Override
+    protected void paintSafely(Graphics graphics) {
+        ((Graphics2D) graphics).setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        super.paintSafely(graphics);
+    }
 }
