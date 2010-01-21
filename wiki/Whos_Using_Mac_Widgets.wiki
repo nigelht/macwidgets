@@ -1,4 +1,6 @@
 #labels Featured
+[http://dlsc.com http://dlsc.com/collapp.png]
+
 [http://www.pokercopilot.com http://www.pokercopilot.com/images/pokercopilot_logo.png]
 
 [http://www.rockyourphone.com/index.php/installation http://www.rockyourphone.com/skin/frontend/rockyour/default/images/rocklogo.png]
