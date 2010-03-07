@@ -1,17 +1,46 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.util.PlatformUtils;
-import com.explodingpixels.widgets.WindowDragger;
-import com.explodingpixels.widgets.WindowUtils;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+
+import com.explodingpixels.util.PlatformUtils;
+import com.explodingpixels.widgets.WindowDragger;
+import com.explodingpixels.widgets.WindowUtils;
 
 /**
  * <p>
@@ -77,7 +106,8 @@ public class HudWindow {
         // why).
         fDialog.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", Boolean.FALSE);
         fDialog.setUndecorated(true);
-
+        fDialog.getRootPane().setOpaque(false);
+        
         WindowUtils.makeWindowNonOpaque(fDialog);
         // for Java 5 on platforms other than Mac (those that don't support transparency), it looks
         // nicer to use a black background rather than the default (usually white).
