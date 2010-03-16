@@ -1,21 +1,23 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.HudButtonUI;
-import com.explodingpixels.macwidgets.plaf.HudCheckBoxUI;
-import com.explodingpixels.macwidgets.plaf.HudComboBoxUI;
-import com.explodingpixels.macwidgets.plaf.HudLabelUI;
-import com.explodingpixels.macwidgets.plaf.HudRadioButtonUI;
-import com.explodingpixels.macwidgets.plaf.HudSliderUI;
-import com.explodingpixels.macwidgets.plaf.HudTextFieldUI;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+
+import com.explodingpixels.macwidgets.plaf.HudButtonUI;
+import com.explodingpixels.macwidgets.plaf.HudCheckBoxUI;
+import com.explodingpixels.macwidgets.plaf.HudComboBoxUI;
+import com.explodingpixels.macwidgets.plaf.HudLabelUI;
+import com.explodingpixels.macwidgets.plaf.HudPasswordFieldUI;
+import com.explodingpixels.macwidgets.plaf.HudRadioButtonUI;
+import com.explodingpixels.macwidgets.plaf.HudSliderUI;
+import com.explodingpixels.macwidgets.plaf.HudTextFieldUI;
 
 /**
  * A factory for creating HUD style widgets. These widgets should be added to a
@@ -107,6 +109,21 @@ public class HudWidgetFactory {
         return textField;
     }
 
+    /**
+     * Creates a Heads Up Display (HUD) style password field, similar to that seen in various iApps
+     * (e.g. iPhoto).
+     * <br/><br/>
+     *
+     * @param text the initial text in the password field.
+     * @return the HUD style password field.
+     * @see HudPasswordFieldUI
+     */
+    public static JPasswordField createHudPasswordField(String text) {
+    	JPasswordField passwordField = new JPasswordField(text);
+        passwordField.setUI(new HudPasswordFieldUI());
+        return passwordField;
+    }
+    
     /**
      * Creates a Heads Up Display (HUD) style radio button, similar to that seen in various iApps
      * (e.g. iPhoto).
