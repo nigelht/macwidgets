@@ -1,12 +1,13 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.data.Rating;
-import com.explodingpixels.macwidgets.ITunesRatingTableCellRenderer;
-import com.explodingpixels.macwidgets.ITunesTableHeaderRenderer;
-import com.explodingpixels.macwidgets.MacFontUtils;
-import com.explodingpixels.widgets.TableHeaderUtils;
-import com.explodingpixels.widgets.TableUtils;
-import com.explodingpixels.widgets.WindowUtils;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.CellRendererPane;
@@ -17,14 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicTableUI;
 import javax.swing.table.TableCellEditor;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+
+import com.explodingpixels.data.Rating;
+import com.explodingpixels.macwidgets.ITunesRatingTableCellRenderer;
+import com.explodingpixels.macwidgets.ITunesTableHeaderRenderer;
+import com.explodingpixels.macwidgets.MacFontUtils;
+import com.explodingpixels.widgets.TableHeaderUtils;
+import com.explodingpixels.widgets.TableUtils;
+import com.explodingpixels.widgets.WindowUtils;
 
 /**
  * A UI delegate that renders an iTunes style table.
@@ -39,15 +40,15 @@ import java.awt.event.WindowFocusListener;
  */
 public class ITunesTableUI extends BasicTableUI {
 
-    private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
-    private static final Color TABLE_GRID_COLOR = new Color(0xd9d9d9);
-    private static final Color SELECTION_ACTIVE_SELECTION_FOREGROUND_COLOR = Color.WHITE;
-    private static final Color SELECTION_ACTIVE_SELECTION_BACKGROUND_COLOR = new Color(0x3d80df);
-    private static final Color SELECTION_INACTIVE_SELECTION_FOREGROUND_COLOR = Color.BLACK;
-    private static final Color SELECTION_INACTIVE_SELECTION_BACKGROUND_COLOR = new Color(0xc0c0c0);
-    private static final Color SELECTION_ACTIVE_BOTTOM_BORDER_COLOR = new Color(125, 170, 234);
-    private static final Color SELECTION_INACTIVE_BOTTOM_BORDER_COLOR = new Color(224, 224, 224);
-    private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
+	protected static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
+    protected static final Color TABLE_GRID_COLOR = new Color(0xd9d9d9);
+    protected static final Color SELECTION_ACTIVE_SELECTION_FOREGROUND_COLOR = Color.WHITE;
+    protected static final Color SELECTION_ACTIVE_SELECTION_BACKGROUND_COLOR = new Color(0x3d80df);
+    protected static final Color SELECTION_INACTIVE_SELECTION_FOREGROUND_COLOR = Color.BLACK;
+    protected static final Color SELECTION_INACTIVE_SELECTION_BACKGROUND_COLOR = new Color(0xc0c0c0);
+    protected static final Color SELECTION_ACTIVE_BOTTOM_BORDER_COLOR = new Color(125, 170, 234);
+    protected static final Color SELECTION_INACTIVE_BOTTOM_BORDER_COLOR = new Color(224, 224, 224);
+    protected static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
 
     @Override
     public void installUI(JComponent c) {
@@ -112,11 +113,11 @@ public class ITunesTableUI extends BasicTableUI {
         };
     }
 
-    private Border getRowBorder() {
+    protected Border getRowBorder() {
         return BorderFactory.createEmptyBorder(0, 5, 0, 5);
     }
 
-    private Border getSelectedRowBorder() {
+    protected Border getSelectedRowBorder() {
         return BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, getSelectedRowBottomHighlight()),
                 BorderFactory.createEmptyBorder(1, 5, 0, 5));
@@ -132,7 +133,7 @@ public class ITunesTableUI extends BasicTableUI {
      * if the associated row isn't selected. This custom {@code CellRendererPane} is needed because
      * a table UI delegate has no prepare renderer like {@link JTable} has.
      */
-    private CellRendererPane createCustomCellRendererPane() {
+    protected CellRendererPane createCustomCellRendererPane() {
         return new CellRendererPane() {
             @Override
             public void paintComponent(Graphics graphics, Component component, Container container,
@@ -151,5 +152,4 @@ public class ITunesTableUI extends BasicTableUI {
             }
         };
     }
-
 }
