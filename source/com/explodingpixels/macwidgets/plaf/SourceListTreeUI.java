@@ -1,6 +1,44 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTree;
+import javax.swing.JViewport;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.plaf.basic.BasicTreeUI;
+import javax.swing.tree.AbstractLayoutCache;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeSelectionModel;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
+import com.explodingpixels.macwidgets.MacWidgetFactory;
+import com.explodingpixels.macwidgets.SourceList;
+import com.explodingpixels.macwidgets.SourceListBadgeContentProvider;
+import com.explodingpixels.macwidgets.SourceListCategory;
+import com.explodingpixels.macwidgets.SourceListColorScheme;
+import com.explodingpixels.macwidgets.SourceListCountBadgeRenderer;
+import com.explodingpixels.macwidgets.SourceListModel;
+import com.explodingpixels.macwidgets.SourceListStandardColorScheme;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.widgets.IconProvider;
@@ -10,15 +48,6 @@ import com.explodingpixels.widgets.WindowUtils;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-
-import javax.swing.*;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-import javax.swing.plaf.basic.BasicTreeUI;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 
 /**
  * <p>
@@ -65,9 +94,9 @@ import java.awt.event.MouseEvent;
  */
 public class SourceListTreeUI extends BasicTreeUI {
 
-    private static final Font CATEGORY_FONT = UIManager.getFont("Label.font").deriveFont(Font.BOLD, 11.0f);
-    private static final Font ITEM_FONT = UIManager.getFont("Label.font").deriveFont(11.0f);
-    private static final Font ITEM_SELECTED_FONT = ITEM_FONT.deriveFont(Font.BOLD);
+    private Font categoryFont = UIManager.getFont("Label.font").deriveFont(Font.BOLD, 11.0f);
+    private Font itemFont = UIManager.getFont("Label.font").deriveFont(11.0f);
+    private Font itemSelectedFont = itemFont.deriveFont(Font.BOLD);
 
     private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
 
@@ -98,6 +127,30 @@ public class SourceListTreeUI extends BasicTreeUI {
         setColorScheme(new SourceListStandardColorScheme());
     }
 
+    public Font getCategoryFont() {
+		return categoryFont;
+	}
+    
+    public void setCategoryFont(Font categoryFont) {
+		this.categoryFont = categoryFont;
+	}
+    
+    public Font getItemFont() {
+		return itemFont;
+	}
+    
+    public void setItemFont(Font itemFont) {
+		this.itemFont = itemFont;
+	}
+    
+    public Font getItemSelectedFont() {
+		return itemSelectedFont;
+	}
+    
+    public void setItemSelectedFont(Font itemSelectedFont) {
+		this.itemSelectedFont = itemSelectedFont;
+	}
+    
     @Override
     protected void installListeners() {
         super.installListeners();
@@ -405,12 +458,12 @@ public class SourceListTreeUI extends BasicTreeUI {
                 fColorScheme.getCategoryTextShadowColor());
 
         private CategoryTreeCellRenderer() {
-            fLabel.setFont(CATEGORY_FONT);
         }
 
         public Component getTreeCellRendererComponent(
                 JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
                 boolean hasFocus) {
+            fLabel.setFont(getCategoryFont());
             TreeNode node = (TreeNode) value;
             fLabel.setText(getTextForNode(node, selected, expanded, leaf, row, hasFocus).toUpperCase());
             return fLabel;
@@ -436,9 +489,6 @@ public class SourceListTreeUI extends BasicTreeUI {
                 TRANSPARENT_COLOR);
 
         private ItemTreeCellRenderer() {
-            fSelectedLabel.setFont(ITEM_SELECTED_FONT);
-            fUnselectedLabel.setFont(ITEM_FONT);
-
             // definte the FormLayout columns and rows.
             FormLayout layout = new FormLayout("fill:0px:grow, 5px, p, 5px", "3px, fill:p:grow, 3px");
             // create the builders with our panels as the component to be filled.
@@ -449,6 +499,9 @@ public class SourceListTreeUI extends BasicTreeUI {
         public Component getTreeCellRendererComponent(
                 JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row,
                 boolean hasFocus) {
+            fSelectedLabel.setFont(getItemSelectedFont());
+            fUnselectedLabel.setFont(getItemFont());
+
             TreeNode node = (TreeNode) value;
             JLabel label = selected ? fSelectedLabel : fUnselectedLabel;
             label.setText(getTextForNode(node, selected, expanded, leaf, row, hasFocus));
