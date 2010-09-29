@@ -1,15 +1,11 @@
 package com.explodingpixels.macwidgets;
 
+import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
 import com.explodingpixels.widgets.WindowUtils;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JToggleButton;
+import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 
@@ -30,8 +26,12 @@ public class PreferencesTabBar {
     }
 
     public void addTab(String title, Icon icon, ActionListener listener) {
-        AbstractButton button = MacButtonFactory.makePreferencesTabBarButton(
-                new JToggleButton(title, icon));
+        AbstractButton button = new JToggleButton(title, icon) {
+            @Override
+            public void updateUI() {
+                setUI(new PreferencesTabBarButtonUI());
+            }
+        };
         fButtonGroup.add(button);
         button.addActionListener(listener);
 
