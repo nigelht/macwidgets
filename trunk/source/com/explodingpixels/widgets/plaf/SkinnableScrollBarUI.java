@@ -37,6 +37,14 @@ public class SkinnableScrollBarUI extends BasicScrollBarUI {
     }
 
     @Override
+    protected void uninstallComponents() {
+        if (incrButton != null)
+            scrollbar.remove(incrButton);
+        if (decrButton != null)
+            scrollbar.remove(decrButton);
+    }
+
+    @Override
     protected void installComponents() {
         // delegate to the ScrollBarSkin.
         fSkin.installComponents(scrollbar);
