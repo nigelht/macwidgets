@@ -7,23 +7,23 @@
         <attribute name="URI" value="/" />
       </containerElement>
     </containerInfo>
-    <setting name="jarUrl" value="file://$MODULE_DIR$/../../../build/mac_widgets.jar" />
+    <setting name="jarUrl" value="file://$USER_HOME$/Projects/MacWidgetsForJava/build/mac_widgets.jar" />
     <setting name="buildJar" value="true" />
     <setting name="mainClass" value="" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../demo">
-      <sourceFolder url="file://$MODULE_DIR$/../../../demo" isTestSource="false" />
+    <content url="file://$USER_HOME$/Projects/MacWidgetsForJava/demo">
+      <sourceFolder url="file://$USER_HOME$/Projects/MacWidgetsForJava/demo" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../graphics" />
-    <content url="file://$MODULE_DIR$/../../../libraries" />
-    <content url="file://$MODULE_DIR$/../../../scripts" />
-    <content url="file://$MODULE_DIR$/../../../source">
-      <sourceFolder url="file://$MODULE_DIR$/../../../source" isTestSource="false" />
+    <content url="file://$USER_HOME$/Projects/MacWidgetsForJava/graphics" />
+    <content url="file://$USER_HOME$/Projects/MacWidgetsForJava/libraries" />
+    <content url="file://$USER_HOME$/Projects/MacWidgetsForJava/scripts" />
+    <content url="file://$USER_HOME$/Projects/MacWidgetsForJava/source">
+      <sourceFolder url="file://$USER_HOME$/Projects/MacWidgetsForJava/source" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../unittest">
-      <sourceFolder url="file://$MODULE_DIR$/../../../unittest" isTestSource="true" />
+    <content url="file://$USER_HOME$/Projects/MacWidgetsForJava/unittest">
+      <sourceFolder url="file://$USER_HOME$/Projects/MacWidgetsForJava/unittest" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -31,7 +31,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.5.jar!/" />
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
