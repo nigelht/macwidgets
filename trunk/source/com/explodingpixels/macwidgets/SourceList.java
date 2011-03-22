@@ -4,6 +4,8 @@ import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
 
 import javax.swing.*;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
@@ -57,6 +59,9 @@ public class SourceList {
     private final List<SourceListSelectionListener> fSourceListSelectionListeners =
             new ArrayList<SourceListSelectionListener>();
 
+    private final List<SourceListExpansionListener> fSourceListExpansionListeners =
+            new ArrayList<SourceListExpansionListener>();
+
     private DefaultMutableTreeNode fRoot = new DefaultMutableTreeNode("root");
     private DefaultTreeModel fTreeModel = new DefaultTreeModel(fRoot);
     private JTree fTree = new CustomJTree(fTreeModel);
@@ -64,6 +69,7 @@ public class SourceList {
     private JScrollPane fScrollPane = MacWidgetFactory.createSourceListScrollPane(fTree);
     private final JPanel fComponent = new JPanel(new BorderLayout());
     private TreeSelectionListener fTreeSelectionListener = createTreeSelectionListener();
+    private TreeExpansionListener fTreeExpansionListener = createTreeExpansionListener();
     private MouseListener fMouseListener = createMouseListener();
 
     private SourceListControlBar fSourceListControlBar;
@@ -105,6 +111,7 @@ public class SourceList {
     private void initUi() {
         fComponent.add(fScrollPane, BorderLayout.CENTER);
         fTree.addTreeSelectionListener(fTreeSelectionListener);
+        fTree.addTreeExpansionListener(fTreeExpansionListener);
         fTree.addMouseListener(fMouseListener);
     }
 
@@ -472,6 +479,40 @@ public class SourceList {
         };
     }
 
+    private TreeExpansionListener createTreeExpansionListener() {
+        return new TreeExpansionListener() {
+            public void treeExpanded(TreeExpansionEvent event) {
+                onExpandedOrCollapsed(event, true);
+            }
+
+            public void treeCollapsed(TreeExpansionEvent event) {
+                onExpandedOrCollapsed(event, false);
+            }
+
+            private void onExpandedOrCollapsed(TreeExpansionEvent event, boolean expanded) {
+                Object itemOrCategory = getItemOrCategoryFromTreeExpansionEvent(event);
+
+                if (itemOrCategory != null) {
+                    if (itemOrCategory instanceof SourceListCategory) {
+                        SourceListCategory category = (SourceListCategory) itemOrCategory;
+                        if (expanded) {
+                            fireSourceListCategoryExpanded(category);
+                        } else {
+                            fireSourceListCategoryCollapsed(category);
+                        }
+                    } else if (itemOrCategory instanceof SourceListItem) {
+                        SourceListItem sourceListItem = (SourceListItem) itemOrCategory;
+                        if (expanded) {
+                            fireSourceListItemExpanded(sourceListItem);
+                        } else {
+                            fireSourceListItemCollapsed(sourceListItem);
+                        }
+                    }
+                }
+            }
+        };
+    }
+
     private SourceListModelListener createSourceListModelListener() {
         return new SourceListModelListener() {
             public void categoryAdded(SourceListCategory category, int index) {
@@ -534,6 +575,12 @@ public class SourceList {
         };
     }
 
+    private Object getItemOrCategoryFromTreeExpansionEvent(TreeExpansionEvent event) {
+        Object lastPathComponent = event.getPath().getLastPathComponent();
+        DefaultMutableTreeNode expandedOrCollapsedNode = (DefaultMutableTreeNode) lastPathComponent;
+        return expandedOrCollapsedNode.getUserObject();
+    }
+
     // SourceListClickListener support. ///////////////////////////////////////    
 
     private void fireSourceListItemClicked(
@@ -594,6 +641,40 @@ public class SourceList {
      */
     public void removeSourceListSelectionListener(SourceListSelectionListener listener) {
         fSourceListSelectionListeners.remove(listener);
+    }
+
+    // SourceListExpansionListener support. ///////////////////////////////////
+
+    private void fireSourceListItemExpanded(SourceListItem item) {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            listener.sourceListItemExpanded(item);
+        }
+    }
+
+    private void fireSourceListItemCollapsed(SourceListItem item) {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            listener.sourceListItemCollapsed(item);
+        }
+    }
+
+    private void fireSourceListCategoryExpanded(SourceListCategory category) {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            listener.sourceListCategoryExpanded(category);
+        }
+    }
+
+    private void fireSourceListCategoryCollapsed(SourceListCategory category) {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            listener.sourceListCategoryCollapsed(category);
+        }
+    }
+
+    public void addSourceListExpansionListener(SourceListExpansionListener listener) {
+        fSourceListExpansionListeners.add(listener);
+    }
+
+    public void removeSourceListExpansionListener(SourceListExpansionListener listener) {
+        fSourceListExpansionListeners.remove(listener);
     }
 
     // Utility methods. ///////////////////////////////////////////////////////////////////////////
