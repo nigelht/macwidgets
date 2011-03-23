@@ -576,9 +576,12 @@ public class SourceList {
     }
 
     private Object getItemOrCategoryFromTreeExpansionEvent(TreeExpansionEvent event) {
+        // Get the object that was expanded/collapsed from the expasion event
         Object lastPathComponent = event.getPath().getLastPathComponent();
-        DefaultMutableTreeNode expandedOrCollapsedNode = (DefaultMutableTreeNode) lastPathComponent;
-        return expandedOrCollapsedNode.getUserObject();
+
+        // Cast it to a DefaultMutableTreeNode and grab
+        // the user object which will either be a SourceListItem or SourceListCategory.
+        return ((DefaultMutableTreeNode) lastPathComponent).getUserObject();
     }
 
     // SourceListClickListener support. ///////////////////////////////////////    
@@ -669,10 +672,20 @@ public class SourceList {
         }
     }
 
+    /**
+     * Adds the {@link SourceListExpansionListener} to the list of listeners.
+     *
+     * @param listener the {@code SourceListExpansionListener} to add.
+     */
     public void addSourceListExpansionListener(SourceListExpansionListener listener) {
         fSourceListExpansionListeners.add(listener);
     }
 
+    /**
+     * Removes the {@link SourceListExpansionListener} from the list of listeners.
+     *
+     * @param listener the {@code SourceListExpansionListener} to remove.
+     */
     public void removeSourceListExpansionListener(SourceListExpansionListener listener) {
         fSourceListExpansionListeners.remove(listener);
     }
