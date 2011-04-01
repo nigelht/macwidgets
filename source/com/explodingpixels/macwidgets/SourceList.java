@@ -4,10 +4,7 @@ import com.explodingpixels.macwidgets.plaf.SourceListTreeUI;
 import com.explodingpixels.widgets.TreeUtils;
 
 import javax.swing.*;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeExpansionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.*;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -70,6 +67,7 @@ public class SourceList {
     private final JPanel fComponent = new JPanel(new BorderLayout());
     private TreeSelectionListener fTreeSelectionListener = createTreeSelectionListener();
     private TreeExpansionListener fTreeExpansionListener = createTreeExpansionListener();
+    private TreeWillExpandListener fTreeWillExpandListener = createTreeWillExpandListener();
     private MouseListener fMouseListener = createMouseListener();
 
     private SourceListControlBar fSourceListControlBar;
@@ -112,6 +110,7 @@ public class SourceList {
         fComponent.add(fScrollPane, BorderLayout.CENTER);
         fTree.addTreeSelectionListener(fTreeSelectionListener);
         fTree.addTreeExpansionListener(fTreeExpansionListener);
+        fTree.addTreeWillExpandListener(fTreeWillExpandListener);
         fTree.addMouseListener(fMouseListener);
     }
 
@@ -513,6 +512,40 @@ public class SourceList {
         };
     }
 
+    private TreeWillExpandListener createTreeWillExpandListener() {
+        return new TreeWillExpandListener() {
+            public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
+                onWillExpandOrCollapse(event, true);
+            }
+
+            public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
+                onWillExpandOrCollapse(event, false);
+            }
+
+            private void onWillExpandOrCollapse(TreeExpansionEvent event, boolean expanded) throws ExpandVetoException {
+                Object itemOrCategory = getItemOrCategoryFromTreeExpansionEvent(event);
+
+                if (itemOrCategory != null) {
+                    if (itemOrCategory instanceof SourceListCategory) {
+                        SourceListCategory category = (SourceListCategory) itemOrCategory;
+                        if (expanded) {
+                            fireSourceListCategoryWillExpand(event, category);
+                        } else {
+                            fireSourceListCategoryWillCollapse(event, category);
+                        }
+                    } else if (itemOrCategory instanceof SourceListItem) {
+                        SourceListItem sourceListItem = (SourceListItem) itemOrCategory;
+                        if (expanded) {
+                            fireSourceListItemWillExpand(event, sourceListItem);
+                        } else {
+                            fireSourceListItemWillCollapse(event, sourceListItem);
+                        }
+                    }
+                }
+            }
+        };
+    }
+
     private SourceListModelListener createSourceListModelListener() {
         return new SourceListModelListener() {
             public void categoryAdded(SourceListCategory category, int index) {
@@ -660,6 +693,18 @@ public class SourceList {
         }
     }
 
+    private void fireSourceListItemWillExpand(TreeExpansionEvent event, SourceListItem item) throws ExpandVetoException {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            handleShouldExpandOrCollapseResponse(listener.shouldExpandSourceListItem(item), event);
+        }
+    }
+
+    private void fireSourceListItemWillCollapse(TreeExpansionEvent event, SourceListItem item) throws ExpandVetoException {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            handleShouldExpandOrCollapseResponse(listener.shouldCollapseSourceListItem(item), event);
+        }
+    }
+
     private void fireSourceListCategoryExpanded(SourceListCategory category) {
         for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
             listener.sourceListCategoryExpanded(category);
@@ -669,6 +714,24 @@ public class SourceList {
     private void fireSourceListCategoryCollapsed(SourceListCategory category) {
         for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
             listener.sourceListCategoryCollapsed(category);
+        }
+    }
+
+    private void fireSourceListCategoryWillExpand(TreeExpansionEvent event, SourceListCategory category) throws ExpandVetoException {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            handleShouldExpandOrCollapseResponse(listener.shouldExpandSourceListCategory(category), event);
+        }
+    }
+
+    private void fireSourceListCategoryWillCollapse(TreeExpansionEvent event, SourceListCategory category) throws ExpandVetoException {
+        for (SourceListExpansionListener listener : fSourceListExpansionListeners) {
+            handleShouldExpandOrCollapseResponse(listener.shouldToCollapseSourceListCategory(category), event);
+        }
+    }
+
+    private void handleShouldExpandOrCollapseResponse(boolean shouldExpandOrCollapse, TreeExpansionEvent event) throws ExpandVetoException {
+        if (!shouldExpandOrCollapse) {
+            throw new ExpandVetoException(event);
         }
     }
 
