@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -24,7 +26,7 @@ import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
  * corresponding to the row positions of the given {@link JTable}.
  */
 class StripedViewportBorder extends AbstractBorder implements
-ListSelectionListener, PropertyChangeListener {
+		ListSelectionListener, PropertyChangeListener {
 
 	private final JViewport fViewport;
 	private final JTable fTable;
@@ -36,41 +38,43 @@ ListSelectionListener, PropertyChangeListener {
 		fStripeColor = stripeColor;
 		fTable.getSelectionModel().addListSelectionListener(this);
 		fTable.addPropertyChangeListener(this);
+		WindowUtils.installWeakWindowFocusListener(table,
+				createWindowFocusListener());
 	}
 
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width,
 			int height) {
-		paintStripedBackground(g);
+		paintStripedBackground(g, y);
 		paintVerticalGridLines(g, y, height);
 	}
 
-	private void paintStripedBackground(Graphics g) {
+	private void paintStripedBackground(Graphics g, int borderY) {
 		// get the row index at the top of the clip bounds (the first row
 		// to paint).
 		Rectangle clip = g.getClipBounds();
 		Point viewPosition = fViewport.getViewPosition();
-		// TODO figure out how to honor the beginning of clip region.
-		// Point viewPostionWithClip = new Point(viewPosition.x + clip.x,
-		// viewPosition.y + clip.y);
 		int rowAtPoint = fTable.rowAtPoint(viewPosition);
 		// get the y coordinate of the first row to paint. if there are no
 		// rows in the table, start painting at the top of the supplied
 		// clipping bounds.
-		int topY = rowAtPoint < 0 ? 0
-				: fTable.getCellRect(rowAtPoint, 0, true).y - viewPosition.y;
+		int topY = rowAtPoint < 0 ? borderY : fTable.getCellRect(rowAtPoint, 0,
+				true).y - viewPosition.y + borderY;
 		// create a counter variable to hold the current row. if there are no
 		// rows in the table, start the counter at 0.
 		int currentRow = rowAtPoint < 0 ? 0 : rowAtPoint;
+		int rowHeight = fTable.getRowHeight();
 		while (topY < clip.y + clip.height) {
-			int bottomY = topY + fTable.getRowHeight();
+			int bottomY = topY + rowHeight;
 			g.setColor(getRowColor(currentRow));
-			g.fillRect(clip.x, topY, clip.width, bottomY);
-			if (fTable.isRowSelected(currentRow - 1)) {
-				ITunesTableUI ui = (ITunesTableUI) fTable.getUI();
-				Border border = ui.getSelectedRowBorder();
-				border.paintBorder(fViewport, g, 0, topY, fViewport.getWidth(),
-						fTable.getRowHeight());
+			g.fillRect(clip.x, topY, clip.width, rowHeight);
+			if (fTable.isRowSelected(currentRow)) {
+				if (fTable.getUI() instanceof ITunesTableUI) {
+					ITunesTableUI ui = (ITunesTableUI) fTable.getUI();
+					Border border = ui.getSelectedRowBorder();
+					border.paintBorder(fViewport, g, 0, topY,
+							fViewport.getWidth(), fTable.getRowHeight());
+				}
 			}
 			topY = bottomY;
 			currentRow++;
@@ -78,7 +82,7 @@ ListSelectionListener, PropertyChangeListener {
 	}
 
 	private Color getRowColor(int row) {
-		if (fTable.isRowSelected(row - 1)) {
+		if (fTable.isRowSelected(row)) {
 			return fTable.getSelectionBackground();
 		}
 		return row % 2 == 0 ? fStripeColor : fTable.getBackground();
@@ -86,12 +90,13 @@ ListSelectionListener, PropertyChangeListener {
 
 	private void paintVerticalGridLines(Graphics g, int y, int height) {
 		// paint the column grid dividers for the non-existent rows.
-		int x = 0 - fViewport.getViewPosition().x;
+		int x = 0 - fViewport.getViewPosition().x + fViewport.getLocation().x;
 		g.setColor(fTable.getGridColor());
 		for (int i = 0; i < fTable.getColumnCount(); i++) {
 			TableColumn column = fTable.getColumnModel().getColumn(i);
 			// increase the x position by the width of the current column.
 			x += column.getWidth();
+			g.setColor(fTable.getGridColor());
 			// draw the grid line (not sure what the -1 is for, but BasicTableUI
 			// also does it.source
 			g.drawLine(x - 1, y, x - 1, y + height);
@@ -105,11 +110,27 @@ ListSelectionListener, PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getSource().equals(fTable)) {
 			if (evt.getPropertyName().equals("selectionModel")) {
-				ListSelectionModel oldModel = (ListSelectionModel) evt.getOldValue();
-				ListSelectionModel newModel = (ListSelectionModel) evt.getNewValue();
+				ListSelectionModel oldModel = (ListSelectionModel) evt
+						.getOldValue();
+				ListSelectionModel newModel = (ListSelectionModel) evt
+						.getNewValue();
 				oldModel.removeListSelectionListener(this);
 				newModel.addListSelectionListener(this);
+			} else if (evt.getPropertyName().equals("selectionBackground")) {
+				fViewport.repaint();
 			}
 		}
+	}
+
+	private WindowFocusListener createWindowFocusListener() {
+		return new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent e) {
+				fViewport.repaint();
+			}
+
+			public void windowLostFocus(WindowEvent e) {
+				fViewport.repaint();
+			}
+		};
 	}
 }
