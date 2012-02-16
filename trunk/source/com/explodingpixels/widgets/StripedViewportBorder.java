@@ -64,17 +64,18 @@ class StripedViewportBorder extends AbstractBorder implements
 		// rows in the table, start the counter at 0.
 		int currentRow = rowAtPoint < 0 ? 0 : rowAtPoint;
 		int rowHeight = fTable.getRowHeight();
+		Border border = null;
+		if (fTable.getUI() instanceof ITunesTableUI) {
+			ITunesTableUI ui = (ITunesTableUI) fTable.getUI();
+			border = ui.getSelectedRowBorder();
+		}
 		while (topY < clip.y + clip.height) {
 			int bottomY = topY + rowHeight;
 			g.setColor(getRowColor(currentRow));
 			g.fillRect(clip.x, topY, clip.width, rowHeight);
-			if (fTable.isRowSelected(currentRow)) {
-				if (fTable.getUI() instanceof ITunesTableUI) {
-					ITunesTableUI ui = (ITunesTableUI) fTable.getUI();
-					Border border = ui.getSelectedRowBorder();
-					border.paintBorder(fViewport, g, 0, topY,
-							fViewport.getWidth(), fTable.getRowHeight());
-				}
+			if (border != null && fTable.isRowSelected(currentRow)) {
+				border.paintBorder(fViewport, g, 0, topY, fViewport.getWidth(),
+						fTable.getRowHeight());
 			}
 			topY = bottomY;
 			currentRow++;
