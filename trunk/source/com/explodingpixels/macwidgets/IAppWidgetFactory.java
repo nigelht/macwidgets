@@ -59,6 +59,7 @@ public class IAppWidgetFactory {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         installUIDelegates(scrollPane);
         scrollPane.setCorner(JScrollPane.LOWER_RIGHT_CORNER, createScrollPaneCorner());
+        scrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, createScrollPaneCornerLowerLeft());
         // TODO listen for scrollBar.setUI calls in order to reinstall UI delegates.
         return scrollPane;
     }
@@ -90,5 +91,15 @@ public class IAppWidgetFactory {
     public static JComponent createScrollPaneCorner() {
         return new ImageBasedJComponent(new ImageIcon(IAppWidgetFactory.class.getResource(
                 "/com/explodingpixels/macwidgets/images/iapp_scrollpane_corner.png")).getImage());
+    }
+    
+    /**
+     * Creates an iApp style scrollpane corner.
+     *
+     * @return returns a {@link JComponent} that represents the scroll pane corner.
+     */
+    public static JComponent createScrollPaneCornerLowerLeft() {
+        return new ImageBasedJComponent(new ImageIcon(IAppWidgetFactory.class.getResource(
+                "/com/explodingpixels/macwidgets/images/iapp_scrollpane_corner_left.png")).getImage());
     }
 }
