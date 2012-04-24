@@ -1,6 +1,6 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.WindowUtils;
 
 import java.awt.Color;
@@ -12,8 +12,8 @@ public class MacPainterFactory {
 
     // iApp Header painters. //////////////////////////////////////////////////////////////////////
 
-    public static Painter<Component> createIAppUnpressedUnselectedHeaderPainter() {
-        return new Painter<Component>() {
+    public static MacWidgetsPainter<Component> createIAppUnpressedUnselectedHeaderPainter() {
+        return new MacWidgetsPainter<Component>() {
 
             private Color TOP_GRADIENT_COLOR = new Color(0xdbdbdb);
             private Color BOTTOM_GRADIENT_COLOR = new Color(0xbbbbbb);
@@ -28,8 +28,8 @@ public class MacPainterFactory {
         };
     }
 
-    public static Painter<Component> createIAppPressedUnselectedHeaderPainter() {
-        return new Painter<Component>() {
+    public static MacWidgetsPainter<Component> createIAppPressedUnselectedHeaderPainter() {
+        return new MacWidgetsPainter<Component>() {
 
             private Color TOP_GRADIENT_COLOR = new Color(0xc4c4c4);
             private Color BOTTOM_GRADIENT_COLOR = new Color(0x959595);
@@ -44,8 +44,8 @@ public class MacPainterFactory {
         };
     }
 
-    public static Painter<Component> createIAppUnpressedSelectedHeaderPainter() {
-        return new Painter<Component>() {
+    public static MacWidgetsPainter<Component> createIAppUnpressedSelectedHeaderPainter() {
+        return new MacWidgetsPainter<Component>() {
 
             private Color TOP_GRADIENT_COLOR = new Color(0xc2cfdd);
             private Color BOTTOM_GRADIENT_COLOR = new Color(0x7d93b2);
@@ -61,8 +61,8 @@ public class MacPainterFactory {
     }
 
 
-    public static Painter<Component> createIAppPressedSelectedHeaderPainter() {
-        return new Painter<Component>() {
+    public static MacWidgetsPainter<Component> createIAppPressedSelectedHeaderPainter() {
+        return new MacWidgetsPainter<Component>() {
 
             private Color TOP_GRADIENT_COLOR = new Color(0xa6b7cb);
             private Color BOTTOM_GRADIENT_COLOR = new Color(0x536b90);
@@ -121,12 +121,12 @@ public class MacPainterFactory {
     }
 
     /**
-     * Creates a {@link Painter} that paints a Mac unified tool bar gradient.
+     * Creates a {@link com.explodingpixels.painter.MacWidgetsPainter} that paints a Mac unified tool bar gradient.
      *
      * @return a {@code Painter} that paints a Mac unified tool bar gradient.
      */
-    public static Painter<Component> createTexturedWindowWorkaroundPainter() {
-        return new Painter<Component>() {
+    public static MacWidgetsPainter<Component> createTexturedWindowWorkaroundPainter() {
+        return new MacWidgetsPainter<Component>() {
 
             private Color ACTIVE_TOP_GRADIENT_COLOR = new Color(0xbcbcbc);
             private Color ACTIVE_BOTTOM_GRADIENT_COLOR = new Color(0x9a9a9a);

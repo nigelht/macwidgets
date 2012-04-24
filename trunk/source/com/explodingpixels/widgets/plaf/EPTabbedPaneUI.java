@@ -1,6 +1,6 @@
 package com.explodingpixels.widgets.plaf;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.TabCloseListener;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
     public static final Object CLOSE_BUTTON_LOCATION_VALUE_RIGHT = EPTabPainter.CloseButtonLocation.RIGHT;
 
     private EPTabPainter fTabPainter = new EPTabPainter();
-    private Painter<Component> fContentBorderTopEdgeBackgroundPainter = createContentBorderTopEdgeBackgroundPainter();
+    private MacWidgetsPainter<Component> fContentBorderTopEdgeBackgroundPainter = createContentBorderTopEdgeBackgroundPainter();
     private boolean fPaintFullContentBorder = true;
     private int fCurrentDefaultTabWidth = DEFAULT_TAB_WIDTH;
     private int fMouseOverCloseButtonTabIndex = NO_TAB;
@@ -221,8 +221,8 @@ public class EPTabbedPaneUI extends BasicTabbedPaneUI {
         g.fillRect(x, y + height, x + width, y + height + 2);
     }
 
-    private Painter<Component> createContentBorderTopEdgeBackgroundPainter() {
-        return new Painter<Component>() {
+    private MacWidgetsPainter<Component> createContentBorderTopEdgeBackgroundPainter() {
+        return new MacWidgetsPainter<Component>() {
             public void paint(Graphics2D graphics, Component objectToPaint, int width, int height) {
                 Paint paint = new GradientPaint(0, 0, Color.WHITE, 0, height - 1, new Color(0xf8f8f8));
                 graphics.setPaint(paint);

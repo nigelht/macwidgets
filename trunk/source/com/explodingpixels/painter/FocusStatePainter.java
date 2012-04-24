@@ -10,18 +10,18 @@ import javax.swing.SwingUtilities;
 import com.explodingpixels.widgets.WindowUtils;
 
 /**
- * An implementation of {@link Painter} that delegates to given {@code Painter}
+ * An implementation of {@link MacWidgetsPainter} that delegates to given {@code Painter}
  * based on the focused state of the {@link Component} supplied in the
  * {@link #paint(java.awt.Graphics2D, java.awt.Component, int, int)} method.
  */
-public class FocusStatePainter implements Painter<Component> {
+public class FocusStatePainter implements MacWidgetsPainter<Component> {
 
-	private Painter<Component> fComponentFocusedPainter;
-	private Painter<Component> fWindowFocusedPainter;
-	private Painter<Component> fWindowUnfocusedPainter;
+	private MacWidgetsPainter<Component> fComponentFocusedPainter;
+	private MacWidgetsPainter<Component> fWindowFocusedPainter;
+	private MacWidgetsPainter<Component> fWindowUnfocusedPainter;
 
 	/**
-	 * Creates a {@link Painter} that delegates to the given {@code Painter}s
+	 * Creates a {@link MacWidgetsPainter} that delegates to the given {@code Painter}s
 	 * based on the focus state of the supplied {@link Component} or the focus
 	 * state of it's parent {@link java.awt.Window}.
 	 * 
@@ -32,14 +32,14 @@ public class FocusStatePainter implements Painter<Component> {
 	 *            the {@code Painter} to use when the given {@code Component}'s
 	 *            parent {@code java.awt.Window} is unfocused.
 	 */
-	public FocusStatePainter(Painter<Component> componentFocusedPainter,
-			Painter<Component> windowUnfocusedPainter) {
+	public FocusStatePainter(MacWidgetsPainter<Component> componentFocusedPainter,
+			MacWidgetsPainter<Component> windowUnfocusedPainter) {
 		this(componentFocusedPainter, windowUnfocusedPainter,
 				windowUnfocusedPainter);
 	}
 
 	/**
-	 * Creates a {@link Painter} that delegates to the given {@code Painter}s
+	 * Creates a {@link MacWidgetsPainter} that delegates to the given {@code Painter}s
 	 * based on the focus state of the supplied {@link Component} or the focus
 	 * state of it's parent {@link java.awt.Window}.
 	 * 
@@ -54,9 +54,9 @@ public class FocusStatePainter implements Painter<Component> {
 	 *            the {@code Painter} to use when the given {@code Component}'s
 	 *            parent {@code java.awt.Window} is unfocused.
 	 */
-	public FocusStatePainter(Painter<Component> componentFocusedPainter,
-			Painter<Component> windowFocusedPainter,
-			Painter<Component> windowUnfocusedPainter) {
+	public FocusStatePainter(MacWidgetsPainter<Component> componentFocusedPainter,
+			MacWidgetsPainter<Component> windowFocusedPainter,
+			MacWidgetsPainter<Component> windowUnfocusedPainter) {
 
 		if (componentFocusedPainter == null) {
 			throw new IllegalArgumentException(
@@ -80,7 +80,7 @@ public class FocusStatePainter implements Painter<Component> {
 	}
 
 	public void paint(Graphics2D g, Component component, int width, int height) {
-		Painter<Component> painterToUse;
+		MacWidgetsPainter<Component> painterToUse;
 
 		Window activeAncestor = null;
 

@@ -1,13 +1,13 @@
 package com.explodingpixels.swingx;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class EPPanel extends JPanel {
 
-    private Painter<Component> fBackgroundPainter;
+    private MacWidgetsPainter<Component> fBackgroundPainter;
 
     public EPPanel() {
         super();
@@ -18,7 +18,7 @@ public class EPPanel extends JPanel {
         setOpaque(false);
     }
 
-    public void setBackgroundPainter(Painter<Component> painter) {
+    public void setBackgroundPainter(MacWidgetsPainter<Component> painter) {
         fBackgroundPainter = painter;
     }
 

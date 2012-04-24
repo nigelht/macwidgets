@@ -6,7 +6,7 @@ import java.awt.*;
  * An interface that allows painting to be delegated. The implementation of this interface will be called during the
  * painting process of the given {@code objectToPaint}.
  */
-public interface Painter<T> {
+public interface MacWidgetsPainter<T> {
 
     /**
      * Renders to the given {@link Graphics2D}. The supplied graphics context may be modified - it's

@@ -1,7 +1,7 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
@@ -82,7 +82,7 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D graphics2d = (Graphics2D) g.create();
-        Painter<Component> painter = getBackgroundPainter();
+        MacWidgetsPainter<Component> painter = getBackgroundPainter();
         painter.paint(graphics2d, this, getWidth(), getHeight());
 
         super.paintComponent(g);
@@ -127,8 +127,8 @@ public class ITunesTableHeaderRenderer extends JLabel implements TableCellRender
         return TableHeaderUtils.getSortDirection(fTable.getTableHeader(), fColumnModelIndexBeingPainted);
     }
 
-    private Painter<Component> getBackgroundPainter() {
-        Painter<Component> retVal;
+    private MacWidgetsPainter<Component> getBackgroundPainter() {
+        MacWidgetsPainter<Component> retVal;
 
         boolean windowHasFocus = WindowUtils.isParentWindowFocused(fTable);
         boolean isColumnSelected = isColumnBeingPaintedSelected();

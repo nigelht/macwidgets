@@ -1,5 +1,7 @@
 package com.explodingpixels.macwidgets.plaf;
 
+import com.explodingpixels.macwidgets.MacFontUtils;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicRadioButtonUI;
@@ -32,6 +34,7 @@ public class HudRadioButtonUI extends BasicRadioButtonUI {
 
     @Override
     protected void paintText(Graphics g, AbstractButton button, Rectangle textRect, String text) {
+        MacFontUtils.enableAntialiasing((Graphics2D) g);
         FontMetrics fontMetrics = g.getFontMetrics(button.getFont());
         int mnemonicIndex = button.getDisplayedMnemonicIndex();
 

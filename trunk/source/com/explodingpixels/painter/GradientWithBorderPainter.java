@@ -5,7 +5,7 @@ import java.awt.Component;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 
-public class GradientWithBorderPainter implements Painter<Component> {
+public class GradientWithBorderPainter implements MacWidgetsPainter<Component> {
 
     private final Color fTopLineColor;
 

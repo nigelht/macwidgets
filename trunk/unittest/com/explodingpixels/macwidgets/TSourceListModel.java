@@ -1,10 +1,7 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.SourceListCategory;
-import com.explodingpixels.macwidgets.SourceListModel;
-import com.explodingpixels.macwidgets.SourceListItem;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class TSourceListModel {
 

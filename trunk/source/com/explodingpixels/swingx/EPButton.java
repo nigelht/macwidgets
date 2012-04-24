@@ -1,6 +1,6 @@
 package com.explodingpixels.swingx;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 
 public class EPButton extends JButton {
 
-    private Painter<AbstractButton> fBackgroundPainter;
+    private MacWidgetsPainter<AbstractButton> fBackgroundPainter;
 
     public EPButton() {
         super();
@@ -40,7 +40,7 @@ public class EPButton extends JButton {
     }
 
 
-    public void setBackgroundPainter(Painter<AbstractButton> painter) {
+    public void setBackgroundPainter(MacWidgetsPainter<AbstractButton> painter) {
         fBackgroundPainter = painter;
     }
 
