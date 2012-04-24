@@ -1,14 +1,14 @@
 package com.explodingpixels.widgets.plaf;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.WindowUtils;
 
 import java.awt.*;
 
 /**
- * An implementation of {@link Painter} that paints a scroll thumb using images.
+ * An implementation of {@link com.explodingpixels.painter.MacWidgetsPainter} that paints a scroll thumb using images.
  */
-public class ScrollThumbImagePainter implements Painter<Component> {
+public class ScrollThumbImagePainter implements MacWidgetsPainter<Component> {
 
     private final ScrollBarOrientation fOrientation;
     private final ImageSet fDisabledImageSet;

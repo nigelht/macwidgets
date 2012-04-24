@@ -1,7 +1,7 @@
 package com.explodingpixels.macwidgets;
 
-import javax.swing.UIManager;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 
 public class MacFontUtils {
 
@@ -14,4 +14,7 @@ public class MacFontUtils {
     public static final Font TOOLBAR_LABEL_FONT =
             UIManager.getFont("Label.font").deriveFont(11.0f);
 
+    public static void enableAntialiasing(Graphics2D g2) {
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    }
 }

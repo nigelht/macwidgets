@@ -1,6 +1,6 @@
 package com.explodingpixels.swingx;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 
 public class EPToggleButton extends JToggleButton {
 
-    private Painter<AbstractButton> fBackgroundPainter;
+    private MacWidgetsPainter<AbstractButton> fBackgroundPainter;
 
     public EPToggleButton() {
         super();
@@ -51,7 +51,7 @@ public class EPToggleButton extends JToggleButton {
         setOpaque(false);
     }
 
-    public void setBackgroundPainter(Painter<AbstractButton> painter) {
+    public void setBackgroundPainter(MacWidgetsPainter<AbstractButton> painter) {
         fBackgroundPainter = painter;
     }
 

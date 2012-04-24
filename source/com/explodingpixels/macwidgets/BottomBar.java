@@ -12,7 +12,7 @@ import javax.swing.border.Border;
 import com.explodingpixels.border.FocusStateMatteBorder;
 import com.explodingpixels.painter.FocusStatePainter;
 import com.explodingpixels.painter.GradientPainter;
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.util.PlatformUtils;
 import com.explodingpixels.widgets.WindowDragger;
 import com.explodingpixels.widgets.WindowUtils;
@@ -178,18 +178,18 @@ public class BottomBar {
 						BorderFactory.createEmptyBorder(0, padding, 0, padding)));
 	}
 
-	private static Painter<Component> createDefaultPainter() {
-		Painter<Component> focusedPainter = new GradientPainter(
+	private static MacWidgetsPainter<Component> createDefaultPainter() {
+		MacWidgetsPainter<Component> focusedPainter = new GradientPainter(
 				ACTIVE_TOP_COLOR, ACTIVE_BOTTOM_COLOR);
-		Painter<Component> unfocusedPainter = new GradientPainter(
+		MacWidgetsPainter<Component> unfocusedPainter = new GradientPainter(
 				INACTIVE_TOP_COLOR, INACTIVE_BOTTOM_COLOR);
 		return new FocusStatePainter(focusedPainter, focusedPainter, unfocusedPainter);
 	}
 
-	private static Painter<Component> createLeopardPainter() {
-		Painter<Component> focusedPainter = new GradientPainter(
+	private static MacWidgetsPainter<Component> createLeopardPainter() {
+		MacWidgetsPainter<Component> focusedPainter = new GradientPainter(
 				LEOPARD_ACTIVE_TOP_COLOR, LEOPARD_ACTIVE_BOTTOM_COLOR);
-		Painter<Component> unfocusedPainter = new GradientPainter(
+		MacWidgetsPainter<Component> unfocusedPainter = new GradientPainter(
 				LEOPARD_INACTIVE_TOP_COLOR, LEOPARD_INACTIVE_BOTTOM_COLOR);
 		return new FocusStatePainter(focusedPainter, focusedPainter, unfocusedPainter);
 	}

@@ -3,6 +3,7 @@ package com.explodingpixels.macwidgets;
 import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
 import com.explodingpixels.macwidgets.plaf.UnifiedToolbarButtonUI;
 import com.explodingpixels.painter.*;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.swingx.EPButton;
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
@@ -40,7 +41,7 @@ public class MacButtonFactory {
     static final ImagePainter GRADIENT_BUTTON_IMAGE_PAINTER =
             new ImagePainter(GRADIENT_BACKGROUND_URL);
 
-    private static final Painter<Component> PRESSED_AND_SELECTED_GRADIENT_PAINTER =
+    private static final MacWidgetsPainter<Component> PRESSED_AND_SELECTED_GRADIENT_PAINTER =
             new CompoundPainter<Component>(GRADIENT_BUTTON_IMAGE_PAINTER,
                     new RectanglePainter(new Color(0, 0, 0, 89)));
 
@@ -52,14 +53,14 @@ public class MacButtonFactory {
                     PRESSED_AND_SELECTED_GRADIENT_PAINTER);
 
     /**
-     * Returns a {@link Painter} that paints a gradient matching Apple's
+     * Returns a {@link com.explodingpixels.painter.MacWidgetsPainter} that paints a gradient matching Apple's
      * depiction of a "Gradient style" button, depicted
      * <a href="http://developer.apple.com/technotes/tn2007/tn2196.html#BUTTONS">here</a>.
      *
      * @return a {@code Painter} that paints an Apple style gradient-button
      *         background.
      */
-    public static Painter<Component> getGradientButtonPainter() {
+    public static MacWidgetsPainter<Component> getGradientButtonPainter() {
         return GRADIENT_BUTTON_IMAGE_PAINTER;
     }
 

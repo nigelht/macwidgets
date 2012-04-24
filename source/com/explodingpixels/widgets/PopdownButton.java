@@ -1,6 +1,6 @@
 package com.explodingpixels.widgets;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.swingx.EPToggleButton;
 
 import javax.swing.*;
@@ -44,7 +44,7 @@ public class PopdownButton {
         fButton.putClientProperty("doNotCancelPopup", preventHide);
     }
 
-    public void setBackgroundPainter(Painter<AbstractButton> painter) {
+    public void setBackgroundPainter(MacWidgetsPainter<AbstractButton> painter) {
         fButton.setBackgroundPainter(painter);
     }
 

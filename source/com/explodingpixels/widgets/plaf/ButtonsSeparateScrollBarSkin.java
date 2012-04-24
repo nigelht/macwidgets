@@ -1,6 +1,6 @@
 package com.explodingpixels.widgets.plaf;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.swingx.EPPanel;
 
 import javax.swing.AbstractButton;
@@ -42,8 +42,8 @@ public class ButtonsSeparateScrollBarSkin implements ScrollBarSkin {
      *
      * @param decrementButton       the button to cause a decrement in the scroll bar to occur.
      * @param incrementButton       the button to cause a increment in the scroll bar to occur.
-     * @param trackPainter          the {@link Painter} to use to paint the track.
-     * @param scrollThumbPainter    the {@link Painter} to use to paint the scroll thumb.
+     * @param trackPainter          the {@link com.explodingpixels.painter.MacWidgetsPainter} to use to paint the track.
+     * @param scrollThumbPainter    the {@link com.explodingpixels.painter.MacWidgetsPainter} to use to paint the scroll thumb.
      * @param decrementButtonRecess the number of pixels to allow the scrollbar to "recess" into the
      *                              decrement button. this is useful when using scroll bars with rounded ends.
      * @param incrementButtonRecess the number of pixels to allow the scrollbar to "recess" into the
@@ -52,8 +52,8 @@ public class ButtonsSeparateScrollBarSkin implements ScrollBarSkin {
      * @param preferredSize         the preferred size of this skin.
      */
     public ButtonsSeparateScrollBarSkin(
-            AbstractButton decrementButton, AbstractButton incrementButton, Painter<Component> trackPainter,
-            Painter<Component> scrollThumbPainter, int decrementButtonRecess,
+            AbstractButton decrementButton, AbstractButton incrementButton, MacWidgetsPainter<Component> trackPainter,
+            MacWidgetsPainter<Component> scrollThumbPainter, int decrementButtonRecess,
             int incrementButtonRecess, Dimension minimumThumbSize, Dimension preferredSize) {
         fDecrementButton = decrementButton;
         fIncrementButton = incrementButton;

@@ -1,7 +1,7 @@
 package com.explodingpixels.macwidgets.plaf;
 
 import com.explodingpixels.painter.ImagePainter;
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.ImageBasedJComponent;
 import com.explodingpixels.widgets.plaf.ButtonsSeparateScrollBarSkin;
 import com.explodingpixels.widgets.plaf.ButtonsTogetherScrollBarSkin;
@@ -70,7 +70,7 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getHorizontalScrollBarMinimumSize();
         AbstractButton decrementButton = IAppScrollBarArtworkUtils.createHorizontalSeparateDecrementButton();
         AbstractButton incrementButton = IAppScrollBarArtworkUtils.createHorizontalSeparateIncrementButton();
-        Painter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getHorizontalTrack().getImage());
+        MacWidgetsPainter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getHorizontalTrack().getImage());
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createHorizontalScrollerThumb();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int incrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
@@ -84,7 +84,7 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getVerticalScrollBarMinimumSize();
         AbstractButton decrementButton = IAppScrollBarArtworkUtils.createVerticalSeparateDecrementButton();
         AbstractButton incrementButton = IAppScrollBarArtworkUtils.createVerticalSeparateIncrementButton();
-        Painter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getVerticalTrack().getImage());
+        MacWidgetsPainter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getVerticalTrack().getImage());
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createVerticalScrollerThumb();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int incrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
@@ -100,7 +100,7 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getHorizontalScrollBarMinimumSize();
         AbstractButton decrementButton = IAppScrollBarArtworkUtils.createHorizontalTogetherDecrementButton();
         AbstractButton incrementButton = IAppScrollBarArtworkUtils.createHorizontalTogetherIncrementButton();
-        Painter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getHorizontalTrack().getImage());
+        MacWidgetsPainter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getHorizontalTrack().getImage());
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createHorizontalScrollerThumb();
         int topCapRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
@@ -118,7 +118,7 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         Dimension minimumThumbSize = IAppScrollBarArtworkUtils.getVerticalScrollBarMinimumSize();
         AbstractButton decrementButton = IAppScrollBarArtworkUtils.createVerticalTogetherDecrementButton();
         AbstractButton incrementButton = IAppScrollBarArtworkUtils.createVerticalTogetherIncrementButton();
-        Painter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getVerticalTrack().getImage());
+        MacWidgetsPainter<Component> trackPainter = new ImagePainter(IAppScrollBarArtworkUtils.getVerticalTrack().getImage());
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createVerticalScrollerThumb();
         int topCapRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();

@@ -1,7 +1,7 @@
 package com.explodingpixels.macwidgets;
 
 import com.explodingpixels.painter.GradientWithBorderPainter;
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 
 /**
- * A {@link SourceListColorScheme} that provides {@link Painter}s and colors to render a standard
+ * A {@link SourceListColorScheme} that provides {@link com.explodingpixels.painter.MacWidgetsPainter}s and colors to render a standard
  * Mac {@link SourceList}:
  * <br>
  * <img src="../../../../graphics/iMovieSourceList.png">
@@ -19,13 +19,13 @@ import java.awt.Component;
  */
 public class SourceListDarkColorScheme implements SourceListColorScheme {
 
-    private static final Painter<Component> ACTIVE_FOCUSED_SELECTION_PAINTER =
+    private static final MacWidgetsPainter<Component> ACTIVE_FOCUSED_SELECTION_PAINTER =
             createSourceListActiveFocusedSelectionPainter();
 
-    private static final Painter<Component> ACTIVE_UNFOCUSED_SELECTION_PAINTER =
+    private static final MacWidgetsPainter<Component> ACTIVE_UNFOCUSED_SELECTION_PAINTER =
             createSourceListActiveUnfocusedSelectionPainter();
 
-    private static final Painter<Component> INACTIVE_FOCUSED_SELECTION_PAINTER =
+    private static final MacWidgetsPainter<Component> INACTIVE_FOCUSED_SELECTION_PAINTER =
             createSourceListInactiveSelectionPainter();
 
     private static Color ACTIVE_BACKGROUND_COLOR = new Color(0x3e3e3e);
@@ -45,15 +45,15 @@ public class SourceListDarkColorScheme implements SourceListColorScheme {
             SourceList.class.getResource(
                     "/com/explodingpixels/macwidgets/images/source_list_white_down_arrow.png"));
 
-    public Painter<Component> getActiveFocusedSelectedItemPainter() {
+    public MacWidgetsPainter<Component> getActiveFocusedSelectedItemPainter() {
         return ACTIVE_FOCUSED_SELECTION_PAINTER;
     }
 
-    public Painter<Component> getActiveUnfocusedSelectedItemPainter() {
+    public MacWidgetsPainter<Component> getActiveUnfocusedSelectedItemPainter() {
         return ACTIVE_UNFOCUSED_SELECTION_PAINTER;
     }
 
-    public Painter<Component> getInactiveSelectedItemPainter() {
+    public MacWidgetsPainter<Component> getInactiveSelectedItemPainter() {
         return INACTIVE_FOCUSED_SELECTION_PAINTER;
     }
 
@@ -117,18 +117,18 @@ public class SourceListDarkColorScheme implements SourceListColorScheme {
         return Color.WHITE;
     }
 
-    private static Painter<Component> createSourceListActiveFocusedSelectionPainter() {
+    private static MacWidgetsPainter<Component> createSourceListActiveFocusedSelectionPainter() {
         Color topLineColor = new Color(0x707070);
         Color topColor = new Color(0x949494);
         Color bottomColor = new Color(0x6a6a6a);
         return new GradientWithBorderPainter(topLineColor, bottomColor, topColor, bottomColor);
     }
 
-    private static Painter<Component> createSourceListActiveUnfocusedSelectionPainter() {
+    private static MacWidgetsPainter<Component> createSourceListActiveUnfocusedSelectionPainter() {
         return createSourceListInactiveSelectionPainter();
     }
 
-    private static Painter<Component> createSourceListInactiveSelectionPainter() {
+    private static MacWidgetsPainter<Component> createSourceListInactiveSelectionPainter() {
         Color topLineColor = new Color(0x979797);
         Color topColor = new Color(0xb4b4b4);
         Color bottomColor = new Color(0x8a8a8a);

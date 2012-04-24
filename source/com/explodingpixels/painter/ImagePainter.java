@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 
-public class ImagePainter implements Painter<Component> {
+public class ImagePainter implements MacWidgetsPainter<Component> {
 
     private final Image fImage;
 

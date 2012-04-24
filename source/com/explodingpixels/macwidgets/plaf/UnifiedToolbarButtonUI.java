@@ -1,6 +1,7 @@
 package com.explodingpixels.macwidgets.plaf;
 
 import com.explodingpixels.macwidgets.MacColorUtils;
+import com.explodingpixels.macwidgets.MacFontUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -73,7 +74,7 @@ public class UnifiedToolbarButtonUI extends BasicButtonUI {
 
     @Override
     protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
-
+        MacFontUtils.enableAntialiasing((Graphics2D) g);
         Graphics2D graphics = (Graphics2D) g.create();
 
         AbstractButton b = (AbstractButton) c;

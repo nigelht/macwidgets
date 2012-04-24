@@ -6,7 +6,7 @@ import java.awt.Window;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.swingx.EPPanel;
 import com.explodingpixels.widgets.WindowDragger;
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -212,14 +212,14 @@ public class TriAreaComponent {
 	}
 
 	/**
-	 * Set's the background {@link Painter} that this {@code TriAreaComponent}
+	 * Set's the background {@link com.explodingpixels.painter.MacWidgetsPainter} that this {@code TriAreaComponent}
 	 * uses.
 	 * 
 	 * @param backgroundPainter
-	 *            the background {@link Painter} that this
+	 *            the background {@link com.explodingpixels.painter.MacWidgetsPainter} that this
 	 *            {@code TriAreaComponent} uses.
 	 */
-	public void setBackgroundPainter(Painter<Component> backgroundPainter) {
+	public void setBackgroundPainter(MacWidgetsPainter<Component> backgroundPainter) {
 		fPanel.setBackgroundPainter(backgroundPainter);
 	}
 

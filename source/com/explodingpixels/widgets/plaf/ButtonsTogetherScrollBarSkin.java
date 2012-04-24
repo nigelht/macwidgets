@@ -1,6 +1,6 @@
 package com.explodingpixels.widgets.plaf;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.swingx.EPPanel;
 
 import javax.swing.AbstractButton;
@@ -45,8 +45,8 @@ public class ButtonsTogetherScrollBarSkin implements ScrollBarSkin {
      * @param scrollBarCap          the component to draw adjacent to the scroll tracks minimum value side.
      * @param decrementButton       the button to cause a decrement in the scroll bar to occur.
      * @param incrementButton       the button to cause a increment in the scroll bar to occur.
-     * @param trackPainter          the {@link Painter} to use to paint the track.
-     * @param scrollThumbPainter    the {@link Painter} to use to paint the scroll thumb.
+     * @param trackPainter          the {@link com.explodingpixels.painter.MacWidgetsPainter} to use to paint the track.
+     * @param scrollThumbPainter    the {@link com.explodingpixels.painter.MacWidgetsPainter} to use to paint the scroll thumb.
      * @param scrollBarCapRecess    the number of pixels to allow the scrollbar to "recess" into the
      *                              scroll bar cap. this is useful when using scroll bars with rounded ends.
      * @param decrementButtonRecess the number of pixels to allow the scrollbar to "recess" into the
@@ -56,7 +56,7 @@ public class ButtonsTogetherScrollBarSkin implements ScrollBarSkin {
      */
     public ButtonsTogetherScrollBarSkin(
             JComponent scrollBarCap, AbstractButton decrementButton, AbstractButton incrementButton,
-            Painter<Component> trackPainter, Painter<Component> scrollThumbPainter,
+            MacWidgetsPainter<Component> trackPainter, MacWidgetsPainter<Component> scrollThumbPainter,
             int scrollBarCapRecess, int decrementButtonRecess, Dimension minimumThumbSize,
             Dimension preferredSize) {
         fCap = scrollBarCap;

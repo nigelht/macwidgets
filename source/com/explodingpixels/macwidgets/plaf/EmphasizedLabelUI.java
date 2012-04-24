@@ -1,13 +1,13 @@
 package com.explodingpixels.macwidgets.plaf;
 
+import com.explodingpixels.macwidgets.MacFontUtils;
 import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicLabelUI;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * <p>
@@ -76,6 +76,7 @@ public class EmphasizedLabelUI extends BasicLabelUI {
     @Override
     protected void paintEnabledText(JLabel label, Graphics g, String s,
                                     int textX, int textY) {
+        MacFontUtils.enableAntialiasing((Graphics2D) g);
         g.setColor(fShadowColor);
         g.setFont(label.getFont());
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY + 1);
@@ -87,6 +88,7 @@ public class EmphasizedLabelUI extends BasicLabelUI {
     @Override
     protected void paintDisabledText(JLabel label, Graphics g, String s, int textX, int textY) {
         // TODO do use a diabled color here.
+        MacFontUtils.enableAntialiasing((Graphics2D) g);
         g.setColor(fShadowColor);
         g.setFont(label.getFont());
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, s, -1, textX, textY + 1);

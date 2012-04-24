@@ -1,42 +1,42 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.Painter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 import javax.swing.Icon;
 import java.awt.Color;
 import java.awt.Component;
 
 /**
- * An interface to provide a set of {@link Painter}s and colors to use when painting a
+ * An interface to provide a set of {@link com.explodingpixels.painter.MacWidgetsPainter}s and colors to use when painting a
  * {@link SourceList}.
  */
 public interface SourceListColorScheme {
 
     /**
-     * The {@link Painter} to use for drawing the {@link SourceList} selection when the
+     * The {@link com.explodingpixels.painter.MacWidgetsPainter} to use for drawing the {@link SourceList} selection when the
      * {@code SourceList} is in the active window and has focus.
      *
      * @return the {@code Painter} to use for painting the selection in an active window where the
      *         {@code SourceList} has focus.
      */
-    Painter<Component> getActiveFocusedSelectedItemPainter();
+    MacWidgetsPainter<Component> getActiveFocusedSelectedItemPainter();
 
     /**
-     * The {@link Painter} to use for drawing the {@link SourceList} selection when the
+     * The {@link com.explodingpixels.painter.MacWidgetsPainter} to use for drawing the {@link SourceList} selection when the
      * {@code SourceList} is in the active window and does not have focus.
      *
      * @return the {@code Painter} to use for painting the selection in an active window where the
      *         {@code SourceList} does not have focus.
      */
-    Painter<Component> getActiveUnfocusedSelectedItemPainter();
+    MacWidgetsPainter<Component> getActiveUnfocusedSelectedItemPainter();
 
     /**
-     * The {@link Painter} to use for drawing the {@link SourceList} selection when the
+     * The {@link com.explodingpixels.painter.MacWidgetsPainter} to use for drawing the {@link SourceList} selection when the
      * {@code SourceList} is in an inactive window.
      *
      * @return the {@code Painter} to use for painting the selection in an inactive window.
      */
-    Painter<Component> getInactiveSelectedItemPainter();
+    MacWidgetsPainter<Component> getInactiveSelectedItemPainter();
 
     /**
      * The color to draw a {@link SourceList} category with.
