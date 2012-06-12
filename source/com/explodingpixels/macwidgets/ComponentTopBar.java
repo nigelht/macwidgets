@@ -1,8 +1,8 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.GradientWithBorderPainter;
-
 import java.awt.Color;
+
+import com.explodingpixels.painter.GradientWithBorderPainter;
 
 public class ComponentTopBar extends TriAreaComponent {
     

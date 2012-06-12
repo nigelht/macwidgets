@@ -1,10 +1,14 @@
 package com.explodingpixels.macwidgets;
 
+import java.awt.Component;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+
 import com.explodingpixels.macwidgets.plaf.IAppScrollBarUI;
 import com.explodingpixels.widgets.ImageBasedJComponent;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * A factory for iApp style widgets.

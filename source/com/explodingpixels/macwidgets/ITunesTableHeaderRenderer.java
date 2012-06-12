@@ -1,17 +1,27 @@
 package com.explodingpixels.macwidgets;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.table.TableCellRenderer;
+
 import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
 import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.TableHeaderUtils;
 import com.explodingpixels.widgets.TableUtils;
 import com.explodingpixels.widgets.WindowUtils;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.table.TableCellRenderer;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 
 /**
  * A table header renderer for an iTunes style table. Note that this class specifically extends
