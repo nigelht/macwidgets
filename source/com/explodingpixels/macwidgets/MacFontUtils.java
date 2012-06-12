@@ -1,7 +1,10 @@
 package com.explodingpixels.macwidgets;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.UIManager;
 
 public class MacFontUtils {
 

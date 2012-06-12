@@ -1,12 +1,22 @@
 package com.explodingpixels.widgets;
 
-import com.explodingpixels.painter.MacWidgetsPainter;
-import com.explodingpixels.swingx.EPToggleButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.Icon;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuSelectionManager;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import java.awt.event.*;
+
+import com.explodingpixels.painter.MacWidgetsPainter;
+import com.explodingpixels.swingx.EPToggleButton;
 
 public class PopdownButton {
 

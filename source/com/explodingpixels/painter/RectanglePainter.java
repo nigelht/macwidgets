@@ -1,6 +1,8 @@
 package com.explodingpixels.painter;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
 
 /**
  * An implemenation of {@link MacWidgetsPainter} that fills the given width and height of a {@link Component} with a solid color.

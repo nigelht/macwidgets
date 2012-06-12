@@ -1,13 +1,19 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
-import com.explodingpixels.widgets.WindowUtils;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JToggleButton;
+import javax.swing.border.Border;
+
+import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
+import com.explodingpixels.widgets.WindowUtils;
 
 public class PreferencesTabBar {
 

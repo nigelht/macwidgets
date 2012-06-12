@@ -1,10 +1,11 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.widgets.ImageUtils;
-
-import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.net.URL;
+
+import javax.swing.ImageIcon;
+
+import com.explodingpixels.widgets.ImageUtils;
 
 public class ArtworkUtils {
 

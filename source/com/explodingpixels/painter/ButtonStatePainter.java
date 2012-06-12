@@ -1,7 +1,9 @@
 package com.explodingpixels.painter;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics2D;
+
+import javax.swing.AbstractButton;
 
 /**
  * A {@link MacWidgetsPainter} that can be used to paint the various states of a button. This painter

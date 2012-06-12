@@ -1,9 +1,14 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
-import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style text field, similar to that seen in various iApps (e.g.

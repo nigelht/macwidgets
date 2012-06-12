@@ -1,10 +1,10 @@
 package com.explodingpixels.widgets;
 
-import com.explodingpixels.painter.ImagePainter;
-import com.explodingpixels.swingx.EPPanel;
-
 import java.awt.Dimension;
 import java.awt.Image;
+
+import com.explodingpixels.painter.ImagePainter;
+import com.explodingpixels.swingx.EPPanel;
 
 public class ImageBasedJComponent extends EPPanel {
 

@@ -1,13 +1,14 @@
 package com.explodingpixels.swingx;
 
-import com.explodingpixels.painter.MacWidgetsPainter;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JToggleButton;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 public class EPToggleButton extends JToggleButton {
 

@@ -1,9 +1,14 @@
 package com.explodingpixels.widgets.plaf;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.WindowUtils;
-
-import java.awt.*;
 
 /**
  * An implementation of {@link com.explodingpixels.painter.MacWidgetsPainter} that paints a scroll thumb using images.

@@ -1,16 +1,17 @@
 package com.explodingpixels.widgets.plaf;
 
-import com.explodingpixels.painter.MacWidgetsPainter;
-import com.explodingpixels.swingx.EPPanel;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.event.MouseListener;
+
+import com.explodingpixels.painter.MacWidgetsPainter;
+import com.explodingpixels.swingx.EPPanel;
 
 /**
  * A {@link ScrollBarSkin} with the buttons placed at the bottom or right of the scroll bar.

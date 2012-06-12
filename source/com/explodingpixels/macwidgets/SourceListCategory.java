@@ -1,10 +1,10 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.TextProvider;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.explodingpixels.widgets.TextProvider;
 
 /**
  * A category in a {@link SourceList}. {@code SourceListCategory}s are top level containers for

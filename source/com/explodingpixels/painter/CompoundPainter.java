@@ -1,6 +1,6 @@
 package com.explodingpixels.painter;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 /**
  * An implementation of {@link MacWidgetsPainter} that calls a series of {@code Painter}s in succession. {@code ComponentPainter}

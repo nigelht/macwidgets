@@ -1,9 +1,17 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.widgets.WindowUtils;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.JComponent;
+
+import com.explodingpixels.widgets.WindowUtils;
 
 public class PreferencesTabBarButtonUI extends UnifiedToolbarButtonUI {
 

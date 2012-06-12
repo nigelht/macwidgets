@@ -1,9 +1,15 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.*;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
-import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style button, similar to that seen in various iApps (e.g.

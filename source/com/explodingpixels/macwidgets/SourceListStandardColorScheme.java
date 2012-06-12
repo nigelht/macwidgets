@@ -1,13 +1,14 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import com.explodingpixels.painter.GradientWithBorderPainter;
-import com.explodingpixels.painter.MacWidgetsPainter;
+import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Component;
+
+import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
+import com.explodingpixels.painter.GradientWithBorderPainter;
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 /**
  * A {@link SourceListColorScheme} that provides {@link com.explodingpixels.painter.MacWidgetsPainter}s and colors to render a standard

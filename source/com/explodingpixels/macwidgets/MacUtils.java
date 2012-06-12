@@ -1,8 +1,8 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.util.PlatformUtils;
-
 import javax.swing.JRootPane;
+
+import com.explodingpixels.util.PlatformUtils;
 
 /**
  * A collection of utilities related to the Mac.

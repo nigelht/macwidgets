@@ -1,13 +1,23 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.MacColorUtils;
-import com.explodingpixels.macwidgets.MacFontUtils;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+
+import com.explodingpixels.macwidgets.MacColorUtils;
+import com.explodingpixels.macwidgets.MacFontUtils;
 
 public class UnifiedToolbarButtonUI extends BasicButtonUI {
 

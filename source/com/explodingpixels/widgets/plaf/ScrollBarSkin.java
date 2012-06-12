@@ -1,9 +1,10 @@
 package com.explodingpixels.widgets.plaf;
 
-import javax.swing.JScrollBar;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
+
+import javax.swing.JScrollBar;
 
 /**
  * An interface that allows implementors to control the appearance of a {@link JScrollBar}.

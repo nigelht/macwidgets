@@ -1,8 +1,12 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicLabelUI;
-import java.awt.*;
 
 /**
  * Creates a Heads Up Display (HUD) style label, similar to that seen in various iApps (e.g. iPhoto).

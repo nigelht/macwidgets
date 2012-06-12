@@ -1,10 +1,11 @@
 package com.explodingpixels.widgets;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.Action;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import java.util.Arrays;
-import java.util.List;
 
 public class PopupMenuCustomizerUsingActions {
 

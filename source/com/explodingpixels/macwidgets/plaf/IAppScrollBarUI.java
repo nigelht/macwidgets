@@ -1,5 +1,13 @@
 package com.explodingpixels.macwidgets.plaf;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Image;
+
+import javax.swing.AbstractButton;
+import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
+
 import com.explodingpixels.painter.ImagePainter;
 import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.ImageBasedJComponent;
@@ -9,13 +17,6 @@ import com.explodingpixels.widgets.plaf.ScrollBarOrientation;
 import com.explodingpixels.widgets.plaf.ScrollBarSkin;
 import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
 import com.explodingpixels.widgets.plaf.SkinnableScrollBarUI;
-
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
 
 /**
  * Creates an iApp style scroll bar, either horizontal or vertical based on

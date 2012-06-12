@@ -1,9 +1,12 @@
 package com.explodingpixels.swingx;
 
-import com.explodingpixels.painter.MacWidgetsPainter;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 public class EPPanel extends JPanel {
 

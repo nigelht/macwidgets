@@ -1,10 +1,11 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.JComponent;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+
+import javax.swing.JComponent;
 
 /**
  * A {@link JComponent} that tracks the width or height of another component.

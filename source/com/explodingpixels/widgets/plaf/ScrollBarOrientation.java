@@ -1,10 +1,11 @@
 package com.explodingpixels.widgets.plaf;
 
-import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+
+import javax.swing.SwingConstants;
 
 /**
  * An orientation corresponding to a {@link javax.swing.JScrollBar}. The methods in this enumeration

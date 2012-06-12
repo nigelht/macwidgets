@@ -1,12 +1,21 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.MacFontUtils;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicRadioButtonUI;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
+
+import com.explodingpixels.macwidgets.MacFontUtils;
 
 /**
  * Creates a Heads Up Display (HUD) style radio button, similar to that seen in various iApps

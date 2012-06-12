@@ -1,6 +1,6 @@
 package com.explodingpixels.painter;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 /**
  * An interface that allows painting to be delegated. The implementation of this interface will be called during the

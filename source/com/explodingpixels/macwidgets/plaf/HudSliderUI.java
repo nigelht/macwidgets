@@ -1,11 +1,21 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicSliderUI;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.JComponent;
+import javax.swing.JSlider;
+import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
  * Creates a Heads Up Display (HUD) style slider, similar to that seen in various iApps

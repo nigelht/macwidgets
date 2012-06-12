@@ -28,7 +28,7 @@ import com.jgoodies.forms.factories.Borders;
  */
 public class UnifiedToolBar {
 
-	private final TriAreaComponent fUnifiedToolBar = new TriAreaComponent(10);
+	private final TriAreaComponent fUnifiedToolBar = new TriAreaComponent(4);
 
 	/**
 	 * Creates a {@code UnifiedToolBar}.

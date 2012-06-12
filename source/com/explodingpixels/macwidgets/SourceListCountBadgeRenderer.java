@@ -1,12 +1,21 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.WindowUtils;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+
+import com.explodingpixels.widgets.WindowUtils;
 
 /**
  * Renders a rounded rectangle (i.e. a badge) with a given number in the center of the rectangle.
