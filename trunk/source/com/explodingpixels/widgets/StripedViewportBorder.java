@@ -25,14 +25,15 @@ import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
  * Creates a border for a {@link JViewport} that draws a striped background
  * corresponding to the row positions of the given {@link JTable}.
  */
-class StripedViewportBorder extends AbstractBorder implements
+public class StripedViewportBorder extends AbstractBorder implements
 		ListSelectionListener, PropertyChangeListener {
 
 	private final JViewport fViewport;
 	private final JTable fTable;
 	private final Color fStripeColor;
 
-	StripedViewportBorder(JViewport viewport, JTable table, Color stripeColor) {
+	public StripedViewportBorder(JViewport viewport, JTable table,
+			Color stripeColor) {
 		fViewport = viewport;
 		fTable = table;
 		fStripeColor = stripeColor;
@@ -40,6 +41,10 @@ class StripedViewportBorder extends AbstractBorder implements
 		fTable.addPropertyChangeListener(this);
 		WindowUtils.installWeakWindowFocusListener(table,
 				createWindowFocusListener());
+	}
+
+	public StripedViewportBorder(JViewport viewport, JTable table) {
+		this(viewport, table, new Color(241, 245, 250));
 	}
 
 	@Override
