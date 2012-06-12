@@ -1,13 +1,14 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.widgets.ImageButton;
-import com.explodingpixels.widgets.ImageUtils;
-import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
+import java.awt.Dimension;
+import java.awt.Image;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
-import java.awt.Dimension;
-import java.awt.Image;
+
+import com.explodingpixels.widgets.ImageButton;
+import com.explodingpixels.widgets.ImageUtils;
+import com.explodingpixels.widgets.plaf.ScrollThumbImagePainter;
 
 public class IAppScrollBarArtworkUtils {
 

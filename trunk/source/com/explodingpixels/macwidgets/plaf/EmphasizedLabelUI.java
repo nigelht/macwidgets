@@ -1,13 +1,16 @@
 package com.explodingpixels.macwidgets.plaf;
 
-import com.explodingpixels.macwidgets.MacFontUtils;
-import com.explodingpixels.widgets.WindowUtils;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicLabelUI;
-import java.awt.*;
+
+import com.explodingpixels.macwidgets.MacFontUtils;
+import com.explodingpixels.widgets.WindowUtils;
 
 /**
  * <p>

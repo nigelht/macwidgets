@@ -1,17 +1,26 @@
 package com.explodingpixels.macwidgets;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.net.URL;
+
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+
 import com.explodingpixels.macwidgets.plaf.PreferencesTabBarButtonUI;
 import com.explodingpixels.macwidgets.plaf.UnifiedToolbarButtonUI;
-import com.explodingpixels.painter.*;
+import com.explodingpixels.painter.ButtonStatePainter;
+import com.explodingpixels.painter.CompoundPainter;
+import com.explodingpixels.painter.ImagePainter;
 import com.explodingpixels.painter.MacWidgetsPainter;
+import com.explodingpixels.painter.RectanglePainter;
 import com.explodingpixels.swingx.EPButton;
 import com.explodingpixels.widgets.PopdownButton;
 import com.explodingpixels.widgets.PopupMenuCustomizer;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.net.URL;
 
 /**
  * A factory for creating Mac-style buttons.

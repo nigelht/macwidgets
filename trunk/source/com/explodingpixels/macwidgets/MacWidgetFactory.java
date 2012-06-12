@@ -1,7 +1,7 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
-import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
+import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -11,8 +11,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.table.TableModel;
-import java.awt.Color;
-import java.awt.Dimension;
+
+import com.explodingpixels.macwidgets.plaf.EmphasizedLabelUI;
+import com.explodingpixels.macwidgets.plaf.ITunesTableUI;
 
 /**
  * A factory for creating various types of Mac style widgets. See each method's javadoc for detailed

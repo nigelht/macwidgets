@@ -1,8 +1,8 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.util.PlatformUtils;
-
 import java.awt.Color;
+
+import com.explodingpixels.util.PlatformUtils;
 
 /**
  * Utility methods for dealing with Mac colors.

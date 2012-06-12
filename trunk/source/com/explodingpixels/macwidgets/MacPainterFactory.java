@@ -1,12 +1,12 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.MacWidgetsPainter;
-import com.explodingpixels.widgets.WindowUtils;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+
+import com.explodingpixels.painter.MacWidgetsPainter;
+import com.explodingpixels.widgets.WindowUtils;
 
 public class MacPainterFactory {
 

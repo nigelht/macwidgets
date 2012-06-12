@@ -1,11 +1,16 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Graphics;
+
+import javax.swing.CellRendererPane;
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
 
 public class TableHeaderUtils {
 

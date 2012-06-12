@@ -1,6 +1,6 @@
 package com.explodingpixels.widgets;
 
-import java.awt.*;
+import java.awt.Component;
 
 public interface TabCloseListener {
 

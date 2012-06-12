@@ -1,6 +1,5 @@
 package com.explodingpixels.widgets;
 
-import javax.swing.SwingUtilities;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Window;
@@ -8,6 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+
+import javax.swing.SwingUtilities;
 
 public class WindowDragger {
 

@@ -1,11 +1,19 @@
 package com.explodingpixels.widgets.plaf;
 
-import com.explodingpixels.widgets.WindowUtils;
-
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+
+import javax.swing.BoundedRangeModel;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+
+import com.explodingpixels.widgets.WindowUtils;
 
 /**
  * An implementation of {@link javax.swing.plaf.ScrollBarUI} that supports dynamic skinning.

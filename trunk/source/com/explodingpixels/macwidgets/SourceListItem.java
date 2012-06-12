@@ -1,14 +1,15 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.widgets.IconProvider;
-import com.explodingpixels.widgets.TextProvider;
-
-import javax.swing.Icon;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.Icon;
+
+import com.explodingpixels.widgets.IconProvider;
+import com.explodingpixels.widgets.TextProvider;
 
 /**
  * An item in a {@link SourceList} which is contained within a {@link SourceListCategory}.

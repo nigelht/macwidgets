@@ -1,10 +1,11 @@
 package com.explodingpixels.macwidgets;
 
-import com.explodingpixels.painter.MacWidgetsPainter;
-
-import javax.swing.Icon;
 import java.awt.Color;
 import java.awt.Component;
+
+import javax.swing.Icon;
+
+import com.explodingpixels.painter.MacWidgetsPainter;
 
 /**
  * An interface to provide a set of {@link com.explodingpixels.painter.MacWidgetsPainter}s and colors to use when painting a

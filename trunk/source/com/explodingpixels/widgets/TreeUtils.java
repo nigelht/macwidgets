@@ -1,5 +1,7 @@
 package com.explodingpixels.widgets;
 
+import java.awt.Rectangle;
+
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -7,7 +9,6 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.TreePath;
-import java.awt.Rectangle;
 
 public class TreeUtils {
 

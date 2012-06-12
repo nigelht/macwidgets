@@ -1,9 +1,18 @@
 package com.explodingpixels.widgets.plaf;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 public class EPTabPainter {
 
