@@ -95,6 +95,28 @@ public class MacButtonFactory {
 
         return button;
     }
+    
+    /**
+     * Creates an Apple style gradient button using the given text. The
+     * given {@link ActionListener} will be notified when the button's action
+     * fires.
+     *
+     * @param text the text to use in the button.
+     * @param actionListener the {@code ActionListener} to notify when the
+     *        created button is pressed.
+     * @return a gradient-style button.
+     */
+    public static JComponent createGradientButton(
+            String text, ActionListener actionListener) {
+
+        EPButton button = new EPButton(text);
+        button.addActionListener(actionListener);
+
+        button.setBackgroundPainter(GRADIENT_BUTTON_PAINTER);
+        initGradientButton(button);
+
+        return button;
+    }
 
     /**
      * Creates an Apple style gradient pop-down button using the given
