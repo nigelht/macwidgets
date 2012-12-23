@@ -11,6 +11,9 @@ import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
+import com.explodingpixels.macwidgets.WidgetBaseColors;
+import com.explodingpixels.macwidgets.plaf.HudPaintingUtils.Roundedness;
+
 /**
  * Creates a Heads Up Display (HUD) style button, similar to that seen in various iApps (e.g.
  * iPhoto).
@@ -24,6 +27,10 @@ public class HudButtonUI extends BasicButtonUI {
     private static final int TOP_AND_BOTTOM_MARGIN = 2;
 
     private static final int LEFT_AND_RIGHT_MARGIN = 16;
+    
+    private boolean isDarkColorScheme = true;
+    
+    HudComboBoxUI hudComboBoxUI = null;
 
     /**
      * Creates a HUD style {@link javax.swing.plaf.ButtonUI} with full rounded edges.
@@ -33,6 +40,15 @@ public class HudButtonUI extends BasicButtonUI {
     }
 
     /**
+     * Creates a HUD style {@link javax.swing.plaf.ButtonUI} with full rounded edges.
+     */
+    public HudButtonUI(boolean isDarkColorScheme) {
+        this(HudPaintingUtils.Roundedness.ROUNDED_BUTTON);
+        
+        this.isDarkColorScheme = isDarkColorScheme;
+    }
+    
+    /**
      * Creates a HUD style {@link javax.swing.plaf.ButtonUI} with the given edge rounded ness.
      *
      * @param roundedness the rounded style to use for the button edges.
@@ -41,17 +57,40 @@ public class HudButtonUI extends BasicButtonUI {
         fRoundedness = roundedness;
     }
 
+    /**
+     * Creates a HUD style {@link javax.swing.plaf.ButtonUI} with the given edge rounded ness.
+     *
+     * @param roundedness the rounded style to use for the button edges.
+     */
+    public HudButtonUI(HudPaintingUtils.Roundedness roundedness, boolean isDarkColorScheme) {
+        fRoundedness = roundedness;
+        this.isDarkColorScheme = isDarkColorScheme;
+    }
+    
+    protected HudButtonUI(Roundedness roundness, HudComboBoxUI hudComboBoxUI, boolean isDarkColorScheme)
+	{
+        this(roundness, isDarkColorScheme);
+
+        this.hudComboBoxUI = hudComboBoxUI;
+	}
+
+    protected HudButtonUI(Roundedness roundness, HudComboBoxUI hudComboBoxUI)
+	{
+		this(roundness);
+        this.hudComboBoxUI = hudComboBoxUI;
+	}
+    
     @Override
     protected void installDefaults(AbstractButton b) {
         super.installDefaults(b);
 
         // TODO save original values.
 
-        HudPaintingUtils.initHudComponent(b);
+        HudPaintingUtils.initHudComponent(b, isDarkColorScheme);
         b.setHorizontalTextPosition(AbstractButton.CENTER);
         int bottomMargin = TOP_AND_BOTTOM_MARGIN + HudPaintingUtils.getHudControlShadowSize(b);
         b.setBorder(BorderFactory.createEmptyBorder(TOP_AND_BOTTOM_MARGIN, LEFT_AND_RIGHT_MARGIN,
-                bottomMargin, LEFT_AND_RIGHT_MARGIN));
+                bottomMargin, LEFT_AND_RIGHT_MARGIN));        	
     }
 
     @Override
@@ -62,7 +101,10 @@ public class HudButtonUI extends BasicButtonUI {
 
         int buttonHeight = button.getHeight() - HudPaintingUtils.getHudControlShadowSize(button);
         HudPaintingUtils.paintHudControlBackground(graphics, button, button.getWidth(),
-                buttonHeight, fRoundedness);
+                buttonHeight, fRoundedness, isDarkColorScheme);
+
+        if (hudComboBoxUI != null)
+        	hudComboBoxUI.paint(g, c);
 
         super.paint(g, c);
     }
@@ -73,6 +115,7 @@ public class HudButtonUI extends BasicButtonUI {
         int mnemonicIndex = button.getDisplayedMnemonicIndex();
 
         g.setColor(button.getForeground());
+         	
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex,
                 textRect.x + getTextShiftOffset(),
                 textRect.y + fontMetrics.getAscent() + getTextShiftOffset());

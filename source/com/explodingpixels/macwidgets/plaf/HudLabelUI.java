@@ -14,11 +14,13 @@ import javax.swing.plaf.basic.BasicLabelUI;
  * <img src="../../../../../graphics/HUDLabelUI.png">
  */
 public class HudLabelUI extends BasicLabelUI {
+    
+    private boolean isDarkColorScheme = true;
 
     @Override
     protected void installDefaults(JLabel c) {
         super.installDefaults(c);
-        HudPaintingUtils.initHudComponent(c);
+        HudPaintingUtils.initHudComponent(c, isDarkColorScheme);
     }
 
     @Override
