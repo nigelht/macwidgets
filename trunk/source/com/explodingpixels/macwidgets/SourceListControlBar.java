@@ -54,18 +54,7 @@ import com.explodingpixels.widgets.PopupMenuCustomizer;
  */
 public class SourceListControlBar {
 
-    private static final ImageIcon SPLITTER_HANDLE =
-            new ImageIcon(SourceListControlBar.class.getResource(
-                    "/com/explodingpixels/macwidgets/images/splitter_handle.png"));
-
     private ComponentBottomBar fComponentBottomBar = new ComponentBottomBar();
-
-    private JSplitPane fSplitPane;
-
-    private final JLabel fSplitterHandle = new JLabel(SPLITTER_HANDLE);
-
-    private final SplitterHandleMouseMovementHandler fMouseListener =
-            new SplitterHandleMouseMovementHandler();
 
     /**
      * Creates a {@code SourceListControlBar}.
@@ -75,8 +64,6 @@ public class SourceListControlBar {
     }
 
     private void init() {
-        fComponentBottomBar.addComponentToRight(fSplitterHandle);
-        fSplitterHandle.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
     }
 
     /**
@@ -87,13 +74,7 @@ public class SourceListControlBar {
      * @param splitPane the {@code JSplitPane} to connect the draggable widget to.
      */
     public void installDraggableWidgetOnSplitPane(JSplitPane splitPane) {
-        if (splitPane == null) {
-            throw new IllegalArgumentException("JSplitPane cannot be null.");
-        }
-
-        fSplitPane = splitPane;
-        fSplitterHandle.addMouseListener(fMouseListener);
-        fSplitterHandle.addMouseMotionListener(fMouseListener);
+        fComponentBottomBar.installDraggableWidgetOnSplitPane(splitPane);
     }
 
     /**
@@ -146,38 +127,6 @@ public class SourceListControlBar {
      * Hides the resize handle.
      */
     public void hideResizeHandle() {
-        fSplitterHandle.setVisible(false);
+        fComponentBottomBar.hideResizeHandle();
     }
-
-    // Mouse handler for splitter control widget. /////////////////////////////////////////////////
-
-    private class SplitterHandleMouseMovementHandler extends MouseAdapter
-            implements MouseMotionListener {
-
-        private int fDelta;
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            MouseEvent convertedEvent =
-                    SwingUtilities.convertMouseEvent(fSplitterHandle, e, fSplitPane);
-
-            fDelta = fSplitPane.getDividerLocation() - convertedEvent.getPoint().x;
-        }
-
-        // MouseMotionListener implementation /////////////////////////////////////////////////////
-
-        public void mouseDragged(MouseEvent e) {
-            MouseEvent convertedEvent =
-                    SwingUtilities.convertMouseEvent(fSplitterHandle, e, fSplitPane);
-            int newLocation = convertedEvent.getPoint().x + fDelta;
-            // bound newLocation between the minimum and maximum divider locations.
-            int boundedNewLocation = Math.max(fSplitPane.getMinimumDividerLocation(),
-                    Math.min(newLocation, fSplitPane.getMaximumDividerLocation()));
-            fSplitPane.setDividerLocation(boundedNewLocation);
-        }
-
-        public void mouseMoved(MouseEvent e) {
-        }
-    }
-
 }
