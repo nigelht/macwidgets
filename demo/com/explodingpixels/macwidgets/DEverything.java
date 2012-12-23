@@ -4,10 +4,12 @@ import com.explodingpixels.widgets.PopupMenuCustomizerUsingStrings;
 import com.explodingpixels.widgets.WindowUtils;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -19,17 +21,62 @@ import java.awt.event.ActionListener;
 public class DEverything {
 
     private UnifiedToolBar fUnifiedToolBar;
+    private BottomBar fMiddleButtonPanel;
+    private BottomBar fBottomBar;
 
     private SourceList fSourceList;
 
     public DEverything(JFrame frame) {
         fUnifiedToolBar = createUnifiedToolBar();
         fUnifiedToolBar.installWindowDraggerOnWindow(frame);
+        
+        fBottomBar = new BottomBar(BottomBarSize.EXTRA_SMALL);
+        fBottomBar.installWindowDraggerOnWindow(frame);
+        
+        fMiddleButtonPanel = new BottomBar(BottomBarSize.LARGE);
+   
+		JButton leftButton = new JButton(new ImageIcon(
+				DBottomBar.class.getResource("/com/explodingpixels/macwidgets/icons/AddItem16.png")));
+		leftButton.putClientProperty("JButton.buttonType", "segmentedTextured");
+		leftButton.putClientProperty("JButton.segmentPosition", "first");
+		leftButton.setFocusable(false);
 
+		JButton rightButton = new JButton(new ImageIcon(
+				DBottomBar.class.getResource("/com/explodingpixels/macwidgets/icons/RemoveItem16.png")));
+		rightButton.putClientProperty("JButton.buttonType", "segmentedTextured");
+		rightButton.putClientProperty("JButton.segmentPosition", "last");
+		rightButton.setFocusable(false);
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(leftButton);
+		group.add(rightButton);
+
+		JButton lockButton = new JButton(new ImageIcon(
+				DBottomBar.class.getResource("/com/explodingpixels/macwidgets/icons/lock.png")));
+		lockButton.putClientProperty("JButton.buttonType", "textured");
+
+		fMiddleButtonPanel.addComponentToLeft(leftButton, 0);
+		fMiddleButtonPanel.addComponentToLeft(rightButton);
+		fMiddleButtonPanel.addComponentToRight(lockButton);
+		
         JSplitPane splitPane = createSourceListAndMainArea();
 
+        JPanel lowerArea = new JPanel(new BorderLayout());
+        ActivePanel textArea = new ActivePanel(new WidgetDarkColorScheme());
+        textArea.setForeground(WidgetBaseColors.DARK_FONT_COLOR);
+        textArea.setBackground(WidgetBaseColors.DARK_ACTIVE_BACKGROUND_COLOR);
+        
+        lowerArea.add(fMiddleButtonPanel.getComponent(), BorderLayout.NORTH);
+        lowerArea.add(textArea, BorderLayout.CENTER);
+        
+        JSplitPane topBottomPane = WidgetFactory.createVerticalSplitPane(splitPane, lowerArea);
+        fMiddleButtonPanel.installDraggableWidgetOnSplitPane(topBottomPane);
+        
+        topBottomPane.setDividerLocation(200);
+                
         frame.add(fUnifiedToolBar.getComponent(), BorderLayout.NORTH);
-        frame.add(splitPane, BorderLayout.CENTER);
+        frame.add(topBottomPane, BorderLayout.CENTER);
+        frame.add(fBottomBar.getComponent(), BorderLayout.SOUTH);
     }
 
     private UnifiedToolBar createUnifiedToolBar() {
@@ -128,8 +175,8 @@ public class DEverything {
 
         fSourceList.installSourceListControlBar(controlBar);
 
-        JTextArea textArea = new JTextArea();
-
+        ActivePanel textArea = new ActivePanel();
+ 
         JSplitPane splitPane = MacWidgetFactory.createSplitPaneForSourceList(fSourceList, textArea);
 
         // TODO make SourceList a better size by default

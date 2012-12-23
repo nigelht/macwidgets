@@ -40,8 +40,7 @@ public class DHudControls {
                         ((DefaultComboBoxModel) comboBox.getModel()).addElement("Item One");
                     }
                 });
-                comboBox.setEnabled(false);
-
+                comboBox.setEnabled(true);
 
                 JTextField textField = HudWidgetFactory.createHudTextField("Text field");
                 textField.setColumns(8);
