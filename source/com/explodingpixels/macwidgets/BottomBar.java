@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import com.explodingpixels.border.FocusStateMatteBorder;
@@ -33,19 +38,24 @@ import com.explodingpixels.widgets.WindowUtils;
  */
 public class BottomBar {
 
-	private final TriAreaComponent fBottomBar = new TriAreaComponent(5);
+	protected final TriAreaComponent fBottomBar = new TriAreaComponent(5);
 
-	private static final Color ACTIVE_TOP_COLOR = new Color(0xcccccc);
-	private static final Color ACTIVE_BOTTOM_COLOR = new Color(0xa7a7a7);
-	private static final Color INACTIVE_TOP_COLOR = new Color(0xe9e9e9);
-	private static final Color INACTIVE_BOTTOM_COLOR = new Color(0xd8d8d8);
-	private static final Color BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 100);
+	protected JSplitPane fSplitPane;
 
-	private static final Color LEOPARD_ACTIVE_TOP_COLOR = new Color(0xbbbbbb);
-	private static final Color LEOPARD_ACTIVE_BOTTOM_COLOR = new Color(0x969696);
-	private static final Color LEOPARD_INACTIVE_TOP_COLOR = new Color(0xe3e3e3);
-	private static final Color LEOPARD_INACTIVE_BOTTOM_COLOR = new Color(0xcfcfcf);
-	private static final Color LEOPARD_BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 110);
+	protected final SplitterHandleMouseMovementHandler fMouseListener =
+            new SplitterHandleMouseMovementHandler();
+
+	protected static final Color ACTIVE_TOP_COLOR = new Color(0xcccccc);
+	protected static final Color ACTIVE_BOTTOM_COLOR = new Color(0xa7a7a7);
+	protected static final Color INACTIVE_TOP_COLOR = new Color(0xe9e9e9);
+	protected static final Color INACTIVE_BOTTOM_COLOR = new Color(0xd8d8d8);
+	protected static final Color BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 100);
+
+	protected static final Color LEOPARD_ACTIVE_TOP_COLOR = new Color(0xbbbbbb);
+	protected static final Color LEOPARD_ACTIVE_BOTTOM_COLOR = new Color(0x969696);
+	protected static final Color LEOPARD_INACTIVE_TOP_COLOR = new Color(0xe3e3e3);
+	protected static final Color LEOPARD_INACTIVE_BOTTOM_COLOR = new Color(0xcfcfcf);
+	protected static final Color LEOPARD_BORDER_HIGHLIGHT_COLOR = new Color(255, 255, 255, 110);
 
 	/**
 	 * Creates a {@code BottomBar} of the given size.
@@ -153,6 +163,33 @@ public class BottomBar {
 	public JComponent getComponent() {
 		return fBottomBar.getComponent();
 	}
+	
+    public void forceAreasToHaveTheSameWidth() {
+        fBottomBar.forceAreasToHaveTheSameWidth();
+    }
+
+    public void forceOuterAreasToHaveTheSameWidth() {
+        fBottomBar.forceOuterAreasToHaveTheSameWidth();
+    }
+    
+
+    /**
+     * Connects the draggable widget in this {@code BottomBar} to the divider of the
+     * given {@link JSplitPane}. Thus when the user drags the {@code BottomBar} draggable
+     * widget, the given {@code JSplitPane}s divider location will be adjusted.
+     *
+     * @param splitPane the {@code JSplitPane} to connect the draggable widget to.
+     */
+    public void installDraggableWidgetOnSplitPane(JSplitPane splitPane) {
+        if (splitPane == null) {
+            throw new IllegalArgumentException("JSplitPane cannot be null.");
+        }
+
+        fSplitPane = splitPane;
+        this.getComponent().addMouseListener(fMouseListener);
+        this.getComponent().addMouseMotionListener(fMouseListener);
+        //fSplitterHandle.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+    }
 
 	// Private methods. ///////////////////////////////////////////////////////////////////////////
 
@@ -197,5 +234,37 @@ public class BottomBar {
 	private static Color getBorderHighlightColor() {
 		return PlatformUtils.isLeopard() ? LEOPARD_BORDER_HIGHLIGHT_COLOR : BORDER_HIGHLIGHT_COLOR;
 	}
+	
+	   
+    // Mouse handler for splitter control widget. /////////////////////////////////////////////////
+
+    private class SplitterHandleMouseMovementHandler extends MouseAdapter
+            implements MouseMotionListener {
+
+        private int fDelta;
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            MouseEvent convertedEvent =
+                    SwingUtilities.convertMouseEvent(BottomBar.this.getComponent(), e, fSplitPane);
+
+            fDelta = fSplitPane.getDividerLocation() - convertedEvent.getPoint().y;
+        }
+        
+        // MouseMotionListener implementation /////////////////////////////////////////////////////
+
+        public void mouseDragged(MouseEvent e) {
+            MouseEvent convertedEvent =
+                    SwingUtilities.convertMouseEvent(BottomBar.this.getComponent(), e, fSplitPane);
+            int newLocation = convertedEvent.getPoint().y + fDelta;
+            // bound newLocation between the minimum and maximum divider locations.
+            int boundedNewLocation = Math.max(fSplitPane.getMinimumDividerLocation(),
+                    Math.min(newLocation, fSplitPane.getMaximumDividerLocation()));
+            fSplitPane.setDividerLocation(boundedNewLocation);
+        }
+
+        public void mouseMoved(MouseEvent e) {
+        }
+    }    
 
 }
