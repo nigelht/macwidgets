@@ -1,9 +1,13 @@
 package com.explodingpixels.macwidgets;
 
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,7 +60,27 @@ public class LabeledComponentGroup {
      * @param components  the components in the group.
      */
     public LabeledComponentGroup(String labelString, List<JComponent> components) {
-        JComponent componentToAdd;
+        init(labelString, components);
+    }
+    
+    /**
+     * Creates a labeled component group using the given button group.
+     *
+     * @param labelString the label of the group.
+     * @param components  the components in the group.
+     */
+    public LabeledComponentGroup(String labelString, ButtonGroup group) {
+    	ArrayList<JComponent> list = new ArrayList<JComponent> ();
+    	for (Enumeration<AbstractButton> e = group.getElements() ; e.hasMoreElements() ;) {
+    		AbstractButton element = e.nextElement();
+    		list.add(element);
+    	}
+    	init(labelString, list);
+    }
+
+	protected void init(String labelString, List<JComponent> components)
+	{
+		JComponent componentToAdd;
         if (components.size() == 1) {
             componentToAdd = components.get(0);
         } else {
@@ -79,7 +103,7 @@ public class LabeledComponentGroup {
 
         fComponent = builder.getPanel();
         fComponent.setOpaque(false);
-    }
+	}
 
     public JComponent getComponent() {
         return fComponent;
