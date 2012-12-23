@@ -76,8 +76,17 @@ public class TriAreaComponent {
 		forceOuterAreasToHaveTheSameWidth();
 	}
 
-	/**
+
+    /**
 	 * Forces each of the areas (left, center and right) to have the same widths
+	 * regardless of the size of the items each of the area contains.
+	 */
+	void forceAreasToHaveTheSameWidth() {
+        ((FormLayout) fPanel.getLayout()).setColumnGroups(new int[][]{{1, 2, 3}});
+    }
+
+    /**
+	 * Forces outer areas (left and right) to have the same widths
 	 * regardless of the size of the items each of the area contains.
 	 */
 	void forceOuterAreasToHaveTheSameWidth() {
