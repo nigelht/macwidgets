@@ -30,6 +30,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.ComboPopup;
 
 import com.explodingpixels.macwidgets.HudWidgetFactory;
+import com.explodingpixels.macwidgets.WidgetBaseColors;
 import com.explodingpixels.widgets.plaf.EPComboPopup;
 
 /**
@@ -47,19 +48,30 @@ public class HudComboBoxUI extends BasicComboBoxUI {
     private static final int LEFT_MARGIN = 7;
     private static final int RIGHT_MARGIN = 19;
     private static final int DEFAULT_WIDTH = 100;
+    
+    private boolean isDarkColorScheme = true;
 
     /**
      * Creates a HUD style {@link javax.swing.plaf.ComboBoxUI}.
      */
     public HudComboBoxUI() {
-        fArrowButtonUI = new HudButtonUI(HudPaintingUtils.Roundedness.COMBO_BUTTON);
+        fArrowButtonUI = new HudButtonUI(HudPaintingUtils.Roundedness.COMBO_BUTTON, this);
+    }
+
+    /**
+     * Creates a HUD style {@link javax.swing.plaf.ComboBoxUI}.
+     */
+    public HudComboBoxUI(boolean isDarkColorScheme) {
+        
+        this.isDarkColorScheme = isDarkColorScheme;
+        fArrowButtonUI = new HudButtonUI(HudPaintingUtils.Roundedness.COMBO_BUTTON, this, this.isDarkColorScheme);
     }
 
     @Override
     protected void installDefaults() {
         super.installDefaults();
 
-        HudPaintingUtils.initHudComponent(comboBox);
+        HudPaintingUtils.initHudComponent(comboBox, isDarkColorScheme);
 
     }
 
@@ -110,6 +122,7 @@ public class HudComboBoxUI extends BasicComboBoxUI {
         String displayValue = comboBox.getSelectedItem() == null
                 ? " " : comboBox.getSelectedItem().toString();
         arrowButton.setText(displayValue);
+        comboBox.invalidate();
     }
 
     /**
@@ -328,7 +341,7 @@ public class HudComboBoxUI extends BasicComboBoxUI {
         int upArrowX = centerX - arrowSideLength / 2;
         int upArrowY = centerY - verticalDistanceBetweenArrows / 2;
 
-        graphics.setColor(HudPaintingUtils.FONT_COLOR);
+        graphics.setColor(this.isDarkColorScheme ? WidgetBaseColors.DARK_FONT_COLOR : WidgetBaseColors.LIGHT_FONT_COLOR);
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // translate the graphics to the upper left of each arrow and draw that arrow. each arrow

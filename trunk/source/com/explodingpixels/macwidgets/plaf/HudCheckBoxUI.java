@@ -16,6 +16,7 @@ import javax.swing.plaf.basic.BasicCheckBoxUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 import com.explodingpixels.macwidgets.MacFontUtils;
+import com.explodingpixels.macwidgets.WidgetBaseColors;
 
 /**
  * Creates a Heads Up Display (HUD) style check box button, similar to that seen in various iApps
@@ -24,15 +25,34 @@ import com.explodingpixels.macwidgets.MacFontUtils;
  * <img src="../../../../../graphics/HUDCheckBoxUI.png">
  */
 public class HudCheckBoxUI extends BasicCheckBoxUI {
+    
+    private boolean isDarkColorScheme = true;
 
+    /**
+     * Creates a HUD style {@link javax.swing.plaf.CheckBoxUI}.
+     */
+    public HudCheckBoxUI() 
+    {
+    	super();
+    }
+
+    /**
+     * Creates a HUD style {@link javax.swing.plaf.CheckBoxUI}.
+     */
+     public HudCheckBoxUI(boolean isDarkColorScheme) 
+    {
+    	super();
+    	this.isDarkColorScheme = isDarkColorScheme;
+    }
+    
     @Override
     protected void installDefaults(final AbstractButton b) {
         super.installDefaults(b);
 
-        HudPaintingUtils.initHudComponent(b);
+        HudPaintingUtils.initHudComponent(b, isDarkColorScheme);
         b.setIconTextGap((int) (HudPaintingUtils.FONT_SIZE / 2));
 
-        icon = new CheckIcon();
+        icon = new CheckIcon(isDarkColorScheme);
     }
 
     @Override
@@ -56,11 +76,23 @@ public class HudCheckBoxUI extends BasicCheckBoxUI {
 
     // Check icon implementation. /////////////////////////////////////////////////////////////////
 
-    private static class CheckIcon implements Icon {
+    private class CheckIcon implements Icon {
 
         private final int CHECK_BOX_SIZE = 12;
+        private boolean isDarkColorScheme = true;
+        private Color fontColor = WidgetBaseColors.DARK_FONT_COLOR;
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        public CheckIcon(boolean isDarkColorScheme)
+        {
+        	this.isDarkColorScheme = isDarkColorScheme;
+
+        	if (isDarkColorScheme)
+        		fontColor = WidgetBaseColors.DARK_FONT_COLOR;
+        	else
+        		fontColor = WidgetBaseColors.LIGHT_FONT_COLOR;
+        }
+
+		public void paintIcon(Component c, Graphics g, int x, int y) {
 
             AbstractButton button = (AbstractButton) c;
 
@@ -70,7 +102,7 @@ public class HudCheckBoxUI extends BasicCheckBoxUI {
             // 0,0.
             graphics.translate(x, y);
             HudPaintingUtils.paintHudControlBackground(graphics, button, CHECK_BOX_SIZE,
-                    CHECK_BOX_SIZE, HudPaintingUtils.Roundedness.CHECK_BOX);
+                    CHECK_BOX_SIZE, HudPaintingUtils.Roundedness.CHECK_BOX, isDarkColorScheme);
             drawCheckMarkIfNecessary(graphics, button.getModel());
             graphics.dispose();
         }
@@ -97,9 +129,9 @@ public class HudCheckBoxUI extends BasicCheckBoxUI {
             int y2 = y1 + CHECK_BOX_SIZE / 4;
             int x3 = CHECK_BOX_SIZE - 2;
             int y3 = -1;
-
+            
             Color color = model.isPressed() ?
-                    HudPaintingUtils.PRESSED_MARK_COLOR : HudPaintingUtils.FONT_COLOR;
+                    HudPaintingUtils.PRESSED_MARK_COLOR : fontColor;
 
             graphics.setStroke(new BasicStroke(1.65f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND));
             graphics.setColor(color);

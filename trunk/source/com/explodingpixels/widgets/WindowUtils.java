@@ -56,8 +56,11 @@ public class WindowUtils {
 	 */
 	private static void quietlyTryToMakeWindowNonOqaque(Window window) {
 		try {
+            @SuppressWarnings("rawtypes")
 			Class clazz = Class.forName("com.sun.awt.AWTUtilities");
-			Method method = clazz.getMethod("setWindowOpaque",
+            
+            @SuppressWarnings("unchecked")
+            Method method = clazz.getMethod("setWindowOpaque",
 					java.awt.Window.class, Boolean.TYPE);
 			method.invoke(clazz, window, false);
 		} catch (Exception e) {

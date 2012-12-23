@@ -16,6 +16,8 @@ import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
+import com.explodingpixels.macwidgets.WidgetBaseColors;
+
 /**
  * A collection of utilty method for painting Heads Up Style widgets. See the following for examples
  * of HUD widgets:
@@ -34,11 +36,6 @@ public class HudPaintingUtils {
 
     public static final Color PRESSED_MARK_COLOR = new Color(0, 0, 0, 225);
 
-    private static final Color TOP_COLOR = new Color(170, 170, 170, 50);
-    private static final Color BOTTOM_COLOR = new Color(17, 17, 17, 50);
-    private static final Color TOP_PRESSED_COLOR = new Color(249, 249, 249, 153);
-    private static final Color BOTTOM_PRESSED_COLOR = new Color(176, 176, 176, 153);
-
     public static final Color BORDER_COLOR = new Color(0xc5c8cf);
     private static final int BORDER_WIDTH = 1;
 
@@ -55,9 +52,15 @@ public class HudPaintingUtils {
      *
      * @param component the component to initialize as a HUD component.
      */
-    public static void initHudComponent(JComponent component) {
+    public static void initHudComponent(JComponent component, boolean isDarkColorScheme) {
         component.setFont(HudPaintingUtils.getHudFont());
-        component.setForeground(HudPaintingUtils.FONT_COLOR);
+        
+        if (isDarkColorScheme)
+        	component.setForeground(WidgetBaseColors.DARK_FONT_COLOR);
+        else
+        	component.setForeground(WidgetBaseColors.LIGHT_FONT_COLOR);
+        
+//        component.setForeground(HudPaintingUtils.FONT_COLOR);
         component.setOpaque(false);
     }
 
@@ -91,10 +94,11 @@ public class HudPaintingUtils {
      * @param width       the width of the area to paint.
      * @param height      the height of the area to paint.
      * @param roundedness the roundedness to use when painting the background.
+     * @param isDarkColorScheme whether to use the light or dark color scheme for this button
      */
     public static void paintHudControlBackground(Graphics2D graphics, AbstractButton button,
-                                                 int width, int height, Roundedness roundedness) {
-        Paint paint = HudPaintingUtils.createButtonPaint(button, BORDER_WIDTH);
+                                                 int width, int height, Roundedness roundedness, boolean isDarkColorScheme) {
+        Paint paint = HudPaintingUtils.createButtonPaint(button, BORDER_WIDTH, isDarkColorScheme);
         paintHudControlBackground(graphics, new Rectangle(0, 0, width, height),
                 roundedness.getShapeProvider(), paint);
     }
@@ -134,10 +138,16 @@ public class HudPaintingUtils {
         graphics.draw(shapeProvider.createShape(x, y, width - 1, height - 1));
     }
 
-    private static Paint createButtonPaint(AbstractButton button, int lineBorderWidth) {
+    private static Paint createButtonPaint(AbstractButton button, int lineBorderWidth, boolean isDarkColorScheme) {
         boolean isPressed = button.getModel().isPressed();
-        Color topColor = isPressed ? TOP_PRESSED_COLOR : TOP_COLOR;
-        Color bottomColor = isPressed ? BOTTOM_PRESSED_COLOR : BOTTOM_COLOR;
+
+        Color topPressedColor = isDarkColorScheme ? WidgetBaseColors.DARK_ACTIVE_SELECTED_TOP_COLOR : WidgetBaseColors.LIGHT_ACTIVE_SELECTED_TOP_COLOR;
+        Color topUnpressedColor = isDarkColorScheme ? WidgetBaseColors.DARK_ACTIVE_TOP_COLOR : WidgetBaseColors.LIGHT_ACTIVE_TOP_COLOR;
+        Color bottomPressedColor = isDarkColorScheme ? WidgetBaseColors.DARK_ACTIVE_SELECTED_BOTTOM_COLOR : WidgetBaseColors.LIGHT_ACTIVE_SELECTED_BOTTOM_COLOR;
+        Color bottomUnpressedColor = isDarkColorScheme ? WidgetBaseColors.DARK_ACTIVE_BOTTOM_COLOR : WidgetBaseColors.LIGHT_ACTIVE_BOTTOM_COLOR;
+
+        Color topColor = isPressed ? topPressedColor : topUnpressedColor;
+        Color bottomColor = isPressed ? bottomPressedColor : bottomUnpressedColor;
         int bottomY = button.getHeight() - lineBorderWidth * 2;
         return new GradientPaint(0, lineBorderWidth, topColor, 0, bottomY, bottomColor);
     }

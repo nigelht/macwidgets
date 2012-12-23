@@ -10,6 +10,8 @@ import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
 
+import com.explodingpixels.macwidgets.WidgetBaseColors;
+
 /**
  * Creates a Heads Up Display (HUD) style text field, similar to that seen in various iApps (e.g.
  * iPhoto).
@@ -18,9 +20,17 @@ import javax.swing.text.JTextComponent;
  */
 public class HudTextFieldUI extends BasicTextFieldUI {
 
+    private boolean isDarkColorScheme = true;
+    private Color fontColor = WidgetBaseColors.DARK_FONT_COLOR;
+
     @Override
     public void installUI(JComponent c) {
         super.installUI(c);
+
+    	if (isDarkColorScheme)
+    		fontColor = WidgetBaseColors.DARK_FONT_COLOR;
+    	else
+    		fontColor = WidgetBaseColors.LIGHT_FONT_COLOR;
 
         JTextComponent textComponent = (JTextComponent) c;
 
@@ -29,11 +39,11 @@ public class HudTextFieldUI extends BasicTextFieldUI {
                 BorderFactory.createLineBorder(HudPaintingUtils.BORDER_COLOR),
                 BorderFactory.createEmptyBorder(1, 2, 1, 2)));
         textComponent.setBackground(new Color(0, 0, 0, 0));
-        textComponent.setForeground(HudPaintingUtils.FONT_COLOR);
+        textComponent.setForeground(fontColor);
         textComponent.setFont(HudPaintingUtils.getHudFont());
         textComponent.setSelectedTextColor(Color.BLACK);
-        textComponent.setSelectionColor(HudPaintingUtils.FONT_COLOR);
-        textComponent.setCaretColor(HudPaintingUtils.FONT_COLOR);
+        textComponent.setSelectionColor(fontColor);
+        textComponent.setCaretColor(fontColor);
     }
 
     @Override

@@ -16,6 +16,7 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicRadioButtonUI;
 
 import com.explodingpixels.macwidgets.MacFontUtils;
+import com.explodingpixels.macwidgets.WidgetBaseColors;
 
 /**
  * Creates a Heads Up Display (HUD) style radio button, similar to that seen in various iApps
@@ -25,14 +26,16 @@ import com.explodingpixels.macwidgets.MacFontUtils;
  */
 public class HudRadioButtonUI extends BasicRadioButtonUI {
 
+    private  boolean isDarkColorScheme = true;
+	
     @Override
     protected void installDefaults(final AbstractButton b) {
         super.installDefaults(b);
 
-        HudPaintingUtils.initHudComponent(b);
+        HudPaintingUtils.initHudComponent(b, isDarkColorScheme);
         b.setIconTextGap((int) (HudPaintingUtils.FONT_SIZE / 2));
 
-        icon = new DotIcon();
+        icon = new DotIcon(isDarkColorScheme);
     }
 
     @Override
@@ -55,13 +58,26 @@ public class HudRadioButtonUI extends BasicRadioButtonUI {
 
 // Dot icon implementation. ///////////////////////////////////////////////////////////////////
 
-    private static class DotIcon implements Icon {
+    private class DotIcon implements Icon {
 
         private final int RADIO_BUTTON_SIZE = 13;
 
         private final float DOT_DIAMETER = 4.25f;
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
+        private boolean isDarkColorScheme = true;
+        private Color fontColor = WidgetBaseColors.DARK_FONT_COLOR;
+
+        public DotIcon(boolean isDarkColorScheme)
+		{
+			this.isDarkColorScheme = isDarkColorScheme;
+			
+        	if (isDarkColorScheme)
+        		fontColor = WidgetBaseColors.DARK_FONT_COLOR;
+        	else
+        		fontColor = WidgetBaseColors.LIGHT_FONT_COLOR;
+		}
+
+		public void paintIcon(Component c, Graphics g, int x, int y) {
             AbstractButton button = (AbstractButton) c;
 
             Graphics2D graphics = (Graphics2D) g.create();
@@ -70,7 +86,7 @@ public class HudRadioButtonUI extends BasicRadioButtonUI {
             // 0,0.
             graphics.translate(x, y);
             HudPaintingUtils.paintHudControlBackground(graphics, button, RADIO_BUTTON_SIZE,
-                    RADIO_BUTTON_SIZE, HudPaintingUtils.Roundedness.RADIO);
+                    RADIO_BUTTON_SIZE, HudPaintingUtils.Roundedness.RADIO, isDarkColorScheme);
 
             drawDotIfNecessary(graphics, button.getModel());
             graphics.dispose();
@@ -84,7 +100,7 @@ public class HudRadioButtonUI extends BasicRadioButtonUI {
 
         private void drawSelected(Graphics2D graphics, ButtonModel model) {
             Color color = model.isPressed() ?
-                    HudPaintingUtils.PRESSED_MARK_COLOR : HudPaintingUtils.FONT_COLOR;
+                    HudPaintingUtils.PRESSED_MARK_COLOR : fontColor;
             graphics.setColor(color);
             float offset = (getIconWidth() - DOT_DIAMETER) / 2.0f;
             Ellipse2D dot = new Ellipse2D.Float(offset, offset, DOT_DIAMETER, DOT_DIAMETER);
