@@ -31,7 +31,7 @@ public class TriAreaComponent {
 
 	/**
 	 * Creates a {@code TriAreaComponent} that uses a padding of 0 pixels
-	 * between components.
+	 * between components and forcing ends to have the same widths
 	 */
 	public TriAreaComponent() {
 		this(0);
@@ -39,12 +39,25 @@ public class TriAreaComponent {
 
 	/**
 	 * Creates a {@code TriAreaComponent} that uses the given padding between
-	 * components.
+	 * components and forcing ends to have the same widths.
 	 * 
 	 * @param spacer_pixels
 	 *            the space in pixels to add between components.
 	 */
 	public TriAreaComponent(int spacer_pixels) {
+		this(spacer_pixels, true);
+	}
+		
+	/**
+	 * Creates a {@code TriAreaComponent} that uses the given padding between
+	 * components.
+	 * 
+	 * @param spacer_pixels
+	 *            the space in pixels to add between components.
+	 * @param forceSameWidth
+	 *            whether the two ends should have the same width to keep the component balanced.
+	 */
+	public TriAreaComponent(int spacer_pixels, boolean forceSameWidth) {
 		fSpacer_pixels = spacer_pixels;
 
 		// definte the FormLayout columns and rows.
@@ -73,7 +86,8 @@ public class TriAreaComponent {
 		// fRightPanelBuilder.getPanel().setBorder(
 		// BorderFactory.createLineBorder(Color.GREEN));
 
-		forceOuterAreasToHaveTheSameWidth();
+		if (forceSameWidth)
+			forceOuterAreasToHaveTheSameWidth();
 	}
 
 
