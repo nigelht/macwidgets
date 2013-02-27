@@ -28,12 +28,25 @@ import com.jgoodies.forms.factories.Borders;
  */
 public class UnifiedToolBar {
 
-	private final TriAreaComponent fUnifiedToolBar = new TriAreaComponent(4);
+	private final TriAreaComponent fUnifiedToolBar;
 
 	/**
-	 * Creates a {@code UnifiedToolBar}.
+	 * Creates a {@code UnifiedToolBar} with balanced ends.
 	 */
 	public UnifiedToolBar() {
+		this(true);
+	}
+		
+	/**
+	 * Creates a {@code UnifiedToolBar}.
+	 * 	 
+	 * @param forceSameWidth
+	 *            whether the two ends should have the same width to keep the center balanced.
+	 */
+	public UnifiedToolBar(boolean forceSameWidth) {
+		
+		fUnifiedToolBar = new TriAreaComponent(4, forceSameWidth);
+		
 		// TODO remove below call when Apple fixes bug in Java that doesn't
 		// correctly paint the
 		// TODO textured window.
