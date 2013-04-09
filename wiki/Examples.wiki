@@ -1,4 +1,33 @@
 #labels Featured
+
+===Unified Tool Bar ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/UnifiedToolBar.html Javadoc])===
+Unified Tool Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ here] in the Apple Human Interface Guidelines) provide a container for the most frequently used tools in your application.  This is most likely what your user will want to use for the main navigation.
+
+[http://exploding-pixels.com/google_code/graphics/UnifiedToolBar.png]
+
+*Simple Unified Tool Bar example:*
+{{{
+// For some versions of Mac OS X, Java will handle painting the Unified Tool Bar.
+// Calling this method ensures that this painting is turned on if necessary.
+MacUtils.makeWindowLeopardStyle(frame.getRootPane());
+
+UnifiedToolBar toolBar =  UnifiedToolBar();
+JButton button = new JButton("My Button");
+button.putClientProperty("JButton.buttonType", "textured");
+
+// Create a new mac button based on the JButton.
+AbstractButton macButton = MacButtonFactory.makeUnifiedToolBarButton(button);
+// Add the button to the left side of the toolbar.
+toolBar.addComponentToLeft(button);
+
+// This is so that the window can be dragged from anywhere on the toolbar.
+// This is optional, but will make your Java application feel more like an OSX app.
+macMainMenu.installWindowDraggerOnWindow(MainFrame);
+
+// Add the toolbar to the frame.
+frame.add(toolBar.getComponent(), BorderLayout.NORTH);
+}}}
+
 ===iTunes Table ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/MacWidgetFactory.html#createITunesTable(javax.swing.table.TableModel) Javadoc])===
 
 Create an iTunes style table like this:
@@ -23,6 +52,35 @@ TableUtils.SortDelegate sortDelegate = new TableUtils.SortDelegate() {
         }
     };
 TableUtils.makeSortable(table, sortDelegate);
+}}}
+
+===iApp Scroll Bars ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/IAppWidgetFactory.html Javadoc])===
+iApp style scroll bars can be seen in various Apple applications, most notably [http://www.apple.com/itunes iTunes].
+
+[http://exploding-pixels.com/google_code/graphics/iAppScrollBars.png]
+
+*Using iApp scroll bars with a JScrollPane*
+{{{
+JScrollPane scrollPane = new JScrollPane(someComponent);
+IAppWidgetFactory.makeIAppScrollPane(scrollPane);
+}}}
+*Using iApp scroll bars with a SourceList*
+{{{
+sourceList.useIAppStyleScrollBars();
+}}}
+
+===Heads Up Display (HUD) ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/HudWindow.html Javadoc])===
+HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_6.html#//apple_ref/doc/uid/20000961-SW24 here] in the Apple Human Interface Guidelines) provide a way to unobtrusively display transient information.
+
+[http://exploding-pixels.com/google_code/graphics/HeadsUpDisplay.png]
+
+*Simple HUD example:*
+{{{
+HudWindow hud = new HudWindow("Window");
+hud.getJDialog().setSize(300, 350);
+hud.getJDialog().setLocationRelativeTo(null);
+hud.getJDialog().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+hud.getJDialog().setVisible(true);
 }}}
 
 ===HUD Style Controls ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/HudWidgetFactory.html Javadoc])===
@@ -59,6 +117,20 @@ JComboBox comboBox = HudWidgetFactory.createHudComboBox(
 JTextField textField = HudWidgetFactory.createHudTextField("Text field");
 }}}
 
+===Source Lists ([http://exploding-pixels.com/google_code/javadoc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
+Source Lists (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE here] in the Apple Human Interface Guidelines) are a way to navigate or select objects in an application. There are two types of Source Lists: focusable and non-focusable. Focusable Source Lists can receive keyboard focus, and thus be navigated with the arrow keys, whereas non-focusable Source Lists cannot be navigated with the keyboard. Here is a focusable and non-focusable Source List:
+
+[http://exploding-pixels.com/google_code/graphics/iTunesSourceList.png] [http://exploding-pixels.com/google_code/graphics/MailSourceListWithControlBar-selection.png]
+
+*Simple Source List example:*
+{{{
+SourceListModel model = new SourceListModel();
+SourceListCategory category = new SourceListCategory("Category");
+model.addCategory(category);
+model.addItemToCategory(new SourceListItem("Item"), category);
+SourceList sourceList = new SourceList(model);
+}}}
+
 ===Dark Source Lists ([http://exploding-pixels.com/google_code/javadoc_0.9.4/com/explodingpixels/macwidgets/SourceListDarkColorScheme.html Javadoc])===
 
 The {{{SourceListDarkColorScheme}}} can be installed on {{{SourceList}}}s used in applications where focus on content is critical, like photo editing applications.
@@ -74,35 +146,6 @@ SourceList sourceList = new SourceList(model);
 sourceList.setColorScheme(new SourceListDarkColorScheme());
 }}}
 
-===iApp Scroll Bars ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/IAppWidgetFactory.html Javadoc])===
-iApp style scroll bars can be seen in various Apple applications, most notably [http://www.apple.com/itunes iTunes].
-
-[http://exploding-pixels.com/google_code/graphics/iAppScrollBars.png]
-
-*Using iApp scroll bars with a JScrollPane*
-{{{
-JScrollPane scrollPane = new JScrollPane(someComponent);
-IAppWidgetFactory.makeIAppScrollPane(scrollPane);
-}}}
-*Using iApp scroll bars with a SourceList*
-{{{
-sourceList.useIAppStyleScrollBars();
-}}}
-
-===Heads Up Display (HUD) ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/HudWindow.html Javadoc])===
-HUDs, also know as Transparent Panels, (descibed [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_6.html#//apple_ref/doc/uid/20000961-SW24 here] in the Apple Human Interface Guidelines) provide a way to unobtrusively display transient information.
-
-[http://exploding-pixels.com/google_code/graphics/HeadsUpDisplay.png]
-
-*Simple HUD example:*
-{{{
-HudWindow hud = new HudWindow("Window");
-hud.getJDialog().setSize(300, 350);
-hud.getJDialog().setLocationRelativeTo(null);
-hud.getJDialog().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-hud.getJDialog().setVisible(true);
-}}}
-
 ===Bottom Bar ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/BottomBar.html Javadoc])===
 Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-SW6 here] in the Apple Human Interface Guidelines) provide a mechanism to add controls to an application that affect the contents or organization of the window contents.
 
@@ -112,35 +155,4 @@ Bottom Bars (described [http://developer.apple.com/documentation/UserExperience/
 {{{
 BottomBar bottomBar = BottomBar(BottomBarSize.LARGE);
 bottomBar.addComponentToCenter(MacWidgetFactory.createEmphasizedLabel("My Label"));
-}}}
-
-===Source Lists ([http://exploding-pixels.com/google_code/javadoc/index.html?com/explodingpixels/macwidgets/SourceList.html Javadoc])===
-Source Lists (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-CHDDIGDE here] in the Apple Human Interface Guidelines) are a way to navigate or select objects in an application. There are two types of Source Lists: focusable and non-focusable. Focusable Source Lists can receive keyboard focus, and thus be navigated with the arrow keys, whereas non-focusable Source Lists cannot be navigated with the keyboard. Here is a focusable and non-focusable Source List:
-
-[http://exploding-pixels.com/google_code/graphics/iTunesSourceList.png] [http://exploding-pixels.com/google_code/graphics/MailSourceListWithControlBar-selection.png]
-
-*Simple Source List example:*
-{{{
-SourceListModel model = new SourceListModel();
-SourceListCategory category = new SourceListCategory("Category");
-model.addCategory(category);
-model.addItemToCategory(new SourceListItem("Item"), category);
-SourceList sourceList = new SourceList(model);
-}}}
-
-===Unified Tool Bar ([http://exploding-pixels.com/google_code/javadoc/com/explodingpixels/macwidgets/UnifiedToolBar.html Javadoc])===
-Unified Tool Bars (described [http://developer.apple.com/documentation/UserExperience/Conceptual/AppleHIGuidelines/XHIGWindows/chapter_18_section_4.html#//apple_ref/doc/uid/20000961-BABIFCFJ here] in the Apple Human Interface Guidelines) provide a container for the most frequently used tools in your application.
-
-[http://exploding-pixels.com/google_code/graphics/UnifiedToolBar.png]
-
-*Simple Unified Tool Bar example:*
-{{{
-// For some versions of Mac OS X, Java will handle painting the Unified Tool Bar.
-// Calling this method ensures that this painting is turned on if necessary.
-MacUtils.makeWindowLeopardStyle(frame.getRootPane());
-
-UnifiedToolBar toolBar =  UnifiedToolBar();
-JButton button = new JButton("My Button");
-button.putClientProperty("JButton.buttonType", "textured");
-toolBar.addComponentToLeft(button);
 }}}
