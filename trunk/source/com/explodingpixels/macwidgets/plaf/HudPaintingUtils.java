@@ -16,6 +16,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 
+import com.explodingpixels.macwidgets.MacFontUtils;
 import com.explodingpixels.macwidgets.WidgetBaseColors;
 
 /**
@@ -30,7 +31,6 @@ import com.explodingpixels.macwidgets.WidgetBaseColors;
  */
 public class HudPaintingUtils {
 
-    public static final float FONT_SIZE = 11.0f;
     public static final Color FONT_COLOR = Color.WHITE;
     public static final Color FONT_DISABLED_COLOR = new Color(0xaaaaaa);
 
@@ -70,7 +70,7 @@ public class HudPaintingUtils {
      * @return the font used by HUD style widgets.
      */
     public static Font getHudFont() {
-        return UIManager.getFont("Button.font").deriveFont(Font.BOLD, FONT_SIZE);
+        return MacFontUtils.HUD_BUTTON_FONT;
     }
 
     /**

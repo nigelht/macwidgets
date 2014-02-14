@@ -33,7 +33,7 @@ public class HudRadioButtonUI extends BasicRadioButtonUI {
         super.installDefaults(b);
 
         HudPaintingUtils.initHudComponent(b, isDarkColorScheme);
-        b.setIconTextGap((int) (HudPaintingUtils.FONT_SIZE / 2));
+        b.setIconTextGap((int) (MacFontUtils.HUD_FONT_SIZE / 2));
 
         icon = new DotIcon(isDarkColorScheme);
     }
