@@ -2,12 +2,15 @@ package com.explodingpixels.macwidgets.plaf;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Image;
 
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 
+import com.explodingpixels.macwidgets.MacFontUtils;
 import com.explodingpixels.painter.ImagePainter;
 import com.explodingpixels.painter.MacWidgetsPainter;
 import com.explodingpixels.widgets.ImageBasedJComponent;
@@ -75,6 +78,10 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createHorizontalScrollerThumb();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int incrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
+
+        // FIXME - Hack because some LAFs failed to set default fonts for everything AND Java 7 font behavior changed.
+        decrementButton.setFont(MacFontUtils.DEFAULT_BUTTON_FONT);
+        
         Dimension preferredSize = new Dimension(100, decrementButton.getPreferredSize().height);
 
         return new ButtonsSeparateScrollBarSkin(decrementButton, incrementButton, trackPainter, scrollerThumb,
@@ -89,6 +96,10 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createVerticalScrollerThumb();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int incrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
+
+        // FIXME - Hack because some LAFs failed to set default fonts for everything AND Java 7 font behavior changed.
+        decrementButton.setFont(MacFontUtils.DEFAULT_BUTTON_FONT);
+
         Dimension preferredSize = new Dimension(decrementButton.getPreferredSize().width, 100);
 
         return new ButtonsSeparateScrollBarSkin(decrementButton, incrementButton, trackPainter, scrollerThumb,
@@ -105,6 +116,10 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createHorizontalScrollerThumb();
         int topCapRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
+
+        // FIXME - Hack because some LAFs failed to set default fonts for everything AND Java 7 font behavior changed.
+        decrementButton.setFont(MacFontUtils.DEFAULT_BUTTON_FONT);
+
         Dimension preferredSize = new Dimension(100, decrementButton.getPreferredSize().height);
 
         return new ButtonsTogetherScrollBarSkin(
@@ -123,6 +138,10 @@ public class IAppScrollBarUI extends SkinnableScrollBarUI {
         ScrollThumbImagePainter scrollerThumb = IAppScrollBarArtworkUtils.createVerticalScrollerThumb();
         int topCapRecess = IAppScrollBarArtworkUtils.getScrollBarTopCapRecess();
         int decrementButtonRecess = IAppScrollBarArtworkUtils.getDecrementButtonRecess();
+
+        // FIXME - Hack because some LAFs failed to set default fonts for everything AND Java 7 font behavior changed.
+        decrementButton.setFont(MacFontUtils.DEFAULT_BUTTON_FONT);
+
         Dimension preferredSize = new Dimension(decrementButton.getPreferredSize().width, 100);
 
         return new ButtonsTogetherScrollBarSkin(

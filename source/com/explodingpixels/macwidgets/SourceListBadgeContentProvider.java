@@ -1,6 +1,6 @@
 package com.explodingpixels.macwidgets;
 
-public interface SourceListBadgeContentProvider {
+public interface SourceListBadgeContentProvider extends MacBadgeContentProvider {
 
     int getCounterValue();
 

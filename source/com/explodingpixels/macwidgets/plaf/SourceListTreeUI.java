@@ -31,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import com.explodingpixels.macwidgets.MacFontUtils;
 import com.explodingpixels.macwidgets.MacWidgetFactory;
 import com.explodingpixels.macwidgets.SourceList;
 import com.explodingpixels.macwidgets.SourceListBadgeContentProvider;
@@ -94,8 +95,8 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 public class SourceListTreeUI extends BasicTreeUI {
 
-    private Font categoryFont = UIManager.getFont("Label.font").deriveFont(Font.BOLD, 11.0f);
-    private Font itemFont = UIManager.getFont("Label.font").deriveFont(11.0f);
+    private Font categoryFont = MacFontUtils.BOLD_LABEL_FONT;
+    private Font itemFont = MacFontUtils.DEFAULT_LABEL_FONT;
     private Font itemSelectedFont = itemFont.deriveFont(Font.BOLD);
 
     private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);

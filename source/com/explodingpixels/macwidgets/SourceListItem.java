@@ -108,6 +108,13 @@ public class SourceListItem implements TextProvider, IconProvider, SourceListBad
     public int getCounterValue() {
         return fCounterValue;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String getBadgeValue() {
+    	return "" +  fCounterValue;
+    }
 
     /**
      * Sets the counter value to use for this item. The counter value will be displayed to the right
