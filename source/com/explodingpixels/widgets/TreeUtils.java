@@ -110,7 +110,7 @@ public class TreeUtils {
 
     }
 
-    public static void setExpandedOnEdt(JTree tree, TreePath path, boolean expanded) {
+    public static void setExpandedOnEdt(JTree tree, TreePath path, boolean expanded) {    	
         if (expanded) {
             expandPathOnEdt(tree, path);
         } else {
@@ -121,7 +121,9 @@ public class TreeUtils {
     public static void expandPathOnEdt(final JTree tree, final TreePath path) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                tree.expandPath(path);
+            	if ((tree == null) || (path == null))
+            		return;
+            	tree.expandPath(path);
             }
         });
     }
@@ -129,6 +131,9 @@ public class TreeUtils {
     public static void collapsePathOnEdt(final JTree tree, final TreePath path) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+            	if ((tree == null) || (path == null))
+                	return;
+
                 tree.collapsePath(path);
             }
         });
