@@ -1,0 +1,1 @@
+Mac Widgets for Java requires Java 5 to run.
