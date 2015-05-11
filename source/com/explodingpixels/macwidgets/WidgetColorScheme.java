@@ -160,5 +160,29 @@ public interface WidgetColorScheme {
      *         window.
      */
     Color getInativeUnselectedBadgeColor();
+    
+    /**
+     * The color to paint the top line for a gradient for widgets with a gradient background
+     * @return The color to paint the top line for a gradient
+     */
+    Color getTopGradientBorderColor();
+    
+    /**
+     * The color to paint the bottom line for a gradient for widgets with a gradient background
+     * @return The color to paint the bottom line for a gradient
+     */
+    Color getBottomGradientBorderColor();
+    
+    /**
+     * The top gradient color for widgets with a gradient background
+     * @return The top gradient color
+     */
+    Color getTopGradientColor();
+    
+    /**
+     * The bottom gradient color for widgets with a gradient background
+     * @return The bottom gradient color
+     */
+    Color getBottomGradientColor();
 
 }

@@ -35,6 +35,11 @@ public class WidgetDarkColorScheme implements WidgetColorScheme {
     private static final Color INACTIVE_SELECTION_TOP_COLOR = new Color(0xb4b4b4);
     private static final Color INACTIVE_SELECTION_BOTTOM_COLOR = new Color(0x8a8a8a);
     
+    private static final Color TOP_BORDER_COLOR = new Color(0xe3e3e);
+    private static final Color BOTTOM_BORDER_COLOR = new Color(0xe3e3e);
+    private static final Color TOP_GRADIENT_COLOR = new Color(0x8e8e8e);
+    private static final Color BOTTOM_GRADIENT_COLOR = new Color(0x3a3a3a);
+    
     private static final Icon COLLAPSED_ICON = new ImageIcon(
             SourceList.class.getResource(
                     "/com/explodingpixels/macwidgets/images/source_list_white_right_arrow.png"));
@@ -158,5 +163,25 @@ public class WidgetDarkColorScheme implements WidgetColorScheme {
 	@Override
 	public Color getInactiveSelectedItemBackgroundColor() {
 		return INACTIVE_SELECTION_TOP_COLOR;
+	}
+
+	@Override
+	public Color getTopGradientBorderColor() {
+		return TOP_BORDER_COLOR;
+	}
+
+	@Override
+	public Color getBottomGradientBorderColor() {
+		return BOTTOM_BORDER_COLOR;
+	}
+
+	@Override
+	public Color getTopGradientColor() {
+		return TOP_GRADIENT_COLOR;
+	}
+
+	@Override
+	public Color getBottomGradientColor() {
+		return BOTTOM_GRADIENT_COLOR;
 	}
 }
